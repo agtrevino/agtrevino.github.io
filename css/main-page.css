@@ -1,0 +1,102 @@
+:root {
+    --light-purple: #9b59b6;
+    --purple: #8e44ad;
+    --bs-white: #DEE6E9;
+    --dark-grey: #485460;
+    --black: #23272A;
+
+
+
+    /*-------------*/
+
+    /*Rock Salt*/
+    /*Saira Extra Condensed*/
+    /*Permanent Marker*/
+    /*Architects Daughter*/
+    /*Just Another Hands*/
+    /*Julius Sans One*/
+    /*Amatic SC*/
+
+}
+@font-face {
+    font-family: Dense;
+    src: url('../assets/fonts/Dense-Regular.otf');
+}
+
+body {
+    height: 680px;
+    background: black;
+}
+
+li {
+    list-style: none;
+}
+
+.first-name-header {
+    color: var(--bs-white);
+    font-size: 50px;
+    font-family: 'Quicksand';
+    font-weight: 300;
+    letter-spacing: 25px;
+    -webkit-animation-name: animate-opacity; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
+    animation-name: animate-opacity;
+    animation-duration: 3.5s;
+    opacity: 1.0;
+}
+
+.last-name-header {
+    color: var(--bs-white);
+    font-size: 50px;
+    font-family: 'Quicksand';
+    letter-spacing: 10px;
+    font-weight: 700;
+    letter-spacing: 10px;
+}
+
+.logo-menu img {
+    z-index: 0;
+    height: 200px;
+    width: 185px;
+    -webkit-animation: spin 7s linear infinite;
+    -moz-animation: spin 7s linear infinite;
+    animation: spin 7s linear infinite;
+
+}
+
+.spacer-row {
+    height: 250px;
+}
+
+.enter-button {
+    padding-top: 85px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 1;
+    position: absolute;
+    color: var(--bs-white);
+
+}
+
+@keyframes animate-opacity {
+    from {
+
+        opacity: 0;
+        position: relative;
+
+
+    }
+    to {
+        opacity: 1;
+        position: relative;
+    }
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(-360deg); } }
+
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
+
+@keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
