@@ -24,35 +24,176 @@
     src: url('../assets/fonts/Dense-Regular.otf');
 }
 
-body {
-    height: 680px;
-    background: url("../../bracket-studio-website/img/backgrounds/grey-gradient.png");
+@font-face {
+    font-family: Big;
+    src: url("../assets/fonts/BIG-JOHN.otf");
 }
 
-li {
-    list-style: none;
+@font-face {
+    font-family: Slim;
+    src: url("../assets/fonts/Slim-Joe.otf");
+}
+
+body {
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+    height: 800px;
+    background: url("../../bracket-studio-website/img/backgrounds/black-blue-gradient.png");
+}
+
+ul {
+    text-align: center;
+}
+
+#contact-form {
+    background:rgba(20,21,24,.4);
+    margin: 0 80px 40px;
+    padding: 30px;
+    top: 200px;
+    position: relative;
+}
+
+label {
+    font-family: Quicksand;
+    font-weight: 100;
+    letter-spacing: 10px;
+    font-size: 30px;
+    color: whitesmoke;
+}
+
+.nav-bar {
+    display: none;
+    height: 50px;
+    width: 100%;
+    position: fixed;
+    z-index: 400;
+    background: white;
+    border-top: var(--dark-grey);
+}
+
+.main-page {
+    margin: 0;
+    height: 500px;
+}
+
+.first-page-header {
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+    background: black;
+    border-top: 2px solid var(--light-purple);
+    border-bottom: 2px solid var(--light-purple);
+    padding: 20px 0;
+    letter-spacing: 10px;
+    font-family: Quicksand;
+    font-weight: 100;
+    font-size: 50px;
+    color: var(--bs-white);
+}
+
+.first-page {
+    margin: 0;
+    z-index: 100;
+    height: 500px;
+}
+
+.parallax-1 {
+    z-index: 100;
+
+    background: url("../../bracket-studio-website/img/backgrounds/coastline-night.jpg");
+
+    /* Set a specific height */
+    min-height: 100%;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .first-name-header {
+    z-index: 100;
     color: var(--bs-white);
     font-size: 50px;
     font-family: 'Quicksand';
-    font-weight: 300;
+    font-weight: 200;
     letter-spacing: 25px;
     -webkit-animation-name: animate-opacity; /* Safari 4.0 - 8.0 */
     -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
     animation-name: animate-opacity;
-    animation-duration: 3.5s;
+    animation-duration: 2.5s;
     opacity: 1.0;
 }
 
 .last-name-header {
     color: var(--bs-white);
     font-size: 50px;
-    font-family: 'Quicksand';
+    font-family: 'Big';
     letter-spacing: 10px;
     font-weight: 700;
     letter-spacing: 10px;
+}
+
+.stars-1 {
+    object-fit: contain;
+    width: 70%;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    -webkit-animation: spin 550s linear infinite;
+    -moz-animation: spin 550s linear infinite;
+    animation: spin 550s linear infinite;
+}
+
+.stars-2 {
+    overflow: hidden;
+    width: 800px;
+    z-index: 3;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    -webkit-animation: spin 180s linear infinite;
+    -moz-animation: spin 200s linear infinite;
+    animation: spin 180s linear infinite;
+}
+
+.stars-3 {
+    z-index: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    -webkit-animation: spin 250s linear infinite;
+    -moz-animation: spin 250s linear infinite;
+    animation: spin 250s linear infinite;
+}
+
+.logo-menu .stars-small {
+    z-index: 5;
+    height: 40px;
+    width: auto;
+    transition: 3s;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    -webkit-animation: spin 60s linear infinite;
+    -moz-animation: spin 60s linear infinite;
+    animation: spin 60s linear infinite;
 }
 
 .logo-menu .dots-outer {
@@ -66,9 +207,9 @@ li {
     position: absolute;
     left: 0;
     right: 0;
-    -webkit-animation: spin 8s linear infinite;
-    -moz-animation: spin 8s linear infinite;
-    animation: spin 8s linear infinite;
+    -webkit-animation: spin 10s linear infinite;
+    -moz-animation: spin 10s linear infinite;
+    animation: spin 10s linear infinite;
 }
 
 .logo-menu .dots-middle {
@@ -79,9 +220,9 @@ li {
     position: absolute;
     left: 0;
     right: 0;
-    -webkit-animation: spin 6s linear infinite;
-    -moz-animation: spin 6s linear infinite;
-    animation: spin 6s linear infinite;
+    -webkit-animation: spin 9s linear infinite;
+    -moz-animation: spin 9s linear infinite;
+    animation: spin 9s linear infinite;
     transition: 2.5s;
 }
 
@@ -93,74 +234,164 @@ li {
     position: absolute;
     left: 0;
     right: 0;
-    -webkit-animation: spin 5s linear infinite;
-    -moz-animation: spin 5s linear infinite;
-    animation: spin 5s linear infinite;
+    -webkit-animation: spin 7s linear infinite;
+    -moz-animation: spin 7s linear infinite;
+    animation: spin 7s linear infinite;
     transition: 2s;
 }
 
 .logo-menu img {
 
-    z-index: 0;
+    z-index: 10;
     height: 200px;
     width: 200px;
-    -webkit-animation: spin 7s linear infinite;
-    -moz-animation: spin 7s linear infinite;
-    animation: spin 7s linear infinite;
+    -webkit-animation: spin 8s linear infinite;
+    -moz-animation: spin 8s linear infinite;
+    animation: spin 8s linear infinite;
+    transition: 500ms;
+}
 
+.logo-menu {
+    z-index: 40;
 }
 
 .spacer-row {
-    height: 250px;
+    height: 120px;
 }
 
-.enter-clicked.logo-menu {
-    -webkit-animation: spin 2s linear 1;
-    -moz-animation: spin 2s linear 1;
-    animation: spin 2s linear infinite;
-
-
-
+.spacer-row-2 {
+    height: 50px;
 }
 
 .enter-button:hover{
-    color: black;
-    border: 4px solid black;
-    background: rgba(222, 230, 233, 0.8);
+    letter-spacing: 10px;
+    color: var(--black);
+    border: 4px solid var(--black);
+    background: rgba(222, 230, 233, 0.7);
     transition: 500ms;
 }
 
 .enter-button {
-    z-index: 30;
     border: 4px solid transparent;
-    font-size: 50px;
-    font-family: Dense;
-    letter-spacing: 5px;
-    font-weight: 200;
-    padding: 0 20px;
-    margin-top: 55px;
-    margin-left: 140px;
-    margin-right: 140px;
-    left: 0;
-    right: 0;
-    text-align: center;
+    border-radius: 20px;
+    z-index: 100;
     position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    background: transparent;
+    font-family: 'Quicksand';
+    font-weight: 100;
+    font-size: 45px;
     color: var(--bs-white);
+
+    top: 30%;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    transform: translateX(-50%);
     transition: 500ms;
+}
+
+a:hover {
+    letter-spacing: 5px;
+    color: var(--black);
+    text-align: center;
+    transition: 500ms;
+}
+
+li {
+    display: inline;
+    list-style: none;
+}
+
+li a{
+    padding-left: 0;
+    margin-left: 0;
+    text-align: center;
+    position: relative;
+    list-style: none;
+    z-index: 200;
+    color: var(--dark-grey);
+    left: 10%;
+    top: 0;
+    font-family: Quicksand;
+    font-weight: 200;
+    font-size: 30px;
+    margin-bottom: 50px;
+    transition: 500ms;
+}
+
+.item-1 {
+    z-index: 300;
+}
+
+#contact-form {
+    background:rgba(20,21,24,.4);
+    margin: 0 80px 40px;
+    padding: 30px;
+    top: 200px;
+    position: relative;
+}
+
+label {
+    font-family: Quicksand;
+    font-weight: 100;
+    letter-spacing: 10px;
+    font-size: 30px;
+    color: whitesmoke;
+}
+
+.btn-success:active {
+    background: var(--bs-white);
+    border: var(--black);
+    color: var(--black);
 
 }
 
-@keyframes animate-opacity {
-    from {
+.btn-success:hover {
+    background: var(--bs-white);
+    border: var(--black);
+    color: var(--black);
 
+}
+
+.btn-success {
+    font-family: Quicksand;
+    border-color: var(--purple) ;
+    background: var(--light-purple);
+}
+
+@keyframes animate-opacity-stars {
+
+    from {
         opacity: 0;
-        position: relative;
 
 
     }
     to {
         opacity: 1;
+
+
+    }
+}
+
+
+@keyframes animate-opacity {
+
+    from {
+        letter-spacing: 0;
+        opacity: 0;
         position: relative;
+        animation-delay: 3s;
+
+
+    }
+    to {
+        letter-spacing: 25px;
+        opacity: 1;
+        position: relative;
+        animation-delay: 3s;
+
     }
 }
 
@@ -169,3 +400,19 @@ li {
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
 
 @keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
+
+
+/*test test test*/
+
+
+
+
+
+
+/*.stop-scrolling {*/
+    /*height: 100%;*/
+    /*overflow: hidden;*/
+/*}*/
+
+
+

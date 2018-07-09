@@ -1,9 +1,11 @@
 // $('.enter-button').click(function () {
-//     $( ".enter-button" ).fadeOut();
+//     $( ".menu" ).fadeOut(2500);
+//
 //
 // });
 
 //this function controls dots expansion
+
 $(function() {
     $('#enter-button').hover(function() {
         $('.dots-outer').css({
@@ -16,9 +18,8 @@ $(function() {
         });
         $('.dots-inner').css({
             height: 420,
-            width: 420
+            width: 420,
         });
-
 
     }, function() {
         // on mouseout, reset the background colour
@@ -36,5 +37,36 @@ $(function() {
             transition: 200
         });
 
+
+    });
+});
+
+$('#enter-button').click(function () {
+    $('.nav-bar').fadeIn(500);
+    $(this).fadeTo( "slow", 0 );
+    $('.full-name-header').fadeTo( "slow", 0 );
+
+
+
+});
+
+// $('#enter-button').click(function () {
+//     $( "#dots-inner" ).removeClass('dots-inner').addClass( "dots-inner-slow" );
+// });
+
+
+
+
+$(document).ready(function(){
+    $("a").on('click', function(event) {
+        if (this.hash !== "") {
+            event.preventDefault();
+            var hash = this.hash;
+           $('html, body').animate({
+                scrollTop: $(hash).offset().top
+            }, 800, function(){
+                window.location.hash = hash;
+            });
+        }
     });
 });
