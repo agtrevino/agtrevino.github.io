@@ -304,7 +304,7 @@ label {
 }
 
 a:hover {
-    letter-spacing: 10px;
+    letter-spacing: 3px;
     color: var(--black);
     text-align: center;
     transition: 500ms;
