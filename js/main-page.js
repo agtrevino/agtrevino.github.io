@@ -44,7 +44,7 @@ $(function() {
 $('#enter-button').click(function () {
     $('.nav-bar').fadeIn(500);
     $(this).fadeTo( "slow", 0 );
-    $('.full-name-header').fadeTo( "slow", 0 );
+    // $('.full-name-header').fadeTo( "slow", 0 );
 
 
 
