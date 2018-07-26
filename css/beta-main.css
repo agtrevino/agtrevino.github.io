@@ -1,0 +1,36 @@
+:root {
+    --light-purple: #9b59b6;
+    --purple: #8e44ad;
+    --bs-white: #DEE6E9;
+    --dark-grey: #485460;
+    --black: #23272A;
+}
+
+@font-face {
+    font-family: Dense;
+    src: url('../assets/fonts/Dense-Regular.otf');
+}
+
+@font-face {
+    font-family: Big;
+    src: url("../assets/fonts/BIG-JOHN.otf");
+}
+
+@font-face {
+    font-family: Slim;
+    src: url("../assets/fonts/Slim-Joe.otf");
+}
+
+body{
+    background: var(--black);
+}
+
+.nav-bar {
+    font-family: Dense;
+    width: 100%;
+    position: fixed;
+    z-index: 400;
+    background: var(--dark-grey);
+    border-top: var(--dark-grey);
+}
+
