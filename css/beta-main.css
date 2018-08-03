@@ -20,17 +20,49 @@
     font-family: Slim;
     src: url("../assets/fonts/Slim-Joe.otf");
 }
+@font-face {
+    font-family: Antro;
+    src: url("../assets/fonts/A");
+}
 
 body{
-    background: var(--black);
+    background: url("../assets/backgrounds/wallpaper-2594020_mGfrOa0.jpg");
+    /*background: var(--black);*/
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .nav-bar {
-    font-family: Dense;
+    padding-bottom: 0;
+    text-align: right;
     width: 100%;
     position: fixed;
     z-index: 400;
     background: var(--dark-grey);
     border-top: var(--dark-grey);
 }
+
+.nav-logo {
+    margin: 5px 10px;
+    height: 55px;
+}
+
+.nav-logo :hover {
+
+}
+.name-header li {
+    font-family: Big;
+    font-size: 30px;
+}
+
+.nav-list {
+    font-family: Slim;
+}
+
+.main-page-header {
+    color: var(--purple);
+    font-family: Antro;
+}
+
+
 
