@@ -1,68 +1,159 @@
 :root {
+    --red: #ff3f34;
     --light-purple: #9b59b6;
     --purple: #8e44ad;
     --bs-white: #DEE6E9;
     --dark-grey: #485460;
-    --black: #23272A;
+    --black: rgb(35, 39, 42);
 }
 
 @font-face {
     font-family: Dense;
     src: url('../assets/fonts/Dense-Regular.otf');
 }
-
 @font-face {
     font-family: Big;
     src: url("../assets/fonts/BIG-JOHN.otf");
 }
-
 @font-face {
     font-family: Slim;
     src: url("../assets/fonts/Slim-Joe.otf");
 }
 @font-face {
     font-family: Antro;
-    src: url("../assets/fonts/A");
+    src: url("../assets/fonts/Antro_Vectra_Bolder.otf");
+}
+@font-face {
+    font-family: Sunset;
+    src: url("../assets/fonts/The-Sunset.ttf");
+}
+@font-face {
+    font-family: Stingray;
+    src: url("../assets/fonts/Stingray.otf");
+}
+@font-face {
+    font-family: Mac;
+    src: url("../assets/fonts/White-Mackintosh.ttf");
 }
 
-body{
-    background: url("../assets/backgrounds/wallpaper-2594020_mGfrOa0.jpg");
-    /*background: var(--black);*/
-    background-repeat: no-repeat;
-    background-size: cover;
+html body {
+    height: 800px;
+}
+.spacer-row{
+    height: 40px;
+}
+
+.name-header p {
+    color: var(--bs-white);
+    height: 67px;
+    margin: 0;
+    font-family: Big;
+    font-size: 90px;
+}
+
+.first-name {
+    font-family: Slim;
+}
+
+#last-name{
+    padding-left: 153px;
 }
 
 .nav-bar {
     padding-bottom: 0;
-    text-align: right;
+    /*text-align: right;*/
     width: 100%;
-    position: fixed;
     z-index: 400;
-    background: var(--dark-grey);
-    border-top: var(--dark-grey);
+    background: rgba(35, 39, 42, 1);
+    position: absolute;
+    bottom: 0;
+    margin: 30px 0 0 0;
 }
 
-.nav-logo {
-    margin: 5px 10px;
-    height: 55px;
+.navbar-fixed{
+
+    top: 0;
+    z-index: 100;
+    position: fixed;
+    width: 100%;
+    margin: 0;
 }
 
-.nav-logo :hover {
-
+.navbar-opacity{
+    background: rgba(35, 39, 42, 0.6);
+    transition: 200ms;
 }
-.name-header li {
-    font-family: Big;
+
+#about{
+    color: var(--black);
+    height: 140px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-size: 130px;
+    font-family: Mac;
+}
+.about-me{
+    text-align: right;
     font-size: 30px;
-}
-
-.nav-list {
+    font-weight: bolder;
     font-family: Slim;
 }
 
-.main-page-header {
-    color: var(--purple);
-    font-family: Antro;
+.nav-list li {
+    color: var(--bs-white);
+    letter-spacing: 2px;
+    font-family: Slim;
+}
+/*PARALLAX*/
+
+.display-none{
+    display: none;
 }
 
+.panel {
+    padding: 0 18px;
+    display: none;
+    background-color: white;
+    overflow: hidden;
+}
 
+.parallax-1 {
+    z-index: 100;
 
+    background: url("../assets/backgrounds/ElegantBackground.jpg");
+    /* Set a specific height */
+    min-height: 100%;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.parallax-2 {
+    z-index: 100;
+
+    background: url("../assets/backgrounds/wallpaper-2594020_mGfrOa0.jpg");
+    /* Set a specific height */
+    min-height: 100%;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.parallax-3 {
+    z-index: 100;
+
+    background: url("../assets/backgrounds/black-gradient.jpg");
+    /* Set a specific height */
+    min-height: 100%;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
