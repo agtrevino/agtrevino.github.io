@@ -39,16 +39,31 @@
 html body {
     height: 800px;
 }
+
 .spacer-row{
     height: 40px;
 }
 
 .name-header p {
     color: var(--bs-white);
-    height: 67px;
+    height: 68px;
     margin: 0;
     font-family: Big;
     font-size: 90px;
+    transition: 300ms;
+}
+
+.name-header a{
+    color: white;
+    transition: 400ms;
+}
+
+.name-header a:hover {
+    color: var(--black);
+    margin: 0;
+    /*letter-spacing: 80px;*/
+    font-size: 90px;
+    transition: 400ms;
 }
 
 .first-name {
@@ -92,6 +107,7 @@ html body {
     font-size: 130px;
     font-family: Mac;
 }
+
 .about-me{
     text-align: right;
     font-size: 30px;
@@ -104,6 +120,7 @@ html body {
     letter-spacing: 2px;
     font-family: Slim;
 }
+
 /*PARALLAX*/
 
 .display-none{
@@ -121,6 +138,7 @@ html body {
     z-index: 100;
 
     background: url("../assets/backgrounds/ElegantBackground.jpg");
+    /*background: url("https://media.giphy.com/media/xUPGcw99Tl8SCEDGKI/giphy.gif");*/
     /* Set a specific height */
     min-height: 100%;
 
@@ -129,7 +147,15 @@ html body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(10px);
+    transition: 200ms;
 }
+
 .parallax-2 {
     z-index: 100;
 
@@ -157,3 +183,9 @@ html body {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+
+/*TEST TEST TEST*/
+
+
+

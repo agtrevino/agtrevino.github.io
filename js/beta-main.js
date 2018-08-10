@@ -24,6 +24,17 @@ $(document).ready(function() {
         }
     });
 
+    $(document).ready(function(){
+       $(".parallax-1").css({
+           'filter'         : 'blur(0px)',
+           '-webkit-filter' : 'blur(0px)',
+           '-moz-filter'    : 'blur(0px)',
+           '-o-filter'      : 'blur(0px)',
+           '-ms-filter'     : 'blur(0px)',
+           'transition'     : '500'
+       });
+    });
+
 
 
 //SMOOTH SCROLLING FEATURE--------------------------
