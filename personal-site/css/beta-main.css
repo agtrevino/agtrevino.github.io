@@ -11,36 +11,41 @@
     font-family: Dense;
     src: url('../assets/fonts/Dense-Regular.otf');
 }
+
 @font-face {
     font-family: Big;
     src: url("../assets/fonts/BIG-JOHN.otf");
 }
+
 @font-face {
     font-family: Slim;
     src: url("../assets/fonts/Slim-Joe.otf");
 }
+
 @font-face {
     font-family: Antro;
     src: url("../assets/fonts/Antro_Vectra_Bolder.otf");
 }
+
 @font-face {
     font-family: Sunset;
     src: url("../assets/fonts/The-Sunset.ttf");
 }
+
 @font-face {
     font-family: Stingray;
     src: url("../assets/fonts/Stingray.otf");
 }
+
 @font-face {
     font-family: Mac;
     src: url("../assets/fonts/White-Mackintosh.ttf");
 }
 
 html body {
-    height: 800px;
 }
 
-.spacer-row{
+.spacer-row {
     height: 40px;
 }
 
@@ -53,7 +58,7 @@ html body {
     transition: 300ms;
 }
 
-.name-header a{
+.name-header a {
     color: white;
     transition: 400ms;
 }
@@ -70,11 +75,11 @@ html body {
     font-family: Slim;
 }
 
-#last-name{
+#last-name {
     padding-left: 153px;
 }
 
-.nav-bar {
+.nav-bar.row {
     padding-bottom: 0;
     /*text-align: right;*/
     width: 100%;
@@ -85,8 +90,7 @@ html body {
     margin: 30px 0 0 0;
 }
 
-.navbar-fixed{
-
+.navbar-fixed {
     top: 0;
     z-index: 100;
     position: fixed;
@@ -94,12 +98,12 @@ html body {
     margin: 0;
 }
 
-.navbar-opacity{
+.navbar-opacity {
     background: rgba(35, 39, 42, 0.6);
     transition: 200ms;
 }
 
-#about{
+#about {
     color: var(--black);
     height: 140px;
     margin-top: 10px;
@@ -108,7 +112,7 @@ html body {
     font-family: Mac;
 }
 
-.about-me{
+.about-me {
     text-align: right;
     font-size: 30px;
     font-weight: bolder;
@@ -123,7 +127,7 @@ html body {
 
 /*PARALLAX*/
 
-.display-none{
+.display-none {
     display: none;
 }
 
@@ -183,7 +187,6 @@ html body {
     background-repeat: no-repeat;
     background-size: cover;
 }
-
 
 /*TEST TEST TEST*/
 
