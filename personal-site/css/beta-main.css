@@ -95,11 +95,12 @@
 }
 
 #about {
+    display: block;
     color: var(--black);
     height: 140px;
     margin-top: 10px;
     margin-bottom: 0;
-    font-size: 120px;
+    font-size: 90px;
     font-family: Mac;
 }
 
@@ -170,6 +171,24 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+@media only screen and (max-width: 600px){
+
+    #last-name, #first-name{
+        font-size: 70px;
+        text-align: center;
+        padding-left: 0px;
+    }
+
+    #about {
+        height: auto;
+        font-size: 60px;
+    }
+    .about-me {
+        text-align: center;
+        font-size: 20px;
+    }
 }
 
 /*TEST TEST TEST*/
