@@ -42,9 +42,6 @@
     src: url("../assets/fonts/White-Mackintosh.ttf");
 }
 
-html body {
-}
-
 .spacer-row {
     height: 40px;
 }
@@ -81,13 +78,12 @@ html body {
 
 .nav-bar.row {
     padding-bottom: 0;
-    /*text-align: right;*/
     width: 100%;
     z-index: 400;
     background: rgba(35, 39, 42, 1);
     position: absolute;
     bottom: 0;
-    margin: 30px 0 0 0;
+    margin: 0;
 }
 
 .navbar-fixed {
@@ -98,17 +94,12 @@ html body {
     margin: 0;
 }
 
-.navbar-opacity {
-    background: rgba(35, 39, 42, 0.6);
-    transition: 200ms;
-}
-
 #about {
     color: var(--black);
     height: 140px;
     margin-top: 10px;
     margin-bottom: 0;
-    font-size: 130px;
+    font-size: 120px;
     font-family: Mac;
 }
 
@@ -139,11 +130,10 @@ html body {
 }
 
 .parallax-1 {
+    overflow: hidden;
     z-index: 100;
 
     background: url("../assets/backgrounds/ElegantBackground.jpg");
-    /*background: url("https://media.giphy.com/media/xUPGcw99Tl8SCEDGKI/giphy.gif");*/
-    /* Set a specific height */
     min-height: 100%;
 
     /* Create the parallax scrolling effect */
@@ -152,12 +142,6 @@ html body {
     background-repeat: no-repeat;
     background-size: cover;
 
-    -webkit-filter: blur(5px);
-    -moz-filter: blur(5px);
-    -o-filter: blur(5px);
-    -ms-filter: blur(5px);
-    filter: blur(10px);
-    transition: 200ms;
 }
 
 .parallax-2 {
@@ -189,6 +173,4 @@ html body {
 }
 
 /*TEST TEST TEST*/
-
-
 

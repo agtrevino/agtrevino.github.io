@@ -5,44 +5,24 @@ $(document).ready(function() {
         "height": wh
 
     });
-    // let isScrolled = false;
+    let isScrolled = false;
     $(window).scroll(function () {
-        //if you hard code, then use console
-        //.log to determine when you want the
-        //nav bar to stick.
-        // console.log($(window).scrollTop());
-        //
-        //
-        // if ($(window).scrollTop() > (wh - 55)) {
-        //     $('#nav-bar').addClass('navbar-fixed');
-        //     // isScrolled = true;
-        // }
-        // if ($(window).scrollTop() < (wh - 55)) {
-        //     $('#nav-bar').removeClass('navbar-fixed');
-        // }
-        // if ($(window).scrollTop() > (wh - 55)) {
-        //     $('#nav-bar').addClass('navbar-opacity');
-        // }
-        // if ($(window).scrollTop() < (wh - 55)) {
-        //     $('#nav-bar').removeClass('navbar-opacity');
-        // }
+        // if you hard code, then use console
+        // .log to determine when you want the
+        // nav bar to stick.
+        console.log($(window).scrollTop());
+        if ($(window).scrollTop() > (wh - 64)) {
+            $('#nav-bar').css('position', 'fixed');
+            $('#nav-bar').css('top', 0);
+            $('#nav-bar').css('margin', 0);
+        }
+        if ($(window).scrollTop() < (wh - 64)) {
+            $('#nav-bar').css('position', 'absolute');
+            $('#nav-bar').css('bottom', 0);
+            $('#nav-bar').css('top', 'auto');
+        }
     });
 });
-
-$(document).ready(function() {
-
-
-
-    $(document).ready(function(){
-       $(".parallax-1").css({
-           'filter'         : 'blur(0px)',
-           '-webkit-filter' : 'blur(0px)',
-           '-moz-filter'    : 'blur(0px)',
-           '-o-filter'      : 'blur(0px)',
-           '-ms-filter'     : 'blur(0px)',
-           'transition'     : '500'
-       });
-    });
 
 //SMOOTH SCROLLING FEATURE--------------------------
     $(document).ready(function(){
@@ -58,4 +38,5 @@ $(document).ready(function() {
             }
         });
     });
-});
+
+///////////////////////////
