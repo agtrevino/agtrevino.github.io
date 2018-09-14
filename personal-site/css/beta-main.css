@@ -43,7 +43,12 @@
 }
 
 .logo{
-    height: 50px;
+    margin: 3px;
+    height: 75px;
+}
+
+i.material-icons {
+    margin: 12px;
 }
 #nav-mobile {
     display: none;
@@ -182,35 +187,39 @@
 
 @media screen and (max-width: 600px){
 
+    html, body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden
+    }
     #last-name, #first-name{
         font-size: 70px;
         text-align: center;
         padding-left: 0px;
     }
     #nav-bar {
+        height: 100px;
         display: none;
     }
     #nav-mobile {
+        height: 80px;
         display: block;
         background: rgba(35, 39, 42, 1);
     }
-
+    #about {
+        height: auto;
+        font-size: 60px;
+    }
     .background, .nav-background{
         background: url("../assets/backgrounds/codeup-mug.jpg");
         background-size: cover;
     }
-
     .name {
         font-family: Big;
     }
     .email {
         letter-spacing: 1px;
         font-family: Slim;
-    }
-
-    #about {
-        height: auto;
-        font-size: 60px;
     }
     .about-me {
         text-align: center;
