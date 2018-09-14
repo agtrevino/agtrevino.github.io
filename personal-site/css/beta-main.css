@@ -43,13 +43,14 @@
 }
 
 .logo{
-    margin: 3px;
-    height: 75px;
+    height: 80px;
+    margin: 10px;
 }
 
 i.material-icons {
-    margin: 12px;
+    margin: 10px;
 }
+
 #nav-mobile {
     display: none;
 }
@@ -89,6 +90,7 @@ i.material-icons {
 }
 
 .nav-bar.row {
+    height: 120px;
     padding-bottom: 0;
     width: 100%;
     z-index: 400;
@@ -123,10 +125,24 @@ i.material-icons {
     font-family: Slim;
 }
 
-.nav-list li {
+.nav-list li a{
+    margin: 30px;
+    font-size: 20px;
     color: var(--bs-white);
     letter-spacing: 2px;
     font-family: Slim;
+}
+
+.carousel{
+    background: transparent;
+    height: 800px;
+}
+
+#projects-title {
+    font-size: 120px;
+    font-family: Mac;
+    letter-spacing: 2px;
+    text-decoration: underline;
 }
 
 /*PARALLAX*/
@@ -171,20 +187,6 @@ i.material-icons {
     background-size: cover;
 }
 
-.parallax-3 {
-    z-index: 100;
-
-    background: url("../assets/backgrounds/black-gradient.jpg");
-    /* Set a specific height */
-    min-height: 100%;
-
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
 @media screen and (max-width: 600px){
 
     html, body {
@@ -192,13 +194,17 @@ i.material-icons {
         height: 100%;
         overflow: hidden
     }
+    .logo{
+        margin: 3px;
+        height: 70px;
+    }
     #last-name, #first-name{
         font-size: 70px;
         text-align: center;
         padding-left: 0px;
     }
     #nav-bar {
-        height: 100px;
+        height: 90px;
         display: none;
     }
     #nav-mobile {
