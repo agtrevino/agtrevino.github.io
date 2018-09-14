@@ -1,11 +1,23 @@
 //WINDOW HEIGHT FOR NAVBAR--------------------------
-$(document).ready(function() {
+$(document).ready(function () {
     let wh = $(window).height();
     $("html body").css({
         "height": wh
 
     });
     let isScrolled = false;
+    $('.sidenav').sidenav();
+    $("a").on('click', function (event) {
+        if (this.hash !== "") {
+            event.preventDefault();
+            var hash = this.hash;
+            $('html, body').animate({
+                scrollTop: $(hash).offset().top
+            }, 800, function () {
+                window.location.hash = hash;
+            });
+        }
+    });
     $(window).scroll(function () {
         // if you hard code, then use console
         // .log to determine when you want the
@@ -23,20 +35,3 @@ $(document).ready(function() {
         }
     });
 });
-
-//SMOOTH SCROLLING FEATURE--------------------------
-    $(document).ready(function(){
-        $("a").on('click', function(event) {
-            if (this.hash !== "") {
-                event.preventDefault();
-                var hash = this.hash;
-                $('html, body').animate({
-                    scrollTop: $(hash).offset().top
-                }, 800, function(){
-                    window.location.hash = hash;
-                });
-            }
-        });
-    });
-
-///////////////////////////

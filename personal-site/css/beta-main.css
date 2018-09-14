@@ -42,6 +42,13 @@
     src: url("../assets/fonts/White-Mackintosh.ttf");
 }
 
+.logo{
+    height: 50px;
+}
+#nav-mobile {
+    display: none;
+}
+
 .spacer-row {
     height: 40px;
 }
@@ -180,6 +187,26 @@
         text-align: center;
         padding-left: 0px;
     }
+    #nav-bar {
+        display: none;
+    }
+    #nav-mobile {
+        display: block;
+        background: rgba(35, 39, 42, 1);
+    }
+
+    .background, .nav-background{
+        background: url("../assets/backgrounds/codeup-mug.jpg");
+        background-size: cover;
+    }
+
+    .name {
+        font-family: Big;
+    }
+    .email {
+        letter-spacing: 1px;
+        font-family: Slim;
+    }
 
     #about {
         height: auto;
@@ -192,4 +219,5 @@
 }
 
 /*TEST TEST TEST*/
+
 
