@@ -138,6 +138,11 @@ i.material-icons {
     height: 700px;
 }
 
+.collapsible {
+    display: none;
+    margin: 10px;
+}
+
 #projects-title {
     margin: 10px 0 10px;
     font-size: 120px;
@@ -160,15 +165,7 @@ i.material-icons {
     bottom: 30px;
 }
 
-.card-content{
-    background: rgba(0,0,0, 0.5);
-}
-
 /*PARALLAX*/
-
-.display-none {
-    display: none;
-}
 
 .panel {
     padding: 0 18px;
@@ -208,14 +205,18 @@ i.material-icons {
 
 @media screen and (max-width: 600px){
 
-    html, body {
-        margin: 0;
-        height: 100%;
-        overflow: hidden
-    }
-    .logo{
-        margin: 3px;
-        height: 70px;
+    /*html, body {*/
+        /*margin: 0;*/
+        /*height: 100%;*/
+        /*overflow: hidden*/
+    /*}*/
+    #projects-title {
+        margin: 94px 0 10px;
+        font-size: 120px;
+        font-family: Mac;
+        letter-spacing: 2px;
+        text-decoration: underline;
+        text-shadow: 4px 2px black;
     }
     #last-name, #first-name{
         font-size: 70px;
@@ -227,6 +228,8 @@ i.material-icons {
         display: none;
     }
     #nav-mobile {
+        z-index: 100;
+        position: fixed;
         height: 80px;
         display: block;
         background: rgba(35, 39, 42, 1);
@@ -234,6 +237,30 @@ i.material-icons {
     #about {
         height: auto;
         font-size: 60px;
+    }
+    i.material-icons {
+        margin: 0 10px 0;
+    }
+    .collapsible {
+        font-family: Big;
+        color: #23272A;
+        display: block;
+        margin: 10px;
+    }
+    .collapsible-header{
+    }
+    .collapsible-body{
+        font-family: Slim;
+        background: rgba(0,0,0,.6);
+        color: white;
+        letter-spacing: 2px;
+    }
+    .spacer-row {
+        height: 70px;
+    }
+    .logo{
+        margin: 3px;
+        height: 70px;
     }
     .background, .nav-background{
         background: url("../assets/backgrounds/codeup-mug.jpg");

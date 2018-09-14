@@ -8,6 +8,8 @@ $(document).ready(function () {
         indicators: true
     });
 
+    $('.collapsible').collapsible();
+
     let wh = $(window).height();
     $("html body").css({
         "height": wh
