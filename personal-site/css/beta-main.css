@@ -255,6 +255,12 @@ i.material-icons {
         color: white;
         letter-spacing: 2px;
     }
+    .fa-github{
+
+        color: white;
+        margin-top: 15px;
+        font-size: 50px;
+    }
     .spacer-row {
         height: 70px;
     }
