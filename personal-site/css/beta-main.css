@@ -135,14 +135,33 @@ i.material-icons {
 
 .carousel{
     background: transparent;
-    height: 800px;
+    height: 700px;
 }
 
 #projects-title {
+    margin: 10px 0 10px;
     font-size: 120px;
     font-family: Mac;
     letter-spacing: 2px;
     text-decoration: underline;
+}
+
+.card-content{
+    height: 280px;
+    background-image: url("../../personal-site/assets/img/Screen Shot 2018-09-14 at 12.02.51 AM.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.card-description{
+    text-align: left;
+    position: absolute;
+    bottom: 30px;
+}
+
+.card-content{
+    background: rgba(0,0,0, 0.5);
 }
 
 /*PARALLAX*/
