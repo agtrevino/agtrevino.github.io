@@ -205,11 +205,6 @@ i.material-icons {
 
 @media screen and (max-width: 600px){
 
-    /*html, body {*/
-        /*margin: 0;*/
-        /*height: 100%;*/
-        /*overflow: hidden*/
-    /*}*/
     #projects-title {
         margin: 94px 0 10px;
         font-size: 120px;
@@ -248,6 +243,7 @@ i.material-icons {
         margin: 10px;
     }
     .collapsible-header{
+        font-size: 18px;
     }
     .collapsible-body{
         font-family: Slim;
