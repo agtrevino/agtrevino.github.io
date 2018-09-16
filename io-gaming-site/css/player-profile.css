@@ -1,0 +1,30 @@
+@font-face {
+    font-family: big;
+    src: url("../fonts/BIG-JOHN.otf");
+}
+@font-face {
+    font-family: slim;
+    src: url("../fonts/Slim-Joe.otf");
+}
+@font-face {
+    font-family: stingray;
+    src: url("../fonts/Stingray.otf");
+}
+
+.parallax-1 {
+    overflow: hidden;
+    z-index: 100;
+
+    background: url("../img/login-bg-2.jpg");
+    min-height: 100vh;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.profile {
+    background: white;
+}

@@ -42,7 +42,11 @@
     src: url("../assets/fonts/White-Mackintosh.ttf");
 }
 
-.logo{
+.grayscale {
+    filter: grayscale(100%);
+}
+
+.logo {
     height: 80px;
     margin: 10px;
 }
@@ -77,7 +81,7 @@ i.material-icons {
     color: var(--black);
     margin: 0;
     /*letter-spacing: 80px;*/
-    font-size: 90px;
+    /*font-size: 90px;*/
     transition: 400ms;
 }
 
@@ -114,7 +118,7 @@ i.material-icons {
     height: 140px;
     margin-top: 10px;
     margin-bottom: 0;
-    font-size: 90px;
+    font-size: 120px;
     font-family: Mac;
 }
 
@@ -125,7 +129,7 @@ i.material-icons {
     font-family: Slim;
 }
 
-.nav-list li a{
+.nav-list li a {
     margin: 30px;
     font-size: 20px;
     color: var(--bs-white);
@@ -133,7 +137,7 @@ i.material-icons {
     font-family: Slim;
 }
 
-.carousel{
+.carousel {
     background: transparent;
     height: 700px;
 }
@@ -143,15 +147,15 @@ i.material-icons {
     margin: 10px;
 }
 
-#projects-title {
-    margin: 10px 0 10px;
+#carousel-title {
+    margin: 94px 0 10px;
     font-size: 120px;
     font-family: Mac;
     letter-spacing: 2px;
-    text-decoration: underline;
+    text-shadow: 4px 2px black;
 }
 
-.card-content{
+.card-content {
     height: 280px;
     background-image: url("../../personal-site/assets/img/Screen Shot 2018-09-14 at 12.02.51 AM.png");
     background-position: center;
@@ -159,10 +163,24 @@ i.material-icons {
     background-size: cover;
 }
 
-.card-description{
+.card-description {
     text-align: left;
     position: absolute;
     bottom: 30px;
+}
+
+.skills-icons i {
+    /*border: solid black 2px;*/
+    /*border-radius: 100000px;*/
+    padding: 10px;
+    font-size: 60px;
+    padding: 10px;
+    text-shadow: 4px 2px black;
+}
+
+.skills-icons img{
+    height: 25px;
+    text-shadow: 4px 2px black;
 }
 
 /*PARALLAX*/
@@ -203,25 +221,27 @@ i.material-icons {
     background-size: cover;
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 600px) {
 
-    #projects-title {
-        margin: 94px 0 10px;
-        font-size: 120px;
+    #carousel-title {
+        margin: 110px 0 10px;
+        font-size: 90px;
         font-family: Mac;
         letter-spacing: 2px;
-        text-decoration: underline;
         text-shadow: 4px 2px black;
     }
-    #last-name, #first-name{
+
+    #last-name, #first-name {
         font-size: 70px;
         text-align: center;
         padding-left: 0px;
     }
+
     #nav-bar {
         height: 90px;
         display: none;
     }
+
     #nav-mobile {
         z-index: 100;
         position: fixed;
@@ -229,52 +249,65 @@ i.material-icons {
         display: block;
         background: rgba(35, 39, 42, 1);
     }
+
     #about {
-        height: auto;
-        font-size: 60px;
+        height: 90px;
+        font-size: 90px;
+        margin-bottom: 10px;
     }
+
     i.material-icons {
         margin: 0 10px 0;
     }
+
     .collapsible {
         font-family: Big;
         color: #23272A;
         display: block;
         margin: 10px;
     }
-    .collapsible-header{
+
+    .collapsible-header {
         font-size: 18px;
     }
-    .collapsible-body{
+
+    .collapsible-body {
         font-family: Slim;
-        background: rgba(0,0,0,.6);
+        background: rgba(0, 0, 0, .6);
         color: white;
         letter-spacing: 2px;
     }
-    .fa-github{
+
+    .fa-github {
 
         color: white;
         margin-top: 15px;
         font-size: 50px;
     }
+
     .spacer-row {
         height: 70px;
     }
-    .logo{
+
+    .logo {
         margin: 3px;
         height: 70px;
     }
-    .background, .nav-background{
+
+    .background, .nav-background {
         background: url("../assets/backgrounds/codeup-mug.jpg");
         background-size: cover;
     }
+
     .name {
         font-family: Big;
     }
+
     .email {
         letter-spacing: 1px;
         font-family: Slim;
     }
+
     .about-me {
         text-align: center;
         font-size: 20px;

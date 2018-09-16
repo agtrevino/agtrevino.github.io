@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="personal-site/css/beta-main.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
@@ -14,31 +15,33 @@
     <title>Aaron G. Trevino</title>
 </head>
 <body>
-<!--Mobile nav-->
-<nav id="nav-mobile">
-     <div class="nav-wrapper">
-       <a href="#" class="brand-logo">
-        <img class="logo" src="personal-site/assets/img/signature-white.png">
-</a>
-       <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-     </div>
-   </nav>
+
 <!-- Desktop nav-->
 <nav id="nav-bar" class="nav-bar row">
-                            <ul class="col s2">
+    <ul class="col s2">
                                  <li class="left">
-                                    <a href="#" class="brand-logo">
-                                            <img class="logo" src="personal-site/assets/img/signature-white.png">
+                                    <a href="#" class="grayscale brand-logo">
+                                            <img class="logo" src="personal-site/assets/img/signature-white%20(1).png">
                                     </a>
                                  </li>
                              </ul>
-                             <ul class="nav-list col s12 m12 l10 right">
-                                 <li class="right"><a href="#top">Home</a></li>
-                                 <li class="right"><a>Resume</a></li>
-                                 <li id="contact-btn" class="right"><a href="#contact">Contact</a></li>
-                                 <li id="portfolio-btn" class="right"><a href="#portfolio">Projects</a></li>
-                             </ul>
-                         </nav>
+    <ul class="nav-list col s12 m12 l10 right">
+        <li class="right"><a href="#top">Home</a></li>
+        <li class="right contact"><a href="#contact">Contact</a></li>
+        <li class="right resume"><a href="#resume">Resume</a></li>
+        <li class="right proficiencies"><a href="#proficiencies">Proficiencies</a></li>
+        <li class="right projects"><a href="#projects">Projects</a></li>
+    </ul>
+</nav>
+<!--Mobile nav-->
+<nav id="nav-mobile">
+    <div class="nav-wrapper">
+       <a href="#" class="brand-logo">
+        <img class="grayscale logo" src="personal-site/assets/img/signature-white.png">
+</a>
+       <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+     </div>
+</nav>
 <ul id="slide-out" class="sidenav">
     <li><div class="user-view">
       <div class="background">
@@ -48,13 +51,15 @@
       <!--<a href="#name"><span class="white-text name">Aaron G. Trevino</span></a>
       <a href="#email"><span class="white-text email">aaron.g.trevino@gmail.com</span></a>-->
     </div></li>
-    <li><a class="waves-effect" href="#">Home</a></li>
+    <li><a class="waves-effect home" href="#">Home</a></li>
     <li><div class="divider"></div></li>
-    <li><a class="waves-effect"  href="#portfolio">Projects</a></li>
+    <li><a class="waves-effect projects" href="#portfolio">Projects</a></li>
     <li><div class="divider"></div></li>
-    <li><a class="waves-effect" href="#">Résumé</a></li>
+    <li><a class="waves-effect proficiencies" href="#proficiencies">Proficiencies</a></li>
+        <li><div class="divider"></div></li>
+    <li><a class="waves-effect resume" href="#resume">Résumé</a></li>
     <li><div class="divider"></div></li>
-    <li><a class="waves-effect" href="#">Contact</a></li>
+    <li><a class="waves-effect contact" href="#contact">Contact</a></li>
   </ul>
 <div id="top" class="parallax-1">
     <div>
@@ -69,20 +74,17 @@
             </div>
             <div class="col s12 m12 l7 center">
                 <p id="about">
-                    Software Developer
+                    Welcome
                 </p>
                 <hr>
                 <p class="about-me">
-                    HTML5 · CSS3 · Javascript/ES6 · Java 10 · MySql 5 · Bootstrap 4 · JQuery · Spring
+                    I am full-stack developer with a focus on providing unique user experiences.
+                    I'm always looking forward to expanding my knowledge and improving my existing skills.
+                    I excel at creative problem solving and critical thinking.
+
+                    <!--HTML5 · CSS3 · Javascript/ES6 · Java 10 · MySql 5 · Bootstrap 4 · JQuery · Spring
                     · Git - Version Control ·  Adobe Premiere CS6 ·  Adobe Photoshop CS6 ·  Adobe After Effects
-                    ·  FL Studio 9
-
-                    <!--Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua.-->
-
-                    <!--Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.-->
-                    <!--Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.-->
-                    <!--Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.-->
+                    ·  FL Studio 9-->
                 </p>
                 <br>
             </div>
@@ -96,15 +98,23 @@
     <div class="carousel carousel-slider center">
         <div class="carousel-fixed-item center">
            </div>
-        <div class="carousel-item white-text" href="#one!">
-          <p id="projects-title">Projects</p>
+        <div id="projects" class="carousel-item white-text" href="#one">
+          <p id="carousel-title">Projects</p>
           <!--Mobile Projects View -->
           <ul class="collapsible">
+               <li>
+                <div class="collapsible-header"><i class="material-icons">videogame_asset</i>Gaming Team Hub</div>
+                <div class="collapsible-body">
+                <span>Website that implements both OpenWeatherMap and Google Maps Api to provide a 3 day forecast as any given location.</span>
+                <hr>
+                <a class="" target="_blank" href="https://github.com/agtrevino/codeup-web-exercises"><i class="fab fa-github"></i></a>
+                </div>
+              </li>
               <li>
                 <div class="collapsible-header"><i class="material-icons">filter_drama</i>Weather Map</div>
                 <div class="collapsible-body">
-                <span>Website that impliments both OpenWeatherMap and Google Maps Api to provide a 3 day forecast as any given location.</span>
-                <br>
+                <span>Website that implements both OpenWeatherMap and Google Maps Api to provide a 3 day forecast as any given location.</span>
+                <hr>
                 <a class="" target="_blank" href="https://github.com/agtrevino/codeup-web-exercises"><i class="fab fa-github"></i></a>
                 </div>
               </li>
@@ -112,28 +122,48 @@
                 <div class="collapsible-header"><i class="material-icons">view_list</i>Ad Lister</div>
                 <div class="collapsible-body">
                 <span>Full-stack web application with the ability to add, edit and delete ads.</span>
-                <br>
-                                <a class="" target="_blank" href="https://github.com/team-badlister/java-badlister"><i class="fab fa-github"></i></a>
+                <hr>
+                <a class="" target="_blank" href="https://github.com/team-badlister/java-badlister"><i class="fab fa-github"></i></a>
                 </div>
               </li>
               <li>
                 <div class="collapsible-header"><i class="material-icons">contacts</i>Contact Manager</div>
-                <div class="collapsible-body"><span>Allows user to search, delete and create contacts in the application.</span></div>
+                <div class="collapsible-body">
+                <span>Allows user to search, delete and create contacts in the application.</span>
+                <hr>
+                <a class="" target="_blank" href="https://github.com/Collier-Aaron"><i class="fab fa-github"></i></a>
+                </div>
+
               </li>
             </ul>
 
         </div>
-        <div class="carousel-item amber white-text" href="#two!">
-          <h2>Second Panel</h2>
-          <p class="white-text">This is your second panel</p>
+        <div id="proficiencies" class="carousel-item white-text" href="#two">
+          <p id="carousel-title">Proficiencies</p>
+          <div class="skills-icons">
+            <i class="devicon-html5-plain-wordmark"></i>
+            <i class="devicon-css3-plain-wordmark"></i>
+            <i class="devicon-javascript-plain"></i>
+            <i class="devicon-java-plain-wordmark"></i>
+            <hr>
+            <i class="devicon-mysql-plain-wordmark"></i>
+            <i class="devicon-bootstrap-plain-wordmark"></i>
+            <i class="devicon-jquery-plain-wordmark"></i>
+            <img src="personal-site/assets/img/spring-by-pivotal.png">
+            <hr>
+            <i class="devicon-github-plain-wordmark"></i>
+            <i class="devicon-csharp-line-wordmark"></i>
+            <i class="devicon-photoshop-line"></i>
+
+
+
+          </div>
         </div>
-        <div class="carousel-item green white-text" href="#three!">
-          <h2>Third Panel</h2>
-          <p class="white-text">This is your third panel</p>
+        <div id="resume" class="carousel-item green white-text" href="#three">
+          <p id="carousel-title">Résumé</p>
         </div>
-        <div class="carousel-item blue white-text" href="#four!">
-          <h2>Fourth Panel</h2>
-          <p class="white-text">This is your fourth panel</p>
+        <div id="contact" class="carousel-item blue white-text" href="#four">
+          <p id="carousel-title">Contact</p>
         </div>
       </div>
 </div>

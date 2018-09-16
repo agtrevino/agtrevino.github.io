@@ -1,14 +1,30 @@
-//WINDOW HEIGHT FOR NAVBAR--------------------------
 $(document).ready(function () {
 
     $('.sidenav').sidenav();
+
+    $('.collapsible').collapsible();
 
     $('.carousel.carousel-slider').carousel({
         fullWidth: true,
         indicators: true
     });
 
-    $('.collapsible').collapsible();
+    // Navbar buttons carouse
+
+    $( ".contact" ).click(function() {
+        $('.carousel').carousel('set', 3);
+    });
+    $( ".resume" ).click(function() {
+        $('.carousel').carousel('set', 2);
+    });
+    $( ".proficiencies" ).click(function() {
+        $('.carousel').carousel('set', 1);
+    });
+    $( ".projects" ).click(function() {
+        $('.carousel').carousel('set', 0);
+    });
+
+
 
     let wh = $(window).height();
     $("html body").css({
