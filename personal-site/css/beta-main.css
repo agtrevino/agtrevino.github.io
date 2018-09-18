@@ -182,9 +182,9 @@ i.material-icons {
     margin: 10px;
 }
 
-.carousel-item{
-    overflow-y: auto;
-}
+/*.carousel-item{*/
+    /*overflow-y: auto;*/
+/*}*/
 
 .resume-png {
 
@@ -241,7 +241,7 @@ i.material-icons {
 
 @media screen and (max-width: 600px) {
     .carousel-item{
-        overflow-y: auto;
+        overflow-y: visible;
     }
 
     #carousel-title {
