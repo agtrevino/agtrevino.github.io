@@ -51,6 +51,41 @@
     margin: 10px;
 }
 
+.skills-icons hr {
+    width: 65%;
+}
+
+.skills-icons i {
+    /*border: solid black 2px;*/
+    /*border-radius: 100000px;*/
+    margin: 10px;
+    padding: 10px;
+    font-size: 110px;
+    padding: 10px;
+    text-shadow: 5px 5px 5px #222;
+}
+
+.skills-icons img {
+    -webkit-filter: drop-shadow(5px 5px 5px #222);
+    filter: drop-shadow(5px 5px 5px #222);
+    height: 65px;
+    text-shadow: 4px 2px black;
+}
+
+.btn-floating {
+    border: solid white 2px;
+    background: transparent;
+}
+
+.contact-icons {
+    font-family: Slim;
+}
+
+.sidenav-trigger {
+    padding-top: 10px;
+
+}
+
 i.material-icons {
     margin: 10px;
 }
@@ -147,39 +182,22 @@ i.material-icons {
     margin: 10px;
 }
 
+.carousel-item{
+    overflow-y: auto;
+}
+
+.resume-png {
+
+    max-width:65%;
+    max-height:65%;
+
+}
+
 #carousel-title {
     margin: 94px 0 10px;
     font-size: 120px;
     font-family: Mac;
     letter-spacing: 2px;
-    text-shadow: 4px 2px black;
-}
-
-.card-content {
-    height: 280px;
-    background-image: url("../../personal-site/assets/img/Screen Shot 2018-09-14 at 12.02.51 AM.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.card-description {
-    text-align: left;
-    position: absolute;
-    bottom: 30px;
-}
-
-.skills-icons i {
-    /*border: solid black 2px;*/
-    /*border-radius: 100000px;*/
-    padding: 10px;
-    font-size: 60px;
-    padding: 10px;
-    text-shadow: 4px 2px black;
-}
-
-.skills-icons img{
-    height: 25px;
     text-shadow: 4px 2px black;
 }
 
@@ -256,8 +274,39 @@ i.material-icons {
         margin-bottom: 10px;
     }
 
+    .sidenav {
+        background: #485460;
+    }
+
+    .sidenav li a{
+        color:var(--bs-white);
+        font-family: Slim;
+        font-size: 25px;
+    }
     i.material-icons {
         margin: 0 10px 0;
+    }
+
+    .skills-icons i {
+        /*border: solid black 2px;*/
+        /*border-radius: 100000px;*/
+        padding: 10px;
+        font-size: 45px;
+        text-shadow: 5px 5px 5px #222;
+
+    }
+
+    .skills-icons img {
+        -webkit-filter: drop-shadow(5px 5px 5px #222);
+        filter: drop-shadow(5px 5px 5px #222);
+        height: 25px;
+        text-shadow: 4px 2px black;
+    }
+    .resume-png {
+
+        max-width:70%;
+        max-height:70%;
+
     }
 
     .collapsible {

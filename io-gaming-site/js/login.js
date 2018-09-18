@@ -66,17 +66,3 @@
 
 
 //////////////////-------------------------------
-
-/*
-
-click to domain to configure
-click on A record
-put an @ symbol
-select droplet to the right
-
-C name
-www\ @ \ TTL
-
-what would yo like to do about menu.ls? "2"
-
-*/

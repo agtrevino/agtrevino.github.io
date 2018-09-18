@@ -1,3 +1,13 @@
+:root{
+    --main-black: #2c3e50;
+    --main-grey: #34495e;
+    --blue: #2980b9;
+    --light-blue: #3498db;
+    --light-grey: #7f8c8d;
+    --white: #ecf0f1;
+
+
+}
 @font-face {
     font-family: big;
     src: url("../fonts/BIG-JOHN.otf");
@@ -10,7 +20,6 @@
     font-family: stingray;
     src: url("../fonts/Stingray.otf");
 }
-
 .parallax-1 {
     overflow: hidden;
     z-index: 100;
@@ -24,7 +33,30 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+.banner{
+    height: 160px;
+    width: 100%;
+    background: url("../img/login-bg-7.jpg");
+    background-size: cover;
+    background-position: center;
+}
 
+.nav {
+    text-align: center;
+    font-family: Slim;
+    font-size: 25px;
+    height: 80px;
+    background: var(--main-grey);
+    border-bottom: solid 5px var(--main-black);
+}
+
+.nav a {
+    color: var(--white);
+}
+
+.nav-logo {
+    height: 80px;
+}
 .profile {
-    background: white;
+    background: var(--light-grey);
 }
