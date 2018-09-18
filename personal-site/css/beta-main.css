@@ -240,9 +240,6 @@ i.material-icons {
 }
 
 @media screen and (max-width: 600px) {
-    .carousel-item{
-        overflow-y: visible;
-    }
 
     #carousel-title {
         margin: 110px 0 10px;
