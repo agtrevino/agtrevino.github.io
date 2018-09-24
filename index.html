@@ -6,8 +6,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
     <link rel="stylesheet" href="personal-site/css/beta-main.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
@@ -15,16 +17,54 @@
     <title>Aaron G. Trevino</title>
 </head>
 <body>
-
+<!--Mobile nav-->
+<nav id="nav-mobile">
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">
+            <img class="grayscale logo" src="personal-site/assets/img/signature-white.png">
+        </a>
+        <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+</nav>
+<ul id="slide-out" class="sidenav">
+    <li>
+        <div class="user-view">
+            <div class="background">
+                <img class="nav-background">
+            </div>
+            <div>
+                <a href="#user"><img class="brand-logo center circle" src="personal-site/assets/img/headshot.png"></a>
+            </div>
+        </div>
+    </li>
+    <li><a class="waves-effect home" href="#">Home</a></li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li><a class="waves-effect projects" href="#portfolio">Projects</a></li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li><a class="waves-effect proficiencies" href="#proficiencies">Proficiencies</a></li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li><a class="waves-effect resume" href="#resume">Resume</a></li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li><a class="waves-effect contact" href="#contact">Contact</a></li>
+</ul>
+<!--Mobile nav-->
 <!-- Desktop nav-->
 <nav id="nav-bar" class="nav-bar row">
     <ul class="col s2">
-                                 <li class="left">
-                                    <a href="#" class="grayscale brand-logo">
-                                            <img class="logo" src="personal-site/assets/img/signature-white%20(1).png">
-                                    </a>
-                                 </li>
-                             </ul>
+        <li class="left">
+            <a href="#" class="grayscale brand-logo">
+                <img class="logo" src="personal-site/assets/img/signature-white%20(1).png">
+            </a>
+        </li>
+    </ul>
     <ul class="nav-list col s12 m12 l10 right">
         <li class="right"><a href="#top">Home</a></li>
         <li class="right contact"><a href="#contact">Contact</a></li>
@@ -33,34 +73,7 @@
         <li class="right projects"><a href="#projects">Projects</a></li>
     </ul>
 </nav>
-<!--Mobile nav-->
-<nav id="nav-mobile">
-    <div class="nav-wrapper">
-       <a href="#" class="brand-logo">
-        <img class="grayscale logo" src="personal-site/assets/img/signature-white.png">
-</a>
-       <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-     </div>
-</nav>
-<ul id="slide-out" class="sidenav">
-    <li><div class="user-view">
-      <div class="background">
-        <img class="nav-background">
-      </div>
-        <div>
-            <a href="#user"><img class="brand-logo center circle" src="personal-site/assets/img/headshot.png"></a>
-        </div>
-    </div></li>
-    <li><a class="waves-effect home" href="#">Home</a></li>
-    <li><div class="divider"></div></li>
-    <li><a class="waves-effect projects" href="#portfolio">Projects</a></li>
-    <li><div class="divider"></div></li>
-    <li><a class="waves-effect proficiencies" href="#proficiencies">Proficiencies</a></li>
-        <li><div class="divider"></div></li>
-    <li><a class="waves-effect resume" href="#resume">Resume</a></li>
-    <li><div class="divider"></div></li>
-    <li><a class="waves-effect contact" href="#contact">Contact</a></li>
-  </ul>
+<!-- Desktop nav-->
 <div id="top" class="parallax-1">
     <div>
         <div class="spacer-row"></div>
@@ -92,81 +105,167 @@
         </div>
 
     </div>
-
 </div>
 <div id="portfolio" class="parallax-2">
     <div class="carousel carousel-slider center">
         <div class="carousel-fixed-item center">
-           </div>
+        </div>
         <div id="projects" class="carousel-item white-text" href="#one">
-          <p id="carousel-title">Projects</p>
-          <!--Mobile Projects View -->
-          <ul class="collapsible">
-               <li>
-                <div class="collapsible-header"><i class="material-icons">videogame_asset</i>Gaming Team Hub</div>
-                <div class="collapsible-body">
-                <span>Website that implements both OpenWeatherMap and Google Maps Api to provide a 3 day forecast as any given location.</span>
-                <hr>
-                <a class="" target="_blank" href="https://github.com/agtrevino/codeup-web-exercises"><i class="fab fa-github"></i></a>
-                </div>
-              </li>
-              <li>
-                <div class="collapsible-header"><i class="material-icons">filter_drama</i>Weather Map</div>
-                <div class="collapsible-body">
-                <span>Website that implements both OpenWeatherMap and Google Maps Api to provide a 3 day forecast as any given location.</span>
-                <hr>
-                <a class="" target="_blank" href="https://github.com/agtrevino/codeup-web-exercises"><i class="fab fa-github"></i></a>
-                </div>
-              </li>
-              <li>
-                <div class="collapsible-header"><i class="material-icons">view_list</i>Ad Lister</div>
-                <div class="collapsible-body">
-                <span>Full-stack web application with the ability to add, edit and delete ads.</span>
-                <hr>
-                <a class="" target="_blank" href="https://github.com/team-badlister/java-badlister"><i class="fab fa-github"></i></a>
-                </div>
-              </li>
-              <li>
-                <div class="collapsible-header"><i class="material-icons">contacts</i>Contact Manager</div>
-                <div class="collapsible-body">
-                <span>Allows user to search, delete and create contacts in the application.</span>
-                <hr>
-                <a class="" target="_blank" href="https://github.com/Collier-Aaron"><i class="fab fa-github"></i></a>
-                </div>
+            <p id="carousel-title">Projects</p>
+            <!--Mobile Projects View -->
+            <ul class="collapsible collapsible-mobile">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">videogame_asset</i>Gaming Team Hub</div>
+                    <div class="collapsible-body">
+                        <span>Social hub for gamers to search for and build teams with users around the same skill level.</span>
+                        <hr>
+                        <a class="" target="_blank" href="https://github.com/ionic-ink/ink.ionic"><i
+                                class="fab fa-github"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">filter_drama</i>Weather Map</div>
+                    <div class="collapsible-body">
+                        <span>Website that implements both OpenWeatherMap and Google Maps Api to provide a 3 day forecast as any given location.</span>
+                        <hr>
+                        <a class="" target="_blank" href="https://github.com/agtrevino/codeup-web-exercises"><i
+                                class="fab fa-github"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">view_list</i>Ad Lister</div>
+                    <div class="collapsible-body">
+                        <span>Full-stack web application with the ability to add, edit and delete ads.</span>
+                        <hr>
+                        <a class="" target="_blank" href="https://github.com/team-badlister/java-badlister"><i
+                                class="fab fa-github"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">contacts</i>Contact Manager</div>
+                    <div class="collapsible-body">
+                        <span>Allows user to search, delete and create contacts in the application.</span>
+                        <hr>
+                        <a class="" target="_blank" href="https://github.com/Collier-Aaron"><i
+                                class="fab fa-github"></i></a>
+                    </div>
 
-              </li>
+                </li>
             </ul>
-
+            <!--Desktop Projects View-->
+            <div class="row projects-desktop">
+                <div class="col s12 m3 l3">
+                    <div class="card medium">
+                        <div class="card-image">
+                            <img src="personal-site/assets/backgrounds/Screen%20Shot%202018-09-23%20at%208.20.48%20PM.png">
+                            <span class="card-title">
+                                <i class="material-icons">
+                                    videogame_asset
+                                </i>
+                                Ionic Gaming Site
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <p>Social hub for gamers to search for and build teams with users around the same skill level.</p>
+                        </div>
+                        <div class="card-action">
+                            <a class="" target="_blank" href="https://github.com/ionic-ink/ink.ionic"><i
+                                    class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m3 l3">
+                    <div class="card medium">
+                        <div class="card-image">
+                            <img src="personal-site/assets/backgrounds/Screen%20Shot%202018-09-23%20at%208.35.42%20PM.png">
+                            <span class="card-title">
+                                <i class="material-icons">
+                                    cloud
+                                </i>
+                                Weather Map
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <p>Website that implements both OpenWeatherMap and Google Maps Api to provide a 3 day forecast at any given location.</p>
+                        </div>
+                        <div class="card-action">
+                            <a class="" target="_blank" href="https://github.com/agtrevino/codeup-web-exercises"><i
+                                    class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m3 l3">
+                    <div class="card medium">
+                        <div class="card-image">
+                            <img src="personal-site/assets/backgrounds/Screen%20Shot%202018-09-23%20at%208.47.44%20PM.png">
+                            <span class="card-title">
+                                <i class="material-icons">
+                                    view_list
+                                </i>
+                                Ad Lister
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <p>Full-stack web application with the ability to add, edit and delete ads.</p>
+                        </div>
+                        <div class="card-action">
+                            <a class="" target="_blank" href="https://github.com/team-badlister/java-badlister"><i
+                                    class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m3 l3">
+                    <div class="card medium">
+                        <div class="card-image">
+                            <img src="personal-site/assets/backgrounds/Screen%20Shot%202018-09-23%20at%208.49.39%20PM.png">
+                            <span class="card-title">
+                                <i class="material-icons">
+                                    contacts
+                                </i>
+                                Contact Manager
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <p>Allows user to search, delete and create contacts in the application.</p>
+                        </div>
+                        <div class="card-action">
+                            <a class="" target="_blank" href="https://github.com/Collier-Aaron"><i
+                                    class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="proficiencies" class="carousel-item white-text" href="#two">
-          <p id="carousel-title">Proficiencies</p>
-          <div class="skills-icons">
-            <i class="devicon-html5-plain-wordmark"></i>
-            <i class="devicon-css3-plain-wordmark"></i>
-            <i class="devicon-javascript-plain"></i>
-            <i class="devicon-java-plain-wordmark"></i>
-            <hr>
-            <i class="devicon-mysql-plain-wordmark"></i>
-            <i class="devicon-bootstrap-plain-wordmark"></i>
-            <i class="devicon-jquery-plain-wordmark"></i>
-            <img src="personal-site/assets/img/spring-by-pivotal.png">
-            <hr>
-            <i class="devicon-intellij-plain"></i>
-            <i class="devicon-github-plain-wordmark"></i>
-            <i class="devicon-csharp-line-wordmark"></i>
-            <i class="devicon-photoshop-line"></i>
+            <p id="carousel-title">Proficiencies</p>
+            <div class="skills-icons">
+                <i class="devicon-html5-plain-wordmark"></i>
+                <i class="devicon-css3-plain-wordmark"></i>
+                <i class="devicon-javascript-plain"></i>
+                <i class="devicon-java-plain-wordmark"></i>
+                <hr>
+                <i class="devicon-mysql-plain-wordmark"></i>
+                <i class="devicon-bootstrap-plain-wordmark"></i>
+                <i class="devicon-jquery-plain-wordmark"></i>
+                <img src="personal-site/assets/img/spring-by-pivotal.png">
+                <hr>
+                <i class="devicon-intellij-plain"></i>
+                <i class="devicon-github-plain-wordmark"></i>
+                <i class="devicon-csharp-line-wordmark"></i>
+                <i class="devicon-photoshop-line"></i>
 
-          </div>
+            </div>
         </div>
         <div id="resume" class="carousel-item white-text" href="#three">
-          <p id="carousel-title">Résumé</p>
+            <p id="carousel-title">Résumé</p>
             <div class="resume-div">
-                <img  class="resume-png" src="personal-site/assets/img/AaronGTrevinoResume2018-1.png">
+                <img class="resume-png" src="personal-site/assets/img/AaronGTrevinoResume2018-1.png">
             </div>
-            <a class="waves-effect waves-light btn" href="personal-site/assets/img/AaronGTrevinoResume2018-1.png" download="Aaron G. Trevino Resume 2018"><i class="material-icons left">file_download</i></a>
+            <a class="waves-effect waves-light btn" href="personal-site/assets/img/AaronGTrevinoResume2018-1.png"
+               download="Aaron G. Trevino Resume 2018"><i class="material-icons left">file_download</i></a>
         </div>
         <div id="contact" class="carousel-item white-text" href="#four">
-          <p id="carousel-title">Contact</p>
+            <p id="carousel-title">Contact</p>
             <ul class="row">
                 <li class="s6 contact-icons">
                     <a href="mailto:aaron.g.trevino@gmail.com" class="btn-floating btn-large waves-effect waves-light">
@@ -175,7 +274,8 @@
                     <p>Email</p>
                 </li>
                 <li class="contact-icons">
-                    <a href="https://www.linkedin.com/in/aarongtrevino" class="btn-floating btn-large waves-effect waves-light">
+                    <a href="https://www.linkedin.com/in/aarongtrevino"
+                       class="btn-floating btn-large waves-effect waves-light">
                         <i class="fab fa-linkedin"></i>
                     </a>
                     <p>LinkedIn</p>
@@ -188,8 +288,9 @@
                 </li>
             </ul>
         </div>
-      </div>
+    </div>
 </div>
+
 
 </body>
 </html>
