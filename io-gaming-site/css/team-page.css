@@ -1,0 +1,37 @@
+:root{
+    --main-black: #2c3e50;
+    --main-grey: #34495e;
+    --blue: #2980b9;
+    --light-blue: #3498db;
+    --light-grey: #7f8c8d;
+    --white: #ecf0f1;
+}
+
+@font-face {
+    font-family: big;
+    src: url("../fonts/BIG-JOHN.otf");
+}
+@font-face {
+    font-family: slim;
+    src: url("../fonts/Slim-Joe.otf");
+}
+@font-face {
+    font-family: stingray;
+    src: url("../fonts/Stingray.otf");
+}
+@font-face {
+    font-family: stingray;
+    src: url("../fonts/Stingray.otf");
+}
+
+.spacer-row {
+    height: 65px;
+}
+
+ul {
+    list-style: none;
+}
+
+.rounded-circle {
+    height: 80px;
+}

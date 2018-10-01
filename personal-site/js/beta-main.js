@@ -1,28 +1,30 @@
 $(document).ready(function () {
 
+    // $('.carousel.carousel-slider').carousel({
+    //     fullWidth: true,
+    //     indicators: true
+    // });
+    //
+    // // Navbar buttons carouse
+    //
+    // $( ".contact" ).click(function() {
+    //     $('.carousel').carousel('set', 3);
+    // });
+    // $( ".resume" ).click(function() {
+    //     $('.carousel').carousel('set', 2);
+    // });
+    // $( ".proficiencies" ).click(function() {
+    //     $('.carousel').carousel('set', 1);
+    // });
+    // $( ".projects" ).click(function() {
+    //     $('.carousel').carousel('set', 0);
+    // });
+
+    // Sidnav bar
+
     $('.sidenav').sidenav();
 
     $('.collapsible').collapsible();
-
-    $('.carousel.carousel-slider').carousel({
-        fullWidth: true,
-        indicators: true
-    });
-
-    // Navbar buttons carouse
-
-    $( ".contact" ).click(function() {
-        $('.carousel').carousel('set', 3);
-    });
-    $( ".resume" ).click(function() {
-        $('.carousel').carousel('set', 2);
-    });
-    $( ".proficiencies" ).click(function() {
-        $('.carousel').carousel('set', 1);
-    });
-    $( ".projects" ).click(function() {
-        $('.carousel').carousel('set', 0);
-    });
 
 
 

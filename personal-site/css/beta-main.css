@@ -47,7 +47,7 @@
 }
 
 .logo {
-    height: 80px;
+    height: 100px;
     margin: 10px;
 }
 
@@ -128,7 +128,7 @@ i.material-icons {
     padding-left: 153px;
 }
 
-.nav-bar.row {
+.nav-bar {
     height: 120px;
     padding-bottom: 0;
     width: 100%;
@@ -195,12 +195,12 @@ i.material-icons {
 
 .card-title {
     width: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.7), rgba(0,0,0,0));
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
 }
 
 .resume-png {
-    max-width:65%;
-    max-height:65%;
+    max-width: 65%;
+    max-height: 65%;
 }
 
 .carousel {
@@ -219,6 +219,14 @@ i.material-icons {
     text-shadow: 4px 2px black;
 }
 
+.tabs-content.carousel .carousel-item {
+    height: 100%;
+}
+
+.indicators {
+    display: none;
+}
+
 /*PARALLAX*/
 
 .panel {
@@ -228,42 +236,50 @@ i.material-icons {
     overflow: hidden;
 }
 
+.cover-page {
+    position: absolute;
+    z-index: 50;
+}
+
 .parallax-1 {
     overflow: hidden;
     z-index: 100;
 
-    background: url("../assets/backgrounds/ElegantBackground.jpg");
     min-height: 100%;
 
     /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: url("../assets/backgrounds/ElegantBackground.jpg") no-repeat fixed center;
     background-size: cover;
 
+}
+
+.fab {
+    color: var(--white);
+    font-size: 35px;
 }
 
 .parallax-2 {
     z-index: 100;
 
-    background:
-            linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.4), rgba(0,0,0,0.2)),
-            url("../assets/backgrounds/san-antonio-hd-desktop-wallpaper.jpg");
     /* Set a specific height */
     min-height: 100%;
 
     /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
+    url("../assets/backgrounds/san-antonio-hd-desktop-wallpaper.jpg") no-repeat fixed center;
     background-size: cover;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1170px) {
 
-    .projects-desktop{
-    display: none;
-}
+    .logo {
+        height: 60px;
+        margin: 10px;
+    }
+
+    .projects-desktop {
+        display: none;
+    }
 
     #carousel-title {
         margin: 110px 0 10px;
@@ -302,11 +318,12 @@ i.material-icons {
         background: #485460;
     }
 
-    .sidenav li a{
-        color:var(--bs-white);
+    .sidenav li a {
+        color: var(--bs-white);
         font-family: Slim;
         font-size: 25px;
     }
+
     i.material-icons {
         margin: 0 10px 0;
     }
@@ -329,8 +346,8 @@ i.material-icons {
 
     .resume-png {
 
-        max-width:70%;
-        max-height:70%;
+        max-width: 70%;
+        max-height: 70%;
 
     }
 
@@ -360,11 +377,6 @@ i.material-icons {
     }
 
     .spacer-row {
-        height: 70px;
-    }
-
-    .logo {
-        margin: 3px;
         height: 70px;
     }
 
