@@ -42,8 +42,18 @@
     src: url("../assets/fonts/White-Mackintosh.ttf");
 }
 
-.grayscale {
-    filter: grayscale(100%);
+.fa-github:before {
+    content: "\f09b";
+    color: white;
+}
+
+nav .brand-logo {
+    height: 119px;
+    position: absolute;
+    color: #fff;
+    display: inline-block;
+    font-size: 2.1rem;
+    padding: 0;
 }
 
 .logo {
@@ -248,7 +258,7 @@ i.material-icons {
     min-height: 100%;
 
     /* Create the parallax scrolling effect */
-    background: url("../assets/backgrounds/ElegantBackground.jpg") no-repeat fixed center;
+    background: url("../assets/backgrounds/san-antonio-blur.png") no-repeat fixed center;
     background-size: cover;
 
 }
@@ -265,12 +275,18 @@ i.material-icons {
     min-height: 100%;
 
     /* Create the parallax scrolling effect */
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
-    url("../assets/backgrounds/san-antonio-hd-desktop-wallpaper.jpg") no-repeat fixed center;
+    background:
+    url("../assets/backgrounds/san-antonio-hd-desktop-wallpaper-2.jpg") no-repeat fixed center;
+    /*linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));*/
     background-size: cover;
 }
 
 @media screen and (max-width: 1170px) {
+
+    .indicators {
+        display: block;
+    }
+
 
     .logo {
         height: 60px;
