@@ -2,7 +2,7 @@
     --red: #ff3f34;
     --light-purple: #9b59b6;
     --purple: #8e44ad;
-    --bs-white: #DEE6E9;
+    --bs-white: rgb(222, 230, 233);
     --dark-grey: #485460;
     --black: rgb(35, 39, 42);
 }
@@ -40,6 +40,19 @@
 @font-face {
     font-family: Mac;
     src: url("../assets/fonts/White-Mackintosh.ttf");
+}
+
+.resume-btn {
+    font-size: 50px;
+    padding-bottom: 10px;
+    margin: 10px;
+}
+
+.carousel {
+    position: relative;
+    background: transparent;
+    height: 400px;
+    overflow-y: scroll;
 }
 
 .fa-github:before {
@@ -138,6 +151,37 @@ i.material-icons {
     padding-left: 153px;
 }
 
+nav ul a:hover {
+    background-color: rgba(0, 0, 0, 0);
+
+}
+
+nav ul li:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom: solid 8px var(--bs-white);
+
+}
+
+nav li a {
+    color: rgba(222, 230, 233, 0.6);
+    transition: .3s;
+}
+
+nav li a:hover {
+    color: rgba(222, 230, 233, 1);
+    transition: .3s;
+}
+
+nav ul {
+    -webkit-transition: background-color .3s;
+    transition: background-color .3s;
+    font-size: 1rem;
+    color: rgba(222, 230, 233, 0.1);
+    display: block;
+    padding: 0 15px;
+    cursor: pointer;
+}
+
 .nav-bar {
     height: 120px;
     padding-bottom: 0;
@@ -167,6 +211,7 @@ i.material-icons {
     font-family: Mac;
 }
 
+
 .about-me {
     text-align: right;
     font-size: 30px;
@@ -174,18 +219,19 @@ i.material-icons {
     font-family: Slim;
 }
 
-.nav-list li a {
-    margin: 30px;
+.nav-list li {
+    height: 120px;
+    padding: 27px;
     font-size: 20px;
-    color: var(--bs-white);
+    color: rgba(222, 230, 233, 0.1);
     letter-spacing: 2px;
     font-family: Slim;
 }
 
-.carousel {
-    background: transparent;
-    height: 700px;
+.projects-desktop {
+    margin-top: 10px;
 }
+
 
 .collapsible-mobile {
     display: none;
@@ -214,7 +260,7 @@ i.material-icons {
 }
 
 .carousel {
-    height: 700px;
+    height: 100vh;
 }
 
 .projects-desktop {
@@ -275,8 +321,7 @@ i.material-icons {
     min-height: 100%;
 
     /* Create the parallax scrolling effect */
-    background:
-    url("../assets/backgrounds/san-antonio-hd-desktop-wallpaper-2.jpg") no-repeat fixed center;
+    background: url("../assets/backgrounds/san-antonio-hd-desktop-wallpaper-2.jpg") no-repeat fixed center;
     /*linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));*/
     background-size: cover;
 }
@@ -286,7 +331,6 @@ i.material-icons {
     .indicators {
         display: block;
     }
-
 
     .logo {
         height: 60px;
