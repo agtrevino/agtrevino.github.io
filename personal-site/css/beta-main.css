@@ -60,7 +60,6 @@
     position: relative;
 }
 
-
 .projects-row .project .imgBox img {
     width: 100%;
     transition: 3s;
@@ -114,8 +113,9 @@ nav .brand-logo {
 }
 
 .logo {
-    height: 100px;
-    margin: 10px;
+    height: 70px;
+    margin-left: 25px;
+    padding: 0;
 }
 
 .skills-icons hr {
@@ -128,7 +128,6 @@ nav .brand-logo {
     margin: 10px;
     padding: 10px;
     font-size: 110px;
-    padding: 10px;
     text-shadow: 5px 5px 5px #222;
 }
 
@@ -162,7 +161,7 @@ i.material-icons {
 }
 
 .spacer-row {
-    height: 40px;
+    height: 5px;
 }
 
 .name-header p {
@@ -202,11 +201,12 @@ nav ul a:hover {
 
 nav ul li:hover {
     background-color: rgba(0, 0, 0, 0.3);
-    border-bottom: solid 8px var(--bs-white);
+    border-bottom: solid 5px var(--bs-white);
 
 }
 
 nav li a {
+    box-shadow: 0 0 0;
     color: rgba(222, 230, 233, 0.6);
     transition: .3s;
 }
@@ -227,7 +227,7 @@ nav ul {
 }
 
 .nav-bar {
-    height: 120px;
+    height: 70px;
     padding-bottom: 0;
     width: 100%;
     z-index: 400;
@@ -235,6 +235,7 @@ nav ul {
     position: absolute;
     bottom: 0;
     margin: 0;
+    box-shadow: 0 0 0;
 }
 
 .navbar-fixed {
@@ -264,8 +265,8 @@ nav ul {
 }
 
 .nav-list li {
-    height: 120px;
-    padding: 27px;
+    height: 100%;
+    padding-left: 25px;
     font-size: 20px;
     color: rgba(222, 230, 233, 0.1);
     letter-spacing: 2px;
