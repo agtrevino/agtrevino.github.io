@@ -63,12 +63,13 @@
 .projects-row .project .imgBox img {
     transform: scale(1);
     width: 100%;
-    transition: 3s;
+    transition: 500ms;
 }
 
 .projects-row .project:hover .imgBox img {
-    transform: scale(1.3);
-    transition: 3s;
+    transform: scale(1);
+    
+    transition: 500ms;
 }
 
 .projects-row .project .details {
@@ -100,7 +101,7 @@
 }
 
 .carousel-slider {
-    height: 100%;
+    height: 100% !important;
 }
 
 .fa-github:before {
