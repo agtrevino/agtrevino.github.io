@@ -61,6 +61,7 @@
 }
 
 .projects-row .project .imgBox img {
+    transform: scale(1);
     width: 100%;
     transition: 3s;
 }
