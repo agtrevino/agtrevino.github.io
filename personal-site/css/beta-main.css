@@ -99,6 +99,10 @@
     overflow-y: scroll;
 }
 
+.carousel-slider {
+    height: 100%;
+}
+
 .fa-github:before {
     content: "\f09b";
     color: white;
@@ -150,7 +154,6 @@ nav .brand-logo {
 
 .sidenav-trigger {
     padding-top: 10px;
-
 }
 
 i.material-icons {
