@@ -22,6 +22,18 @@ function onWrapperScroll(fn) {
   });
 }
 
+function suppressHoverWhileScrolling() {
+  let scrollTimeout;
+
+  $('.wrapper').on('scroll', function () {
+    document.body.classList.add('is-scrolling');
+    window.clearTimeout(scrollTimeout);
+    scrollTimeout = window.setTimeout(() => {
+      document.body.classList.remove('is-scrolling');
+    }, 150);
+  });
+}
+
 // Project videos sit under overlays until a panel is hovered.
 // Play a video only while its panel is hovered (or visible on touch screens).
 function videoPlayback() {
@@ -82,6 +94,7 @@ function signatureAnimation() {
 }
 
 function ngOnInit() {
+  suppressHoverWhileScrolling();
     videoPlayback();
     signatureAnimation();
     expandingCards();
