@@ -18,12 +18,15 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
 
+    <!-- Hero background: start downloading it before the stylesheet asks for it. -->
+    <link rel="preload" as="image" href="assets/img/background/graffiti-4.jpg" />
+
     <!-- Fonts and Bootstrap come from CDNs. Everything else is in this repo. -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
 
     <!-- Your styles -->
-    <link rel="stylesheet" href="css/styles.css?v=37" />
+    <link rel="stylesheet" href="css/styles.css?v=41" />
   </head>
 
   <body>
@@ -201,9 +204,9 @@
     <div class="row text-center hero-intro-row">
       <div class="col-12">
         <div class="rw-wrapper">
-          <h1 class="lets-title">
+          <h1 class="lets-title" aria-label="I make websites, interfaces, logos, music, and animations">
             <span>I make</span>
-            <div class="rw-words rw-words-1">
+            <div class="rw-words rw-words-1" aria-hidden="true">
               <span class="word-span">
                 websites
                 <svg class="word-icon word-icon-websites" viewBox="0 0 24 24">

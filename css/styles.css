@@ -16,62 +16,77 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background:
 @font-face {
   font-family: "dense";
   src: url("../assets/fonts/Dense-Regular.otf");
+  font-display: swap;
 }
 @font-face {
   font-family: "ralewayLight";
   src: url("../assets/fonts/Raleway-Light.ttf");
+  font-display: swap;
 }
 @font-face {
   font-family: "ralewayExtraLight";
   src: url("../assets/fonts/Raleway-ExtraLight.ttf");
+  font-display: swap;
 }
 @font-face {
   font-family: "ralewayThin";
   src: url("../assets/fonts/Raleway-Thin.ttf");
+  font-display: swap;
 }
 @font-face {
   font-family: "raleway";
   src: url("../assets/fonts/Raleway-Regular.ttf");
+  font-display: swap;
 }
 @font-face {
   font-family: "ralewaySemi";
   src: url("../assets/fonts/Raleway-SemiBold.ttf");
+  font-display: swap;
 }
 @font-face {
   font-family: "ralewayBold";
   src: url("../assets/fonts/Raleway-Bold.ttf");
+  font-display: swap;
 }
 @font-face {
   font-family: "ralewayExtraBold";
   src: url("../assets/fonts/Raleway-ExtraBold.ttf");
+  font-display: swap;
 }
 @font-face {
   font-family: "ralewayBlack";
   src: url("../assets/fonts/Raleway-Black.ttf");
+  font-display: swap;
 }
 @font-face {
   font-family: "ralewayExtraLightItalics";
   src: url("../assets/fonts/Raleway-ExtraLightItalic.ttf");
+  font-display: swap;
 }
 @font-face {
   font-family: "big";
   src: url("../assets/fonts/BIGJOHN.otf");
+  font-display: swap;
 }
 @font-face {
   font-family: "slim";
   src: url("../assets/fonts/SlimJoe.otf");
+  font-display: swap;
 }
 @font-face {
   font-family: "avenirRegular";
   src: url("../assets/fonts/AvenirLTStd-Book.woff");
+  font-display: swap;
 }
 @font-face {
   font-family: "avenirLight";
   src: url("../assets/fonts/AvenirLTStd-LightCopy.woff");
+  font-display: swap;
 }
 @font-face {
   font-family: "trumpGothicEast";
   src: url("../assets/fonts/trump_gothic_east_bold.ttf");
+  font-display: swap;
 }
 * {
   font-family: "ralewayLight";
@@ -350,6 +365,9 @@ button:focus {
   margin-left: auto;
   margin-right: auto;
   font-family: "ralewayExtraBold";
+  /* 40px (Bootstrap's h1) up to 1440px wide, then grows linearly to 60px (1.5x) at 2560px.
+     The rotating word inherits it; the 9em width scales with it, so alignment holds. */
+  font-size: clamp(40px, calc(1.7857vw + 14.2857px), 60px);
   text-transform: uppercase;
   letter-spacing: -1px;
   color: #fff;
@@ -371,7 +389,8 @@ button:focus {
   min-height: 1.3em;
   margin: 16px auto 0;
   font-family: "ralewaySemi";
-  font-size: 15px;
+  /* Same scale as .lets-title: 15px up to 1440px wide, 22.5px (1.5x) at 2560px. */
+  font-size: clamp(15px, calc(0.6696vw + 5.3571px), 22.5px);
   font-weight: 600;
   line-height: 1.3;
   letter-spacing: 0.12em;
@@ -966,7 +985,7 @@ header .overlay-white {
   writing-mode: vertical-rl;
   transform: translateX(-50%) rotate(180deg);
   font-family: "raleway";
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
   font-synthesis: none;
   line-height: 1;
@@ -974,7 +993,6 @@ header .overlay-white {
   text-transform: lowercase;
   white-space: nowrap;
   color: rgba(255, 255, 255, 0.85);
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
   transition: color 200ms ease;
 }
 
@@ -1008,6 +1026,13 @@ header .overlay-white {
 .hero-work-link:hover span,
 .hero-work-link:focus-visible span {
   font-family: "ralewaySemi";
+}
+
+/* The hero arrow's label is always visible, so the font swap above would make it
+   visibly jump on hover. It keeps its resting font; only the color changes. */
+#homeTwo .hero-work-link:hover span,
+#homeTwo .hero-work-link:focus-visible span {
+  font-family: "raleway";
 }
 
 /* Every arrow label except the hero's types out on hover/focus, one letter per step
@@ -2021,5 +2046,25 @@ video {
   #resume-nav,
   #contact-nav {
     animation: none;
+  }
+}
+
+/* Short screens (phone landscape): the fixed vertical name and the signature would
+   overlap the link icons, the role line, and the nav dots. */
+@media (max-height: 480px) {
+  .vertical-text-2,
+  .signature {
+    display: none;
+  }
+}
+
+/* Reduced motion: no rotating words; show only the first one, "websites". */
+@media (prefers-reduced-motion: reduce) {
+  .rw-words-1 .word-span {
+    animation: none;
+  }
+
+  .rw-words-1 .word-span:first-child {
+    opacity: 1;
   }
 }
