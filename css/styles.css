@@ -464,12 +464,15 @@ button:focus {
   overflow: hidden;
   overflow: clip;
   overflow-clip-margin: 8px;
-  font-family: "ralewaySemi";
-  font-size: 14px;
+  /* Lowercase to match the right-hand nav. Only the Regular face is loaded as
+     "raleway", so font-synthesis: none keeps weight 600 from being faked (smeared). */
+  font-family: "raleway";
+  font-size: 13px;
   font-weight: 600;
+  font-synthesis: none;
   line-height: 1.2;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-transform: lowercase;
   white-space: nowrap;
   transition: max-width 150ms ease-in, margin-left 150ms ease-in;
 }
@@ -572,13 +575,22 @@ button:focus {
   z-index: 20;
   color: #fff;
   position: fixed;
-  /* Anchored from the bottom so it keeps a constant gap above the hero's down arrow. */
-  bottom: 316px;
+  /* Full-height column; text-align: center centers the vertical text in it, so the
+     name is vertically centered at every viewport height without a fractional
+     translateY(-50%). The column ignores the pointer; only the text itself catches it. */
+  top: 0;
+  bottom: 0;
+  text-align: center;
+  pointer-events: none;
   font-size: 18.4px;
   opacity: 0.9;
-  left: var(--left-rail);
+  /* A fixed 28px column centered on the rail with whole-pixel offsets, so the text
+     lands on the pixel grid (translateX(-50%) of a 27.6px box blurred it). */
+  left: calc(var(--left-rail) - 14px);
+  width: 28px;
+  line-height: 28px;
   letter-spacing: 5px;
-  transform: translateX(-50%) rotate(180deg);
+  transform: rotate(180deg);
   writing-mode: vertical-lr;
   /* font-weight: 900; */
   transition: 400ms;
@@ -612,6 +624,21 @@ button:focus {
   transition: 400ms;
   font-family: "ralewayLight" !important;
   font-weight: 700;
+}
+
+/* The name uses the real Raleway Regular file. Without this it inherits Raleway Light
+   and, on light slides, .color-black's weight 700, which the browser fakes by smearing
+   the Light glyphs. */
+.vertical-text-2 span {
+  pointer-events: auto;
+}
+
+.vertical-text-2,
+.vertical-text-2 span,
+.vertical-text-2.color-black,
+.vertical-text-2.color-black span {
+  font-family: "raleway" !important;
+  font-weight: 400;
 }
 
 .line-black {
@@ -913,13 +940,15 @@ header .overlay-white {
 }
 
 /* Slide arrows with a vertical text label matching the right-hand nav.
-   Each arrow keeps its inline layout, so it stays on the rail.
-   The label reads bottom to top, 12px right of the arrow shaft (x=28 in the SVG),
-   aligned with the tail end so it stays clear of the arrowhead. The SVG is 132px tall
-   and the head starts 98.5px from the tail, longer than the longest label (~88px).
+   The label sits on the rail, on the same axis as the vertical name, and the arrow
+   sits 18px to its right: the link is shifted 18px so the shaft (x=27 in the SVG)
+   lands at rail + 18px, and the label is centered at x=9 in the link (the rail).
+   The label reads bottom to top, aligned with the arrow's tail end so it stays clear
+   of the arrowhead. The SVG is 132px tall.
    Down arrows: tail at the SVG top, so the label's top sits at y=0.
    Up arrows are rotated 180deg: tail at the SVG bottom, so the label's bottom sits at y=132. */
 .hero-work-link {
+  left: calc(var(--left-rail) - 27px + 18px);
   display: inline-block;
   color: #fff;
   text-decoration: none;
@@ -933,15 +962,16 @@ header .overlay-white {
 .hero-work-link span {
   position: absolute;
   top: 0;
-  left: 40px;
+  left: 9px;
   writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  font-family: "ralewaySemi";
-  font-size: 12px;
+  transform: translateX(-50%) rotate(180deg);
+  font-family: "raleway";
+  font-size: 15px;
   font-weight: 600;
+  font-synthesis: none;
   line-height: 1;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-transform: lowercase;
   white-space: nowrap;
   color: rgba(255, 255, 255, 0.85);
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
@@ -950,7 +980,7 @@ header .overlay-white {
 
 .arrow-up-2.hero-work-link span {
   top: 132px;
-  transform: translateY(-100%) rotate(180deg);
+  transform: translate(-50%, -100%) rotate(180deg);
 }
 
 /* Arrows on the light slides (portfolio and resume) are #505464, so their labels match. */
@@ -974,10 +1004,44 @@ header .overlay-white {
   fill: #eb3b5a;
 }
 
+/* Hover legibility: the label switches to the real SemiBold file (crisp, not a faux bold). */
+.hero-work-link:hover span,
+.hero-work-link:focus-visible span {
+  font-family: "ralewaySemi";
+}
+
+/* Every arrow label except the hero's types out on hover/focus, one letter per step
+   (--chars on the span), like the link labels in the top-left. The span is rotated
+   180deg, so its local bottom is the screen top: clipping from the local bottom and
+   shrinking that inset reveals the first letter (screen bottom) first. */
+.hero-work-link[data-reveal] span {
+  clip-path: inset(0 0 100% 0);
+  transition: color 200ms ease, clip-path 150ms steps(var(--chars), end);
+}
+
+.hero-work-link[data-reveal]:hover span,
+.hero-work-link[data-reveal]:focus-visible span {
+  clip-path: inset(0 0 0 0);
+  transition: color 200ms ease, clip-path 300ms steps(var(--chars), end);
+}
+
+/* Touch devices with room for labels: no hover, so show them at rest. */
+@media (hover: none) and (min-width: 481px) {
+  .hero-work-link[data-reveal] span,
+  .hero-work-link[data-reveal]:hover span,
+  .hero-work-link[data-reveal]:focus-visible span {
+    clip-path: none;
+    transition: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-work-link,
   .hero-work-link path,
-  .hero-work-link span {
+  .hero-work-link span,
+  .hero-work-link[data-reveal] span,
+  .hero-work-link[data-reveal]:hover span,
+  .hero-work-link[data-reveal]:focus-visible span {
     transition: none;
   }
 }
@@ -1033,9 +1097,11 @@ header .overlay-white {
   transition: all 300ms ease-in-out;
 }
 
+/* Raised 20px, and never lower than 200px from the bottom, so the buttons clear
+   the slide's 132px down arrow (which starts 162px above the bottom) on short screens. */
 .site-btn-container {
   position: absolute;
-  bottom: 20vh;
+  bottom: max(calc(20vh + 20px), 200px);
   left: 0;
   right: 0;
 }
@@ -1341,10 +1407,12 @@ video {
   padding: 0.75rem 0;
   margin: 0 0 0 1.85rem;
   color: #eb3b5a;
-  font-weight: 700;
+  /* Real SemiBold file. Weight 700 on the inherited Raleway Light was a faux bold. */
+  font-family: "ralewaySemi";
+  font-weight: 600;
   line-height: 1.6;
   text-align: center;
-  text-transform: uppercase;
+  text-transform: lowercase;
 }
 .resume-button:hover .circle {
   width: 100%;
