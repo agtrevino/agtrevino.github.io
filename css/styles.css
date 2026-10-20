@@ -186,7 +186,6 @@ button:focus {
   color: #fff !important;
   font-family: "ralewayLight";
   opacity: 0;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
   transition: 400ms;
   text-decoration: none !important;
 }
@@ -200,7 +199,6 @@ button:focus {
   top: 9px;
   width: 10px;
   background: transparent;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.7));
   transition: 400ms;
 }
 
@@ -718,6 +716,19 @@ button:focus {
   position: relative;
 }
 
+/* The arrow rows span the full slide width. Let the pointer pass through them
+   (so the portfolio panels underneath still react), except on the arrows themselves. */
+.chevron,
+.up-chevron,
+.chevron-controls {
+  pointer-events: none;
+}
+
+.chevron a,
+.up-chevron a {
+  pointer-events: auto;
+}
+
 header {
   position: relative;
   background-color: black;
@@ -901,10 +912,13 @@ header .overlay-white {
   left: calc(var(--left-rail) - 27px);
 }
 
-/* Slide arrows with a text label ("Selected work", "Home", "Resume", ...).
+/* Slide arrows with a vertical text label matching the right-hand nav.
    Each arrow keeps its inline layout, so it stays on the rail.
-   The label sits 14px right of the arrow line (x=28 in the SVG), centered on the arrowhead:
-   y=74 on down arrows, y=28 on up arrows (their SVG is rotated 180deg). */
+   The label reads bottom to top, 12px right of the arrow shaft (x=28 in the SVG),
+   aligned with the tail end so it stays clear of the arrowhead. The SVG is 132px tall
+   and the head starts 98.5px from the tail, longer than the longest label (~88px).
+   Down arrows: tail at the SVG top, so the label's top sits at y=0.
+   Up arrows are rotated 180deg: tail at the SVG bottom, so the label's bottom sits at y=132. */
 .hero-work-link {
   display: inline-block;
   color: #fff;
@@ -918,9 +932,10 @@ header .overlay-white {
 
 .hero-work-link span {
   position: absolute;
-  top: 74px;
-  left: 42px;
-  transform: translateY(-50%);
+  top: 0;
+  left: 40px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
   font-family: "ralewaySemi";
   font-size: 12px;
   font-weight: 600;
@@ -934,7 +949,14 @@ header .overlay-white {
 }
 
 .arrow-up-2.hero-work-link span {
-  top: 28px;
+  top: 132px;
+  transform: translateY(-100%) rotate(180deg);
+}
+
+/* Arrows on the light slides (portfolio and resume) are #505464, so their labels match. */
+.hero-work-link.on-light span {
+  color: #505464;
+  text-shadow: none;
 }
 
 .hero-work-link:hover,
@@ -1166,8 +1188,31 @@ video {
   margin-left: -100px;
 }
 
+/* The -20deg skew pulls the last panel's bottom edge left by tan(20deg)/2 of its
+   height (18.2vh). Past 100px that leaves an uncovered strip at the bottom-right
+   corner, where hovering does not reach the panel. The last panel overhangs by the
+   extra amount too. Its flex-basis takes that extra width, so the other panels keep
+   their size, and its padding takes it back, so its logo and button stay in place. */
 .expansion-col:last-child {
-  margin-right: -100px;
+  --skew-extra: max(0px, calc(18.2vh - 92px));
+  margin-right: calc(-100px - var(--skew-extra));
+  flex-basis: var(--skew-extra);
+}
+
+.expansion-col:last-child > .expansion-section {
+  padding-right: calc(3rem + var(--skew-extra)) !important;
+}
+
+/* The logo and button wrappers are absolutely positioned at full width (Bootstrap's
+   .col-12), so they ignore that padding; narrow them by the same amount instead. */
+.expansion-col:last-child .site-logo-container,
+.expansion-col:last-child .site-btn-container {
+  width: calc(100% - var(--skew-extra));
+}
+
+/* The background video is centered in the panel; shift it back by half the extra width. */
+.expansion-col:last-child video {
+  margin-left: calc(var(--skew-extra) / -2);
 }
 
 .expansion-col::before {
@@ -1188,6 +1233,30 @@ video {
 
 .is-scrolling .expansion-col {
   pointer-events: none;
+}
+
+/* Transparent strip over the left rail of the portfolio slide. It catches the pointer
+   so the empty rail (above, between and below the arrows and the vertical name) does not
+   expand the first panel. It sits above the panels; the arrows (z-index 999999999) and
+   the fixed name and nav (outside .wrapper) stay above it. Pointer devices only, since
+   on phones a 100px strip would cover the first panel's logo.
+   The first logo's left edge moves with the window (about 12.5vw - 88px below ~1366px,
+   25vw - 254px above), so the width tracks it with a 10px margin, up to 100px. */
+.rail-guard {
+  display: none;
+}
+
+@media (hover: hover) {
+  .rail-guard {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    width: clamp(0px, max(12.5vw - 98px, 25vw - 264px), 100px);
+    pointer-events: auto;
+  }
 }
 
 .expansion-col h1 {
@@ -1852,10 +1921,18 @@ video {
 .hero-role,
 .hero-links a,
 #homeTwo .hero-work-link,
-.vertical-menu {
+#home-nav,
+#projects-nav,
+#resume-nav,
+#contact-nav {
   animation: heroRise 500ms ease-out both;
 }
 
+/* Side nav first, one item at a time. */
+#home-nav { animation-delay: 0s; }
+#projects-nav { animation-delay: 0.3s; }
+#resume-nav { animation-delay: 0.6s; }
+#contact-nav { animation-delay: 0.9s; }
 .vertical-text-2 { animation-delay: 0.2s; }
 .lets-title { animation-delay: 0.5s; }
 .hero-role { animation-delay: 0.9s; }
@@ -1863,8 +1940,7 @@ video {
 .hero-links a:nth-child(2) { animation-delay: 1.28s; }
 .hero-links a:nth-child(3) { animation-delay: 1.36s; }
 .hero-links a:nth-child(4) { animation-delay: 1.44s; }
-#homeTwo .hero-work-link,
-.vertical-menu { animation-delay: 1.6s; }
+#homeTwo .hero-work-link { animation-delay: 1.6s; }
 
 @media (prefers-reduced-motion: reduce) {
   .vertical-text-2,
@@ -1872,7 +1948,10 @@ video {
   .hero-role,
   .hero-links a,
   #homeTwo .hero-work-link,
-  .vertical-menu {
+  #home-nav,
+  #projects-nav,
+  #resume-nav,
+  #contact-nav {
     animation: none;
   }
 }

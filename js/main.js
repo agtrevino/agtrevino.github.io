@@ -507,7 +507,7 @@ function resumeTitleViewCheck() {
     });
   }
 
-// The nav fades in with CSS (heroRise in styles.css, done at 2.1s).
+// The nav fades in first with CSS (heroRise in styles.css, done at 0.5s).
 // This only marks Home as active once the nav has appeared.
 function navAnim() {
     setTimeout(function () {
@@ -515,7 +515,7 @@ function navAnim() {
       setTimeout(function () {
         $('.home-nav').addClass("active-nav");
       }, 300)
-    }, 2100)
+    }, 500)
   }
 
 
