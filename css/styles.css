@@ -396,28 +396,22 @@ button:focus {
   --left-rail: 40px;
 }
 
+/* A horizontal row of 44px icon targets. The top offset puts the icons 32px from the top. */
 .hero-links {
   position: absolute;
-  top: 32px;
-  left: calc(var(--left-rail) - 8px);
+  top: 21px;
+  left: calc(var(--left-rail) - 22px);
   z-index: 9;
   display: flex;
   align-items: center;
-  gap: 24px;
-  font-family: "ralewaySemi";
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0.12em;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
-  text-transform: uppercase;
-  white-space: nowrap;
+  gap: 28px;
 }
 
 .hero-links a {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  height: 44px;
+  padding: 0 11px;
   color: #fff;
   text-decoration: none;
   transition: color 200ms ease;
@@ -429,42 +423,102 @@ button:focus {
   text-decoration: none;
 }
 
-.hero-links a:hover span,
-.hero-links a:focus-visible span {
-  text-decoration: underline;
-  text-decoration-color: #eb3b5a;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
-}
-
 .hero-links svg {
   flex: 0 0 auto;
-  width: 16px;
-  height: 16px;
+  width: 22px;
+  height: 22px;
   fill: currentColor;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.7));
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
 }
 
-/* Icons only on phones, each a 44px tap target centered on the rail.
+/* The outer label span takes up space in the row. It grows from max-width: 0,
+   which pushes the icons after it to the right. Opening takes 300ms; closing takes 150ms. */
+.hero-links a > span {
+  display: block;
+  max-width: 0;
+  margin-left: 0;
+  overflow: hidden;
+  overflow: clip;
+  overflow-clip-margin: 8px;
+  font-family: "ralewaySemi";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: max-width 150ms ease-in, margin-left 150ms ease-in;
+}
+
+.hero-links a:hover > span,
+.hero-links a:focus-visible > span {
+  /* Fallback cap for browsers without interpolate-size (see @supports below). */
+  max-width: calc(var(--chars) * 1.2em);
+  margin-left: 8px;
+  transition: max-width 300ms ease-out, margin-left 300ms ease-out;
+}
+
+/* Where supported, grow to the label's exact width. */
+@supports (interpolate-size: allow-keywords) {
+  .hero-links {
+    interpolate-size: allow-keywords;
+  }
+
+  .hero-links a:hover > span,
+  .hero-links a:focus-visible > span {
+    max-width: max-content;
+  }
+}
+
+/* The inner span holds the text. It types out in --chars steps; the clip is
+   measured against the full text width, so each step reveals about one letter. */
+.hero-links a > span > span {
+  position: relative;
+  display: block;
+  padding: 6px 6px 6px 0;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
+  clip-path: inset(-8px 100% -8px 0);
+  transition: clip-path 150ms steps(var(--chars), end);
+}
+
+.hero-links a:hover > span > span,
+.hero-links a:focus-visible > span > span {
+  clip-path: inset(-8px 0 -8px 0);
+  transition: clip-path 300ms steps(var(--chars), end);
+}
+
+/* Underline. It sits inside the same clip as the text, so it grows with the typing. */
+.hero-links a > span > span::after {
+  content: "";
+  position: absolute;
+  right: 6px;
+  bottom: 2px;
+  left: 0;
+  height: 2px;
+  background: #eb3b5a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-links a,
+  .hero-links a > span,
+  .hero-links a > span > span,
+  .hero-links a:hover > span,
+  .hero-links a:hover > span > span,
+  .hero-links a:focus-visible > span,
+  .hero-links a:focus-visible > span > span {
+    transition: none;
+  }
+}
+
+/* Icons only on phones, still 44px tap targets with the first one centered on the rail.
    The rail moves in to 32px so the vertical name clears "I make". */
 @media only screen and (max-width: 480px) {
   :root {
     --left-rail: 32px;
   }
 
-  .hero-links {
-    top: 18px;
-    left: calc(var(--left-rail) - 22px);
-    gap: 0;
-  }
-
-  .hero-links a {
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-  }
-
-  .hero-links span {
+  .hero-links a > span {
     display: none;
   }
 }
