@@ -186,6 +186,7 @@ button:focus {
   color: #fff !important;
   font-family: "ralewayLight";
   opacity: 0;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
   transition: 400ms;
   text-decoration: none !important;
 }
@@ -199,6 +200,7 @@ button:focus {
   top: 9px;
   width: 10px;
   background: transparent;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.7));
   transition: 400ms;
 }
 
@@ -327,7 +329,7 @@ button:focus {
 }
 
 .lines > .col:last-child {
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.35);
 }
 
 .lines-part-3 {
@@ -572,7 +574,8 @@ button:focus {
   z-index: 20;
   color: #fff;
   position: fixed;
-  top: 43%;
+  /* Anchored from the bottom so it keeps a constant gap above the hero's down arrow. */
+  bottom: 316px;
   font-size: 18.4px;
   opacity: 0.9;
   left: var(--left-rail);
@@ -898,9 +901,10 @@ header .overlay-white {
   left: calc(var(--left-rail) - 27px);
 }
 
-/* Hero down arrow plus its "Selected work" label, one link to the Projects slide.
-   The arrow keeps its inline layout, so it lines up with the other down arrows.
-   The label is positioned beside the arrowhead (y=74 in the SVG). */
+/* Slide arrows with a text label ("Selected work", "Home", "Resume", ...).
+   Each arrow keeps its inline layout, so it stays on the rail.
+   The label sits 14px right of the arrow line (x=28 in the SVG), centered on the arrowhead:
+   y=74 on down arrows, y=28 on up arrows (their SVG is rotated 180deg). */
 .hero-work-link {
   display: inline-block;
   color: #fff;
@@ -908,19 +912,29 @@ header .overlay-white {
   transition: color 200ms ease;
 }
 
+.hero-work-link path {
+  transition: fill 200ms ease;
+}
+
 .hero-work-link span {
   position: absolute;
   top: 74px;
-  left: 44px;
+  left: 42px;
   transform: translateY(-50%);
   font-family: "ralewaySemi";
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  line-height: 16px;
-  letter-spacing: 0.12em;
+  line-height: 1;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   white-space: nowrap;
+  color: rgba(255, 255, 255, 0.85);
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
+  transition: color 200ms ease;
+}
+
+.arrow-up-2.hero-work-link span {
+  top: 28px;
 }
 
 .hero-work-link:hover,
@@ -929,8 +943,19 @@ header .overlay-white {
   text-decoration: none;
 }
 
+/* Overrides each arrow's fill attribute (#fff or #505464) on hover. */
+.hero-work-link:hover path,
+.hero-work-link:focus-visible path,
+.hero-work-link:hover span,
+.hero-work-link:focus-visible span {
+  color: #eb3b5a;
+  fill: #eb3b5a;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hero-work-link {
+  .hero-work-link,
+  .hero-work-link path,
+  .hero-work-link span {
     transition: none;
   }
 }
@@ -1807,4 +1832,47 @@ video {
 
 .contact-icon {
   margin-top: 6px !important;
+}
+
+/* ==========================================================================
+   Hero entrance: fade in and rise 12px, once on page load. CSS only, so the
+   page still shows everything if JavaScript fails. Uses the `translate`
+   property so it does not replace the elements' own `transform`, and has no
+   `to` keyframe so each element ends at its normal opacity.
+   ========================================================================== */
+@keyframes heroRise {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+}
+
+.vertical-text-2,
+.lets-title,
+.hero-role,
+.hero-links a,
+#homeTwo .hero-work-link,
+.vertical-menu {
+  animation: heroRise 500ms ease-out both;
+}
+
+.vertical-text-2 { animation-delay: 0.2s; }
+.lets-title { animation-delay: 0.5s; }
+.hero-role { animation-delay: 0.9s; }
+.hero-links a:nth-child(1) { animation-delay: 1.2s; }
+.hero-links a:nth-child(2) { animation-delay: 1.28s; }
+.hero-links a:nth-child(3) { animation-delay: 1.36s; }
+.hero-links a:nth-child(4) { animation-delay: 1.44s; }
+#homeTwo .hero-work-link,
+.vertical-menu { animation-delay: 1.6s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .vertical-text-2,
+  .lets-title,
+  .hero-role,
+  .hero-links a,
+  #homeTwo .hero-work-link,
+  .vertical-menu {
+    animation: none;
+  }
 }

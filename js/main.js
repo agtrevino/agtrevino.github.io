@@ -62,7 +62,17 @@ function signatureAnimation() {
   const source = signature.dataset.src;
   let replayTimer = null;
 
+  // The first play waits until 2.0s after page load, after the hero entrance.
+  // Later replays keep the 1.3s delay.
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let firstPlay = true;
+  const nextDelay = () => {
+    if (!firstPlay) return 1300;
+    return reducedMotion ? 0 : Math.max(0, 2000 - performance.now());
+  };
+
   const replay = () => {
+    firstPlay = false;
     signature.src = source;
     signature.classList.remove('signature-fade');
   };
@@ -72,7 +82,7 @@ function signatureAnimation() {
       const bounds = hero.getBoundingClientRect();
       return bounds.top < window.innerHeight && bounds.bottom > 0;
     };
-    if (heroIsVisible()) window.setTimeout(replay, 1300);
+    if (heroIsVisible()) window.setTimeout(replay, nextDelay());
     return;
   }
 
@@ -87,7 +97,7 @@ function signatureAnimation() {
     }
 
     signature.classList.add('signature-fade');
-    replayTimer = window.setTimeout(replay, 1300);
+    replayTimer = window.setTimeout(replay, nextDelay());
   }, { root: scrollContainer, threshold: 0.1 });
 
   observer.observe(hero);
@@ -497,25 +507,15 @@ function resumeTitleViewCheck() {
     });
   }
 
+// The nav fades in with CSS (heroRise in styles.css, done at 2.1s).
+// This only marks Home as active once the nav has appeared.
 function navAnim() {
     setTimeout(function () {
-      $('#home-nav').addClass("fadeInUp");
+      $('.home-circle').addClass("active-circle");
       setTimeout(function () {
-        $('#projects-nav').addClass("fadeInUp");
-        setTimeout(function () {
-          $('#resume-nav').addClass("fadeInUp");
-          setTimeout(function () {
-            $('#contact-nav').addClass("fadeInUp");
-            setTimeout(function () {
-              $('.home-circle').addClass("active-circle");
-              setTimeout(function () {
-                $('.home-nav').addClass("active-nav");
-              }, 300)
-            }, 300)
-          }, 300)
-        }, 300)
+        $('.home-nav').addClass("active-nav");
       }, 300)
-    }, 600)
+    }, 2100)
   }
 
 
