@@ -390,6 +390,67 @@ button:focus {
   }
 }
 
+/* Profile and contact links in the top-left of the hero. */
+.hero-links {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-family: "ralewaySemi";
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.hero-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 200ms;
+}
+
+.hero-links a:hover,
+.hero-links a:focus {
+  color: #fff;
+  text-decoration: none;
+}
+
+.hero-links svg {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.7));
+}
+
+/* Icons only on phones, each a 44px tap target. The negative offset keeps the icons near 32px from the edges. */
+@media only screen and (max-width: 480px) {
+  .hero-links {
+    top: 18px;
+    left: 18px;
+    gap: 0;
+  }
+
+  .hero-links a {
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+  }
+
+  .hero-links span {
+    display: none;
+  }
+}
+
 .resume-content {
   width: 100%;
   padding: 4% 200px;
@@ -423,15 +484,6 @@ button:focus {
   writing-mode: vertical-lr;
   /* font-weight: 900; */
   transition: 400ms;
-}
-
-.contact-icon-top {
-  width: 24px;
-  height: 24px;
-  z-index: 20;
-  position: absolute;
-  top: 20px;
-  left: 32px;
 }
 
 .resume-two-viewport,
@@ -551,6 +603,8 @@ button:focus {
 .chevron {
   position: absolute;
   bottom: 30px;
+  left: 0;
+  right: 0;
 }
 
 .up-chevron {
