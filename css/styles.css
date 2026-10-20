@@ -10,7 +10,7 @@ body, html {
     scroll-behavior: smooth !important;
 }
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background: #505464; }
 
 /* ---- 2. Site styles ---- */
 @font-face {
@@ -336,12 +336,22 @@ button:focus {
 }
 
 .lets-title {
+  width: 9em;
+  max-width: calc(100vw - 32px);
+  margin-left: auto;
+  margin-right: auto;
   font-family: "ralewayExtraBold";
   text-transform: uppercase;
   letter-spacing: -1px;
   color: #fff;
   position: relative;
   z-index: 9;
+  text-align: left;
+}
+
+.lets-title > span {
+  display: block;
+  white-space: nowrap;
 }
 
 .resume-content {
@@ -380,7 +390,8 @@ button:focus {
 }
 
 .contact-icon-top {
-  height: 32px;
+  width: 24px;
+  height: 24px;
   z-index: 20;
   position: absolute;
   top: 20px;
@@ -667,19 +678,6 @@ header .overlay-white {
   font-size: 22px;
   font-family: "ralewaySemi";
   color: #505464 !important;
-}
-
-.codebound-title-2 {
-  font-family: "ralewayExtraBold", sans-serif;
-  font-size: 64px;
-  font-style: normal;
-  font-weight: 800;
-  letter-spacing: -1px;
-  line-height: 52px;
-  text-transform: uppercase;
-  color: #ffffff;
-  border-right: 6px solid #eb3b5a;
-  padding-right: 24px;
 }
 
 .codebound-text,
@@ -1120,16 +1118,26 @@ video {
 }
 
 .rw-words {
-  display: inline;
-  text-indent: 10px;
+  display: block;
+  position: relative;
+  height: 1.25em;
+  text-indent: 0;
 }
 
 .rw-words-1 .word-span {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.2em;
+  white-space: nowrap;
   font-family: "ralewayExtraBold";
   letter-spacing: -1px;
   position: absolute;
   opacity: 0;
-  top: 43px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: left;
   /* overflow: hidden; */
   color: #1dd1a1;
   -webkit-animation: rotateWord 10s linear infinite 0s;
@@ -1165,13 +1173,6 @@ video {
   color: #a29bfe;
 }
 
-@supports (display: grid) {
-  #container {
-    grid-area: main;
-    align-self: center;
-    justify-self: center;
-  }
-}
 @-webkit-keyframes rotateWord {
   0% {
     opacity: 0;
@@ -1337,18 +1338,7 @@ video {
     border-left: 6px solid #eb3b5a;
     padding-left: 24px;
   }
-  .jstorm-title-2 {
-    font-family: "ralewayExtraBold", sans-serif;
-    font-size: 42px;
-    font-style: normal;
-    font-weight: 800;
-    letter-spacing: 0px;
-    line-height: 34px;
-    text-transform: uppercase;
-    color: #ffffff;
-    border-right: 6px solid #eb3b5a;
-    padding-right: 24px;
-  }
+  .jstorm-title-2,
   .codebound-title-2 {
     font-family: "ralewayExtraBold", sans-serif;
     font-size: 42px;
@@ -1368,9 +1358,6 @@ video {
     font-size: 16px;
     color: #fff;
     font-family: "ralewaySemi";
-  }
-  .rw-words {
-    text-indent: 0px;
   }
   .arrow-down {
     position: relative;
@@ -1517,4 +1504,50 @@ video {
 
 .menu.active .rotater:nth-child(3) .btn-icon {
   transform: translateY(-14em) rotate(-180deg);
+}
+
+.hero-intro-row {
+  position: relative;
+  top: 10px;
+}
+
+.word-icon {
+  display: block;
+  position: static;
+  flex: 0 0 auto;
+  width: 1em;
+  height: 1em;
+}
+
+.resume-button.learn-more .circle.project-circle-red {
+  border: 2px solid #fff;
+  background: #C60A0A !important;
+}
+
+.resume-button.learn-more .circle.project-circle-blue {
+  border: 2px solid #fff;
+  background: #4D8DCA !important;
+}
+
+.resume-button.learn-more .circle.project-circle-purple {
+  border: 2px solid #fff;
+  background: #8C7AE6 !important;
+}
+
+.codebound-heading,
+.codebound-copy {
+  margin-right: 60px;
+}
+
+.resume-download-link {
+  color: #000 !important;
+}
+
+.resume-chevron {
+  bottom: auto;
+  top: calc(100vh - 132px);
+}
+
+.contact-icon {
+  margin-top: 6px !important;
 }

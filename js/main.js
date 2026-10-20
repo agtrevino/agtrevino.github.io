@@ -41,8 +41,42 @@ function videoPlayback() {
   });
 }
 
+function signatureAnimation() {
+  const signature = document.querySelector('.signature');
+  if (!signature) return;
+
+  const source = signature.getAttribute('src');
+  let replayTimer;
+
+  const replay = () => {
+    signature.src = `${source}?t=${Date.now()}`;
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    window.setInterval(replay, 8000);
+    return;
+  }
+
+  const observer = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) {
+      signature.classList.add('signature-fade');
+      window.clearInterval(replayTimer);
+      replayTimer = null;
+      return;
+    }
+
+    signature.classList.remove('signature-fade');
+    if (replayTimer) return;
+    replay();
+    replayTimer = window.setInterval(replay, 8000);
+  });
+
+  observer.observe(signature);
+}
+
 function ngOnInit() {
     videoPlayback();
+    signatureAnimation();
     expandingCards();
     navAnim();
     // this.viewSwitch();
@@ -377,21 +411,6 @@ function navViewCheck() {
         }
       });
 
-      $(".signature").each(function () {
-        var offset = $(this).offset();
-        if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
-          $('.projects-sub-nav-3').removeClass("active-nav");
-          this.view = 'contactView';
-          viewSwitch(this.view);
-          closeSubNav();
-          $('.signature').attr('src', '');
-          $('.signature').attr('src', 'assets/img/signature/aaron_sig.gif');
-          $('.signature').removeClass('signature-fade');
-        } else {
-          $('.signature').addClass('signature-fade');
-        }
-
-      });
     });
   }
 
