@@ -390,11 +390,16 @@ button:focus {
   }
 }
 
-/* Profile and contact links in the top-left of the hero. */
+/* Profile and contact links in the top-left of the hero.
+   The first icon, the vertical name and the arrows are centered on --left-rail. */
+:root {
+  --left-rail: 40px;
+}
+
 .hero-links {
   position: absolute;
   top: 32px;
-  left: 32px;
+  left: calc(var(--left-rail) - 8px);
   z-index: 9;
   display: flex;
   align-items: center;
@@ -413,15 +418,23 @@ button:focus {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: rgba(255, 255, 255, 0.7);
+  color: #fff;
   text-decoration: none;
-  transition: color 200ms;
+  transition: color 200ms ease;
 }
 
 .hero-links a:hover,
-.hero-links a:focus {
-  color: #fff;
+.hero-links a:focus-visible {
+  color: #eb3b5a;
   text-decoration: none;
+}
+
+.hero-links a:hover span,
+.hero-links a:focus-visible span {
+  text-decoration: underline;
+  text-decoration-color: #eb3b5a;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
 }
 
 .hero-links svg {
@@ -432,11 +445,16 @@ button:focus {
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.7));
 }
 
-/* Icons only on phones, each a 44px tap target. The negative offset keeps the icons near 32px from the edges. */
+/* Icons only on phones, each a 44px tap target centered on the rail.
+   The rail moves in to 32px so the vertical name clears "I make". */
 @media only screen and (max-width: 480px) {
+  :root {
+    --left-rail: 32px;
+  }
+
   .hero-links {
     top: 18px;
-    left: 18px;
+    left: calc(var(--left-rail) - 22px);
     gap: 0;
   }
 
@@ -478,9 +496,9 @@ button:focus {
   position: fixed;
   top: 43%;
   font-size: 16px;
-  left: 10px;
+  left: var(--left-rail);
   letter-spacing: 5px;
-  transform: rotate(180deg);
+  transform: translateX(-50%) rotate(180deg);
   writing-mode: vertical-lr;
   /* font-weight: 900; */
   transition: 400ms;
@@ -793,11 +811,12 @@ header .overlay-white {
   left: 63px;
 }
 
+/* The arrow's line is at x=27 of the 54px-wide SVG. */
 .arrow-down-2,
 .arrow-up-2 {
   position: relative;
   z-index: 999999999;
-  left: 18px;
+  left: calc(var(--left-rail) - 27px);
 }
 
 .arrow-up-2 svg {
