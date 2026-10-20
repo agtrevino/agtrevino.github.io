@@ -573,7 +573,8 @@ button:focus {
   color: #fff;
   position: fixed;
   top: 43%;
-  font-size: 16px;
+  font-size: 18.4px;
+  opacity: 0.9;
   left: var(--left-rail);
   letter-spacing: 5px;
   transform: translateX(-50%) rotate(180deg);
@@ -895,6 +896,49 @@ header .overlay-white {
   position: relative;
   z-index: 999999999;
   left: calc(var(--left-rail) - 27px);
+}
+
+/* Hero down arrow plus its "Selected work" label, one link to the Projects slide.
+   The arrow keeps its inline layout, so it lines up with the other down arrows.
+   The label is positioned beside the arrowhead (y=74 in the SVG). */
+.hero-work-link {
+  display: inline-block;
+  color: #fff;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.hero-work-link span {
+  position: absolute;
+  top: 74px;
+  left: 44px;
+  transform: translateY(-50%);
+  font-family: "ralewaySemi";
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
+}
+
+.hero-work-link:hover,
+.hero-work-link:focus-visible {
+  color: #eb3b5a;
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-work-link {
+    transition: none;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .hero-work-link span {
+    display: none;
+  }
 }
 
 .arrow-up-2 svg {
