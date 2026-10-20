@@ -408,6 +408,7 @@ button:focus {
 }
 
 .hero-links a {
+  position: relative;
   display: flex;
   align-items: center;
   height: 44px;
@@ -429,6 +430,29 @@ button:focus {
   height: 22px;
   fill: currentColor;
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
+}
+
+/* LinkedIn's square badge reads larger, so it is drawn at 20px. The margin keeps its tap target at 44px. */
+.hero-links .hero-icon-linkedin {
+  width: 20px;
+  height: 20px;
+  margin: 0 1px;
+}
+
+/* Decorative dot centered in the 28px gap before each link after the first.
+   It belongs to the link, so it moves with the link when a label pushes it right. */
+.hero-links a + a::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -16px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 /* The outer label span takes up space in the row. It grows from max-width: 0,
