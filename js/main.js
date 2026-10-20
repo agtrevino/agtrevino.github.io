@@ -42,36 +42,43 @@ function videoPlayback() {
 }
 
 function signatureAnimation() {
+  const hero = document.querySelector('#homeTwo');
   const signature = document.querySelector('.signature');
-  if (!signature) return;
+  const scrollContainer = document.querySelector('.wrapper');
+  if (!hero || !signature || !scrollContainer) return;
 
-  const source = signature.getAttribute('src');
-  let replayTimer;
+  const source = signature.dataset.src;
+  let replayTimer = null;
 
   const replay = () => {
-    signature.src = `${source}?t=${Date.now()}`;
+    signature.src = source;
+    signature.classList.remove('signature-fade');
   };
 
   if (!('IntersectionObserver' in window)) {
-    window.setInterval(replay, 8000);
+    const heroIsVisible = () => {
+      const bounds = hero.getBoundingClientRect();
+      return bounds.top < window.innerHeight && bounds.bottom > 0;
+    };
+    if (heroIsVisible()) window.setTimeout(replay, 1300);
     return;
   }
 
   const observer = new IntersectionObserver(([entry]) => {
-    if (!entry.isIntersecting) {
+    window.clearTimeout(replayTimer);
+    replayTimer = null;
+
+    if (!entry.isIntersecting || entry.intersectionRatio === 0) {
       signature.classList.add('signature-fade');
-      window.clearInterval(replayTimer);
-      replayTimer = null;
+      signature.removeAttribute('src');
       return;
     }
 
-    signature.classList.remove('signature-fade');
-    if (replayTimer) return;
-    replay();
-    replayTimer = window.setInterval(replay, 8000);
-  });
+    signature.classList.add('signature-fade');
+    replayTimer = window.setTimeout(replay, 1300);
+  }, { root: scrollContainer, threshold: 0.1 });
 
-  observer.observe(signature);
+  observer.observe(hero);
 }
 
 function ngOnInit() {
@@ -219,6 +226,8 @@ function isHomeView() {
 
     $('.projects-circle').removeClass("active-circle");
     $('.projects-nav').removeClass("active-nav");
+    $('.contact-circle').removeClass("active-circle");
+    $('.contact-nav').removeClass("active-nav");
     $('.nav-link-text').removeClass("color-black");
     $('.line').removeClass("line-black");
     $('.nav-circle').removeClass("circle-black");
@@ -337,51 +346,49 @@ function navViewCheck() {
 
     
     onWrapperScroll(function () {
-      var scrollTop = $(window).scrollTop();
-      var windowHeight = $(window).height();
+      const scrollContainer = this;
+      const containerBounds = scrollContainer.getBoundingClientRect();
+      const isMarkerVisible = (marker) => {
+        const markerBounds = marker.getBoundingClientRect();
+        return markerBounds.top >= containerBounds.top && markerBounds.bottom <= containerBounds.bottom;
+      };
 
 
       $(".home-two-viewport").each(function () {
-        var offset = $(this).offset();
-        if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
+        if (isMarkerVisible(this)) {
           this.view = 'homeView';
           viewSwitch(this.view);
         }
       });
 
       $(".resume-two-viewport").each(function () {
-        var offset = $(this).offset();
-        if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
+        if (isMarkerVisible(this)) {
           this.view = 'resumeView';
           viewSwitch(this.view);
         }
       });
       $(".projects-two-viewport").each(function () {
-        var offset = $(this).offset();
-        if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
+        if (isMarkerVisible(this)) {
           this.view = 'projectsView';
           viewSwitch(this.view);
         }
       });
       $(".jstorm-viewport").each(function () {
-        var offset = $(this).offset();
-        if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
+        if (isMarkerVisible(this)) {
           $('.jstorm-line').addClass('line-extend');
           $('.codebound-line').removeClass('line-extend');
           $('.appddiction-line').removeClass('line-extend');
         }
       })
       $(".projects-main-viewport").each(function () {
-        var offset = $(this).offset();
-        if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
+        if (isMarkerVisible(this)) {
           $('.jstorm-line').removeClass('line-extend');
           $('.codebound-line').removeClass('line-extend');
           $('.appddiction-line').removeClass('line-extend');
         }
       })
       $(".codebound-viewport").each(function () {
-        var offset = $(this).offset();
-        if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
+        if (isMarkerVisible(this)) {
           $('.codebound-line').addClass('line-extend');
           $('.jstorm-line').removeClass('line-extend');
           $('.appddiction-line').removeClass('line-extend');
@@ -390,8 +397,7 @@ function navViewCheck() {
       })
 
       $(".appddiction-viewport").each(function () {
-        var offset = $(this).offset();
-        if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
+        if (isMarkerVisible(this)) {
           this.view = 'appddictionView';
           viewSwitch(this.view);
           $('.appddiction-line').addClass('line-extend');
@@ -401,8 +407,7 @@ function navViewCheck() {
       })
 
       $(".contact-two-viewport").each(function () {
-        var offset = $(this).offset();
-        if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
+        if (isMarkerVisible(this)) {
           $('.projects-sub-nav-3').removeClass("active-nav");
           $('.projects-sub-nav-3').removeClass("active-nav");
           this.view = 'contactView';

@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Aaron G. Trevino | Portfolio</title>
-    <meta name="description" content="Portfolio of Aaron G. Trevino, full-stack developer and designer." />
+    <title>Aaron G. Trevino | Front-end developer who designs</title>
+    <meta name="description" content="Front-end developer who designs." />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <!-- Fonts and Bootstrap come from CDNs. Everything else is in this repo. -->
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
 
     <!-- Your styles -->
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/styles.css?v=11" />
   </head>
 
   <body>
@@ -206,12 +206,13 @@
               </span>
             </div>
           </h1>
+          <p class="hero-role">Front-end developer who designs.</p>
         </div>
       </div>
 
     </div>
     <div class="row chevron w-100 ">
-      <div class="col-12 col-lg-7 w-100 text-white">
+      <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
         <a class="arrow-down-2" href="#projectsTwo" alt="" rel="relativeanchor">
           <svg width="54px" height="102px" viewBox="0 0 54 102" version="1.1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -221,10 +222,19 @@
       </div>
     </div>
     <div class="home-two-viewport"></div>
-    <img id="signature" class="signature" src="assets/img/signature/aaron_sig.gif">
+    <img id="signature" class="signature signature-fade" data-src="assets/img/signature/aaron_sig.gif">
   </section>
 
   <section id="projectsTwo" class="desktop resume-two-container">
+    <div class="row up-chevron">
+      <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
+        <a class="arrow-up-2" href="#homeTwo" aria-label="Scroll to home">
+          <svg width="54px" height="102px" viewBox="0 0 54 102" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#505464" d="M26 -3H28V76L35.5 68.5L36.9 69.9L27 79.8L17.1 69.9L18.5 68.5L26 76Z" />
+          </svg>
+        </a>
+      </div>
+    </div>
     <div class="content">
 
       <div class="expansion-col appddiction-col">
@@ -387,7 +397,7 @@
     </div>
 
     <div class="row chevron">
-      <div class="col-12 col-lg-7 w-100 text-white">
+      <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
         <a class="arrow-down-2" href="#resumeTwo" alt="" rel="relativeanchor">
           <svg width="54px" height="102px" viewBox="0 0 54 102" version="1.1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -400,6 +410,15 @@
   </section>
 
   <section id="resumeTwo" class="resume-two-container">
+    <div class="row up-chevron w-100 resume-up-chevron">
+      <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
+        <a class="arrow-up-2" href="#projectsTwo" aria-label="Scroll to projects">
+          <svg width="54px" height="102px" viewBox="0 0 54 102" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#505464" d="M26 -3H28V76L35.5 68.5L36.9 69.9L27 79.8L17.1 69.9L18.5 68.5L26 76Z" />
+          </svg>
+        </a>
+      </div>
+    </div>
     <div class="row resume-content">
       <div class="col-12">
       </div>
@@ -476,7 +495,7 @@
       </div>
     </div>
     <div class="row chevron w-100 resume-chevron">
-      <div class="col-12 col-lg-7 w-100 text-white">
+      <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
         <a class="arrow-down-2" href="#contactTwo" alt="" rel="relativeanchor">
           <svg width="54px" height="102px" viewBox="0 0 54 102" version="1.1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -807,6 +826,15 @@
     </div>
   </section> -->
   <section id="contactTwo" class="section jstorm-logo-section contact-two-container">
+    <div class="row up-chevron w-100">
+      <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
+        <a class="arrow-up-2" href="#resumeTwo" aria-label="Scroll to resume">
+          <svg width="54px" height="102px" viewBox="0 0 54 102" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#fff" d="M26 -3H28V76L35.5 68.5L36.9 69.9L27 79.8L17.1 69.9L18.5 68.5L26 76Z" />
+          </svg>
+        </a>
+      </div>
+    </div>
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12 text-center">
@@ -854,6 +882,6 @@
 </main>
     <!-- jQuery, then your script (js/main.js) -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=2"></script>
   </body>
 </html>

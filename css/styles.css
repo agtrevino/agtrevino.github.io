@@ -221,6 +221,7 @@ button:focus {
 
 /* =============================================== PARALLAX ============================== */
 .wrapper {
+  scroll-behavior: smooth;
   /* The height needs to be set to a fixed value for the effect to work.
      * 100vh is the full height of the viewport. */
   height: 100vh;
@@ -242,6 +243,10 @@ button:focus {
   align-items: center;
   justify-content: center;
   /* text-shadow: 0 0 5px #fff; */
+}
+
+.parallax {
+  transform-style: preserve-3d;
 }
 
 .parallax::after {
@@ -268,6 +273,7 @@ button:focus {
 }
 
 .bg1::after {
+  transform: translateZ(-1.5px) scale(1.75);
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("../assets/img/background/graffiti-4.jpg");
   background-position: center;
   background-repeat: no-repeat;
@@ -352,6 +358,20 @@ button:focus {
 .lets-title > span {
   display: block;
   white-space: nowrap;
+}
+
+.hero-role {
+  min-height: 1.3em;
+  margin: 16px 0 0;
+  font-family: "ralewayExtraBold";
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.3;
+  letter-spacing: 0.2em;
+  color: #fff;
+  opacity: 1;
+  -webkit-text-stroke: 1px #fff;
+  text-transform: uppercase;
 }
 
 .resume-content {
@@ -515,6 +535,17 @@ button:focus {
 .chevron {
   position: absolute;
   bottom: 30px;
+}
+
+.up-chevron {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+}
+
+.chevron-controls {
+  position: relative;
 }
 
 header {
@@ -692,10 +723,15 @@ header .overlay-white {
   left: 63px;
 }
 
-.arrow-down-2 {
+.arrow-down-2,
+.arrow-up-2 {
   position: relative;
   z-index: 999999999;
   left: 18px;
+}
+
+.arrow-up-2 svg {
+  transform: rotate(180deg);
 }
 
 .signature {
@@ -1370,6 +1406,12 @@ video {
     left: 18px;
     opacity: 0;
   }
+  .arrow-up-2 {
+    position: relative;
+    z-index: 999999999;
+    left: 18px;
+    opacity: 0;
+  }
 }
 .absolute-center, .menu .btn.trigger .line, .menu .btn .fa, .menu {
   position: absolute;
@@ -1544,8 +1586,8 @@ video {
 }
 
 .resume-chevron {
-  bottom: auto;
-  top: calc(100vh - 132px);
+  bottom: 30px;
+  top: auto;
 }
 
 .contact-icon {
