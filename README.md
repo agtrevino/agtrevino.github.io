@@ -38,9 +38,9 @@ The page reloads each time you save a file.
 2. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
 3. Choose branch `main` and folder `/ (root)`, then select **Save**.
 
-The site appears at `https://agtrevino.github.io/portfolio2027/` after a minute or two.
+The site appears at `https://agtrevino.github.io/` after a minute or two.
 
 ## Notes
 
-- Keep asset paths relative (for example `assets/img/...`, not `/assets/img/...`). GitHub Pages serves this site from a subfolder, and relative paths work there.
+- Keep asset paths relative (for example `assets/img/...`, not `/assets/img/...`). This keeps the site working wherever GitHub Pages serves it from, including a subfolder.
 - The project videos play only while you hover a panel. The code for this is in `js/main.js` (`videoPlayback`).
