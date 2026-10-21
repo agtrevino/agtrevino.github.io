@@ -611,8 +611,7 @@ body.hero-offscreen .bg1::after {
   transition: transform 200ms ease, box-shadow 200ms ease;
 }
 
-/* Subtle lift on hover and keyboard focus. */
-.resume-img-link:hover .resume-img,
+/* No lift on hover. Keyboard focus still lifts the image, so the link shows where focus is. */
 .resume-img-link:focus-visible .resume-img {
   transform: translateY(-4px);
   box-shadow: 15px 19px 8px -11px #505464;
@@ -2588,7 +2587,7 @@ video {
 
 /* ==========================================================================
    Resume slide, desktop (901px and up): the image and the Download button share a wrapper. The
-   button sits on the image's top-right corner, straddling the edge. It is the site's standard
+   button sits 12px up from the image's bottom edge, straddling its right edge. It is the site's standard
    round-arrow button (.resume-button.learn-more). At rest it is only the red circle; on hover or
    keyboard focus the circle grows leftward over the image into a pill that says "download pdf",
    like "view page". At 900px and below the button stays under the image.
@@ -2614,8 +2613,8 @@ video {
 
   .resume-img-wrap .resume-download-link {
     position: absolute;
-    top: -20px;
     right: -20px;
+    bottom: 12px;
     z-index: 3;
     display: block;
     width: 3rem;
