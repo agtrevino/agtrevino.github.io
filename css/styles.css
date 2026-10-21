@@ -1902,7 +1902,7 @@ video {
   transform: none !important;
   /* Lowercase, with the same face, weight and letter-spacing as the other wayfinding labels. */
   font-family: "raleway";
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 600;
   font-synthesis: none;
   letter-spacing: 0.15em;
