@@ -861,12 +861,11 @@ button:focus {
 }
 
 @media (max-width: 480px) {
-  .code-layer pre {
-    font-size: 12px;
-    line-height: 18px;
+  #contactTwo .code-layer {
+    display: none;
   }
 
-  .code-layer pre.b {
+  .contact-bg::before {
     display: none;
   }
 }
