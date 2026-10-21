@@ -861,12 +861,11 @@ button:focus {
 }
 
 @media (max-width: 480px) {
-  .code-layer pre {
-    font-size: 12px;
-    line-height: 18px;
+  #contactTwo .code-layer {
+    display: none;
   }
 
-  .code-layer pre.b {
+  .contact-bg::before {
     display: none;
   }
 }
@@ -2722,6 +2721,13 @@ video {
 @media (max-width: 480px) {
   .vertical-menu {
     display: none;
+  }
+
+  /* The hero icon row is centered on the screen. The 28px gap stays, so the dots stay centered between icons. */
+  .hero-links {
+    left: 0;
+    right: 0;
+    justify-content: center;
   }
 
   #projectsTwo .content .panel-role {
