@@ -892,10 +892,17 @@ body.hero-offscreen .bg1::after {
     text-wrap: balance;
   }
 
+  /* The button is centered in the block, at most 20rem wide. Its link is a block too. */
+  .contact-content > a {
+    display: block;
+    text-align: center;
+  }
+
   .resume-button.learn-more.contact-email-btn {
     display: block;
     width: min(20rem, 100%);
-    margin: 0 auto;
+    margin-right: auto;
+    margin-left: auto;
   }
 
   .contact-email-btn .button-text {
@@ -910,6 +917,13 @@ body.hero-offscreen .bg1::after {
 
   .contact-links a + a::before {
     display: none;
+  }
+}
+
+/* At 340px and below the 14px address would run under the circle: one step smaller. */
+@media (max-width: 340px) {
+  .contact-email-btn .button-text {
+    font-size: 12px;
   }
 }
 
