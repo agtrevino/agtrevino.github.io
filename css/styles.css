@@ -685,9 +685,31 @@ button:focus {
   font-family: "ralewayBold";
 }
 
-.resume-img {
+.resume-img-link {
+  display: block;
   width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.resume-img {
+  display: block;
+  width: 100%;
   box-shadow: 13px 13px 5px -12px #505464;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+/* Subtle lift on hover and keyboard focus. */
+.resume-img-link:hover .resume-img,
+.resume-img-link:focus-visible .resume-img {
+  transform: translateY(-4px);
+  box-shadow: 15px 19px 8px -11px #505464;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resume-img {
+    transition: none;
+  }
 }
 
 .proficiencies-title {
@@ -1830,8 +1852,10 @@ video {
   .nav-link-container {
     margin-bottom: 30px !important;
   }
-  .resume-img {
+  .resume-img-link {
     width: 100%;
+  }
+  .resume-img {
     box-shadow: 13px 13px 5px -12px #505464;
   }
   .projects-quote-container {
@@ -2055,12 +2079,14 @@ video {
   writing-mode: horizontal-tb !important;
   text-orientation: mixed;
   transform: none !important;
-  font-family: "ralewaySemi";
+  /* Lowercase, with the same face, weight and letter-spacing as the other wayfinding labels. */
+  font-family: "raleway";
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  font-synthesis: none;
+  letter-spacing: 0.15em;
   line-height: 1.4;
-  text-transform: uppercase;
+  text-transform: lowercase;
   color: currentColor;
   transition: color 200ms ease;
 }
@@ -2703,7 +2729,7 @@ video {
     display: contents;
   }
 
-  .resume-content .resume-img {
+  .resume-content .resume-img-link {
     grid-column: 1;
     grid-row: 1;
     justify-self: center;
@@ -2731,5 +2757,40 @@ video {
 
   .strength-row {
     margin: 0;
+  }
+}
+
+/* Phones: the fixed vertical name sits at the left edge (its right edge is 42-46px in). The
+   Resume slide's content gets 80px of left padding (the nested rows pull their text back 15px),
+   which clears the name by 20px or more. The strengths headings are smaller so
+   "GLOBAL CATALOG" and "GOVERNMENT SOFTWARE" stay on one line at 390px. */
+@media (max-width: 480px) {
+  .resume-content {
+    padding-right: 24px;
+    padding-left: 80px;
+  }
+
+  .strength-row .proficiencies-title {
+    font-size: 15px;
+  }
+
+  .strength-row .resume-svg {
+    width: 24px !important;
+  }
+}
+
+/* Very narrow phones (360px): one more step down so "GOVERNMENT SOFTWARE" still fits on one line. */
+@media (max-width: 380px) {
+  .strength-row .proficiencies-title {
+    font-size: 13.5px;
+  }
+}
+
+/* Phones: the signature sat on top of the home chevron. Make it smaller and lift it so there
+   are 24px between its bottom edge and the chevron (34px above the bottom edge, 50px tall). */
+@media (max-width: 480px) {
+  .signature {
+    width: 140px;
+    bottom: 108px;
   }
 }

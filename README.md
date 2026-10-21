@@ -28,7 +28,7 @@ The page reloads each time you save a file.
 | Section | `id` |
 |---|---|
 | Home (hero) | `homeTwo` |
-| Portfolio (four project panels) | `projectsTwo` |
+| Projects (four project panels) | `projectsTwo` |
 | Resume | `resumeTwo` |
 | Contact | `contactTwo` |
 
