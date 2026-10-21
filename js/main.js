@@ -39,11 +39,19 @@ function suppressHoverWhileScrolling() {
 function videoPlayback() {
   const canHover = window.matchMedia('(hover: hover)').matches;
 
+  // Up to 900px wide the portfolio slide is a row of swipeable cards with no videos:
+  // the videos are hidden and carry preload="none" in the HTML, so nothing is downloaded.
+  const cardLayout = window.matchMedia('(max-width: 900px)');
+
   // Buffer every panel video once the portfolio slide first scrolls into view,
   // so the first frames are ready before the first hover. Videos already playing are left alone.
+  // The HTML says preload="none" (so phones download nothing); wider screens raise it here.
   const slide = document.getElementById('projectsTwo');
+  let slideSeen = false;
   const loadVideos = () => {
+    if (cardLayout.matches) return;
     document.querySelectorAll('.expansion-col video').forEach((video) => {
+      video.preload = 'auto';
       if (video.paused) video.load();
     });
   };
@@ -53,17 +61,25 @@ function videoPlayback() {
     const loader = new IntersectionObserver((entries) => {
       if (!entries.some((e) => e.intersectionRatio > 0)) return;
       loader.disconnect();
+      slideSeen = true;
       loadVideos();
     }, { root: document.querySelector('.wrapper'), threshold: 0.05 });
     loader.observe(slide);
   } else {
+    slideSeen = true;
     loadVideos();
   }
+  // A tablet turned to a wider orientation: buffer the videos then.
+  cardLayout.addEventListener('change', () => { if (slideSeen) loadVideos(); });
 
   document.querySelectorAll('.expansion-col').forEach((col) => {
     const video = col.querySelector('video');
     if (!video) return;
-    const play = () => { const p = video.play(); if (p && p.catch) p.catch(() => {}); };
+    const play = () => {
+      if (cardLayout.matches) return;
+      const p = video.play();
+      if (p && p.catch) p.catch(() => {});
+    };
     if (canHover) {
       col.addEventListener('mouseenter', play);
       col.addEventListener('mouseleave', () => video.pause());
@@ -73,6 +89,26 @@ function videoPlayback() {
       }, { threshold: 0.25 }).observe(col);
     }
   });
+}
+
+// Swipe dots under the card row: the dot for the card nearest the left edge is active.
+function cardDots() {
+  const row = document.querySelector('#projectsTwo .content');
+  const dots = document.querySelectorAll('#projectsTwo .card-dots span');
+  if (!row || !dots.length) return;
+  const update = () => {
+    const cards = [...row.querySelectorAll('.expansion-col')];
+    const rowLeft = row.getBoundingClientRect().left;
+    let nearest = 0, best = Infinity;
+    cards.forEach((card, i) => {
+      const d = Math.abs(card.getBoundingClientRect().left - rowLeft);
+      if (d < best) { best = d; nearest = i; }
+    });
+    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === nearest));
+  };
+  row.addEventListener('scroll', () => window.requestAnimationFrame(update), { passive: true });
+  window.addEventListener('resize', update);
+  update();
 }
 
 function signatureAnimation() {
@@ -128,6 +164,7 @@ function signatureAnimation() {
 function ngOnInit() {
   suppressHoverWhileScrolling();
     videoPlayback();
+    cardDots();
     signatureAnimation();
     expandingCards();
     navAnim();

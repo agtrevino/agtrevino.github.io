@@ -332,17 +332,17 @@ button:focus {
 }
 
 .lines-part-1 {
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.65);
   border-right: 1px solid rgba(255, 255, 255, 0.23);
 }
 
 .lines-part-2 {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.5);
   border-right: 1px solid rgba(255, 255, 255, 0.23);
 }
 
 .lines > .col:last-child {
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.25);
 }
 
 .lines-part-3 {
@@ -1818,8 +1818,7 @@ video {
     top: 45%;
   }
   .nav-line,
-  .nav-link-text,
-  .desktop {
+  .nav-link-text {
     display: none;
   }
   .resume-content {
@@ -2264,5 +2263,308 @@ video {
 
   .rw-words-1 .word-span:first-child {
     opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   Phones and tablets (up to 900px): the four slanted panels become a swipeable row of
+   cards (CSS scroll-snap). No skew, no left-rail guard, no hover expansion, no videos.
+   Each card shows its brand background, logo, heading, role line, blurb and button.
+   ========================================================================== */
+.card-dots {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  #projectsTwo {
+    /* The vertical name sits on the left rail (the nav arrows too, above 680px), so the row
+       starts to the right of them and the cards are clipped there instead of sliding beneath. */
+    --card-gutter: calc(var(--left-rail) + 26px);
+    flex-direction: column;
+    justify-content: center;
+    padding: 56px 0;
+    background: #505464;
+  }
+
+  #projectsTwo .rail-guard {
+    display: none !important;
+  }
+
+  /* The scrolling row. */
+  #projectsTwo .content {
+    display: flex;
+    flex: 0 0 auto;
+    align-self: stretch;
+    width: auto;
+    margin-left: var(--card-gutter);
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    background: none;
+  }
+
+  #projectsTwo .content::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* A card: about 85vw wide, but always leaving a peek of the next one. */
+  #projectsTwo .content .expansion-col {
+    position: relative;
+    display: flex;
+    flex: 0 0 min(85vw, calc(100% - 44px)) !important;
+    min-width: 0;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 14px;
+    overflow: hidden;
+    transform: none !important;
+    transition: none;
+    pointer-events: auto !important;
+    scroll-snap-align: start;
+  }
+
+  #projectsTwo .content .expansion-col:last-child {
+    scroll-snap-align: end;
+  }
+
+  #projectsTwo .content .expansion-col::before {
+    display: none;
+  }
+
+  /* Brand backgrounds. The hover overlays and videos are not used here. */
+  #projectsTwo .adi-col { background: #1a4366; }
+  #projectsTwo .appddiction-col { background: #fff; }
+  #projectsTwo .jstorm-col { background: #4d8dca; }
+  #projectsTwo .mp-col { background: #000; }
+
+  #projectsTwo .expansion-col video,
+  #projectsTwo .expansion-col [class^="overlay-"] {
+    display: none !important;
+  }
+
+  /* One card, top to bottom. The right padding keeps text clear of the nav dots. */
+  #projectsTwo .content .expansion-section {
+    position: relative;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 22px 44px 24px 20px !important;
+    transform: none !important;
+  }
+
+  #projectsTwo .content .site-logo-container,
+  #projectsTwo .content .site-btn-container {
+    position: static;
+    display: block;
+    flex: none;
+    width: 100% !important;
+    height: auto;
+    margin: 0;
+    padding: 0 !important;
+    transform: none !important;
+  }
+
+  #projectsTwo .content .site-logo-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 18px;
+  }
+
+  #projectsTwo .content .site-logo-container img {
+    margin: 0;
+    object-position: left center;
+    opacity: 1 !important;
+    animation: none !important;
+  }
+
+  #projectsTwo .content .expansion-section > .col-12.w-100 {
+    flex: 1 1 auto;
+    width: 100% !important;
+    max-width: 100%;
+    padding: 0 !important;
+    text-align: left;
+  }
+
+  #projectsTwo .content .site-btn-container {
+    margin-top: 22px;
+    /* Bootstrap's .text-center is !important. */
+    text-align: left !important;
+  }
+
+  /* Headings, role lines and blurbs are always shown (no hover reveal). */
+  #projectsTwo .content .panel-reveal {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+
+  #projectsTwo .content .expansion-col h1 {
+    margin: 0 !important;
+    padding: 0 0 0 14px !important;
+    border-right: 0 !important;
+    border-left: 6px solid #eb3b5a !important;
+    font-size: clamp(26px, 7vw, 40px);
+    line-height: 1.08;
+    letter-spacing: -0.5px;
+    overflow-wrap: anywhere;
+    text-align: left !important;
+  }
+
+  /* .header-1 (white, in the 680px rules above) would otherwise win over the white card's grey. */
+  #projectsTwo .appddiction-col h1 {
+    color: #505464 !important;
+  }
+
+  #projectsTwo .content .panel-role {
+    margin: 12px 0 0;
+    padding: 0;
+    font-size: 14px;
+    text-align: left;
+  }
+
+  #projectsTwo .content .panel-blurb {
+    max-width: none;
+    margin: 12px 0 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.45;
+    text-align: left;
+  }
+
+  /* The hover-only images are not part of a card. */
+  #projectsTwo .content .panel-reveal[src] {
+    display: none;
+  }
+
+  /* Button: left aligned, sized to fit the narrow card. */
+  #projectsTwo .content .resume-button {
+    margin: 0;
+  }
+
+  #projectsTwo .content .expansion-col .resume-button.learn-more.site-btn {
+    width: min(16rem, 100%);
+  }
+
+  #projectsTwo .content .resume-button.learn-more .button-text {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  /* Swipe dots. */
+  .card-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 16px 0 0 var(--card-gutter);
+  }
+
+  .card-dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.4);
+    transition: width 200ms ease, background 200ms ease;
+  }
+
+  .card-dots span.is-active {
+    width: 22px;
+    background: #fff;
+  }
+
+  /* The nav arrows are invisible under 680px, but still caught taps meant for the cards. */
+  .hero-work-link {
+    pointer-events: none;
+  }
+
+  /* The right-hand nav is dots only, as it already is under 680px: its labels and lines
+     would sit on top of the cards. */
+  .nav-line,
+  .nav-link-text {
+    display: none;
+  }
+
+  .vertical-menu {
+    right: 12px;
+    width: 30px;
+  }
+
+  .nav-link-container {
+    margin-bottom: 30px !important;
+  }
+}
+
+/* Tablet and up to 900px: the nav arrows are visible at the rail, so leave more room. */
+@media (min-width: 681px) and (max-width: 900px) {
+  #projectsTwo {
+    --card-gutter: 96px;
+  }
+
+  .hero-work-link {
+    pointer-events: auto;
+  }
+}
+
+/* ADI panel, desktop layout up to 1366px wide: the next panel's slanted edge is close enough that
+   the "view page" label sitting to the right of the circle is cut off (at 1280x720 its last
+   13px were covered). Put the label under the circle instead, so everything stays within the
+   panel. Above 1366px the layout is unchanged. */
+@media (min-width: 901px) and (max-width: 1366px) {
+  .adi-col .resume-button.learn-more.site-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: max-content;
+    min-width: 3rem;
+  }
+
+  .adi-col .resume-button.learn-more .button-text {
+    position: static;
+    margin: 8px 0 0;
+    padding: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  /* No sideways expansion: the circle stays a circle and the label stays beneath it. */
+  .adi-col .resume-button:hover .circle {
+    width: 3rem;
+  }
+
+  /* Center the button in the visible part of the panel at its height. The slanted right edge is at
+     R = K - tan(20deg) x (y - 50vh), where K is about 0.17 x width + 44px (measured), y is the
+     label's height (10px above the container's bottom) and the visible part starts at the rail
+     (96px). Content is not skewed, so a point 100px left of the container's start is at that
+     screen x (the panel starts 100px off-screen). */
+  .expansion-col:first-child .site-btn-container {
+    --btn-bottom: max(calc(20vh + 20px), 200px);
+    --btn-y: calc(100vh - var(--btn-bottom) - 10px);
+    --strip-right: calc(0.17 * 100vw + 44px - tan(20deg) * (var(--btn-y) - 50vh));
+    padding-left: calc(105.5px + var(--strip-right) / 2);
+    bottom: var(--btn-bottom);
+  }
+
+  .adi-col .resume-button.learn-more.site-btn {
+    margin-left: 0;
+  }
+}
+
+/* Up to 1200px the panel is narrow and its (hidden) text wraps, so the slide grows taller than
+   the screen and the strip near the bottom of the panel is narrower than the label. Anchor the
+   ADI button to the middle of the panel instead, where the slant leaves the most room: the
+   slant's offset is then the same at every slide height (only the width matters). */
+@media (min-width: 901px) and (max-width: 1200px) {
+  .expansion-col:first-child .site-btn-container {
+    top: calc(50% - 75px);
+    bottom: auto;
+    --strip-right: calc(0.17 * 100vw + 44px + tan(20deg) * 10px);
   }
 }
