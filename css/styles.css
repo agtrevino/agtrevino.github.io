@@ -2515,6 +2515,14 @@ video {
   }
 }
 
+/* The fixed right-side navigation sits over the next card's preview at phone widths.
+   Hide the dot-only navigation here so the swipeable cards remain unobstructed. */
+@media (max-width: 480px) {
+  .vertical-menu {
+    display: none;
+  }
+}
+
 /* ADI panel, desktop layout up to 1366px wide: the next panel's slanted edge is close enough that
    the "view page" label sitting to the right of the circle is cut off (at 1280x720 its last
    13px were covered). Put the label under the circle instead, so everything stays within the
