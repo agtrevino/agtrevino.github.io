@@ -40,14 +40,34 @@ function videoPlayback() {
   const canHover = window.matchMedia('(hover: hover)').matches;
   document.querySelectorAll('.expansion-col').forEach((col) => {
     const video = col.querySelector('video');
-    if (!video) return;
-    const play = () => { const p = video.play(); if (p && p.catch) p.catch(() => {}); };
+    const twitchClip = col.querySelector('iframe[data-twitch-clip]');
+    if (!video && !twitchClip) return;
+    let clipLoadTimeout = null;
+    const play = () => {
+      if (video) {
+        const p = video.play();
+        if (p && p.catch) p.catch(() => {});
+      }
+      if (twitchClip && twitchClip.src !== twitchClip.dataset.twitchClip) {
+        twitchClip.src = twitchClip.dataset.twitchClip;
+      }
+    };
+    const pause = () => {
+      if (video) video.pause();
+      if (twitchClip) twitchClip.src = 'about:blank';
+    };
     if (canHover) {
-      col.addEventListener('mouseenter', play);
-      col.addEventListener('mouseleave', () => video.pause());
+      col.addEventListener('mouseenter', () => {
+        if (twitchClip) clipLoadTimeout = window.setTimeout(play, 500);
+        else play();
+      });
+      col.addEventListener('mouseleave', () => {
+        window.clearTimeout(clipLoadTimeout);
+        pause();
+      });
     } else if ('IntersectionObserver' in window) {
       new IntersectionObserver((entries) => {
-        entries.forEach((e) => (e.isIntersecting ? play() : video.pause()));
+        entries.forEach((e) => (e.isIntersecting ? play() : pause()));
       }, { threshold: 0.25 }).observe(col);
     }
   });

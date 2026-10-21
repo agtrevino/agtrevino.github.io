@@ -360,13 +360,13 @@ button:focus {
 }
 
 .lets-title {
-  width: 9em;
+  width: 11em;
   max-width: calc(100vw - 32px);
   margin-left: auto;
   margin-right: auto;
   font-family: "ralewayExtraBold";
   /* 40px (Bootstrap's h1) up to 1440px wide, then grows linearly to 60px (1.5x) at 2560px.
-     The rotating word inherits it; the 9em width scales with it, so alignment holds. */
+     The 11em width scales with it to fit the longer rotating phrases. */
   font-size: clamp(40px, calc(1.7857vw + 14.2857px), 60px);
   text-transform: uppercase;
   letter-spacing: -1px;
@@ -396,13 +396,18 @@ button:focus {
   letter-spacing: 0.12em;
   color: #fff;
   opacity: 1;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+  /* text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7); */
   text-transform: uppercase;
   text-align: left;
   white-space: nowrap;
 }
 
 @media only screen and (max-width: 480px) {
+  .lets-title {
+    width: 12em;
+    font-size: clamp(27px, 8.2vw, 38px);
+  }
+
   .hero-role {
     width: 30em;
     font-size: 12px;
@@ -799,6 +804,20 @@ header {
   transform: translateX(-50%) translateY(-50%) skew(20deg, 0);
 }
 
+.mp-twitch-clip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 177.77777778vh;
+  height: 100vh;
+  min-width: 100%;
+  min-height: 56.25vw;
+  border: 0;
+  z-index: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-50%) skew(20deg, 0);
+}
+
 .projects-btn {
   position: relative;
   z-index: 99;
@@ -1113,8 +1132,30 @@ header .overlay-white {
   top: 3vh;
   left: 0;
   right: 0;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 1;
   transition: all 300ms ease-in-out;
+}
+
+.appddiction-col .site-logo-container,
+.jstorm-col .site-logo-container,
+.mp-col .site-logo-container {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Give every project mark the same visual footprint, while preserving its aspect ratio. */
+.site-logo-container img {
+  display: block;
+  width: 175px !important;
+  height: 100px;
+  max-width: calc(100% - 24px);
+  max-height: 100px;
+  margin: 0 auto;
+  object-fit: contain;
 }
 
 /* Raised 20px, and never lower than 200px from the bottom, so the buttons clear
@@ -1124,6 +1165,7 @@ header .overlay-white {
   bottom: max(calc(20vh + 20px), 200px);
   left: 0;
   right: 0;
+  padding: 0 12px;
 }
 
 .site-btn {
@@ -1227,6 +1269,11 @@ video {
   width: 16rem;
 }
 
+/* Keep every portfolio link the same size; the longest label fits inside this width. */
+.expansion-col .resume-button.learn-more.site-btn {
+  width: min(16rem, 100%);
+}
+
 .overlay-blue {
   position: absolute;
   top: 0;
@@ -1324,7 +1371,8 @@ video {
 }
 
 /* The background video is centered in the panel; shift it back by half the extra width. */
-.expansion-col:last-child video {
+.expansion-col:last-child video,
+.expansion-col:last-child .mp-twitch-clip {
   margin-left: calc(var(--skew-extra) / -2);
 }
 
@@ -1375,7 +1423,8 @@ video {
 .expansion-col h1 {
   margin: 0;
   padding: 10px;
-  transform: skew(20deg, 0);
+  font-style: normal;
+  transform: none;
 }
 
 .expansion-col:first-child h1 {
@@ -1540,15 +1589,14 @@ video {
   opacity: 0;
 }
 .adi-col .site-logo-container {
-  top: 7vh;
+  top: 50%;
   left: 100px;
   right: 48px;
+  transform: translateY(-50%);
 }
-.adi-col .adi-site-logo {
-  display: block;
-  margin-left: auto;
-  width: min(175px, calc(100% - 16px)) !important;
-  max-width: 175px;
+.adi-col .site-logo-container .adi-site-logo {
+  width: 100px !important;
+  max-width: calc(100% - 24px);
 }
 .content:has(.expansion-col:not(.adi-col):hover) .adi-col .site-logo-container {
   opacity: 0;
@@ -1627,58 +1675,41 @@ video {
   text-align: left;
   /* overflow: hidden; */
   color: #1dd1a1;
-  -webkit-animation: rotateWord 10s linear infinite 0s;
-  -ms-animation: rotateWord 10s linear infinite 0s;
-  animation: rotateWord 10s linear infinite 0s;
+  -webkit-animation: rotateWord 9s cubic-bezier(0.65, 0, 0.35, 1) infinite 0s;
+  -ms-animation: rotateWord 9s cubic-bezier(0.65, 0, 0.35, 1) infinite 0s;
+  animation: rotateWord 9s cubic-bezier(0.65, 0, 0.35, 1) infinite 0s;
 }
 
 .rw-words-1 .word-span:nth-child(2) {
-  -webkit-animation-delay: 2s;
-  -ms-animation-delay: 2s;
-  animation-delay: 2s;
+  -webkit-animation-delay: 3s;
+  -ms-animation-delay: 3s;
+  animation-delay: 3s;
   color: #f6e58d;
 }
 
 .rw-words-1 .word-span:nth-child(3) {
-  -webkit-animation-delay: 4s;
-  -ms-animation-delay: 4s;
-  animation-delay: 4s;
-  color: #48dbfb;
-}
-
-.rw-words-1 .word-span:nth-child(4) {
   -webkit-animation-delay: 6s;
   -ms-animation-delay: 6s;
   animation-delay: 6s;
-  color: #f3a683;
-}
-
-.rw-words-1 .word-span:nth-child(5) {
-  -webkit-animation-delay: 8s;
-  -ms-animation-delay: 8s;
-  animation-delay: 8s;
-  color: #a29bfe;
+  color: #48dbfb;
 }
 
 @-webkit-keyframes rotateWord {
   0% {
     opacity: 0;
+    -webkit-transform: translateY(-0.35em);
   }
-  2% {
-    opacity: 0;
-    -webkit-transform: translateY(-30px);
-  }
-  5% {
+  6% {
     opacity: 1;
-    -webkit-transform: translateY(0px);
+    -webkit-transform: translateY(0);
   }
-  17% {
+  26% {
     opacity: 1;
-    -webkit-transform: translateY(0px);
+    -webkit-transform: translateY(0);
   }
-  20% {
+  33.333% {
     opacity: 0;
-    -webkit-transform: translateY(30px);
+    -webkit-transform: translateY(0.35em);
   }
   80% {
     opacity: 0;
@@ -1690,22 +1721,19 @@ video {
 @-ms-keyframes rotateWord {
   0% {
     opacity: 0;
+    -ms-transform: translateY(-0.35em);
   }
-  2% {
-    opacity: 0;
-    -ms-transform: translateY(-30px);
-  }
-  5% {
+  6% {
     opacity: 1;
-    -ms-transform: translateY(0px);
+    -ms-transform: translateY(0);
   }
-  17% {
+  26% {
     opacity: 1;
-    -ms-transform: translateY(0px);
+    -ms-transform: translateY(0);
   }
-  20% {
+  33.333% {
     opacity: 0;
-    -ms-transform: translateY(30px);
+    -ms-transform: translateY(0.35em);
   }
   80% {
     opacity: 0;
@@ -1717,26 +1745,19 @@ video {
 @keyframes rotateWord {
   0% {
     opacity: 0;
+    transform: translateY(-0.35em);
   }
-  2% {
-    opacity: 0;
-    -webkit-transform: translateY(-30px);
-    transform: translateY(-30px);
-  }
-  5% {
+  6% {
     opacity: 1;
-    -webkit-transform: translateY(0px);
     transform: translateY(0px);
   }
-  17% {
+  26% {
     opacity: 1;
-    -webkit-transform: translateY(0px);
     transform: translateY(0px);
   }
-  20% {
+  33.333% {
     opacity: 0;
-    -webkit-transform: translateY(30px);
-    transform: translateY(30px);
+    transform: translateY(0.35em);
   }
   80% {
     opacity: 0;
@@ -2004,6 +2025,72 @@ video {
   top: 10px;
 }
 
+/* The home call to action is centered; the other slides keep their rail arrows. */
+#homeTwo .hero-work-link--center {
+  position: absolute;
+  left: 50%;
+  bottom: 34px;
+  z-index: 999999999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  width: max-content;
+  margin: 0;
+  color: #fff;
+  transform: translateX(-50%);
+  transition: color 200ms ease;
+}
+
+#homeTwo .hero-work-link--center span {
+  position: static;
+  display: block !important;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed;
+  transform: none !important;
+  font-family: "ralewaySemi";
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: currentColor;
+  transition: color 200ms ease;
+}
+
+#homeTwo .hero-work-link--center path {
+  fill: none;
+  stroke: currentColor;
+  transition: stroke 200ms ease;
+}
+
+#homeTwo .hero-work-link--center svg {
+  display: block;
+  overflow: visible;
+  animation: heroChevron 1.8s ease-in-out infinite;
+}
+
+#homeTwo .hero-work-link--center:hover,
+#homeTwo .hero-work-link--center:focus-visible {
+  color: #eb3b5a;
+}
+
+#homeTwo .hero-work-link--center:hover span,
+#homeTwo .hero-work-link--center:focus-visible span {
+  color: #eb3b5a;
+}
+
+@keyframes heroChevron {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #homeTwo .hero-work-link--center svg {
+    animation: none;
+  }
+}
+
 .word-icon {
   display: block;
   position: static;
@@ -2163,7 +2250,7 @@ video {
   }
 }
 
-/* Reduced motion: no rotating words; show only the first one, "websites". */
+/* Reduced motion: no rotating words; show only the first phrase. */
 @media (prefers-reduced-motion: reduce) {
   .rw-words-1 .word-span {
     animation: none;
