@@ -2557,6 +2557,15 @@ video {
   }
 }
 
+/* Keep the panels exactly one screen tall up to 1366px. Their hidden text wraps onto many lines when
+   a neighboring panel is hovered and a panel gets narrow, which made the whole slide taller than the
+   screen and pushed every button (the ADI one included) below the fold on hover. */
+@media (min-width: 901px) and (max-width: 1366px) {
+  #projectsTwo .content {
+    height: 100vh;
+  }
+}
+
 /* Up to 1200px the panel is narrow and its (hidden) text wraps, so the slide grows taller than
    the screen and the strip near the bottom of the panel is narrower than the label. Anchor the
    ADI button to the middle of the panel instead, where the slant leaves the most room: the
@@ -2566,5 +2575,18 @@ video {
     top: calc(50% - 75px);
     bottom: auto;
     --strip-right: calc(0.17 * 100vw + 26px + tan(20deg) * 10px);
+  }
+
+  /* The button stays at the left of the panel when it is hovered, so keep the hover logo to its right. */
+  .adi-col .expansion-section > .col-12.w-100 > .col-12.text-center {
+    padding-left: 200px;
+  }
+}
+
+/* Up to 1100px the hovered panel's blurb wraps onto more lines, so lower the button below it. */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .expansion-col:first-child .site-btn-container {
+    top: calc(50% - 35px);
+    --strip-right: calc(0.17 * 100vw + 16px - tan(20deg) * 30px);
   }
 }
