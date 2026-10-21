@@ -834,6 +834,32 @@ button:focus {
   opacity: .06;
 }
 
+/* Typing: each line is a span (made in JS) revealed left to right, one step per character. 50 lines
+   at .14s apiece is about 7s in all. */
+.code-layer pre .ln {
+  display: block;
+  clip-path: inset(0 100% 0 0);
+}
+
+.code-layer.typing pre .ln {
+  animation: typeln .55s steps(var(--n), end) forwards;
+  animation-delay: calc(var(--i) * .14s);
+}
+
+@keyframes typeln {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .code-layer pre .ln,
+  .code-layer.typing pre .ln {
+    clip-path: none;
+    animation: none;
+  }
+}
+
 @media (max-width: 480px) {
   .code-layer pre {
     font-size: 12px;
