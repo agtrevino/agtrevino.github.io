@@ -1279,7 +1279,9 @@ video {
   width: 100%;
   color: #fff;
   overflow: hidden;
-  background-image: linear-gradient(to right, #fff, 50%, #fff, 50%, #505464);
+  /* Shows only in the slivers outside the slanted end panels: navy under the first
+     panel (ADI), black under the last (MattProjekt). */
+  background-image: linear-gradient(to right, #1a4366, 50%, #1a4366, 50%, #000);
 }
 
 .expansion-col {
@@ -2048,6 +2050,11 @@ video {
    .expansion-col:last-child); pull its text and logo in by that much. */
 .expansion-col:last-child .col-12.w-100 {
   padding-right: calc(15px + 100px);
+}
+
+/* With that inset the last panel has less room before its slanted left edge. */
+.expansion-col:last-child .panel-blurb {
+  max-width: 20em;
 }
 
 .expansion-col:last-child .site-logo-container {

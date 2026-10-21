@@ -271,7 +271,8 @@ function isProjectsView() {
     $('.nav-link-text').removeClass("color-black");
     $('.line').removeClass("line-black");
     $('.nav-circle').removeClass("circle-black");
-    $('.vertical-text-2').addClass("color-black");
+    // The first portfolio panel (ADI) is navy, so the vertical name stays white here.
+    $('.vertical-text-2').removeClass("color-black");
     $('.resume-circle').removeClass("active-circle-black");
     $('.resume-nav').removeClass("active-nav");
     $('.resume-circle').removeClass("nav-circle-black");
