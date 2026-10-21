@@ -8,7 +8,7 @@
     <link rel="canonical" href="https://agtrevino.github.io/" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
-    <!-- Social previews (Open Graph and Twitter). Twitter reads the og: tags for title, description, and image. -->
+    <!-- Social previews; Twitter reads the og: tags. -->
     <meta property="og:title" content="Aaron G. Trevino | Front-end developer who designs" />
     <meta property="og:description" content="Front-end developer with 8+ years of experience building websites and interfaces. Open to new roles." />
     <meta property="og:type" content="website" />
@@ -18,24 +18,22 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Hero background: start downloading it before the stylesheet asks for it. -->
+    <!-- Preload the hero image and fonts before the stylesheet asks. -->
     <link rel="preload" as="image" href="assets/img/background/graffiti-4.jpg" />
     <link rel="preload" href="assets/fonts/Raleway-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/Raleway-ExtraBold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/Raleway-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
 
-    <!-- Fonts and Bootstrap come from CDNs. Everything else is in this repo. -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet" />
+    <!-- Bootstrap comes from a CDN. Everything else is local. -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
 
-    <!-- Your styles -->
-      <link rel="stylesheet" href="css/styles.css?v=123" />
-    <!-- Without JavaScript nothing adds .fadeInUp to the project logos, so show them. -->
+      <link rel="stylesheet" href="css/styles.css?v=126" />
+    <!-- Without JS nothing adds .fadeInUp, so show the project logos. -->
     <noscript><style>.site-logo-container img { opacity: 1; }</style></noscript>
   </head>
 
   <body>
-<!-- ======================================= NAVBAR ============================= -->
+<!-- Navbar -->
 
 <nav class="vertical-menu">
   <a href="#home">
@@ -100,30 +98,11 @@
   </a>
 </nav>
 
-<!-- <a href="#home">
-  <svg class="main-logo" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="441px" height="153px" viewBox="0 0 441 153"
-    enable-background="new 0 0 441 153" xml:space="preserve">
-    <polygon class="main-logo-poly" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" points="26.2,53.02 56.24,100 39.04,100 
- 17.6,66.47 9,53.02 9.01,53 17.6,39.56 39.06,6 56.26,6 26.21,53 26.19,53 " />
-    <polygon class="main-logo-poly" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" points="153,147 135.8,147 107.39,102.56 
- 105.75,100 98.78,89.1 75.7,53 92.9,53 107.38,75.64 115.99,89.1 122.95,100 " />
-    <polyline class="main-logo-poly" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" points="162.16,53.03 192.19,100 174.98,100 
- 153.56,66.49 144.95,53.03 144.97,53 153.56,39.57 175.02,6 192.23,6 162.18,53 " />
-    <polygon class="main-logo-poly" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" points="432,53 423.399,66.46 401.949,100 
- 384.739,100 414.79,53 414.79,52.99 414.779,52.97 384.739,6 401.949,6 423.39,39.55 431.979,52.97 " />
-    <polygon class="main-logo-poly" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" points="369,53 338.961,100 308.91,147 
- 291.701,147 321.75,100 351.801,53 " />
-    <polygon class="main-logo-poly" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" points="268.76,100 260.16,113.46 238.72,147 
- 221.72,147 243.16,113.46 251.76,100 243.16,86.55 221.71,53 238.71,53 260.16,86.55 " />
-  </svg>
-</a> -->
-
 <div class="vertical-text-2">
   <span>AARON G. TREVINO</span>
 </div>
 
-<!-- ======================================= MAIN PAGE =========================== -->
+<!-- Main page -->
 
 <main class="wrapper">
   <section id="home" class="section parallax bg1">
@@ -239,7 +218,7 @@
               Developed brand and article pages for ADI’s catalog across North America and EMEA using HTML, CSS, JavaScript, and InSite CMS.
             </p>
             <div class="col-12 text-center">
-              <img class="adi-logo-img panel-reveal mt-5 w-75 animated animatedFadeInUp" src="assets/img/adi/adi-logo-white.svg" alt="ADI Global Distribution">
+              <img class="adi-logo-img panel-reveal mt-5 w-75 animated animatedFadeInUp" src="assets/img/adi/adi-logo-white.svg" alt="ADI Global Distribution" width="95" height="40">
             </div>
           </div>
           <div class="col-12 my-auto text-center site-btn-container">
@@ -277,7 +256,7 @@
             </p>
             <div class="col-12 text-center">
               <img class="appddiction-logo-img panel-reveal mt-5 w-75 animated animatedFadeInUp"
-                src="assets/img/appddiction/app_logo_website.gif" alt="Appddiction Studio logo">
+                src="assets/img/appddiction/app_logo_website.gif" alt="Appddiction Studio logo" width="1367" height="315">
             </div>
           </div>
           <div class="col-12 my-auto text-center site-btn-container">
@@ -313,7 +292,7 @@
             </p>
             <div class="col-12 text-center">
               <img class="jstorm-logo-img panel-reveal w-50 jstorm-img-1 animated animatedFadeInUp"
-                src="assets/img/jstorm-logo/j.storm-logo-blk.png" alt="J.Storm logo">
+                src="assets/img/jstorm-logo/j.storm-logo-blk.png" alt="J.Storm logo" width="700" height="397">
             </div>
           </div>
           <div class="col-12 my-auto text-center site-btn-container">
@@ -349,7 +328,7 @@
             </p>
             <div class="col-12 text-center">
               <img class="mp-logo-img panel-reveal mt-5 animated animatedFadeInUp"
-                src="assets/img/mattprojekt/mp-logo-main-whiteAsset 2.png" alt="MattProjekt logo">
+                src="assets/img/mattprojekt/mp-logo-main-whiteAsset 2.png" alt="MattProjekt logo" width="1459" height="1023">
             </div>
           </div>
           <div class="col-12 my-auto text-center site-btn-container">
@@ -372,7 +351,7 @@
 
     </div>
 
-    <!-- Phones and tablets: tappable dots under the swipeable card row (hidden on desktop). -->
+    <!-- Swipe dots for the card row (phones and tablets only). -->
     <div class="card-dots" role="group" aria-label="Choose a project">
       <button type="button" class="is-active" aria-label="ADI Global Distribution" aria-current="true"></button>
       <button type="button" aria-label="Appddiction Studio"></button>
@@ -411,7 +390,7 @@
 
         <div class="resume-img-wrap">
           <a class="resume-img-link mb-4" href="assets/AaronGTrevinoResume.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open resume PDF in a new tab">
-            <img class="resume-img" src="assets/img/aarongtrevinoresume.png" alt="">
+            <img class="resume-img" src="assets/img/aarongtrevinoresume.png" alt="" width="1547" height="2002">
           </a>
           <a class="resume-download-link" href="assets/AaronGTrevinoResume.pdf" download aria-label="Download resume PDF">
             <button class="resume-button learn-more">
@@ -648,8 +627,7 @@ function videoPlayback() {
 
   </section>
 </main>
-    <!-- jQuery, then your script (js/main.js) -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="js/main.js?v=21"></script>
+    <script src="js/main.js?v=23"></script>
   </body>
 </html>

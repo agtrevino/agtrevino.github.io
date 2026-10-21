@@ -1,100 +1,56 @@
-/* ==========================================================================
-   styles.css
-   Order: 1) page-wide basics  2) all site styles (fonts, sections, nav, etc.)
-   Bootstrap 4 is loaded separately from a CDN in index.html.
-   Asset paths are relative to this file (../assets/...).
-   ========================================================================== */
+/* Site styles. Bootstrap 4 loads separately from a CDN. */
 
-/* ---- 1. Page-wide basics ---- */
+/* Page */
 body, html {
     scroll-behavior: smooth !important;
 }
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background: #505464; }
+body { margin: 0; font-family: "Helvetica Neue", Arial, sans-serif; background: #505464; }
 
-/* ---- 2. Site styles ---- */
-@font-face {
-  font-family: "dense";
-  src: url("../assets/fonts/Dense-Regular.otf");
-  font-display: swap;
-}
+/* Fonts */
 @font-face {
   font-family: "ralewayLight";
-  src: url("../assets/fonts/Raleway-Light.woff2") format("woff2"),
-    url("../assets/fonts/Raleway-Light.ttf") format("truetype");
+  src: url("../assets/fonts/Raleway-Light.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
   font-family: "ralewayExtraLight";
-  src: url("../assets/fonts/Raleway-ExtraLight.woff2") format("woff2"),
-    url("../assets/fonts/Raleway-ExtraLight.ttf") format("truetype");
+  src: url("../assets/fonts/Raleway-ExtraLight.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
   font-family: "ralewayThin";
-  src: url("../assets/fonts/Raleway-Thin.woff2") format("woff2"),
-    url("../assets/fonts/Raleway-Thin.ttf") format("truetype");
+  src: url("../assets/fonts/Raleway-Thin.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
   font-family: "raleway";
-  src: url("../assets/fonts/Raleway-Regular.woff2") format("woff2"),
-    url("../assets/fonts/Raleway-Regular.ttf") format("truetype");
+  src: url("../assets/fonts/Raleway-Regular.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
   font-family: "ralewaySemi";
-  src: url("../assets/fonts/Raleway-SemiBold.woff2") format("woff2"),
-    url("../assets/fonts/Raleway-SemiBold.ttf") format("truetype");
+  src: url("../assets/fonts/Raleway-SemiBold.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
   font-family: "ralewayBold";
-  src: url("../assets/fonts/Raleway-Bold.woff2") format("woff2"),
-    url("../assets/fonts/Raleway-Bold.ttf") format("truetype");
+  src: url("../assets/fonts/Raleway-Bold.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
   font-family: "ralewayExtraBold";
-  src: url("../assets/fonts/Raleway-ExtraBold.woff2") format("woff2"),
-    url("../assets/fonts/Raleway-ExtraBold.ttf") format("truetype");
+  src: url("../assets/fonts/Raleway-ExtraBold.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
   font-family: "ralewayBlack";
-  src: url("../assets/fonts/Raleway-Black.woff2") format("woff2"),
-    url("../assets/fonts/Raleway-Black.ttf") format("truetype");
+  src: url("../assets/fonts/Raleway-Black.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
   font-family: "ralewayExtraLightItalics";
-  src: url("../assets/fonts/Raleway-ExtraLightItalic.woff2") format("woff2"),
-    url("../assets/fonts/Raleway-ExtraLightItalic.ttf") format("truetype");
-  font-display: swap;
-}
-@font-face {
-  font-family: "big";
-  src: url("../assets/fonts/BIGJOHN.otf");
-  font-display: swap;
-}
-@font-face {
-  font-family: "slim";
-  src: url("../assets/fonts/SlimJoe.otf");
-  font-display: swap;
-}
-@font-face {
-  font-family: "avenirRegular";
-  src: url("../assets/fonts/AvenirLTStd-Book.woff");
-  font-display: swap;
-}
-@font-face {
-  font-family: "avenirLight";
-  src: url("../assets/fonts/AvenirLTStd-LightCopy.woff");
-  font-display: swap;
-}
-@font-face {
-  font-family: "trumpGothicEast";
-  src: url("../assets/fonts/trump_gothic_east_bold.ttf");
+  src: url("../assets/fonts/Raleway-ExtraLightItalic.woff2") format("woff2");
   font-display: swap;
 }
 * {
@@ -113,19 +69,6 @@ button:focus {
 
 .desktop {
   display: contents;
-}
-
-.main-logo {
-  position: fixed;
-  top: -30px;
-  width: 8vw;
-  right: 50px;
-  z-index: 999;
-  transition: 350ms;
-}
-
-.main-logo-poly {
-  transition: 350ms;
 }
 
 .vertical-menu {
@@ -195,26 +138,22 @@ button:focus {
   transition: 400ms;
 }
 
-/* =============================================== PARALLAX ============================== */
+/* Parallax */
 .wrapper {
   scroll-behavior: smooth;
-  /* The height needs to be set to a fixed value for the effect to work.
-     * 100vh is the full height of the viewport. */
+  /* Fixed height: the parallax effect needs a definite container height. */
   height: 100vh;
-  /* The scaling of the images would add a horizontal scrollbar, so disable x overflow. */
+  /* Scaled layers would add a horizontal scrollbar. */
   overflow-x: hidden;
-  /* Enable scrolling on the page. */
   overflow-y: auto;
-  /* Set the perspective to 2px. This is essentailly the simulated distance from the viewport to transformed objects.*/
+  /* The 2px perspective makes deeper layers scroll slower. */
   perspective: 2px;
 }
 
 .section {
-  /* Needed for children to be absolutely positioned relative to the parent. */
+  /* Anchors the absolutely positioned layers. */
   position: relative;
-  /* The height of the container. Must be set, but it doesn't really matter what the value is. */
   min-height: 100vh;
-  /* For text formatting. */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -225,24 +164,20 @@ button:focus {
 }
 
 .parallax::after {
-  /* Display and position the pseudo-element */
   content: " ";
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  /* Move the pseudo-element back away from the camera,
-     * then scale it back up to fill the viewport.
-     * Because the pseudo-element is further away, it appears to move more slowly, like in real life. */
+  /* Pushed back, then scaled up to fill the screen: it scrolls slower. */
   transform: translateZ(-1px) scale(1.5);
-  /* Force the background image to fill the whole element. */
   background-size: 100%;
-  /* Keep the image from overlapping sibling elements. */
+  /* Keeps the layer from covering sibling elements. */
   z-index: -1;
 }
 
-/* Set by heroVisibility() in main.js while the hero is well off screen. */
+/* Set by heroVisibility() so an off-screen hero is not painted. */
 body.hero-offscreen .bg1::after {
   visibility: hidden;
 }
@@ -294,8 +229,7 @@ body.hero-offscreen .bg1::after {
   margin-left: auto;
   margin-right: auto;
   font-family: "ralewayExtraBold";
-  /* 40px (Bootstrap's h1) up to 1440px wide, then grows linearly to 60px (1.5x) at 2560px.
-     The 11em width scales with it to fit the longer rotating phrases. */
+  /* Scales 1.5x from 1440px to 2560px wide; 11em fits the longest phrase. */
   font-size: clamp(40px, calc(1.7857vw + 14.2857px), 60px);
   text-transform: uppercase;
   letter-spacing: -1px;
@@ -318,7 +252,7 @@ body.hero-offscreen .bg1::after {
   min-height: 1.3em;
   margin: 16px auto 0;
   font-family: "ralewaySemi";
-  /* Same scale as .lets-title: 15px up to 1440px wide, 22.5px (1.5x) at 2560px. */
+  /* Same scale as .lets-title. */
   font-size: clamp(15px, calc(0.6696vw + 5.3571px), 22.5px);
   font-weight: 600;
   line-height: 1.3;
@@ -342,13 +276,12 @@ body.hero-offscreen .bg1::after {
   }
 }
 
-/* Profile and contact links in the top-left of the hero.
-   The first icon, the vertical name and the arrows are centered on --left-rail. */
+/* Hero links: the first icon, the name and the arrows share --left-rail. */
 :root {
   --left-rail: 40px;
 }
 
-/* A horizontal row of 44px icon targets. The top offset puts the icons 32px from the top. */
+/* 44px tap targets, 32px from the top. */
 .hero-links {
   position: absolute;
   top: 21px;
@@ -384,21 +317,20 @@ body.hero-offscreen .bg1::after {
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
 }
 
-/* The shadows only help the resting icons read over the graffiti. On hover they go. */
+/* Shadows help the icons read over the graffiti; hover drops them. */
 .hero-links a:hover svg,
 .hero-links a:focus-visible svg {
   filter: none;
 }
 
-/* LinkedIn's square badge reads larger, so it is drawn at 20px. The margin keeps its tap target at 44px. */
+/* LinkedIn's badge looks bigger: 20px, with margin to keep a 44px target. */
 .hero-links .hero-icon-linkedin {
   width: 20px;
   height: 20px;
   margin: 0 1px;
 }
 
-/* Decorative dot centered in the 28px gap before each link after the first.
-   It belongs to the link, so it moves with the link when a label pushes it right. */
+/* The dot belongs to its link, so it moves when a label pushes the link. */
 .hero-links a + a::before {
   content: "";
   position: absolute;
@@ -418,8 +350,7 @@ body.hero-offscreen .bg1::after {
   box-shadow: none;
 }
 
-/* The outer label span takes up space in the row. It grows from max-width: 0,
-   which pushes the icons after it to the right. Opening takes 300ms; closing takes 150ms. */
+/* The label grows from zero width, pushing the next icons right. */
 .hero-links a > span {
   display: block;
   max-width: 0;
@@ -427,8 +358,7 @@ body.hero-offscreen .bg1::after {
   overflow: hidden;
   overflow: clip;
   overflow-clip-margin: 8px;
-  /* Lowercase to match the right-hand nav. Only the Regular face is loaded as
-     "raleway", so font-synthesis: none keeps weight 600 from being faked (smeared). */
+  /* Only Regular is loaded: font-synthesis stops a faked weight 600. */
   font-family: "raleway";
   font-size: 13px;
   font-weight: 600;
@@ -442,13 +372,13 @@ body.hero-offscreen .bg1::after {
 
 .hero-links a:hover > span,
 .hero-links a:focus-visible > span {
-  /* Fallback cap for browsers without interpolate-size (see @supports below). */
+  /* Fallback for browsers without interpolate-size. */
   max-width: calc(var(--chars) * 1.2em);
   margin-left: 8px;
   transition: max-width 300ms ease-out, margin-left 300ms ease-out;
 }
 
-/* Where supported, grow to the label's exact width. */
+/* Grow to the label's exact width. */
 @supports (interpolate-size: allow-keywords) {
   .hero-links {
     interpolate-size: allow-keywords;
@@ -460,8 +390,7 @@ body.hero-offscreen .bg1::after {
   }
 }
 
-/* The inner span holds the text. It types out in --chars steps; the clip is
-   measured against the full text width, so each step reveals about one letter. */
+/* Types out one letter per step; the clip is measured on the full width. */
 .hero-links a > span > span {
   position: relative;
   display: block;
@@ -477,7 +406,7 @@ body.hero-offscreen .bg1::after {
   transition: clip-path 300ms steps(var(--chars), end);
 }
 
-/* Underline. It sits inside the same clip as the text, so it grows with the typing. */
+/* Inside the clip, so the underline grows with the typing. */
 .hero-links a > span > span::after {
   content: "";
   position: absolute;
@@ -500,8 +429,7 @@ body.hero-offscreen .bg1::after {
   }
 }
 
-/* Icons only on phones, still 44px tap targets with the first one centered on the rail.
-   The rail moves in to 32px so the vertical name clears "I make". */
+/* Phones: icons only; the rail moves in so the name clears "I make". */
 @media only screen and (max-width: 480px) {
   :root {
     --left-rail: 32px;
@@ -521,17 +449,14 @@ body.hero-offscreen .bg1::after {
   z-index: 20;
   color: #fff;
   position: fixed;
-  /* Full-height column; text-align: center centers the vertical text in it, so the
-     name is vertically centered at every viewport height without a fractional
-     translateY(-50%). The column ignores the pointer; only the text itself catches it. */
+  /* Full-height column: centers the name without a fractional translateY. */
   top: 0;
   bottom: 0;
   text-align: center;
   pointer-events: none;
   font-size: 18.4px;
   opacity: 0.9;
-  /* A fixed 28px column centered on the rail with whole-pixel offsets, so the text
-     lands on the pixel grid (translateX(-50%) of a 27.6px box blurred it). */
+  /* Whole-pixel offsets keep the text on the pixel grid (27.6px blurred). */
   left: calc(var(--left-rail) - 14px);
   width: 28px;
   line-height: 28px;
@@ -544,8 +469,7 @@ body.hero-offscreen .bg1::after {
 .resume-two-viewport,
 .home-two-viewport,
 .projects-two-viewport,
-.contact-two-viewport,
-.project-two-viewport-two {
+.contact-two-viewport {
   height: 40vh;
   position: absolute;
   top: 30vh;
@@ -564,16 +488,14 @@ body.hero-offscreen .bg1::after {
   transition: 300ms;
 }
 
-.expansion-color-black, .color-black {
+.color-black {
   color: #505464 !important;
   transition: 400ms;
   font-family: "ralewayLight" !important;
   font-weight: 700;
 }
 
-/* The name uses the real Raleway Regular file. Without this it inherits Raleway Light
-   and, on light slides, .color-black's weight 700, which the browser fakes by smearing
-   the Light glyphs. */
+/* Real Regular file: Light plus weight 700 would be a faux bold. */
 .vertical-text-2 span {
   pointer-events: auto;
 }
@@ -616,11 +538,12 @@ body.hero-offscreen .bg1::after {
 .resume-img {
   display: block;
   width: 100%;
+  height: auto;
   border: 1px solid #d9dbe0;
   transition: transform 200ms ease;
 }
 
-/* No lift on hover. Keyboard focus still lifts the image, so the link shows where focus is. */
+/* No hover lift; the focus lift shows where keyboard focus is. */
 .resume-img-link:focus-visible .resume-img {
   transform: translateY(-4px);
 }
@@ -657,8 +580,7 @@ body.hero-offscreen .bg1::after {
   color: #505464;
 }
 
-/* Contact slide background: a dark gradient with faint, skewed code from this site drifting
-   behind the text (a slow parallax). All colors are variables. */
+/* Contact background: a gradient with faint drifting code (parallax). */
 #contact {
   --bg-a: #262935;
   --bg-b: #3a3e4d;
@@ -674,7 +596,7 @@ body.hero-offscreen .bg1::after {
   background: linear-gradient(135deg, var(--bg-a) 0%, var(--bg-b) 55%, var(--bg-c) 100%);
 }
 
-/* Fine noise over the gradient: the dithering that prevents banding. */
+/* Noise dithers the gradient so it does not band. */
 .contact-bg::after {
   content: "";
   position: absolute;
@@ -683,7 +605,7 @@ body.hero-offscreen .bg1::after {
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
-/* One slanted accent stripe, at the same 20 degrees as the project panels. */
+/* Accent stripe at the same 20deg slant as the project panels. */
 .contact-bg::before {
   content: "";
   position: absolute;
@@ -724,8 +646,7 @@ body.hero-offscreen .bg1::after {
   opacity: .06;
 }
 
-/* Typing: each line is a span (made in JS) revealed left to right, one step per character. 50 lines
-   at .14s apiece is about 7s in all. */
+/* Typing: JS wraps each line in a span; 50 lines at .14s take about 7s. */
 .code-layer pre .ln {
   display: block;
   clip-path: inset(0 100% 0 0);
@@ -760,7 +681,7 @@ body.hero-offscreen .bg1::after {
   }
 }
 
-/* Contact slide: a visible layout. Left aligned text in a block centered in the slide. */
+/* Contact */
 .contact-content {
   position: relative;
   z-index: 2;
@@ -789,8 +710,7 @@ body.hero-offscreen .bg1::after {
   color: #fff;
 }
 
-/* Keep "FRONT-END" together so it never breaks at the hyphen. The universal * rule sets a font
-   per element, so the span has to inherit the heading's font explicitly. */
+/* No break at the hyphen; the * font rule needs an explicit inherit. */
 .contact-nobreak {
   font-family: inherit;
   white-space: nowrap;
@@ -805,9 +725,7 @@ body.hero-offscreen .bg1::after {
   color: #fff;
 }
 
-/* The email is the site's round-arrow button (.resume-button). It is wider than the 12rem
-   default so the address stays on one line, and it is a block so the 30px gaps around it
-   match the old pill. */
+/* Wider than 12rem so the address fits one line; block keeps the gaps. */
 .resume-button.learn-more.contact-email-btn {
   display: block;
   width: 19rem;
@@ -820,7 +738,7 @@ body.hero-offscreen .bg1::after {
   white-space: nowrap;
 }
 
-/* The button itself has no outline, so the keyboard focus ring goes on its circle. */
+/* The button has no outline, so the focus ring goes on its circle. */
 .contact-content a:focus-visible .circle,
 .contact-content a:has(button:focus-visible) .circle {
   outline: 2px solid #fff;
@@ -832,7 +750,7 @@ body.hero-offscreen .bg1::after {
   outline-offset: 4px;
 }
 
-/* Three text links separated by small floating dots, like the hero icon row. */
+/* Text links with floating dots, like the hero icon row. */
 .contact-links {
   display: flex;
   flex-wrap: wrap;
@@ -875,8 +793,7 @@ body.hero-offscreen .bg1::after {
   text-underline-offset: 6px;
 }
 
-/* Phones: everything centered and stacked. The vertical name sits at the left edge, so the
-   block is centered in the space to its right. The links stack, without the dots. */
+/* Phones: a centered stack, offset from the name on the left edge. */
 @media (max-width: 480px) {
   .contact-content {
     width: auto;
@@ -892,7 +809,7 @@ body.hero-offscreen .bg1::after {
     font-size: clamp(28px, 8.6vw, 36px);
   }
 
-  /* Two even lines, centered: no single word left alone on the last line. */
+  /* Balanced lines: no single word alone on the last line. */
   .contact-line {
     max-width: 18em;
     margin-right: auto;
@@ -901,7 +818,6 @@ body.hero-offscreen .bg1::after {
     text-wrap: balance;
   }
 
-  /* The button is centered in the block, at most 20rem wide. Its link is a block too. */
   .contact-content > a {
     display: block;
     text-align: center;
@@ -929,7 +845,7 @@ body.hero-offscreen .bg1::after {
   }
 }
 
-/* At 340px and below the 14px address would run under the circle: one step smaller. */
+/* At 340px the 14px address would run under the circle. */
 @media (max-width: 340px) {
   .contact-email-btn .button-text {
     font-size: 12px;
@@ -954,8 +870,7 @@ body.hero-offscreen .bg1::after {
   position: relative;
 }
 
-/* The arrow rows span the full slide width. Let the pointer pass through them
-   (so the portfolio panels underneath still react), except on the arrows themselves. */
+/* Full-width rows let the pointer reach the panels below, except on arrows. */
 .chevron,
 .up-chevron,
 .chevron-controls {
@@ -967,6 +882,7 @@ body.hero-offscreen .bg1::after {
   pointer-events: auto;
 }
 
+/* Counter-skew: undoes the panel's -20deg skew so the video is upright. */
 .jstorm-video {
   position: absolute;
   top: 50%;
@@ -1034,7 +950,7 @@ header .overlay-white {
   font-family: "ralewaySemi";
 }
 
-/* The arrow's line is at x=27 of the 54px-wide SVG. */
+/* The arrow shaft is at x=27 of the 54px SVG. */
 .arrow-down-2,
 .arrow-up-2 {
   position: relative;
@@ -1042,14 +958,7 @@ header .overlay-white {
   left: calc(var(--left-rail) - 27px);
 }
 
-/* Slide arrows with a vertical text label matching the right-hand nav.
-   The label sits on the rail, on the same axis as the vertical name, and the arrow
-   sits 18px to its right: the link is shifted 18px so the shaft (x=27 in the SVG)
-   lands at rail + 18px, and the label is centered at x=9 in the link (the rail).
-   The label reads bottom to top, aligned with the arrow's tail end so it stays clear
-   of the arrowhead. The SVG is 132px tall.
-   Down arrows: tail at the SVG top, so the label's top sits at y=0.
-   Up arrows are rotated 180deg: tail at the SVG bottom, so the label's bottom sits at y=132. */
+/* Label on the rail (the name's axis); the arrow shaft sits 18px right. */
 .hero-work-link {
   left: calc(var(--left-rail) - 27px + 18px);
   display: inline-block;
@@ -1085,7 +994,7 @@ header .overlay-white {
   transform: translate(-50%, -100%) rotate(180deg);
 }
 
-/* Arrows on the light slides (portfolio and resume) are #505464, so their labels match. */
+/* Light slides use #505464 arrows, so their labels match. */
 .hero-work-link.on-light span {
   color: #505464;
   text-shadow: none;
@@ -1097,7 +1006,7 @@ header .overlay-white {
   text-decoration: none;
 }
 
-/* Overrides each arrow's fill attribute (#fff or #505464) on hover. */
+/* Beats each arrow's fill attribute (#fff or #505464). */
 .hero-work-link:hover path,
 .hero-work-link:focus-visible path,
 .hero-work-link:hover span,
@@ -1106,18 +1015,14 @@ header .overlay-white {
   fill: #eb3b5a;
 }
 
-/* Hover legibility: weight 600 from the real SemiBold file (crisp, not a faux bold),
-   so the red text stays readable, including over the hero graffiti. */
+/* Real SemiBold keeps the red hover text readable over the graffiti. */
 .hero-work-link:hover span,
 .hero-work-link:focus-visible span {
   font-family: "ralewaySemi";
   font-weight: 600;
 }
 
-/* Every arrow label except the hero's types out on hover/focus, one letter per step
-   (--chars on the span), like the link labels in the top-left. The span is rotated
-   180deg, so its local bottom is the screen top: clipping from the local bottom and
-   shrinking that inset reveals the first letter (screen bottom) first. */
+/* Typed bottom-up: the span is rotated 180deg, so clip from its bottom. */
 .hero-work-link[data-reveal] span {
   clip-path: inset(0 0 100% 0);
   transition: color 200ms ease, clip-path 150ms steps(var(--chars), end);
@@ -1129,7 +1034,7 @@ header .overlay-white {
   transition: color 200ms ease, clip-path 300ms steps(var(--chars), end);
 }
 
-/* Touch devices with room for labels: no hover, so show them at rest. */
+/* Touch devices have no hover, so labels show at rest when there is room. */
 @media (hover: none) and (min-width: 481px) {
   .hero-work-link[data-reveal] span,
   .hero-work-link[data-reveal]:hover span,
@@ -1175,12 +1080,9 @@ header .overlay-white {
   transition: 400ms;
 }
 
-/* Every panel's logo: the same 175x100 box (see the img rule below), at the same height,
-   centered in the panel's visible strip. The panels are slanted 20deg, so at --logo-top the
-   strip is shifted right of the panel box by tan(20deg) x (50vh - --logo-top); the logo
-   shifts with it. */
+/* The 20deg slant shifts the visible strip right; the logo follows it. */
 .site-logo-container {
-  /* About a third of the way down, above the right-hand nav (which starts near 45%). */
+  /* About a third down, above the right-hand nav. */
   --logo-top: 35vh;
   position: absolute;
   top: var(--logo-top);
@@ -1196,28 +1098,24 @@ header .overlay-white {
   container: panel-logo / inline-size;
 }
 
-/* A panel's logo is animated by .fadeInUp. Keep its rest state independent of the
-   container width: at 1280px the ADI panel is only 198px wide, which used to trip a
-   container query and force its opacity to 0 even when no panel was hovered. */
+/* Rest state must not depend on panel width (a query hid ADI at 1280). */
 .site-logo-container img {
   transition: opacity 200ms ease-in-out;
 }
 
-/* Hide the non-active logos only while another desktop panel is expanded. This preserves
-   the intended hover behavior without making a narrow resting panel disappear. */
+/* Hide other logos only while a panel is expanded, not when one is narrow. */
 @media (min-width: 901px) {
   #projects .content:has(.expansion-col:hover) .expansion-col:not(:hover) .site-logo-container img {
     opacity: 0 !important;
   }
 }
 
-/* First panel: its first 100px hang off-screen (margin-left: -100px) and the next 100px are
-   the left rail, so center the logo in what is left. */
+/* Panel one: 100px off-screen plus the 100px rail; center in the rest. */
 .expansion-col:first-child .site-logo-container {
   padding-left: calc(200px - tan(20deg) * (50vh - var(--logo-top)));
 }
 
-/* Give every project mark the same visual footprint, while preserving its aspect ratio. */
+/* Same footprint for every logo, aspect ratio kept. */
 .site-logo-container img {
   display: block;
   width: 175px !important;
@@ -1228,8 +1126,7 @@ header .overlay-white {
   object-fit: contain;
 }
 
-/* Raised 20px, and never lower than 200px from the bottom, so the buttons clear
-   the slide's 132px down arrow (which starts 162px above the bottom) on short screens. */
+/* Clears the 132px down arrow on short screens. */
 .site-btn-container {
   position: absolute;
   bottom: max(calc(20vh + 20px), 200px);
@@ -1238,10 +1135,7 @@ header .overlay-white {
   padding: 0 12px;
 }
 
-/* First panel: its first 100px hang off-screen, which cut the button's circle off at the left
-   edge. Shift the button right by that much (plus the rail), less the 20deg slant at the
-   button's height: below the middle of the slide the panel leans left by tan(20deg) x the
-   distance below 50vh (24px is half the button's height, 12px the right padding). */
+/* Cancels the 100px overhang and the slant at the button's height. */
 .expansion-col:first-child .site-btn-container {
   padding-left: calc(212px + tan(20deg) * (max(calc(20vh + 20px), 200px) + 24px - 50vh));
 }
@@ -1256,8 +1150,7 @@ header .overlay-white {
   transition: 300ms ease-in-out;
 }
 
-/* First (white) panel: solid #eb3b5a "visit site" text. The 0.67 opacity moves from the
-   whole button to its circle, so the circle looks the same as on the other panels. */
+/* White panel: 0.67 opacity moves to the circle to match the others. */
 .appddiction-col .site-btn {
   opacity: 1;
 }
@@ -1270,12 +1163,18 @@ header .overlay-white {
   opacity: 1;
 }
 
+/* The width and height attributes only reserve space; CSS sets the real size. */
+.adi-logo-img,
+.appddiction-logo-img,
+.jstorm-logo-img,
 .mp-logo-img {
+  height: auto;
+}
+
+.mp-logo-img {
+  width: auto;
   max-height: 250px;
-  /* Keep the hover image clear of the right-hand nav (which starts 286px from the screen edge).
-     The panel's center moves with the screen width, the nav does not, so shift left by 48px at
-     1440px wide, more when narrower, and not at all from 1600px up. Uses "right" rather
-     than a transform, so it does not fight the fade-in animation. */
+  /* Keeps the hover image off the right nav; uses right, not a transform. */
   position: relative;
   right: max(0px, calc(480px - 30vw));
 }
@@ -1330,7 +1229,7 @@ video {
   padding-right: 24px;
 }
 
-/* ADI panel: ADI navy over its video, which shows through on hover like the other panels. */
+/* ADI panel: navy over its video, which shows through on hover. */
 .overlay-adi {
   position: absolute;
   top: 0;
@@ -1347,13 +1246,12 @@ video {
   transition: background-color 350ms ease-in-out;
 }
 
-/* "view archived page" is longer than the other button labels; widen that button
-   so the text clears the circle. */
+/* The longest label needs a wider button to clear the circle. */
 .jstorm-col .resume-button.learn-more {
   width: 16rem;
 }
 
-/* Keep every portfolio link the same size; the longest label fits inside this width. */
+/* One width for every portfolio link; the longest label fits. */
 .expansion-col .resume-button.learn-more.site-btn {
   width: min(16rem, 100%);
 }
@@ -1410,8 +1308,7 @@ video {
   width: 100%;
   color: #fff;
   overflow: hidden;
-  /* Shows only in the slivers outside the slanted end panels: navy under the first
-     panel (ADI), black under the last (MattProjekt). */
+  /* Shows in the slivers outside the slanted end panels. */
   background-image: linear-gradient(to right, #1a4366, 50%, #1a4366, 50%, #000);
 }
 
@@ -1432,11 +1329,7 @@ video {
   margin-left: -100px;
 }
 
-/* The -20deg skew pulls the last panel's bottom edge left by tan(20deg)/2 of its
-   height (18.2vh). Past 100px that leaves an uncovered strip at the bottom-right
-   corner, where hovering does not reach the panel. The last panel overhangs by the
-   extra amount too. Its flex-basis takes that extra width, so the other panels keep
-   their size, and its padding takes it back, so its logo and button stay in place. */
+/* The skew exposes a corner strip; the last panel overhangs to cover it. */
 .expansion-col:last-child {
   --skew-extra: max(0px, calc(18.2vh - 92px));
   margin-right: calc(-100px - var(--skew-extra));
@@ -1447,14 +1340,13 @@ video {
   padding-right: calc(3rem + var(--skew-extra)) !important;
 }
 
-/* The logo and button wrappers are absolutely positioned at full width (Bootstrap's
-   .col-12), so they ignore that padding; narrow them by the same amount instead. */
+/* The col-12 wrappers ignore padding, so narrow them by the same amount. */
 .expansion-col:last-child .site-logo-container,
 .expansion-col:last-child .site-btn-container {
   width: calc(100% - var(--skew-extra));
 }
 
-/* The background video is centered in the panel; shift it back by half the extra width. */
+/* Shifts the centered video back by half the extra width. */
 .expansion-col:last-child video {
   margin-left: calc(var(--skew-extra) / -2);
 }
@@ -1474,16 +1366,14 @@ video {
   transition: flex-grow 450ms;
 }
 
-/* Desktop panels: contain each panel's layout and painting, so the
-   hover expansion does not repaint its neighbors. The card layout (900px and below) is untouched. */
+/* Contain each panel so the hover expansion does not repaint its neighbors. */
 @media (min-width: 901px) {
   .expansion-col {
     contain: layout paint;
     will-change: flex-grow;
   }
 
-  /* A panel's video is hidden until the panel is hovered. It still preloads, and a paused
-     video keeps its first frame while it is hidden. */
+  /* Hidden videos still preload and keep their first frame. */
   .expansion-col:not(:hover) video {
     visibility: hidden;
   }
@@ -1493,13 +1383,7 @@ video {
   pointer-events: none;
 }
 
-/* Transparent strip over the left rail of the portfolio slide. It catches the pointer
-   so the empty rail (above, between and below the arrows and the vertical name) does not
-   expand the first panel. It sits above the panels; the arrows (z-index 999999999) and
-   the fixed name and nav (outside .wrapper) stay above it. Pointer devices only, since
-   on phones a 100px strip would cover the first panel's logo.
-   The first logo's left edge moves with the window (about 12.5vw - 88px below ~1366px,
-   25vw - 254px above), so the width tracks it with a 10px margin, up to 100px. */
+/* Catches the pointer over the left rail so it does not expand panel one. */
 .rail-guard {
   display: none;
 }
@@ -1600,7 +1484,7 @@ video {
   padding: 0.75rem 0;
   margin: 0 0 0 1.85rem;
   color: #d42a48;
-  /* Real SemiBold file. Weight 700 on the inherited Raleway Light was a faux bold. */
+  /* Real SemiBold: weight 700 on Light was a faux bold. */
   font-family: "ralewaySemi";
   font-weight: 600;
   line-height: 1.6;
@@ -1625,30 +1509,27 @@ video {
     justify-self: center;
   }
 }
-/* ========================================================================================scroll */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: #505464;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.4);
   transition: 300ms ease-in-out;
   border-radius: 35px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.8);
   transition: 300ms ease-in-out;
 }
 
-/* =============================================================================================Animation */
+/* Animation */
 @keyframes fadeInUp {
   from {
     transform: translate3d(0, 40px, 0);
@@ -1700,14 +1581,8 @@ video {
   width: 80%;
   position: relative;
   margin: 110px auto 0 auto;
-  font-family: "Bree Serif";
+  font-family: "ralewayExtraBold";
   padding: 10px;
-}
-
-.rw-sentence .word-span {
-  color: #444;
-  font-size: 200%;
-  font-weight: normal;
 }
 
 .rw-words {
@@ -1824,14 +1699,6 @@ video {
   }
 }
 @media only screen and (max-width: 680px) {
-  .main-logo {
-    position: fixed;
-    top: -50px;
-    width: 15vw;
-    right: 15px;
-    z-index: 999;
-    transition: 350ms;
-  }
   .vertical-menu {
     z-index: 9999999999999;
     position: fixed;
@@ -1901,7 +1768,7 @@ video {
   top: 10px;
 }
 
-/* The home call to action is centered; the other slides keep their rail arrows. */
+/* Home has a centered call to action; other slides keep the rail arrows. */
 #home .hero-work-link--center {
   position: absolute;
   left: 50%;
@@ -1924,7 +1791,7 @@ video {
   writing-mode: horizontal-tb !important;
   text-orientation: mixed;
   transform: none !important;
-  /* Lowercase, with the same face, weight and letter-spacing as the other wayfinding labels. */
+  /* Same face and tracking as the other wayfinding labels. */
   font-family: "raleway";
   font-size: 16px;
   font-weight: 600;
@@ -1997,17 +1864,12 @@ video {
   background: #1a4366 !important;
 }
 
-/* ==========================================================================
-   Project panels: shared structure. Logo at rest; on hover the heading, role
-   line ("what I did"), blurb and image fade in (.panel-reveal), then the button.
-   ========================================================================== */
+/* Project panels */
 .expansion-col h1.panel-reveal {
   margin-bottom: 0;
 }
 
-/* Role line: uppercase, lighter weight, wide tracking. Sized so the longest line
-   ("FRONT-END DEVELOPMENT · 2021–PRESENT") stays on one line in an expanded panel;
-   70% of the heading (45px) wrapped and ran off-screen. */
+/* Sized so the longest role line stays on one line when expanded. */
 .panel-role {
   margin: 14px 0 0;
   padding-right: 10px;
@@ -2034,7 +1896,7 @@ video {
 }
 
 .panel-blurb {
-  /* Narrow enough that, right-aligned in the first panel, no line reaches the left rail. */
+  /* Keeps right-aligned text in panel one clear of the left rail. */
   max-width: 28em;
   margin: 16px 0 0 auto;
   padding-right: 10px;
@@ -2042,13 +1904,12 @@ video {
   text-align: right;
 }
 
-/* The last panel overhangs the right edge of the screen by 100px (see
-   .expansion-col:last-child); pull its text and logo in by that much. */
+/* The last panel overhangs 100px, so its text and logo are pulled in. */
 .expansion-col:last-child .col-12.w-100 {
   padding-right: calc(15px + 100px);
 }
 
-/* With that inset the last panel has less room before its slanted left edge. */
+/* The inset leaves less room before its slanted left edge. */
 .expansion-col:last-child .panel-blurb {
   max-width: 20em;
 }
@@ -2066,12 +1927,7 @@ video {
   top: auto;
 }
 
-/* ==========================================================================
-   Hero entrance: fade in and rise 12px, once on page load. CSS only, so the
-   page still shows everything if JavaScript fails. Uses the `translate`
-   property so it does not replace the elements' own `transform`, and has no
-   `to` keyframe so each element ends at its normal opacity.
-   ========================================================================== */
+/* Hero entrance: CSS only, so it shows if JS fails; uses translate. */
 @keyframes heroRise {
   from {
     opacity: 0;
@@ -2091,7 +1947,7 @@ video {
   animation: heroRise 500ms ease-out both;
 }
 
-/* Side nav first, one item at a time. */
+/* Nav first, one item at a time. */
 #home-nav { animation-delay: 0s; }
 #projects-nav { animation-delay: 0.3s; }
 #resume-nav { animation-delay: 0.6s; }
@@ -2105,8 +1961,7 @@ video {
 .hero-links a:nth-child(4) { animation-delay: 1.44s; }
 #home .hero-work-link { animation-delay: 1.6s; }
 
-/* While the hero is off screen (set by heroIconReplay() in main.js) the icons are reset, so
-   removing the class replays heroRise with the delays above. Desktop only. */
+/* Reset while the hero is off screen so heroRise replays on return. */
 @media (min-width: 901px) {
   #home.hero-away .hero-links a {
     animation: none;
@@ -2128,8 +1983,7 @@ video {
   }
 }
 
-/* Short screens (phone landscape): the fixed vertical name and the signature would
-   overlap the link icons, the role line, and the nav dots. */
+/* Phone landscape: the name and signature would cover icons, role, dots. */
 @media (max-height: 480px) {
   .vertical-text-2,
   .signature {
@@ -2137,7 +1991,7 @@ video {
   }
 }
 
-/* Reduced motion: no rotating words; show only the first phrase. */
+/* Reduced motion: no rotating words, only the first phrase. */
 @media (prefers-reduced-motion: reduce) {
   .rw-words-1 .word-span {
     animation: none;
@@ -2148,19 +2002,14 @@ video {
   }
 }
 
-/* ==========================================================================
-   Phones and tablets (up to 900px): the four slanted panels become a swipeable row of
-   cards (CSS scroll-snap). No skew, no left-rail guard, no hover expansion, no videos.
-   Each card shows its brand background, logo, heading, role line, blurb and button.
-   ========================================================================== */
+/* Phones and tablets (900px and below): swipeable cards */
 .card-dots {
   display: none;
 }
 
 @media (max-width: 900px) {
   #projects {
-    /* The vertical name sits on the left rail (the nav arrows too, above 680px), so the row
-       starts to the right of them and the cards are clipped there instead of sliding beneath. */
+    /* Cards start right of the rail and clip there instead of sliding under. */
     --card-gutter: calc(var(--left-rail) + 26px);
     flex-direction: column;
     justify-content: center;
@@ -2172,7 +2021,7 @@ video {
     display: none !important;
   }
 
-  /* The scrolling row. */
+  /* The swipe row */
   #projects .content {
     display: flex;
     flex: 0 0 auto;
@@ -2193,7 +2042,7 @@ video {
     display: none;
   }
 
-  /* A card: about 85vw wide, but always leaving a peek of the next one. */
+  /* About 85vw wide, leaving a peek of the next card. */
   #projects .content .expansion-col {
     position: relative;
     display: flex;
@@ -2217,7 +2066,7 @@ video {
     display: none;
   }
 
-  /* Brand backgrounds. The hover overlays and videos are not used here. */
+  /* Overlays and videos are unused on cards. */
   #projects .adi-col { background: #1a4366; }
   #projects .appddiction-col { background: #fff; }
   #projects .jstorm-col { background: #4d8dca; }
@@ -2228,7 +2077,7 @@ video {
     display: none !important;
   }
 
-  /* One card, top to bottom. The right padding keeps text clear of the nav dots. */
+  /* Right padding keeps text clear of the nav dots. */
   #projects .content .expansion-section {
     position: relative;
     top: 0;
@@ -2283,12 +2132,12 @@ video {
     text-align: left !important;
   }
 
-  /* The Appddiction summary is longer; give its call to action a clearer separation. */
+  /* The longer Appddiction text needs a clearer gap before its button. */
   #projects .appddiction-col .site-btn-container {
     margin-top: 42px;
   }
 
-  /* Headings, role lines and blurbs are always shown (no hover reveal). */
+  /* Cards always show headings, roles and blurbs (no hover reveal). */
   #projects .content .panel-reveal {
     opacity: 1 !important;
     animation: none !important;
@@ -2306,7 +2155,7 @@ video {
     text-align: left !important;
   }
 
-  /* .header-1 (white, in the 680px rules above) would otherwise win over the white card's grey. */
+  /* .header-1 is white above, which would otherwise win over the grey. */
   #projects .appddiction-col h1 {
     color: #505464 !important;
   }
@@ -2327,12 +2176,12 @@ video {
     text-align: left;
   }
 
-  /* The hover-only images are not part of a card. */
+  /* Hover-only images are not part of a card. */
   #projects .content .panel-reveal[src] {
     display: none;
   }
 
-  /* Button: left aligned, sized to fit the narrow card. */
+  /* Left aligned and sized for the narrow card. */
   #projects .content .resume-button {
     margin: 0;
   }
@@ -2355,12 +2204,12 @@ video {
     white-space: nowrap;
   }
 
-  /* Preserve the compact icon-and-label treatment when a card button is hovered. */
+  /* Keeps the compact icon-and-label look on hover. */
   #projects .content .resume-button:hover .circle {
     width: 3rem;
   }
 
-  /* Swipe dots. */
+  /* Swipe dots */
   .card-dots {
     display: flex;
     justify-content: center;
@@ -2368,9 +2217,7 @@ video {
     margin: 6px 0 0 var(--card-gutter);
   }
 
-  /* Each dot is a 28px-square button (a comfortable tap target) with the 8px dot drawn inside.
-     The active dot stretches into a pill without changing the button's size, so the other
-     dots never move under your finger. */
+  /* 28px tap target; the active dot stretches, its neighbors stay put. */
   .card-dots button {
     position: relative;
     width: 28px;
@@ -2399,14 +2246,12 @@ video {
     background: #fff;
   }
 
-  /* The rail arrows are invisible under 680px, but still caught taps meant for the cards.
-     The centered "Explore selected work" chevron on the home slide is visible, so it stays tappable. */
+  /* Hidden rail arrows still caught taps meant for the cards. */
   .hero-work-link:not(.hero-work-link--center) {
     pointer-events: none;
   }
 
-  /* The right-hand nav is dots only, as it already is under 680px: its labels and lines
-     would sit on top of the cards. */
+  /* Dots only, as under 680px: labels and lines would cover the cards. */
   .nav-line,
   .nav-link-text {
     display: none;
@@ -2422,7 +2267,7 @@ video {
   }
 }
 
-/* Tablet and up to 900px: the nav arrows are visible at the rail, so leave more room. */
+/* Up to 900px the arrows show at the rail, so leave more room. */
 @media (min-width: 681px) and (max-width: 900px) {
   #projects {
     --card-gutter: 96px;
@@ -2433,14 +2278,13 @@ video {
   }
 }
 
-/* The fixed right-side navigation sits over the next card's preview at phone widths.
-   Hide the dot-only navigation here so the swipeable cards remain unobstructed. */
+/* The dot nav would cover the next card's preview on phones. */
 @media (max-width: 480px) {
   .vertical-menu {
     display: none;
   }
 
-  /* The hero icon row is centered on the screen. The 28px gap stays, so the dots stay centered between icons. */
+  /* The hero icon row is centered; the gap keeps the dots centered. */
   .hero-links {
     left: 0;
     right: 0;
@@ -2457,10 +2301,7 @@ video {
   }
 }
 
-/* ADI panel, desktop layout up to 1366px wide: the next panel's slanted edge is close enough that
-   the "view page" label sitting to the right of the circle is cut off (at 1280x720 its last
-   13px were covered). Put the label under the circle instead, so everything stays within the
-   panel. Above 1366px the layout is unchanged. */
+/* ADI at 1366px and below: the next panel cuts its label, so it goes under. */
 @media (min-width: 901px) and (max-width: 1366px) {
   .adi-col .resume-button.learn-more.site-btn {
     display: flex;
@@ -2478,16 +2319,12 @@ video {
     white-space: nowrap;
   }
 
-  /* No sideways expansion: the circle stays a circle and the label stays beneath it. */
+  /* No sideways expansion: the circle stays round, the label below. */
   .adi-col .resume-button:hover .circle {
     width: 3rem;
   }
 
-  /* Center the button in the visible part of the panel at its height. The slanted right edge is at
-     R = K - tan(20deg) x (y - 50vh), where K is about 0.17 x width + 44px (measured), y is the
-     label's height (10px above the container's bottom) and the visible part starts at the rail
-     (96px). Content is not skewed, so a point 100px left of the container's start is at that
-     screen x (the panel starts 100px off-screen). */
+  /* Centers the button in the visible part, using the slant at that height. */
   .expansion-col:first-child .site-btn-container {
     --btn-bottom: max(calc(20vh + 20px), 200px);
     --btn-y: calc(100vh - var(--btn-bottom) - 10px);
@@ -2501,19 +2338,14 @@ video {
   }
 }
 
-/* Keep the panels exactly one screen tall up to 1366px. Their hidden text wraps onto many lines when
-   a neighboring panel is hovered and a panel gets narrow, which made the whole slide taller than the
-   screen and pushed every button (the ADI one included) below the fold on hover. */
+/* Panels stay one screen tall, or hover wrapping pushes buttons down. */
 @media (min-width: 901px) and (max-width: 1366px) {
   #projects .content {
     height: 100vh;
   }
 }
 
-/* Up to 1200px the panel is narrow and its (hidden) text wraps, so the slide grows taller than
-   the screen and the strip near the bottom of the panel is narrower than the label. Anchor the
-   ADI button to the middle of the panel instead, where the slant leaves the most room: the
-   slant's offset is then the same at every slide height (only the width matters). */
+/* Narrow panels: the ADI button goes mid-panel, where the slant leaves room. */
 @media (min-width: 901px) and (max-width: 1200px) {
   .expansion-col:first-child .site-btn-container {
     top: calc(50% - 75px);
@@ -2521,13 +2353,13 @@ video {
     --strip-right: calc(0.17 * 100vw + 26px + tan(20deg) * 10px);
   }
 
-  /* The button stays at the left of the panel when it is hovered, so keep the hover logo to its right. */
+  /* The button stays left when hovered, so the hover logo goes to its right. */
   .adi-col .expansion-section > .col-12.w-100 > .col-12.text-center {
     padding-left: 200px;
   }
 }
 
-/* Up to 1100px the hovered panel's blurb wraps onto more lines, so lower the button below it. */
+/* Below 1100px the blurb wraps further, so the button moves down. */
 @media (min-width: 901px) and (max-width: 1100px) {
   .expansion-col:first-child .site-btn-container {
     top: calc(50% - 35px);
@@ -2535,14 +2367,7 @@ video {
   }
 }
 
-/* ==========================================================================
-   Resume slide, desktop: the strengths column is exactly as tall as the resume image. The
-   first block starts at the image's top edge, the last ends at its bottom edge, and the five
-   blocks are spread evenly between. The Download button stays under the image.
-   From 1280px wide the two columns become a two-row grid (image and strengths in row 1, the
-   button in row 2). Type scales with the strengths column's width (cqw) so the blocks fit the
-   image's height at any desktop width: the image's height is proportional to the same width.
-   ========================================================================== */
+/* Resume slide (desktop) */
 @media (min-width: 1200px) {
   .resume-content > .col-xl-6.text-left {
     container-type: inline-size;
@@ -2576,12 +2401,11 @@ video {
     align-content: center;
   }
 
-  /* The empty spacer column. */
   .resume-content > .col-12 {
     display: none;
   }
 
-  /* The image column's children (image and button) become grid items. */
+  /* display: contents makes the image and button grid items. */
   .resume-content > .col-xl-6.text-center {
     display: contents;
   }
@@ -2609,13 +2433,7 @@ video {
   }
 }
 
-/* ==========================================================================
-   Resume slide, desktop (901px and up): the image and the Download button share a wrapper. The
-   button sits 12px up from the image's bottom edge, straddling its right edge. It is the site's standard
-   round-arrow button (.resume-button.learn-more). At rest it is only the red circle; on hover or
-   keyboard focus the circle grows leftward over the image into a pill that says "download pdf",
-   like "view page". At 900px and below the button stays under the image.
-   ========================================================================== */
+/* Resume download: a circle on the image corner that opens leftward */
 @media (min-width: 901px) {
   .resume-img-wrap {
     position: relative;
@@ -2659,8 +2477,7 @@ video {
     margin: 0;
   }
 
-  /* The link is anchored at the right and grows to the left, so the circle's right edge stays
-     put. The label is hidden at rest and white once the pill is open. */
+  /* Anchored right, it grows left; the label shows only when open. */
   .resume-img-wrap .resume-button.learn-more .button-text {
     overflow: hidden;
     white-space: nowrap;
@@ -2674,7 +2491,7 @@ video {
     opacity: 1;
   }
 
-  /* Keyboard focus opens the pill like hover does. */
+  /* Keyboard focus opens the pill like hover. */
   .resume-img-wrap .resume-download-link:focus-visible .circle,
   .resume-img-wrap .resume-download-link:has(:focus-visible) .circle {
     width: 100%;
@@ -2699,9 +2516,7 @@ video {
   }
 }
 
-/* The slide fits in the window: no scrolling inside it on screens at least 600px tall. The
-   image is sized by the window's height and the content is centered. The strengths column scales
-   with the height too, so it is never taller than the image. */
+/* Fit one window with no inner scrolling; text scales with the height. */
 @media (min-width: 1280px) and (min-height: 600px) {
   .resume-two-container {
     height: 100vh;
@@ -2713,7 +2528,7 @@ video {
     align-self: center;
     padding-top: 0;
     padding-bottom: 0;
-    /* The image column is as wide as the image. The strengths column is 440px to 44rem wide. */
+    /* The image column is as wide as the image; text gets 440px to 44rem. */
     grid-template-columns: max-content minmax(440px, 44rem);
     column-gap: 56px;
     justify-content: center;
@@ -2723,10 +2538,7 @@ video {
     max-width: none;
   }
 
-  /* The image uses the window's height (less 140px). If that would make it so wide that the
-     strengths column dropped under 440px, the height is reduced instead. 0.7727 is the image's
-     width / height; 904px is the 400px side padding, the 56px gap, the 440px column and the
-     8px scrollbar. object-fit is a safety net: the image is never stretched. */
+  /* 904px = padding, gap, 440px column, scrollbar; 0.7727 = image ratio. */
   .resume-img {
     height: calc(100vh - 140px);
     max-height: min(calc(100vh - 140px), calc((100vw - 904px) / 0.7727));
@@ -2751,10 +2563,7 @@ video {
   }
 }
 
-/* Phones: the fixed vertical name sits at the left edge (its right edge is 42-46px in). The
-   Resume slide's content gets 80px of left padding (the nested rows pull their text back 15px),
-   which clears the name by 20px or more. The strengths headings are smaller so
-   "GLOBAL CATALOG" and "GOVERNMENT SOFTWARE" stay on one line at 390px. */
+/* Phones: 80px left padding clears the name; smaller headings fit one line. */
 @media (max-width: 480px) {
   .resume-content {
     padding-right: 24px;
@@ -2770,15 +2579,14 @@ video {
   }
 }
 
-/* Very narrow phones (360px): one more step down so "GOVERNMENT SOFTWARE" still fits on one line. */
+/* Narrow phones: one more step so "GOVERNMENT SOFTWARE" fits. */
 @media (max-width: 380px) {
   .strength-row .proficiencies-title {
     font-size: 13.5px;
   }
 }
 
-/* Phones: the signature sat on top of the home chevron. Make it smaller and lift it so there
-   are 24px between its bottom edge and the chevron (34px above the bottom edge, 50px tall). */
+/* Phones: lift and shrink the signature so it clears the home chevron. */
 @media (max-width: 480px) {
   .signature {
     width: 140px;

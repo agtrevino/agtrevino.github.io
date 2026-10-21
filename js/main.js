@@ -1,15 +1,6 @@
-/* ==========================================================================
-   main.js
-   Behavior for the page, written with jQuery ($).
-   - Fades the side menu in on load.
-   - Highlights the current menu item as you scroll (changes colors too).
-   - Plays a project video only while you hover its panel.
-   - Reveals the three resume strengths when you reach them.
-   jQuery is loaded from a CDN in index.html before this file.
-   ========================================================================== */
+/* Page behavior, written with jQuery (loaded from a CDN before this file). */
 
-
-// Run scroll handlers at most once per animation frame.
+// Throttles scroll work to one run per frame.
 function onWrapperScroll(fn) {
   let ticking = false;
   $('.wrapper').on('scroll', function () {
@@ -34,18 +25,14 @@ function suppressHoverWhileScrolling() {
   });
 }
 
-// Project videos sit under overlays until a panel is hovered.
-// Play a video only while its panel is hovered (or visible on touch screens).
+// Videos play only while their panel is hovered (or visible on touch).
 function videoPlayback() {
   const canHover = window.matchMedia('(hover: hover)').matches;
 
-  // Up to 900px wide the portfolio slide is a row of swipeable cards with no videos:
-  // the videos are hidden and carry preload="none" in the HTML, so nothing is downloaded.
+  // Cards (900px and below) have no videos; preload="none" saves the download.
   const cardLayout = window.matchMedia('(max-width: 900px)');
 
-  // Buffer every panel video once the portfolio slide first scrolls into view,
-  // so the first frames are ready before the first hover. Videos already playing are left alone.
-  // The HTML says preload="none" (so phones download nothing); wider screens raise it here.
+  // Buffer videos when the slide first shows, so the first hover has frames.
   const slide = document.getElementById('projects');
   let slideSeen = false;
   const loadVideos = () => {
@@ -56,8 +43,7 @@ function videoPlayback() {
     });
   };
   if (slide && 'IntersectionObserver' in window) {
-    // Wait until part of the slide is actually visible: at threshold 0 a slide whose top edge
-    // only touches the bottom of the screen already counts as intersecting.
+    // Threshold 0 would count a slide that only touches the screen edge.
     const loader = new IntersectionObserver((entries) => {
       if (!entries.some((e) => e.intersectionRatio > 0)) return;
       loader.disconnect();
@@ -69,7 +55,7 @@ function videoPlayback() {
     slideSeen = true;
     loadVideos();
   }
-  // A tablet turned to a wider orientation: buffer the videos then.
+  // A tablet turned wider: buffer the videos then.
   cardLayout.addEventListener('change', () => { if (slideSeen) loadVideos(); });
 
   document.querySelectorAll('.expansion-col').forEach((col) => {
@@ -91,9 +77,7 @@ function videoPlayback() {
   });
 }
 
-// Contact slide: the code layer drifts slowly against the scroll. p is how far the slide's top is
-// below the top of the screen (1 = just below the screen, 0 = in place), so --py goes from -120px to 0.
-// Skipped (--py stays 0) with reduced motion and on touch screens.
+// Code layer drifts against the scroll (not on touch or reduced motion).
 function contactParallax() {
   const section = document.getElementById('contact');
   const layer = section && section.querySelector('.code-layer');
@@ -116,8 +100,7 @@ function contactParallax() {
   update();
 }
 
-// Contact slide: the first time the slide is mostly on screen, each line of the code layer is
-// revealed left to right, one line after another. It plays once. Without JS the code is plain text.
+// Types the code layer in once, the first time the slide is mostly visible.
 function contactTyping() {
   const section = document.getElementById('contact');
   const layer = section && section.querySelector('.code-layer');
@@ -144,7 +127,7 @@ function contactTyping() {
   observer.observe(section);
 }
 
-// Dots under the card row: the dot for the card nearest the left edge is active, and tapping one scrolls to its card.
+// The dot for the card nearest the left edge is active; tapping one scrolls.
 function cardDots() {
   const row = document.querySelector('#projects .content');
   const dots = document.querySelectorAll('#projects .card-dots button');
@@ -163,7 +146,6 @@ function cardDots() {
       else dot.removeAttribute('aria-current');
     });
   };
-  // Tapping a dot scrolls the row to that card.
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => {
       const card = row.querySelectorAll('.expansion-col')[i];
@@ -184,8 +166,7 @@ function signatureAnimation() {
   const source = signature.dataset.src;
   let replayTimer = null;
 
-  // The first play waits until 2.0s after page load, after the hero entrance.
-  // Later replays keep the 1.3s delay.
+  // The first play waits for the hero entrance; replays use a shorter delay.
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let firstPlay = true;
   const nextDelay = () => {
@@ -225,10 +206,7 @@ function signatureAnimation() {
   observer.observe(hero);
 }
 
-// Project logos: on desktop they rise one after another (150ms apart) each time the portfolio
-// slide comes into view, and again when the pointer leaves the panels after one was expanded.
-// In the HTML they start hidden (no .fadeInUp); the card layout (900px and below) shows them
-// with CSS. With reduced motion they just appear, once, with no delay.
+// Logos rise in sequence when the slide shows and after a panel hover ends.
 function projectLogoIntro() {
   const slide = document.getElementById('projects');
   if (!slide || !('IntersectionObserver' in window)) return;
@@ -244,7 +222,7 @@ function projectLogoIntro() {
       logo.classList.remove('fadeInUp');
       void logo.offsetWidth;
       if (!reducedMotion.matches) {
-        // Clear the delay afterwards so the hover fade out and back in has none.
+        // Cleared so the hover fade out and in has no delay.
         const clearDelay = () => { logo.style.animationDelay = ''; };
         logo.addEventListener('animationend', clearDelay, { once: true });
         logo.addEventListener('animationcancel', clearDelay, { once: true });
@@ -264,7 +242,7 @@ function projectLogoIntro() {
       const entry = entries[entries.length - 1];
       if (cardLayout.matches) return;
       if (entry.intersectionRatio === 0) {
-        // Off screen: hide the logos again so the next visit replays the sequence.
+        // Reset so the next visit replays the sequence.
         played = false;
         if (!reducedMotion.matches) {
           logos.forEach((logo) => {
@@ -280,8 +258,7 @@ function projectLogoIntro() {
     }, { root: document.querySelector('.wrapper'), rootMargin: '-1px 0px', threshold: [0, 0.4] });
     observer.observe(slide);
 
-    // The pointer leaves all the panels after one was expanded: bring the logos back in sequence.
-    // Moving from one panel to another stays inside the container, so it does not count.
+    // Leaving all panels after one expanded replays; panel to panel does not.
     const panels = slide.querySelector('.content');
     if (panels && canHover.matches && !reducedMotion.matches) {
       let expanded = false;
@@ -296,20 +273,18 @@ function projectLogoIntro() {
     }
   };
   start();
-  // A tablet turned to a wider orientation: run it then.
+  // A tablet turned wider: start then.
   cardLayout.addEventListener('change', start);
 }
 
-// Replay the hero icons each time the hero comes back into view.
+// Replays the icon entrance whenever the hero comes back.
 function heroIconReplay() {
   const hero = document.getElementById('home');
   if (!hero || !('IntersectionObserver' in window)) return;
   const cardLayout = window.matchMedia('(max-width: 900px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (reducedMotion.matches) return;
-  // The 1px inset margin makes a slide that only touches the edge (where the page snaps to) count
-  // as off screen. Once the hero is completely off screen, the icons are reset (hidden). When it is at
-  // least half back on screen the reset is lifted, so the icons rise again, in order.
+  // The 1px inset makes a slide that only touches the edge count as off screen.
   new IntersectionObserver((entries) => {
     const entry = entries[entries.length - 1];
     if (cardLayout.matches) { hero.classList.remove('hero-away'); return; }
@@ -318,8 +293,7 @@ function heroIconReplay() {
   }, { root: document.querySelector('.wrapper'), rootMargin: '-1px 0px', threshold: [0, 0.5] }).observe(hero);
 }
 
-// Stop painting the hero background while the hero is off screen. The 200px margin turns it
-// back on before the hero scrolls into view, so there is no flash.
+// Stops painting the hero when off screen; the 200px margin avoids a flash.
 function heroVisibility() {
   const hero = document.getElementById('home');
   if (!hero || !('IntersectionObserver' in window)) return;
@@ -345,8 +319,7 @@ function ngOnInit() {
     resumeTitleViewCheck();
   }
 
-// Project panels: on hover, fade out the panel's logo, then fade in its details
-// (heading, role line, blurb, image), which are marked .panel-reveal.
+// On hover the logo fades out, then the details (.panel-reveal) fade in.
 function expandingCards() {
     $(".expansion-col").each(function () {
       const logo = $(this).find(".site-logo-container img");
@@ -366,7 +339,6 @@ function expandingCards() {
     });
   }
 
-
 function isHomeView() {
     $('.home-nav').addClass("active-nav");
     $('.home-circle').addClass("active-circle");
@@ -383,15 +355,9 @@ function isHomeView() {
     $('.resume-nav').removeClass("active-nav");
     $('.resume-circle').removeClass("nav-circle-black");
 
-    $('.main-logo-poly').css({ fill: "#fff" });
-    $('.main-logo-poly').css({ stroke: "#fff" });
-
-
   }
 
 function isResumeView() {
-    $('.main-logo-poly').css({ fill: "#505464" });
-    $('.main-logo-poly').css({ stroke: "#505464" });
 
     $('.resume-nav').addClass("active-nav");
     $('.resume-circle').addClass("active-circle-black");
@@ -416,11 +382,10 @@ function isProjectsView() {
     $('.projects-nav').addClass("active-nav");
     $('.projects-circle').addClass("active-circle");
 
-
     $('.nav-link-text').removeClass("color-black");
     $('.line').removeClass("line-black");
     $('.nav-circle').removeClass("circle-black");
-    // The first portfolio panel (ADI) is navy, so the vertical name stays white here.
+    // ADI's navy panel keeps the vertical name white.
     $('.vertical-text-2').removeClass("color-black");
     $('.resume-circle').removeClass("active-circle-black");
     $('.resume-nav').removeClass("active-nav");
@@ -429,8 +394,6 @@ function isProjectsView() {
     $('.home-nav').removeClass("active-nav");
     $('.contact-circle').removeClass("active-circle");
     $('.contact-nav').removeClass("active-nav");
-    $('.main-logo-poly').css({ fill: "#fff" });
-    $('.main-logo-poly').css({ stroke: "#fff" });
 
   }
 
@@ -451,17 +414,14 @@ function isContactView() {
     $('.resume-nav').removeClass("active-nav");
     $('.resume-circle').removeClass("nav-circle-black");
 
-    $('.main-logo-poly').css({ fill: "#fff" });
-    $('.main-logo-poly').css({ stroke: "#fff" });
-
   }
 
-// ---- Which slide is showing, and keeping the side nav and the URL in step with it.
+// Slides, nav and URL
 
 const SLIDE_IDS = ['home', 'projects', 'resume', 'contact'];
 const SLIDE_VIEWS = { home: isHomeView, projects: isProjectsView, resume: isResumeView, contact: isContactView };
 
-// The slide with the most visible area inside .wrapper (the first one wins a tie).
+// Most visible area wins; the first slide wins a tie.
 function currentSlide() {
   const wrapper = document.querySelector('.wrapper');
   if (!wrapper) return SLIDE_IDS[0];
@@ -480,7 +440,7 @@ function currentSlide() {
   return best;
 }
 
-// Marks exactly one nav item active, and sets the light or dark nav and rail colors for that slide.
+// One nav item active, with light or dark colors for the slide.
 let shownSlide = null;
 function updateActiveSlide(force) {
   const id = currentSlide();
@@ -492,9 +452,7 @@ function updateActiveSlide(force) {
   return id;
 }
 
-// Keeps the nav and the URL hash in step with the slide on screen. The nav follows the scroll
-// at once. The hash is only rewritten once the scrolling has been still for 150ms, so a smooth
-// scroll from a nav or arrow click finishes first. replaceState keeps the back button clean.
+// The nav follows scroll; the hash waits for 150ms of stillness.
 function slideSync() {
   const wrapper = document.querySelector('.wrapper');
   if (!wrapper) return;
@@ -535,7 +493,7 @@ function slideSync() {
   window.addEventListener('resize', () => { updateActiveSlide(true); onScroll(); });
   window.addEventListener('hashchange', () => { updateActiveSlide(true); });
 
-  // On load, once the layout has settled: open on the slide named in the URL, if any.
+  // Once layout settles, open on the slide named in the URL.
   const start = () => {
     window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
       scrollToHash();
@@ -552,7 +510,7 @@ function resumeTitleViewCheck() {
     onWrapperScroll(function () {
       var scrollTop = $(window).scrollTop();
       var windowHeight = $(window).height();
-      // Resume strengths: when the first heading is in view, fade the blocks in one by one, 300ms apart.
+      // Fade the strengths in one by one when the first heading is in view.
       $(".strength-title").first().each(function () {
         var offset = $(this).offset();
         if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
@@ -567,8 +525,7 @@ function resumeTitleViewCheck() {
     });
   }
 
-// The nav fades in first with CSS (heroRise in styles.css, done at 0.5s).
-// Once it has appeared, the nav item for the slide on screen is marked active.
+// Marks the current slide in the nav once its fade-in has finished.
 function navAnim() {
     setTimeout(updateActiveSlide, 500, true);
   }
