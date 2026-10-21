@@ -1521,6 +1521,15 @@ video {
     opacity: 1;
   }
 }
+@keyframes panelFadeInUp {
+  from {
+    translate: 0 40px;
+  }
+  to {
+    translate: none;
+    opacity: 1;
+  }
+}
 .animated {
   animation-duration: 1s;
   animation-fill-mode: both;
@@ -1530,11 +1539,29 @@ video {
 .animatedFadeInUp {
   opacity: 0;
 }
-
+.adi-col .site-logo-container {
+  top: 7vh;
+  left: 100px;
+  right: 48px;
+}
+.adi-col .adi-site-logo {
+  display: block;
+  margin-left: auto;
+  width: min(175px, calc(100% - 16px)) !important;
+  max-width: 175px;
+}
+.content:has(.expansion-col:not(.adi-col):hover) .adi-col .site-logo-container {
+  opacity: 0;
+}
 .fadeInUp {
   opacity: 0;
   animation-name: fadeInUp;
   -webkit-animation-name: fadeInUp;
+}
+
+.expansion-col .fadeInUp {
+  animation-name: panelFadeInUp;
+  -webkit-animation-name: panelFadeInUp;
 }
 
 .expansion-color-white {
