@@ -1154,6 +1154,10 @@ header .overlay-white {
   max-height: 250px;
 }
 
+.adi-logo-img {
+  max-height: 120px;
+}
+
 .expansion-section {
   transform: skew(20deg, 0);
 }
