@@ -1461,12 +1461,12 @@ video {
   width: 100%;
   background: rgb(26, 67, 102);
   z-index: 1;
-  transition: all 350ms ease-in-out;
+  transition: background-color 350ms ease-in-out;
 }
 
 .adi-col:hover > .overlay-adi {
   background: rgba(26, 67, 102, 0.7);
-  transition: all 350ms ease-in-out;
+  transition: background-color 350ms ease-in-out;
 }
 
 /* "view archived page" is longer than the other button labels; widen that button
@@ -1488,12 +1488,12 @@ video {
   width: 100%;
   background: rgb(77, 141, 202);
   z-index: 1;
-  transition: all 350ms ease-in-out;
+  transition: background-color 350ms ease-in-out;
 }
 
 .jstorm-col:hover > .overlay-blue {
   background: rgba(77, 141, 202, 0.7);
-  transition: all 350ms ease-in-out;
+  transition: background-color 350ms ease-in-out;
 }
 
 .overlay-white {
@@ -1504,7 +1504,7 @@ video {
   width: 100%;
   background: rgb(255, 255, 255);
   z-index: 1;
-  transition: all 350ms ease-in-out;
+  transition: background-color 350ms ease-in-out;
 }
 
 .overlay-mp {
@@ -1519,12 +1519,12 @@ video {
 
 .mp-col:hover > .overlay-mp {
   background: rgba(140, 122, 230, 0.5);
-  transition: all 350ms ease-in-out;
+  transition: background-color 350ms ease-in-out;
 }
 
 .appddiction-col:hover > .overlay-white {
   background: rgba(255, 255, 255, 0.7);
-  transition: all 350ms ease-in-out;
+  transition: background-color 350ms ease-in-out;
 }
 
 .content {
@@ -1588,13 +1588,27 @@ video {
   width: calc(100% + 200px);
   margin-left: -100px;
   display: block;
-  background-attachment: fixed;
   transform: skew(20deg, 0);
 }
 
 .expansion-col:hover {
   flex-grow: 4;
   transition: flex-grow 450ms;
+}
+
+/* Desktop panels: keep each panel's painting and its video on their own layers, so the
+   hover expansion does not repaint its neighbors. The card layout (900px and below) is untouched. */
+@media (min-width: 901px) {
+  .expansion-col {
+    contain: layout paint;
+    backface-visibility: hidden;
+    will-change: flex-grow;
+  }
+
+  .expansion-col video {
+    will-change: transform;
+    transform: translateZ(0);
+  }
 }
 
 .is-scrolling .expansion-col {
