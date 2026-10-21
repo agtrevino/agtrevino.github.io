@@ -225,6 +225,43 @@ function signatureAnimation() {
   observer.observe(hero);
 }
 
+// Project logos: on desktop they rise one after another (150ms apart) the first time the
+// portfolio slide is mostly on screen. In the HTML they start hidden (no .fadeInUp); the card
+// layout (900px and below) shows them with CSS. Runs once.
+function projectLogoIntro() {
+  const slide = document.getElementById('projectsTwo');
+  if (!slide || !('IntersectionObserver' in window)) return;
+  const cardLayout = window.matchMedia('(max-width: 900px)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const logos = ['adi', 'appddiction', 'jstorm', 'mp']
+    .map((name) => slide.querySelector('.' + name + '-site-logo'))
+    .filter(Boolean);
+
+  let started = false;
+  const start = () => {
+    if (started || cardLayout.matches) return;
+    started = true;
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      observer.disconnect();
+      logos.forEach((logo, i) => {
+        if (!reducedMotion.matches) {
+          // Clear the delay afterwards so the hover fade out and back in has none.
+          const clearDelay = () => { logo.style.animationDelay = ''; };
+          logo.addEventListener('animationend', clearDelay, { once: true });
+          logo.addEventListener('animationcancel', clearDelay, { once: true });
+          logo.style.animationDelay = (i * 150) + 'ms';
+        }
+        logo.classList.add('fadeInUp');
+      });
+    }, { root: document.querySelector('.wrapper'), threshold: 0.4 });
+    observer.observe(slide);
+  };
+  start();
+  // A tablet turned to a wider orientation: run it then.
+  cardLayout.addEventListener('change', start);
+}
+
 // Stop painting the hero background while the hero is off screen. The 200px margin turns it
 // back on before the hero scrolls into view, so there is no flash.
 function heroVisibility() {
@@ -243,6 +280,7 @@ function ngOnInit() {
     contactParallax();
     contactTyping();
     heroVisibility();
+    projectLogoIntro();
     signatureAnimation();
     expandingCards();
     navAnim();
