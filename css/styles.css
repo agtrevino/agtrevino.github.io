@@ -2565,6 +2565,6 @@ video {
   .expansion-col:first-child .site-btn-container {
     top: calc(50% - 75px);
     bottom: auto;
-    --strip-right: calc(0.17 * 100vw + 44px + tan(20deg) * 10px);
+    --strip-right: calc(0.17 * 100vw + 26px + tan(20deg) * 10px);
   }
 }
