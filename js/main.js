@@ -91,10 +91,10 @@ function videoPlayback() {
   });
 }
 
-// Swipe dots under the card row: the dot for the card nearest the left edge is active.
+// Dots under the card row: the dot for the card nearest the left edge is active, and tapping one scrolls to its card.
 function cardDots() {
   const row = document.querySelector('#projectsTwo .content');
-  const dots = document.querySelectorAll('#projectsTwo .card-dots span');
+  const dots = document.querySelectorAll('#projectsTwo .card-dots button');
   if (!row || !dots.length) return;
   const update = () => {
     const cards = [...row.querySelectorAll('.expansion-col')];
@@ -104,8 +104,19 @@ function cardDots() {
       const d = Math.abs(card.getBoundingClientRect().left - rowLeft);
       if (d < best) { best = d; nearest = i; }
     });
-    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === nearest));
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === nearest);
+      if (i === nearest) dot.setAttribute('aria-current', 'true');
+      else dot.removeAttribute('aria-current');
+    });
   };
+  // Tapping a dot scrolls the row to that card.
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      const card = row.querySelectorAll('.expansion-col')[i];
+      if (card) row.scrollTo({ left: card.offsetLeft - row.offsetLeft, behavior: 'smooth' });
+    });
+  });
   row.addEventListener('scroll', () => window.requestAnimationFrame(update), { passive: true });
   window.addEventListener('resize', update);
   update();
