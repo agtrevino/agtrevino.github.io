@@ -884,8 +884,13 @@ body.hero-offscreen .bg1::after {
     font-size: clamp(28px, 8.6vw, 36px);
   }
 
+  /* Two even lines, centered: no single word left alone on the last line. */
   .contact-line {
+    max-width: 18em;
+    margin-right: auto;
+    margin-left: auto;
     font-size: 17px;
+    text-wrap: balance;
   }
 
   .resume-button.learn-more.contact-email-btn {
@@ -2689,6 +2694,24 @@ video {
     align-self: center;
     padding-top: 0;
     padding-bottom: 0;
+    /* The image column is as wide as the image. The strengths column is 440px to 44rem wide. */
+    grid-template-columns: max-content minmax(440px, 44rem);
+    column-gap: 56px;
+    justify-content: center;
+  }
+
+  .resume-content .resume-img-wrap {
+    max-width: none;
+  }
+
+  /* The image uses the window's height (less 140px). If that would make it so wide that the
+     strengths column dropped under 440px, the height is reduced instead. 0.7727 is the image's
+     width / height; 904px is the 400px side padding, the 56px gap, the 440px column and the
+     8px scrollbar. object-fit is a safety net: the image is never stretched. */
+  .resume-img {
+    height: calc(100vh - 140px);
+    max-height: min(calc(100vh - 140px), calc((100vw - 904px) / 0.7727));
+    object-fit: contain;
   }
 
   .strength-row .resume-title {
