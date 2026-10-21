@@ -119,78 +119,25 @@ function ngOnInit() {
     });
   }
 
+// Project panels: on hover, fade out the panel's logo, then fade in its details
+// (heading, role line, blurb, image), which are marked .panel-reveal.
 function expandingCards() {
-    $(".jstorm-col").on("mouseover", "div", function (e) {
-      $('.jstorm-site-logo').removeClass("fadeInUp");
-      setTimeout(function () {
-        $('.jstorm-title-2').addClass("fadeInUp");
-        $('.jstorm-logo-img').addClass("fadeInUp");
-        $('.jstorm-text').addClass("fadeInUp");
-      }, 200);
+    $(".expansion-col").each(function () {
+      const logo = $(this).find(".site-logo-container img");
+      const details = $(this).find(".panel-reveal");
+      $(this).on("mouseover", "div", function () {
+        logo.removeClass("fadeInUp");
+        setTimeout(function () {
+          details.addClass("fadeInUp");
+        }, 200);
+      });
+      $(this).on("mouseleave", "div", function () {
+        logo.addClass("fadeInUp");
+        setTimeout(function () {
+          details.removeClass("fadeInUp");
+        }, 200);
+      });
     });
-    $(".jstorm-col").on("mouseleave", "div", function (e) {
-      $('.jstorm-site-logo').addClass("fadeInUp");
-      setTimeout(function () {
-        $('.jstorm-title-2').removeClass("fadeInUp");
-        $('.jstorm-logo-img').removeClass("fadeInUp");
-        $('.jstorm-text').removeClass("fadeInUp");
-      }, 200);
-    });
-
-    $(".codebound-col").on("mouseover", "div", function (e) {
-      $('.codebound-site-logo').removeClass("fadeInUp");
-      setTimeout(function () {
-        $('.codebound-title-2').addClass("fadeInUp");
-        $('.codebound-logo-img').addClass("fadeInUp");
-        $('.codebound-text').addClass("fadeInUp");
-      }, 200);
-    });
-    $(".codebound-col").on("mouseleave", "div", function (e) {
-      $('.codebound-site-logo').addClass("fadeInUp");
-      setTimeout(function () {
-        $('.codebound-title-2').removeClass("fadeInUp");
-        $('.codebound-logo-img').removeClass("fadeInUp");
-        $('.codebound-text').removeClass("fadeInUp");
-      }, 200);
-    });
-
-    $(".mp-col").on("mouseover", "div", function (e) {
-      $('.mp-site-logo').removeClass("fadeInUp");
-      setTimeout(function () {
-        $('.mp-title-2').addClass("fadeInUp");
-        $('.mp-logo-img').addClass("fadeInUp");
-        $('.mp-text').addClass("fadeInUp");
-      }, 200);
-    });
-    $(".mp-col").on("mouseleave", "div", function (e) {
-      $('.mp-site-logo').addClass("fadeInUp");
-      setTimeout(function () {
-        $('.mp-title-2').removeClass("fadeInUp");
-        $('.mp-logo-img').removeClass("fadeInUp");
-        $('.mp-text').removeClass("fadeInUp");
-      }, 200);
-    });
-
-    $(".appddiction-col").on("mouseover", "div", function (e) {
-      $('.appddiction-site-logo').removeClass("fadeInUp");
-      setTimeout(function () {
-        $('.appddiction-title-2').addClass("fadeInUp");
-        $('.appddiction-logo-img').addClass("fadeInUp");
-        $('.appddiction-text').addClass("fadeInUp");
-
-      }, 200);
-    });
-    $(".appddiction-col").on("mouseleave", "div", function (e) {
-      $('.appddiction-site-logo').addClass("fadeInUp");
-      setTimeout(function () {
-        $('.appddiction-title-2').removeClass("fadeInUp");
-        $('.appddiction-logo-img').removeClass("fadeInUp");
-        $('.appddiction-text').removeClass("fadeInUp");
-
-      }, 200);
-    });
-
-
   }
 
 
@@ -399,23 +346,13 @@ function navViewCheck() {
       $(".jstorm-viewport").each(function () {
         if (isMarkerVisible(this)) {
           $('.jstorm-line').addClass('line-extend');
-          $('.codebound-line').removeClass('line-extend');
           $('.appddiction-line').removeClass('line-extend');
         }
       })
       $(".projects-main-viewport").each(function () {
         if (isMarkerVisible(this)) {
           $('.jstorm-line').removeClass('line-extend');
-          $('.codebound-line').removeClass('line-extend');
           $('.appddiction-line').removeClass('line-extend');
-        }
-      })
-      $(".codebound-viewport").each(function () {
-        if (isMarkerVisible(this)) {
-          $('.codebound-line').addClass('line-extend');
-          $('.jstorm-line').removeClass('line-extend');
-          $('.appddiction-line').removeClass('line-extend');
-          $('.projects-circle').removeClass("active-circle-black");
         }
       })
 
@@ -425,7 +362,6 @@ function navViewCheck() {
           viewSwitch(this.view);
           $('.appddiction-line').addClass('line-extend');
           $('.jstorm-line').removeClass('line-extend');
-          $('.codebound-line').removeClass('line-extend');
         }
       })
 
@@ -482,27 +418,6 @@ function resumeTitleViewCheck() {
       //   }
       // });
 
-      $(".codebound-title").each(function () {
-        var offset = $(this).offset();
-        if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
-          // setTimeout(function () {
-          //   $('.codebound-title').addClass("fadeInUp");
-          // }, 300);
-        }
-      });
-      // $(".codebound-title-2").each(function () {
-      //   var offset = $(this).offset();
-      //   if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
-      //     $('.codebound-img').addClass("fadeInUp");
-      //     setTimeout(function () {
-      //       $('.codebound-title-2').addClass("fadeInUp");
-      //       setTimeout(function () {
-      //         $('.codebound-text').addClass("fadeInUp");
-      //       }, 300);
-      //     }, 300);
-
-      //   }
-      // });
 
     });
   }

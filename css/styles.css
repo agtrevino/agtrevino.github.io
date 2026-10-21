@@ -938,7 +938,7 @@ header .overlay-white {
   color: #505464 !important;
 }
 
-.codebound-text,
+.adi-text,
 .mp-text {
   font-size: 22px;
   color: #fff;
@@ -1022,17 +1022,12 @@ header .overlay-white {
   fill: #eb3b5a;
 }
 
-/* Hover legibility: the label switches to the real SemiBold file (crisp, not a faux bold). */
+/* Hover legibility: weight 600 from the real SemiBold file (crisp, not a faux bold),
+   so the red text stays readable, including over the hero graffiti. */
 .hero-work-link:hover span,
 .hero-work-link:focus-visible span {
   font-family: "ralewaySemi";
-}
-
-/* The hero arrow's label is always visible, so the font swap above would make it
-   visibly jump on hover. It keeps its resting font; only the color changes. */
-#homeTwo .hero-work-link:hover span,
-#homeTwo .hero-work-link:focus-visible span {
-  font-family: "raleway";
+  font-weight: 600;
 }
 
 /* Every arrow label except the hero's types out on hover/focus, one letter per step
@@ -1141,6 +1136,20 @@ header .overlay-white {
   transition: 300ms ease-in-out;
 }
 
+/* First (white) panel: solid #eb3b5a "visit site" text. The 0.67 opacity moves from the
+   whole button to its circle, so the circle looks the same as on the other panels. */
+.appddiction-col .site-btn {
+  opacity: 1;
+}
+
+.appddiction-col .site-btn .circle {
+  opacity: 0.67;
+}
+
+.appddiction-col .site-btn:hover .circle {
+  opacity: 1;
+}
+
 .mp-logo-img {
   max-height: 250px;
 }
@@ -1151,7 +1160,7 @@ header .overlay-white {
 
 .jstorm-site-logo,
 .appddiction-site-logo,
-.codebound-site-logo,
+.adi-site-logo,
 .mp-site-logo {
   max-width: 175px;
 }
@@ -1177,7 +1186,7 @@ video {
 }
 
 .jstorm-title-2,
-.codebound-title-2,
+.adi-title-2,
 .mp-title-2 {
   font-family: "ralewayExtraBold", sans-serif;
   font-size: 64px;
@@ -1191,20 +1200,27 @@ video {
   padding-right: 24px;
 }
 
-.overlay-codebound {
+/* ADI panel: ADI navy over its video, which shows through on hover like the other panels. */
+.overlay-adi {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgb(80, 84, 100);
+  background: rgb(26, 67, 102);
   z-index: 1;
   transition: all 350ms ease-in-out;
 }
 
-.codebound-col:hover > .overlay-codebound {
-  background: rgba(80, 84, 100, 0.7);
+.adi-col:hover > .overlay-adi {
+  background: rgba(26, 67, 102, 0.7);
   transition: all 350ms ease-in-out;
+}
+
+/* "view archived page" is longer than the other button labels; widen that button
+   so the text clears the circle. */
+.jstorm-col .resume-button.learn-more {
+  width: 16rem;
 }
 
 .overlay-blue {
@@ -1777,7 +1793,7 @@ video {
     padding-left: 24px;
   }
   .jstorm-title-2,
-  .codebound-title-2 {
+  .adi-title-2 {
     font-family: "ralewayExtraBold", sans-serif;
     font-size: 42px;
     font-style: normal;
@@ -1978,9 +1994,60 @@ video {
   background: #8C7AE6 !important;
 }
 
-.codebound-heading,
-.codebound-copy {
-  margin-right: 60px;
+.resume-button.learn-more .circle.project-circle-navy {
+  border: 2px solid #fff;
+  background: #1a4366 !important;
+}
+
+/* ==========================================================================
+   Project panels: shared structure. Logo at rest; on hover the heading, role
+   line ("what I did"), blurb and image fade in (.panel-reveal), then the button.
+   ========================================================================== */
+.expansion-col h1.panel-reveal {
+  margin-bottom: 0;
+}
+
+/* Role line: uppercase, lighter weight, wide tracking. Sized so the longest line
+   ("FRONT-END DEVELOPMENT · 2021–PRESENT") stays on one line in an expanded panel;
+   70% of the heading (45px) wrapped and ran off-screen. */
+.panel-role {
+  margin: 14px 0 0;
+  padding-right: 10px;
+  font-family: "ralewaySemi";
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-align: right;
+  color: #fff;
+}
+
+.appddiction-col .panel-role {
+  color: #eb3b5a;
+}
+
+.mp-col .panel-role {
+  color: #8c7ae6;
+}
+
+.panel-blurb {
+  /* Narrow enough that, right-aligned in the first panel, no line reaches the left rail. */
+  max-width: 28em;
+  margin: 16px 0 0 auto;
+  padding-right: 10px;
+  line-height: 1.4;
+  text-align: right;
+}
+
+/* The last panel overhangs the right edge of the screen by 100px (see
+   .expansion-col:last-child); pull its text and logo in by that much. */
+.expansion-col:last-child .col-12.w-100 {
+  padding-right: calc(15px + 100px);
+}
+
+.expansion-col:last-child .site-logo-container {
+  padding-right: calc(15px + 100px);
 }
 
 .resume-download-link {
