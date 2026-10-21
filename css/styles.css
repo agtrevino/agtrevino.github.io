@@ -607,14 +607,13 @@ body.hero-offscreen .bg1::after {
 .resume-img {
   display: block;
   width: 100%;
-  box-shadow: 13px 13px 5px -12px #505464;
-  transition: transform 200ms ease, box-shadow 200ms ease;
+  border: 1px solid #d9dbe0;
+  transition: transform 200ms ease;
 }
 
 /* No lift on hover. Keyboard focus still lifts the image, so the link shows where focus is. */
 .resume-img-link:focus-visible .resume-img {
   transform: translateY(-4px);
-  box-shadow: 15px 19px 8px -11px #505464;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1830,9 +1829,6 @@ video {
   }
   .resume-img-link {
     width: 100%;
-  }
-  .resume-img {
-    box-shadow: 13px 13px 5px -12px #505464;
   }
   .header-1 {
     font-family: "ralewayExtraBold", sans-serif;
