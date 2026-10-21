@@ -453,18 +453,16 @@ function resumeTitleViewCheck() {
     onWrapperScroll(function () {
       var scrollTop = $(window).scrollTop();
       var windowHeight = $(window).height();
-      $(".creative-title").each(function () {
+      // Resume strengths: when the first heading is in view, fade the blocks in one by one, 300ms apart.
+      $(".strength-title").first().each(function () {
         var offset = $(this).offset();
         if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
-          setTimeout(function () {
-            $('.creative-row').addClass("fadeInUp");
+          $('.strength-row').each(function (i) {
+            var row = $(this);
             setTimeout(function () {
-              $('.detail-row').addClass("fadeInUp");
-              setTimeout(function () {
-                $('.team-row').addClass("fadeInUp");
-              }, 300)
-            }, 300)
-          }, 300)
+              row.addClass("fadeInUp");
+            }, 300 * (i + 1));
+          });
         }
       })
       $(".jstorm-title").each(function () {
