@@ -2150,6 +2150,10 @@ video {
   color: #fff;
 }
 
+.phone-role-break {
+  display: none;
+}
+
 .appddiction-col .panel-role {
   color: #eb3b5a;
 }
@@ -2520,6 +2524,15 @@ video {
 @media (max-width: 480px) {
   .vertical-menu {
     display: none;
+  }
+
+  #projectsTwo .content .panel-role {
+    letter-spacing: 0.055em;
+    line-height: 1.3;
+  }
+
+  #projectsTwo .phone-role-break {
+    display: inline;
   }
 }
 
