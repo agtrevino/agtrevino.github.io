@@ -1607,7 +1607,6 @@ video {
 
   .expansion-col video {
     will-change: transform;
-    transform: translateZ(0);
   }
 }
 
