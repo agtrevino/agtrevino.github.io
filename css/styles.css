@@ -1134,15 +1134,17 @@ header .overlay-white {
   container: panel-logo / inline-size;
 }
 
-/* When a neighboring panel expands, the end panels narrow until their visible strip is
-   narrower than the logo (175px + 24px margin). Fade the logo out instead of squeezing it.
-   !important beats the fadeInUp animation's opacity. */
+/* A panel's logo is animated by .fadeInUp. Keep its rest state independent of the
+   container width: at 1280px the ADI panel is only 198px wide, which used to trip a
+   container query and force its opacity to 0 even when no panel was hovered. */
 .site-logo-container img {
   transition: opacity 200ms ease-in-out;
 }
 
-@container panel-logo (max-width: 198px) {
-  .site-logo-container img {
+/* Hide the non-active logos only while another desktop panel is expanded. This preserves
+   the intended hover behavior without making a narrow resting panel disappear. */
+@media (min-width: 901px) {
+  #projectsTwo .content:has(.expansion-col:hover) .expansion-col:not(:hover) .site-logo-container img {
     opacity: 0 !important;
   }
 }
