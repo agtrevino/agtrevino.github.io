@@ -90,7 +90,9 @@ function contactParallax() {
   const update = () => {
     ticking = false;
     const p = section.getBoundingClientRect().top / window.innerHeight;
-    layer.style.setProperty('--py', (p * -120) + 'px');
+    section.querySelectorAll('.code-layer').forEach((el) => {
+      el.style.setProperty('--py', (p * -120) + 'px');
+    });
   };
   wrapper.addEventListener('scroll', () => {
     if (ticking) return;
@@ -125,6 +127,126 @@ function contactTyping() {
     observer.disconnect();
   }, { threshold: 0.4 });
   observer.observe(section);
+}
+
+// A brighter copy of the code shows through a soft circle at the pointer.
+function contactSpotlight() {
+  const section = document.getElementById('contact');
+  const bg = section && section.querySelector('.contact-bg');
+  const layer = bg && bg.querySelector('.code-layer');
+  if (!layer || !('IntersectionObserver' in window)) return;
+  const noHover = window.matchMedia('(hover: none)');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const small = window.matchMedia('(max-width: 480px)');
+  const blocked = () => noHover.matches || reduced.matches || small.matches;
+  if (blocked()) return;
+
+  // The mask is on this wrapper, so it uses slide coordinates.
+  const spot = document.createElement('div');
+  spot.className = 'spot';
+  const copy = layer.cloneNode(true);
+  copy.classList.add('spot-layer');
+  copy.setAttribute('aria-hidden', 'true');
+  spot.appendChild(copy);
+  bg.appendChild(spot);
+
+  // The copy starts typing in the same frame as the original.
+  const syncTyping = () => copy.classList.toggle('typing', layer.classList.contains('typing'));
+  syncTyping();
+  new MutationObserver(syncTyping).observe(layer, { attributes: true, attributeFilter: ['class'] });
+
+  let frame = 0;
+  let hideTimer;
+  let x = 0;
+  let y = 0;
+  const draw = () => {
+    frame = 0;
+    const box = section.getBoundingClientRect();
+    spot.style.setProperty('--mx', (x - box.left) + 'px');
+    spot.style.setProperty('--my', (y - box.top) + 'px');
+  };
+  const onMove = (event) => {
+    if (small.matches) return;
+    window.clearTimeout(hideTimer);
+    spot.classList.remove('is-off');
+    x = event.clientX;
+    y = event.clientY;
+    if (!frame) frame = window.requestAnimationFrame(draw);
+  };
+  const onLeave = () => {
+    spot.classList.add('is-off');
+    window.clearTimeout(hideTimer);
+    hideTimer = window.setTimeout(() => {
+      spot.style.setProperty('--mx', '-999px');
+      spot.style.setProperty('--my', '-999px');
+    }, 300);
+  };
+
+  // Listeners exist only while the slide is at least 30% on screen.
+  let attached = false;
+  const attach = () => {
+    if (attached || blocked()) return;
+    attached = true;
+    section.addEventListener('pointermove', onMove, { passive: true });
+    section.addEventListener('pointerleave', onLeave);
+  };
+  const detach = () => {
+    if (!attached) return;
+    attached = false;
+    section.removeEventListener('pointermove', onMove);
+    section.removeEventListener('pointerleave', onLeave);
+    window.cancelAnimationFrame(frame);
+    frame = 0;
+    onLeave();
+  };
+  new IntersectionObserver((entries) => {
+    const entry = entries[entries.length - 1];
+    if (entry.intersectionRatio >= 0.3) attach();
+    else detach();
+  }, { threshold: [0, 0.3] }).observe(section);
+}
+
+// Copies the address on click; the button says "copied" for two seconds.
+function copyEmail() {
+  const button = document.querySelector('.copy-email');
+  if (!button) return;
+  const live = document.querySelector('.copy-live');
+  const label = button.textContent;
+  const address = 'aaron.g.trevino@gmail.com';
+  let timer;
+
+  // Older browsers and non-secure pages have no clipboard API.
+  const fallbackCopy = () => {
+    const area = document.createElement('textarea');
+    area.value = address;
+    area.setAttribute('readonly', '');
+    area.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0';
+    document.body.appendChild(area);
+    area.select();
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (error) { ok = false; }
+    document.body.removeChild(area);
+    return ok;
+  };
+
+  const done = (ok) => {
+    window.clearTimeout(timer);
+    if (live) live.textContent = ok ? 'Email copied' : 'Copy failed. Use the email button.';
+    if (!ok) return;
+    button.textContent = 'copied';
+    timer = window.setTimeout(() => {
+      button.textContent = label;
+      if (live) live.textContent = '';
+    }, 2000);
+  };
+
+  button.addEventListener('click', () => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(address).then(() => done(true), () => done(fallbackCopy()));
+    } else {
+      done(fallbackCopy());
+    }
+  });
 }
 
 // The dot for the card nearest the left edge is active; tapping one scrolls.
@@ -303,12 +425,23 @@ function heroVisibility() {
   }, { root: document.querySelector('.wrapper'), rootMargin: '200px 0px 200px 0px', threshold: 0 }).observe(hero);
 }
 
+// A greeting for anyone who opens the console; it is the only console output.
+function consoleHello() {
+  console.log('%cHi, you found the console.', 'color: #eb3b5a; font-weight: bold; font-size: 16px;');
+  console.log('I build front-end interfaces. This site is hand-written HTML, CSS and JavaScript, built with Claude Code.');
+  console.log('Open to remote front-end roles: aaron.g.trevino@gmail.com');
+  console.log('Source: https://github.com/agtrevino/agtrevino.github.io');
+}
+
 function ngOnInit() {
+  consoleHello();
   suppressHoverWhileScrolling();
     videoPlayback();
     cardDots();
     contactParallax();
     contactTyping();
+    contactSpotlight();
+    copyEmail();
     heroVisibility();
     projectLogoIntro();
     heroIconReplay();
@@ -316,6 +449,7 @@ function ngOnInit() {
     expandingCards();
     navAnim();
     slideSync();
+    navProgress();
     resumeTitleViewCheck();
   }
 
@@ -524,6 +658,58 @@ function resumeTitleViewCheck() {
       })
     });
   }
+
+// A thin line between the nav dots fills as you scroll (progress, not place).
+function navProgress() {
+  const menu = document.querySelector('.vertical-menu');
+  const wrapper = document.querySelector('.wrapper');
+  const dots = menu ? Array.from(menu.querySelectorAll('.nav-circle')) : [];
+  const slides = SLIDE_IDS.map((id) => document.getElementById(id));
+  if (!menu || !wrapper || dots.length < 2 || slides.some((slide) => !slide)) return;
+
+  const segments = [];
+  for (let i = 0; i < dots.length - 1; i++) {
+    const track = document.createElement('span');
+    const fill = document.createElement('span');
+    track.className = 'nav-seg';
+    fill.className = 'nav-seg-fill';
+    track.setAttribute('aria-hidden', 'true');
+    track.appendChild(fill);
+    menu.appendChild(track);
+    segments.push({ track, fill });
+  }
+
+  // Each runs 4px below one dot to 4px above the next, on their center line.
+  const place = () => {
+    if (!menu.getClientRects().length) return;
+    const box = menu.getBoundingClientRect();
+    segments.forEach(({ track }, i) => {
+      const a = dots[i].getBoundingClientRect();
+      const b = dots[i + 1].getBoundingClientRect();
+      track.style.top = (a.bottom + 4 - box.top) + 'px';
+      track.style.height = Math.max(0, b.top - a.bottom - 8) + 'px';
+      track.style.left = (a.left + a.width / 2 - box.left - 0.5) + 'px';
+    });
+  };
+
+  const fillTo = () => {
+    const scrolled = wrapper.scrollTop;
+    segments.forEach(({ fill }, i) => {
+      const start = slides[i].offsetTop;
+      const span = slides[i + 1].offsetTop - start;
+      const amount = span > 0 ? Math.min(1, Math.max(0, (scrolled - start) / span)) : 0;
+      fill.style.transform = 'scaleY(' + amount + ')';
+    });
+  };
+
+  place();
+  fillTo();
+  onWrapperScroll(fillTo);
+  window.addEventListener('resize', () => { place(); fillTo(); });
+  window.addEventListener('load', place);
+  // The nav items rise in on load, which moves the dots until they finish.
+  menu.addEventListener('animationend', place);
+}
 
 // Marks the current slide in the nav once its fade-in has finished.
 function navAnim() {

@@ -121,6 +121,31 @@ button:focus {
   transition: 400ms;
 }
 
+/* Progress line between the dots; scroll drives the fill, so no transition. */
+.nav-seg {
+  position: absolute;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+}
+
+.nav-seg-fill {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+/* Dark on the light Resume slide, when the nav dots turn dark. */
+.vertical-menu:has(.circle-black) .nav-seg {
+  background: rgba(80, 84, 100, 0.25);
+}
+
+.vertical-menu:has(.circle-black) .nav-seg-fill {
+  background: #505464;
+}
+
 .nav-link-container:hover .nav-circle {
   background: #fff;
   transition: 400ms;
@@ -646,6 +671,37 @@ body.hero-offscreen .bg1::after {
   opacity: .06;
 }
 
+/* Spotlight: a brighter copy of the code, masked to a circle at the pointer. */
+.spot {
+  --mx: -999px;
+  --my: -999px;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(circle 190px at var(--mx) var(--my), #000 0%, transparent 100%);
+  mask-image: radial-gradient(circle 190px at var(--mx) var(--my), #000 0%, transparent 100%);
+  transition: opacity 300ms ease;
+}
+
+.spot.is-off {
+  opacity: 0;
+}
+
+/* White with a slight red tint. */
+.spot-layer pre,
+.spot-layer pre.b {
+  color: #faced6;
+  color: color-mix(in srgb, #fff 75%, var(--accent));
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: reduce), (max-width: 480px) {
+  .spot {
+    display: none;
+  }
+}
+
 /* Typing: JS wraps each line in a span; 50 lines at .14s take about 7s. */
 .code-layer pre .ln {
   display: block;
@@ -725,6 +781,56 @@ body.hero-offscreen .bg1::after {
   color: #fff;
 }
 
+/* Availability: the dot is a status light with a slow pulsing ring. */
+.contact-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: -14px 0 24px;
+  font-family: "ralewaySemi";
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.status-dot {
+  position: relative;
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3ddc84;
+}
+
+.status-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #3ddc84;
+  animation: statusPulse 2s ease-out infinite;
+}
+
+@keyframes statusPulse {
+  from {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-dot::after {
+    animation: none;
+    opacity: 0;
+  }
+}
+
 /* Wider than 12rem so the address fits one line; block keeps the gaps. */
 .resume-button.learn-more.contact-email-btn {
   display: block;
@@ -745,7 +851,8 @@ body.hero-offscreen .bg1::after {
   outline-offset: 4px;
 }
 
-.contact-links a:focus-visible {
+.contact-links a:focus-visible,
+.contact-links .copy-email:focus-visible {
   outline: 2px solid #fff;
   outline-offset: 4px;
 }
@@ -758,7 +865,8 @@ body.hero-offscreen .bg1::after {
   margin-top: 30px;
 }
 
-.contact-links a {
+.contact-links a,
+.contact-links .copy-email {
   position: relative;
   font-family: "raleway";
   font-size: 15px;
@@ -771,7 +879,15 @@ body.hero-offscreen .bg1::after {
   text-decoration: none;
 }
 
-.contact-links a + a::before {
+/* The button is reset so it looks like the links. */
+.contact-links .copy-email {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.contact-links > * + *::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -785,7 +901,9 @@ body.hero-offscreen .bg1::after {
 }
 
 .contact-links a:hover,
-.contact-links a:focus-visible {
+.contact-links a:focus-visible,
+.contact-links .copy-email:hover,
+.contact-links .copy-email:focus-visible {
   color: #fff;
   text-decoration: underline;
   text-decoration-color: #eb3b5a;
@@ -840,7 +958,11 @@ body.hero-offscreen .bg1::after {
     gap: 16px;
   }
 
-  .contact-links a + a::before {
+  .contact-status {
+    justify-content: center;
+  }
+
+  .contact-links > * + *::before {
     display: none;
   }
 }
@@ -1163,7 +1285,7 @@ header .overlay-white {
   opacity: 1;
 }
 
-/* The width and height attributes only reserve space; CSS sets the real size. */
+/* The width/height attributes only reserve space; CSS sets the real size. */
 .adi-logo-img,
 .appddiction-logo-img,
 .jstorm-logo-img,
