@@ -1596,17 +1596,12 @@ video {
   transition: flex-grow 450ms;
 }
 
-/* Desktop panels: keep each panel's painting and its video on their own layers, so the
+/* Desktop panels: contain each panel's layout and painting, so the
    hover expansion does not repaint its neighbors. The card layout (900px and below) is untouched. */
 @media (min-width: 901px) {
   .expansion-col {
     contain: layout paint;
-    backface-visibility: hidden;
     will-change: flex-grow;
-  }
-
-  .expansion-col video {
-    will-change: transform;
   }
 }
 
