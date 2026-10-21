@@ -411,6 +411,12 @@ button:focus {
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
 }
 
+/* The shadows only help the resting icons read over the graffiti. On hover they go. */
+.hero-links a:hover svg,
+.hero-links a:focus-visible svg {
+  filter: none;
+}
+
 /* LinkedIn's square badge reads larger, so it is drawn at 20px. The margin keeps its tap target at 44px. */
 .hero-links .hero-icon-linkedin {
   width: 20px;
@@ -432,6 +438,11 @@ button:focus {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   transform: translateY(-50%);
   pointer-events: none;
+}
+
+.hero-links a:hover::before,
+.hero-links a:focus-visible::before {
+  box-shadow: none;
 }
 
 /* The outer label span takes up space in the row. It grows from max-width: 0,
@@ -483,7 +494,6 @@ button:focus {
   display: block;
   padding: 6px 6px 6px 0;
   color: #fff;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
   clip-path: inset(-8px 100% -8px 0);
   transition: clip-path 150ms steps(var(--chars), end);
 }
@@ -846,30 +856,28 @@ button:focus {
   color: #fff;
 }
 
-/* A filled pill. 19px bold counts as large text, where white on #eb3b5a (3.96:1) is enough. */
-.contact-email {
-  display: inline-block;
-  padding: 14px 30px;
-  border-radius: 999px;
-  background: #eb3b5a;
-  font-family: "ralewayBold";
-  font-size: 19px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: #fff;
-  text-decoration: none;
-  transition: transform 200ms ease, box-shadow 200ms ease;
+/* The email is the site's round-arrow button (.resume-button). It is wider than the 12rem
+   default so the address stays on one line, and it is a block so the 30px gaps around it
+   match the old pill. */
+.resume-button.learn-more.contact-email-btn {
+  display: block;
+  width: 22rem;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }
 
-.contact-email:hover,
-.contact-email:focus-visible {
-  color: #fff;
-  text-decoration: none;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+.contact-email-btn .button-text {
+  white-space: nowrap;
 }
 
-.contact-email:focus-visible,
+/* The button itself has no outline, so the keyboard focus ring goes on its circle. */
+.contact-content a:focus-visible .circle,
+.contact-content a:has(button:focus-visible) .circle {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
 .contact-links a:focus-visible {
   outline: 2px solid #fff;
   outline-offset: 4px;
@@ -918,17 +926,6 @@ button:focus {
   text-underline-offset: 6px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .contact-email {
-    transition: none;
-  }
-
-  .contact-email:hover,
-  .contact-email:focus-visible {
-    transform: none;
-  }
-}
-
 /* Phones: everything centered and stacked. The vertical name sits at the left edge, so the
    block is centered in the space to its right. The links stack, without the dots. */
 @media (max-width: 480px) {
@@ -950,10 +947,12 @@ button:focus {
     font-size: 17px;
   }
 
-  .contact-email {
-    max-width: 100%;
-    padding: 13px 20px;
-    overflow-wrap: anywhere;
+  .resume-button.learn-more.contact-email-btn {
+    width: 100%;
+  }
+
+  .contact-email-btn .button-text {
+    font-size: 14px;
   }
 
   .contact-links {
@@ -964,12 +963,6 @@ button:focus {
 
   .contact-links a + a::before {
     display: none;
-  }
-}
-
-@media (max-width: 380px) {
-  .contact-email {
-    font-size: 16px;
   }
 }
 
