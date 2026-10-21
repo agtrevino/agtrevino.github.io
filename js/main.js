@@ -564,21 +564,6 @@ function resumeTitleViewCheck() {
           });
         }
       })
-      // $(".jstorm-title-2").each(function () {
-      //   var offset = $(this).offset();
-      //   if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
-      //     $('.jstorm-img-1').addClass("fadeInUp");
-      //     $('.jstorm-img-2').addClass("fadeInUp");
-      //     setTimeout(function () {
-      //       // $('.jstorm-title-2').addClass("fadeInUp");
-      //       setTimeout(function () {
-      //         $('.jstorm-text').addClass("fadeInUp");
-      //       }, 300);
-      //     }, 300);
-      //   }
-      // });
-
-
     });
   }
 

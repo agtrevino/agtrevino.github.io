@@ -106,16 +106,6 @@ button:focus {
   display: contents;
 }
 
-.display-none {
-  display: none;
-}
-
-.home-two-container {
-  background: #fff !important;
-  min-height: 100vh;
-  scroll-behavior: smooth !important;
-}
-
 .main-logo {
   position: fixed;
   top: -30px;
@@ -219,7 +209,6 @@ button:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* text-shadow: 0 0 5px #fff; */
 }
 
 .parallax {
@@ -244,11 +233,6 @@ button:focus {
   z-index: -1;
 }
 
-/* The styling for the static div. */
-.static {
-  background: red;
-}
-
 /* Set by heroVisibility() in main.js while the hero is well off screen. */
 body.hero-offscreen .bg1::after {
   visibility: hidden;
@@ -263,13 +247,6 @@ body.hero-offscreen .bg1::after {
   transition: 2500ms;
 }
 
-.bg3::after {
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("../assets/img/background/DesignDevelop.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 .resume-two-container {
   background-image: linear-gradient(to right, rgb(255, 255, 255), rgb(255, 255, 255)), url("../assets/img/background/DesignDevelopInvert.png");
   background-position: center;
@@ -278,9 +255,6 @@ body.hero-offscreen .bg1::after {
   position: relative;
   min-height: 100vh;
   display: flex;
-  /* align-items: center; */
-  /* justify-content: center; */
-  /* text-shadow: 0 0 5px #fff; */
 }
 
 .lines {
@@ -303,20 +277,6 @@ body.hero-offscreen .bg1::after {
 
 .lines > .col:last-child {
   background: rgba(0, 0, 0, 0.25);
-}
-
-.lines-part-3 {
-  background: rgba(0, 0, 0, 0.3);
-  border-right: 1px solid rgba(255, 255, 255, 0.23);
-}
-
-.lines-part-4 {
-  background: rgba(0, 0, 0, 0.2);
-  border-right: 1px solid rgba(255, 255, 255, 0.23);
-}
-
-.lines-part-5 {
-  background: rgba(0, 0, 0, 0.2);
 }
 
 .lets-title {
@@ -356,7 +316,6 @@ body.hero-offscreen .bg1::after {
   letter-spacing: 0.12em;
   color: #fff;
   opacity: 1;
-  /* text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7); */
   text-transform: uppercase;
   text-align: left;
   white-space: nowrap;
@@ -549,22 +508,6 @@ body.hero-offscreen .bg1::after {
   padding: 4% 200px;
 }
 
-.projects-title {
-  font-family: "ralewayBold";
-  letter-spacing: 0px;
-}
-
-.ui-ux-img {
-  width: 52%;
-  opacity: 0.8;
-}
-
-.intro-paragraph-2 {
-  padding: 20px 30%;
-  font-size: 20px;
-  color: #fff;
-}
-
 .vertical-text-2 {
   z-index: 20;
   color: #fff;
@@ -586,7 +529,6 @@ body.hero-offscreen .bg1::after {
   letter-spacing: 5px;
   transform: rotate(180deg);
   writing-mode: vertical-lr;
-  /* font-weight: 900; */
   transition: 400ms;
 }
 
@@ -698,11 +640,6 @@ body.hero-offscreen .bg1::after {
   padding-bottom: 0px;
   position: relative;
   bottom: -5px;
-}
-
-.prof-icon {
-  max-height: 52px;
-  margin-right: 25px;
 }
 
 .prof-text {
@@ -1004,15 +941,6 @@ body.hero-offscreen .bg1::after {
   pointer-events: auto;
 }
 
-header {
-  position: relative;
-  background-color: black;
-  height: 100vh;
-  min-height: 25rem;
-  width: 100%;
-  overflow: hidden;
-}
-
 .jstorm-video {
   position: absolute;
   top: 50%;
@@ -1028,40 +956,6 @@ header {
   transform: translateX(-50%) translateY(-50%) skew(20deg, 0);
 }
 
-.projects-btn {
-  position: relative;
-  z-index: 99;
-  width: 33vw;
-  height: 10vh;
-  color: #fff;
-  border-radius: 9999999px;
-  border: 2.4px solid #fff;
-  font-size: 1.7vw;
-  font-weight: 700;
-  letter-spacing: 3px;
-  transition: 350ms;
-}
-
-.jstorm-btn {
-  background: rgba(78, 142, 202, 0.5);
-  transition: 350ms;
-}
-
-.jstorm-btn:hover {
-  background: #4d8dca;
-  transition: 350ms;
-}
-
-.codebound-btn {
-  background: rgba(194, 40, 45, 0.5);
-  transition: 350ms;
-}
-
-.codebound-btn:hover {
-  background: #c2282d;
-  transition: 350ms;
-}
-
 header .overlay-white {
   position: absolute;
   top: 0;
@@ -1071,18 +965,6 @@ header .overlay-white {
   color: #4d8dca;
   background-image: linear-gradient(to bottom, rgba(225, 225, 225, 0.63), 75%, rgba(225, 225, 225, 0.63));
   z-index: 1;
-}
-
-.project-circle {
-  padding: 8px;
-  border: 2px solid #eb3b5a;
-  border-radius: 999px;
-  transition: 300ms;
-}
-
-.project-circle:hover {
-  box-shadow: 0px 0px 15px -3px #eb3b5a;
-  transition: 300ms;
 }
 
 .header-1 {
@@ -1107,14 +989,6 @@ header .overlay-white {
   z-index: 999999999;
 }
 
-.section-alt {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .jstorm-text {
   font-size: 22px;
   color: #fff;
@@ -1132,11 +1006,6 @@ header .overlay-white {
   font-size: 22px;
   color: #fff;
   font-family: "ralewaySemi";
-}
-
-.arrow-down {
-  position: relative;
-  left: 63px;
 }
 
 /* The arrow's line is at x=27 of the 54px-wide SVG. */
@@ -1278,23 +1147,6 @@ header .overlay-white {
 .signature-fade {
   opacity: 0 !important;
   transition: 400ms;
-}
-
-.intro-word-highlight {
-  font-family: "ralewayExtraBold";
-  color: #eb3b5a;
-  font-size: 44px;
-  letter-spacing: 1px;
-  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: #fff;
-}
-
-.dd-text {
-  font-size: 26px;
-  line-height: 34px;
-  /* font-family: 'ralewaySemi'; */
-  color: #fff;
 }
 
 /* Every panel's logo: the same 175x100 box (see the img rule below), at the same height,
@@ -1818,38 +1670,12 @@ video {
   -webkit-animation-name: panelFadeInUp;
 }
 
-.expansion-color-white {
-  color: #fff !important;
-  transition: 300ms;
-}
-
-.website-video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  z-index: 0;
-  -ms-transform: translateX(-50%) translateY(-50%);
-  -moz-transform: translateX(-50%) translateY(-50%);
-  -webkit-transform: translateX(-50%) translateY(-50%);
-  transform: translateX(-50%) translateY(-50%);
-}
-
 .rw-wrapper {
   width: 80%;
   position: relative;
   margin: 110px auto 0 auto;
   font-family: "Bree Serif";
   padding: 10px;
-}
-
-.rw-sentence {
-  margin: 0;
-  text-align: left;
-  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.8);
 }
 
 .rw-sentence .word-span {
@@ -1879,7 +1705,6 @@ video {
   left: 0;
   width: 100%;
   text-align: left;
-  /* overflow: hidden; */
   color: #1dd1a1;
   -webkit-animation: rotateWord 9s cubic-bezier(0.65, 0, 0.35, 1) infinite 0s;
   -ms-animation: rotateWord 9s cubic-bezier(0.65, 0, 0.35, 1) infinite 0s;
@@ -1981,27 +1806,6 @@ video {
     z-index: 999;
     transition: 350ms;
   }
-  .projects-btn {
-    position: relative;
-    z-index: 99;
-    width: 58vw;
-    height: 10vh;
-    color: #fff;
-    border-radius: 9999999px;
-    border: 2.4px solid #fff;
-    font-size: 4.7vw;
-    font-weight: 700;
-    letter-spacing: 3px;
-    transition: 350ms;
-  }
-  .intro-paragraph-2 {
-    padding: 20px 50px;
-    text-align: left;
-  }
-  .ui-ux-img {
-    width: 100%;
-    opacity: 0.8;
-  }
   .vertical-menu {
     z-index: 9999999999999;
     position: fixed;
@@ -2055,11 +1859,6 @@ video {
     font-size: 16px;
     color: #fff;
     font-family: "ralewaySemi";
-  }
-  .arrow-down {
-    position: relative;
-    left: 63px;
-    opacity: 0;
   }
   .arrow-down-2 {
     position: relative;
