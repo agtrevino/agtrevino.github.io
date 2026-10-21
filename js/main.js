@@ -38,36 +38,38 @@ function suppressHoverWhileScrolling() {
 // Play a video only while its panel is hovered (or visible on touch screens).
 function videoPlayback() {
   const canHover = window.matchMedia('(hover: hover)').matches;
+
+  // Buffer every panel video once the portfolio slide first scrolls into view,
+  // so the first frames are ready before the first hover. Videos already playing are left alone.
+  const slide = document.getElementById('projectsTwo');
+  const loadVideos = () => {
+    document.querySelectorAll('.expansion-col video').forEach((video) => {
+      if (video.paused) video.load();
+    });
+  };
+  if (slide && 'IntersectionObserver' in window) {
+    // Wait until part of the slide is actually visible: at threshold 0 a slide whose top edge
+    // only touches the bottom of the screen already counts as intersecting.
+    const loader = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.intersectionRatio > 0)) return;
+      loader.disconnect();
+      loadVideos();
+    }, { root: document.querySelector('.wrapper'), threshold: 0.05 });
+    loader.observe(slide);
+  } else {
+    loadVideos();
+  }
+
   document.querySelectorAll('.expansion-col').forEach((col) => {
     const video = col.querySelector('video');
-    const twitchClip = col.querySelector('iframe[data-twitch-clip]');
-    if (!video && !twitchClip) return;
-    let clipLoadTimeout = null;
-    const play = () => {
-      if (video) {
-        const p = video.play();
-        if (p && p.catch) p.catch(() => {});
-      }
-      if (twitchClip && twitchClip.src !== twitchClip.dataset.twitchClip) {
-        twitchClip.src = twitchClip.dataset.twitchClip;
-      }
-    };
-    const pause = () => {
-      if (video) video.pause();
-      if (twitchClip) twitchClip.src = 'about:blank';
-    };
+    if (!video) return;
+    const play = () => { const p = video.play(); if (p && p.catch) p.catch(() => {}); };
     if (canHover) {
-      col.addEventListener('mouseenter', () => {
-        if (twitchClip) clipLoadTimeout = window.setTimeout(play, 500);
-        else play();
-      });
-      col.addEventListener('mouseleave', () => {
-        window.clearTimeout(clipLoadTimeout);
-        pause();
-      });
+      col.addEventListener('mouseenter', play);
+      col.addEventListener('mouseleave', () => video.pause());
     } else if ('IntersectionObserver' in window) {
       new IntersectionObserver((entries) => {
-        entries.forEach((e) => (e.isIntersecting ? play() : pause()));
+        entries.forEach((e) => (e.isIntersecting ? play() : video.pause()));
       }, { threshold: 0.25 }).observe(col);
     }
   });

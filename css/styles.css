@@ -804,20 +804,6 @@ header {
   transform: translateX(-50%) translateY(-50%) skew(20deg, 0);
 }
 
-.mp-twitch-clip {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 177.77777778vh;
-  height: 100vh;
-  min-width: 100%;
-  min-height: 56.25vw;
-  border: 0;
-  z-index: 0;
-  pointer-events: none;
-  transform: translateX(-50%) translateY(-50%) skew(20deg, 0);
-}
-
 .projects-btn {
   position: relative;
   z-index: 99;
@@ -1127,9 +1113,15 @@ header .overlay-white {
   color: #fff;
 }
 
+/* Every panel's logo: the same 175x100 box (see the img rule below), at the same height,
+   centered in the panel's visible strip. The panels are slanted 20deg, so at --logo-top the
+   strip is shifted right of the panel box by tan(20deg) x (50vh - --logo-top); the logo
+   shifts with it. */
 .site-logo-container {
+  /* About a third of the way down, above the right-hand nav (which starts near 45%). */
+  --logo-top: 35vh;
   position: absolute;
-  top: 3vh;
+  top: var(--logo-top);
   left: 0;
   right: 0;
   height: 140px;
@@ -1137,14 +1129,28 @@ header .overlay-white {
   align-items: center;
   justify-content: center;
   opacity: 1;
+  transform: translate(calc(tan(20deg) * (50vh - var(--logo-top))), -50%);
   transition: all 300ms ease-in-out;
+  container: panel-logo / inline-size;
 }
 
-.appddiction-col .site-logo-container,
-.jstorm-col .site-logo-container,
-.mp-col .site-logo-container {
-  top: 50%;
-  transform: translateY(-50%);
+/* When a neighboring panel expands, the end panels narrow until their visible strip is
+   narrower than the logo (175px + 24px margin). Fade the logo out instead of squeezing it.
+   !important beats the fadeInUp animation's opacity. */
+.site-logo-container img {
+  transition: opacity 200ms ease-in-out;
+}
+
+@container panel-logo (max-width: 198px) {
+  .site-logo-container img {
+    opacity: 0 !important;
+  }
+}
+
+/* First panel: its first 100px hang off-screen (margin-left: -100px) and the next 100px are
+   the left rail, so center the logo in what is left. */
+.expansion-col:first-child .site-logo-container {
+  padding-left: calc(200px - tan(20deg) * (50vh - var(--logo-top)));
 }
 
 /* Give every project mark the same visual footprint, while preserving its aspect ratio. */
@@ -1166,6 +1172,14 @@ header .overlay-white {
   left: 0;
   right: 0;
   padding: 0 12px;
+}
+
+/* First panel: its first 100px hang off-screen, which cut the button's circle off at the left
+   edge. Shift the button right by that much (plus the rail), less the 20deg slant at the
+   button's height: below the middle of the slide the panel leans left by tan(20deg) x the
+   distance below 50vh (24px is half the button's height, 12px the right padding). */
+.expansion-col:first-child .site-btn-container {
+  padding-left: calc(212px + tan(20deg) * (max(calc(20vh + 20px), 200px) + 24px - 50vh));
 }
 
 .site-btn {
@@ -1371,8 +1385,7 @@ video {
 }
 
 /* The background video is centered in the panel; shift it back by half the extra width. */
-.expansion-col:last-child video,
-.expansion-col:last-child .mp-twitch-clip {
+.expansion-col:last-child video {
   margin-left: calc(var(--skew-extra) / -2);
 }
 
@@ -1586,19 +1599,6 @@ video {
 }
 
 .animatedFadeInUp {
-  opacity: 0;
-}
-.adi-col .site-logo-container {
-  top: 50%;
-  left: 100px;
-  right: 48px;
-  transform: translateY(-50%);
-}
-.adi-col .site-logo-container .adi-site-logo {
-  width: 100px !important;
-  max-width: calc(100% - 24px);
-}
-.content:has(.expansion-col:not(.adi-col):hover) .adi-col .site-logo-container {
   opacity: 0;
 }
 .fadeInUp {
@@ -2172,7 +2172,7 @@ video {
 }
 
 .expansion-col:last-child .site-logo-container {
-  padding-right: calc(15px + 100px);
+  padding-right: calc(108px + tan(20deg) * (50vh - var(--logo-top)));
 }
 
 .resume-download-link {
