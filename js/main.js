@@ -91,6 +91,59 @@ function videoPlayback() {
   });
 }
 
+// Contact slide: the code layer drifts slowly against the scroll. p is how far the slide's top is
+// below the top of the screen (1 = just below the screen, 0 = in place), so --py goes from -120px to 0.
+// Skipped (--py stays 0) with reduced motion and on touch screens.
+function contactParallax() {
+  const section = document.getElementById('contactTwo');
+  const layer = section && section.querySelector('.code-layer');
+  const wrapper = document.querySelector('.wrapper');
+  if (!layer || !wrapper) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      window.matchMedia('(hover: none)').matches) return;
+
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const p = section.getBoundingClientRect().top / window.innerHeight;
+    layer.style.setProperty('--py', (p * -120) + 'px');
+  };
+  wrapper.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(update);
+  }, { passive: true });
+  update();
+}
+
+// Contact slide: the first time the slide is mostly on screen, each line of the code layer is
+// revealed left to right, one line after another. It plays once. Without JS the code is plain text.
+function contactTyping() {
+  const section = document.getElementById('contactTwo');
+  const layer = section && section.querySelector('.code-layer');
+  if (!layer || !('IntersectionObserver' in window)) return;
+
+  layer.querySelectorAll('pre').forEach((pre) => {
+    const lines = pre.textContent.split('\n');
+    pre.textContent = '';
+    lines.forEach((text, i) => {
+      const line = document.createElement('span');
+      line.className = 'ln';
+      line.style.setProperty('--i', i);
+      line.style.setProperty('--n', Math.max(1, text.length));
+      line.textContent = text === '' ? ' ' : text;
+      pre.appendChild(line);
+    });
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    if (!entries.some((entry) => entry.isIntersecting)) return;
+    layer.classList.add('typing');
+    observer.disconnect();
+  }, { threshold: 0.4 });
+  observer.observe(section);
+}
+
 // Dots under the card row: the dot for the card nearest the left edge is active, and tapping one scrolls to its card.
 function cardDots() {
   const row = document.querySelector('#projectsTwo .content');
@@ -176,17 +229,14 @@ function ngOnInit() {
   suppressHoverWhileScrolling();
     videoPlayback();
     cardDots();
+    contactParallax();
+    contactTyping();
     signatureAnimation();
     expandingCards();
     navAnim();
     // this.viewSwitch();
     navViewCheck();
     resumeTitleViewCheck();
-    $(document).ready(function() {
-      $(".trigger").click(function() {
-        $(".menu").toggleClass("active"); 
-      });
-    });
   }
 
 // Project panels: on hover, fade out the panel's logo, then fade in its details

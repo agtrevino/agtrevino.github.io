@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
 
     <!-- Your styles -->
-      <link rel="stylesheet" href="css/styles.css?v=92" />
+      <link rel="stylesheet" href="css/styles.css?v=96" />
   </head>
 
   <body>
@@ -855,7 +855,111 @@
       </div>
     </div>
   </section> -->
-  <section id="contactTwo" class="section jstorm-logo-section contact-two-container">
+  <section id="contactTwo" class="section contact-two-container">
+    <div class="contact-bg" aria-hidden="true">
+      <div class="code-layer">
+<pre>/* Profile and contact links in the top-left of the hero.
+   The first icon, the vertical name and the arrows are centered on --le
+:root {
+  --left-rail: 40px;
+}
+
+/* A horizontal row of 44px icon targets. The top offset puts the icons 
+.hero-links {
+  position: absolute;
+  top: 21px;
+  left: calc(var(--left-rail) - 22px);
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.hero-links a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 11px;
+  color: #fff;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.hero-links a:hover,
+.hero-links a:focus-visible {
+  color: #eb3b5a;
+  text-decoration: none;
+}
+
+.hero-links svg {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
+}
+
+/* LinkedIn's square badge reads larger, so it is drawn at 20px. The mar
+.hero-links .hero-icon-linkedin {
+  width: 20px;
+  height: 20px;
+  margin: 0 1px;
+}
+
+/* Decorative dot centered in the 28px gap before each link after the fi</pre>
+<pre class="b">// Play a video only while its panel is hovered (or visible on touch scr
+function videoPlayback() {
+  const canHover = window.matchMedia('(hover: hover)').matches;
+
+  // Up to 900px wide the portfolio slide is a row of swipeable cards wi
+  // the videos are hidden and carry preload="none" in the HTML, so noth
+  const cardLayout = window.matchMedia('(max-width: 900px)');
+
+  // Buffer every panel video once the portfolio slide first scrolls int
+  // so the first frames are ready before the first hover. Videos alread
+  // The HTML says preload="none" (so phones download nothing); wider sc
+  const slide = document.getElementById('projectsTwo');
+  let slideSeen = false;
+  const loadVideos = () =&gt; {
+    if (cardLayout.matches) return;
+    document.querySelectorAll('.expansion-col video').forEach((video) =&gt;
+      video.preload = 'auto';
+      if (video.paused) video.load();
+    });
+  };
+  if (slide &amp;&amp; 'IntersectionObserver' in window) {
+    // Wait until part of the slide is actually visible: at threshold 0 
+    // only touches the bottom of the screen already counts as intersect
+    const loader = new IntersectionObserver((entries) =&gt; {
+      if (!entries.some((e) =&gt; e.intersectionRatio &gt; 0)) return;
+      loader.disconnect();
+      slideSeen = true;
+      loadVideos();
+    }, { root: document.querySelector('.wrapper'), threshold: 0.05 });
+    loader.observe(slide);
+  } else {
+    slideSeen = true;
+    loadVideos();
+  }
+  // A tablet turned to a wider orientation: buffer the videos then.
+  cardLayout.addEventListener('change', () =&gt; { if (slideSeen) loadVideo
+
+  document.querySelectorAll('.expansion-col').forEach((col) =&gt; {
+    const video = col.querySelector('video');
+    if (!video) return;
+    const play = () =&gt; {
+      if (cardLayout.matches) return;
+      const p = video.play();
+      if (p &amp;&amp; p.catch) p.catch(() =&gt; {});
+    };
+    if (canHover) {
+      col.addEventListener('mouseenter', play);
+      col.addEventListener('mouseleave', () =&gt; video.pause());
+    } else if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) =&gt; {</pre>
+      </div>
+    </div>
     <div class="row up-chevron w-100">
       <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
         <a data-reveal class="arrow-up-2 hero-work-link" href="#resumeTwo" aria-label="Go to Resume">
@@ -866,45 +970,16 @@
         </a>
       </div>
     </div>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12 text-center">
-          <div class="menu">
-            <div class="btn trigger headshot-bg">
-
-            </div>
-            <div class="icons">
-
-              <div class="rotater">
-                <a href="tel:830-776-6694">
-                  <div class="btn btn-icon">
-                    <img class="h-75 contact-icon"
-                      src="assets/img/icons/mobile-alt-solid.svg">
-                  </div>
-                </a>
-              </div>
-
-              <div class="rotater">
-                <a href="mailto:aaron.g.trevino@gmail.com">
-                  <div class="btn btn-icon">
-                    <img class="h-75 contact-icon"
-                      src="assets/img/icons/email-white-18dp.svg">
-                  </div>
-                </a>
-              </div>
-
-              <div class="rotater">
-                <a href="https://www.linkedin.com/in/aarongtrevino/" target="_blank" rel="noopener noreferrer">
-                  <div class="btn btn-icon">
-                    <img class="h-75 contact-icon"
-                      src="assets/img/icons/linkedin-brands.svg">
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="contact-content">
+      <img class="contact-headshot" src="assets/img/agt/headshot-1.png" alt="Aaron G. Trevino" width="120" height="120">
+      <h2 class="contact-heading">Open to <span class="contact-nobreak">front-end</span> roles</h2>
+      <p class="contact-line">Five years building ADI's catalog pages. I'm looking for my next role.</p>
+      <a class="contact-email" href="mailto:aaron.g.trevino@gmail.com">aaron.g.trevino@gmail.com</a>
+      <nav class="contact-links" aria-label="Profiles">
+        <a href="https://www.linkedin.com/in/aarongtrevino/" target="_blank" rel="noopener noreferrer">linkedin</a>
+        <a href="https://github.com/agtrevino" target="_blank" rel="noopener noreferrer">github</a>
+        <a href="assets/AaronGTrevinoResume.pdf" target="_blank" rel="noopener noreferrer">resume (pdf)</a>
+      </nav>
     </div>
 
     <div class="contact-two-viewport"></div>
@@ -913,6 +988,6 @@
 </main>
     <!-- jQuery, then your script (js/main.js) -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="js/main.js?v=11"></script>
+    <script src="js/main.js?v=14"></script>
   </body>
 </html>
