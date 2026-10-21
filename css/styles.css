@@ -106,10 +106,6 @@ button:focus {
   display: contents;
 }
 
-.mobile {
-  display: none !important;
-}
-
 .display-none {
   display: none;
 }
@@ -146,24 +142,6 @@ button:focus {
   text-decoration: none !important;
 }
 
-.sub-menu-container {
-  height: 0px;
-  transition: 500ms;
-  pointer-events: none;
-}
-
-.expanded {
-  height: 93.9999px;
-  transition: 500ms;
-  pointer-events: all;
-}
-
-.closed {
-  height: 0;
-  transition: 500ms;
-  pointer-events: all;
-}
-
 .line {
   padding-top: 13px;
   border-bottom: 1px solid #fff;
@@ -175,24 +153,8 @@ button:focus {
   max-width: 70px;
 }
 
-.sub-nav-line {
-  margin-right: 25px;
-  min-width: 3% !important;
-  transition: 200ms ease-in-out;
-}
-
 .nav-circle-container {
   max-width: 55px;
-}
-
-.nav-sub-link-container:hover .sub-nav-line {
-  min-width: 11% !important;
-  transition: 200ms ease-in-out;
-}
-
-.line-extend {
-  min-width: 11% !important;
-  transition: 200ms ease-in-out;
 }
 
 .nav-link-text {
@@ -294,13 +256,6 @@ button:focus {
   background-repeat: no-repeat;
   background-size: cover;
   transition: 2500ms;
-}
-
-.bg2::after {
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.42)), url("../assets/img/background/graffiti-2.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
 .bg3::after {
@@ -743,30 +698,6 @@ button:focus {
   color: #505464;
 }
 
-.quote-one {
-  color: #fff;
-  font-family: "ralewayExtraLightItalics";
-}
-
-.quote-author {
-  color: #fff;
-  letter-spacing: -1px;
-  font-weight: 700;
-  font-family: "ralewayBold";
-}
-
-.project-two-container-two {
-  background: #4d8dca;
-}
-
-.project-two-container-three {
-  background: rgb(80, 84, 100);
-}
-
-.project-two-container-four {
-  background: #fff;
-}
-
 /* Contact slide background: a dark gradient with faint, skewed code from this site drifting
    behind the text (a slow parallax). All colors are variables. */
 #contactTwo {
@@ -1131,28 +1062,6 @@ header {
   transition: 350ms;
 }
 
-header .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  color: #4d8dca;
-  background-image: linear-gradient(to bottom, rgba(77, 141, 202, 0.6), 75%, rgba(77, 141, 202, 0.6));
-  z-index: 1;
-}
-
-header .overlay-codebound {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  color: rgb(194, 40, 45);
-  background: rgba(80, 84, 100, 0.87);
-  z-index: 1;
-}
-
 header .overlay-white {
   position: absolute;
   top: 0;
@@ -1162,14 +1071,6 @@ header .overlay-white {
   color: #4d8dca;
   background-image: linear-gradient(to bottom, rgba(225, 225, 225, 0.63), 75%, rgba(225, 225, 225, 0.63));
   z-index: 1;
-}
-
-.codebound-img {
-  height: 50%;
-}
-
-.projects-quote-container {
-  padding: 0 250px;
 }
 
 .project-circle {
@@ -1204,16 +1105,6 @@ header .overlay-white {
   width: 100%;
   margin: 0 !important;
   z-index: 999999999;
-}
-
-.jstorm-logo-section {
-  padding: 0 210px;
-}
-
-.jstorm-right-section {
-  position: relative;
-  align-items: center;
-  justify-content: center;
 }
 
 .section-alt {
@@ -2089,11 +1980,6 @@ video {
     letter-spacing: 3px;
     transition: 350ms;
   }
-  .expanded {
-    height: 0px;
-    transition: 500ms;
-    pointer-events: all;
-  }
   .intro-paragraph-2 {
     padding: 20px 50px;
     text-align: left;
@@ -2101,9 +1987,6 @@ video {
   .ui-ux-img {
     width: 100%;
     opacity: 0.8;
-  }
-  .mobile {
-    display: contents !important;
   }
   .vertical-menu {
     z-index: 9999999999999;
@@ -2129,13 +2012,6 @@ video {
   .resume-img {
     box-shadow: 13px 13px 5px -12px #505464;
   }
-  .projects-quote-container {
-    padding: 0 50px;
-  }
-  .quote-one {
-    text-align: left;
-    font-size: 24px;
-  }
   .header-1 {
     font-family: "ralewayExtraBold", sans-serif;
     font-size: 42px;
@@ -2160,9 +2036,6 @@ video {
     color: #ffffff;
     border-right: 6px solid #eb3b5a;
     padding-right: 24px;
-  }
-  .jstorm-logo-section {
-    padding: 0 34px;
   }
   .jstorm-text {
     font-size: 16px;
@@ -2356,7 +2229,6 @@ video {
   bottom: 30px;
   top: auto;
 }
-
 
 /* ==========================================================================
    Hero entrance: fade in and rise 12px, once on page load. CSS only, so the
