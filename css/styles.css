@@ -1208,6 +1208,12 @@ header .overlay-white {
 
 .mp-logo-img {
   max-height: 250px;
+  /* Keep the hover image clear of the right-hand nav (which starts 286px from the screen edge).
+     The panel's center moves with the screen width, the nav does not, so shift left by 48px at
+     1440px wide, more when narrower, and not at all from 1600px up. Uses "right" rather
+     than a transform, so it does not fight the fade-in animation. */
+  position: relative;
+  right: max(0px, calc(480px - 30vw));
 }
 
 .adi-logo-img {
