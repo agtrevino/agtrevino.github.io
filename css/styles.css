@@ -249,6 +249,11 @@ button:focus {
   background: red;
 }
 
+/* Set by heroVisibility() in main.js while the hero is well off screen. */
+body.hero-offscreen .bg1::after {
+  visibility: hidden;
+}
+
 .bg1::after {
   transform: translateZ(-1.5px) scale(1.75);
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("../assets/img/background/graffiti-4.jpg");
@@ -861,7 +866,7 @@ button:focus {
    match the old pill. */
 .resume-button.learn-more.contact-email-btn {
   display: block;
-  width: 22rem;
+  width: 19rem;
   max-width: 100%;
   margin-left: 0;
   margin-right: 0;
@@ -948,7 +953,9 @@ button:focus {
   }
 
   .resume-button.learn-more.contact-email-btn {
-    width: 100%;
+    display: block;
+    width: min(20rem, 100%);
+    margin: 0 auto;
   }
 
   .contact-email-btn .button-text {
@@ -1595,6 +1602,12 @@ video {
   .expansion-col {
     contain: layout paint;
     will-change: flex-grow;
+  }
+
+  /* A panel's video is hidden until the panel is hovered. It still preloads, and a paused
+     video keeps its first frame while it is hidden. */
+  .expansion-col:not(:hover) video {
+    visibility: hidden;
   }
 }
 

@@ -225,12 +225,24 @@ function signatureAnimation() {
   observer.observe(hero);
 }
 
+// Stop painting the hero background while the hero is off screen. The 200px margin turns it
+// back on before the hero scrolls into view, so there is no flash.
+function heroVisibility() {
+  const hero = document.getElementById('homeTwo');
+  if (!hero || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver((entries) => {
+    const entry = entries[entries.length - 1];
+    document.body.classList.toggle('hero-offscreen', !entry.isIntersecting);
+  }, { root: document.querySelector('.wrapper'), rootMargin: '200px 0px 200px 0px', threshold: 0 }).observe(hero);
+}
+
 function ngOnInit() {
   suppressHoverWhileScrolling();
     videoPlayback();
     cardDots();
     contactParallax();
     contactTyping();
+    heroVisibility();
     signatureAnimation();
     expandingCards();
     navAnim();
