@@ -715,7 +715,7 @@ body.hero-offscreen .bg1::after {
 
 /* Contact slide background: a dark gradient with faint, skewed code from this site drifting
    behind the text (a slow parallax). All colors are variables. */
-#contactTwo {
+#contact {
   --bg-a: #262935;
   --bg-b: #3a3e4d;
   --bg-c: #505464;
@@ -807,7 +807,7 @@ body.hero-offscreen .bg1::after {
 }
 
 @media (max-width: 480px) {
-  #contactTwo .code-layer {
+  #contact .code-layer {
     display: none;
   }
 
@@ -1328,7 +1328,7 @@ header .overlay-white {
 /* Hide the non-active logos only while another desktop panel is expanded. This preserves
    the intended hover behavior without making a narrow resting panel disappear. */
 @media (min-width: 901px) {
-  #projectsTwo .content:has(.expansion-col:hover) .expansion-col:not(:hover) .site-logo-container img {
+  #projects .content:has(.expansion-col:hover) .expansion-col:not(:hover) .site-logo-container img {
     opacity: 0 !important;
   }
 }
@@ -2080,7 +2080,7 @@ video {
 }
 
 /* The home call to action is centered; the other slides keep their rail arrows. */
-#homeTwo .hero-work-link--center {
+#home .hero-work-link--center {
   position: absolute;
   left: 50%;
   bottom: 34px;
@@ -2096,7 +2096,7 @@ video {
   transition: color 200ms ease;
 }
 
-#homeTwo .hero-work-link--center span {
+#home .hero-work-link--center span {
   position: static;
   display: block !important;
   writing-mode: horizontal-tb !important;
@@ -2114,25 +2114,25 @@ video {
   transition: color 200ms ease;
 }
 
-#homeTwo .hero-work-link--center path {
+#home .hero-work-link--center path {
   fill: none;
   stroke: currentColor;
   transition: stroke 200ms ease;
 }
 
-#homeTwo .hero-work-link--center svg {
+#home .hero-work-link--center svg {
   display: block;
   overflow: visible;
   animation: heroChevron 1.8s ease-in-out infinite;
 }
 
-#homeTwo .hero-work-link--center:hover,
-#homeTwo .hero-work-link--center:focus-visible {
+#home .hero-work-link--center:hover,
+#home .hero-work-link--center:focus-visible {
   color: #eb3b5a;
 }
 
-#homeTwo .hero-work-link--center:hover span,
-#homeTwo .hero-work-link--center:focus-visible span {
+#home .hero-work-link--center:hover span,
+#home .hero-work-link--center:focus-visible span {
   color: #eb3b5a;
 }
 
@@ -2142,7 +2142,7 @@ video {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #homeTwo .hero-work-link--center svg {
+  #home .hero-work-link--center svg {
     animation: none;
   }
 }
@@ -2261,7 +2261,7 @@ video {
 .lets-title,
 .hero-role,
 .hero-links a,
-#homeTwo .hero-work-link,
+#home .hero-work-link,
 #home-nav,
 #projects-nav,
 #resume-nav,
@@ -2281,12 +2281,12 @@ video {
 .hero-links a:nth-child(2) { animation-delay: 1.28s; }
 .hero-links a:nth-child(3) { animation-delay: 1.36s; }
 .hero-links a:nth-child(4) { animation-delay: 1.44s; }
-#homeTwo .hero-work-link { animation-delay: 1.6s; }
+#home .hero-work-link { animation-delay: 1.6s; }
 
 /* While the hero is off screen (set by heroIconReplay() in main.js) the icons are reset, so
    removing the class replays heroRise with the delays above. Desktop only. */
 @media (min-width: 901px) {
-  #homeTwo.hero-away .hero-links a {
+  #home.hero-away .hero-links a {
     animation: none;
     opacity: 0;
   }
@@ -2297,7 +2297,7 @@ video {
   .lets-title,
   .hero-role,
   .hero-links a,
-  #homeTwo .hero-work-link,
+  #home .hero-work-link,
   #home-nav,
   #projects-nav,
   #resume-nav,
@@ -2336,7 +2336,7 @@ video {
 }
 
 @media (max-width: 900px) {
-  #projectsTwo {
+  #projects {
     /* The vertical name sits on the left rail (the nav arrows too, above 680px), so the row
        starts to the right of them and the cards are clipped there instead of sliding beneath. */
     --card-gutter: calc(var(--left-rail) + 26px);
@@ -2346,12 +2346,12 @@ video {
     background: #505464;
   }
 
-  #projectsTwo .rail-guard {
+  #projects .rail-guard {
     display: none !important;
   }
 
   /* The scrolling row. */
-  #projectsTwo .content {
+  #projects .content {
     display: flex;
     flex: 0 0 auto;
     align-self: stretch;
@@ -2367,12 +2367,12 @@ video {
     background: none;
   }
 
-  #projectsTwo .content::-webkit-scrollbar {
+  #projects .content::-webkit-scrollbar {
     display: none;
   }
 
   /* A card: about 85vw wide, but always leaving a peek of the next one. */
-  #projectsTwo .content .expansion-col {
+  #projects .content .expansion-col {
     position: relative;
     display: flex;
     flex: 0 0 min(85vw, calc(100% - 44px)) !important;
@@ -2387,27 +2387,27 @@ video {
     scroll-snap-align: start;
   }
 
-  #projectsTwo .content .expansion-col:last-child {
+  #projects .content .expansion-col:last-child {
     scroll-snap-align: end;
   }
 
-  #projectsTwo .content .expansion-col::before {
+  #projects .content .expansion-col::before {
     display: none;
   }
 
   /* Brand backgrounds. The hover overlays and videos are not used here. */
-  #projectsTwo .adi-col { background: #1a4366; }
-  #projectsTwo .appddiction-col { background: #fff; }
-  #projectsTwo .jstorm-col { background: #4d8dca; }
-  #projectsTwo .mp-col { background: #000; }
+  #projects .adi-col { background: #1a4366; }
+  #projects .appddiction-col { background: #fff; }
+  #projects .jstorm-col { background: #4d8dca; }
+  #projects .mp-col { background: #000; }
 
-  #projectsTwo .expansion-col video,
-  #projectsTwo .expansion-col [class^="overlay-"] {
+  #projects .expansion-col video,
+  #projects .expansion-col [class^="overlay-"] {
     display: none !important;
   }
 
   /* One card, top to bottom. The right padding keeps text clear of the nav dots. */
-  #projectsTwo .content .expansion-section {
+  #projects .content .expansion-section {
     position: relative;
     top: 0;
     z-index: 2;
@@ -2422,8 +2422,8 @@ video {
     transform: none !important;
   }
 
-  #projectsTwo .content .site-logo-container,
-  #projectsTwo .content .site-btn-container {
+  #projects .content .site-logo-container,
+  #projects .content .site-btn-container {
     position: static;
     display: block;
     flex: none;
@@ -2434,20 +2434,20 @@ video {
     transform: none !important;
   }
 
-  #projectsTwo .content .site-logo-container {
+  #projects .content .site-logo-container {
     display: flex;
     justify-content: flex-start;
     margin-bottom: 18px;
   }
 
-  #projectsTwo .content .site-logo-container img {
+  #projects .content .site-logo-container img {
     margin: 0;
     object-position: left center;
     opacity: 1 !important;
     animation: none !important;
   }
 
-  #projectsTwo .content .expansion-section > .col-12.w-100 {
+  #projects .content .expansion-section > .col-12.w-100 {
     flex: 1 1 auto;
     width: 100% !important;
     max-width: 100%;
@@ -2455,24 +2455,24 @@ video {
     text-align: left;
   }
 
-  #projectsTwo .content .site-btn-container {
+  #projects .content .site-btn-container {
     margin-top: 22px;
     /* Bootstrap's .text-center is !important. */
     text-align: left !important;
   }
 
   /* The Appddiction summary is longer; give its call to action a clearer separation. */
-  #projectsTwo .appddiction-col .site-btn-container {
+  #projects .appddiction-col .site-btn-container {
     margin-top: 42px;
   }
 
   /* Headings, role lines and blurbs are always shown (no hover reveal). */
-  #projectsTwo .content .panel-reveal {
+  #projects .content .panel-reveal {
     opacity: 1 !important;
     animation: none !important;
   }
 
-  #projectsTwo .content .expansion-col h1 {
+  #projects .content .expansion-col h1 {
     margin: 0 !important;
     padding: 0 0 0 14px !important;
     border-right: 0 !important;
@@ -2485,18 +2485,18 @@ video {
   }
 
   /* .header-1 (white, in the 680px rules above) would otherwise win over the white card's grey. */
-  #projectsTwo .appddiction-col h1 {
+  #projects .appddiction-col h1 {
     color: #505464 !important;
   }
 
-  #projectsTwo .content .panel-role {
+  #projects .content .panel-role {
     margin: 12px 0 0;
     padding: 0;
     font-size: 14px;
     text-align: left;
   }
 
-  #projectsTwo .content .panel-blurb {
+  #projects .content .panel-blurb {
     max-width: none;
     margin: 12px 0 0;
     padding: 0;
@@ -2506,16 +2506,16 @@ video {
   }
 
   /* The hover-only images are not part of a card. */
-  #projectsTwo .content .panel-reveal[src] {
+  #projects .content .panel-reveal[src] {
     display: none;
   }
 
   /* Button: left aligned, sized to fit the narrow card. */
-  #projectsTwo .content .resume-button {
+  #projects .content .resume-button {
     margin: 0;
   }
 
-  #projectsTwo .content .expansion-col .resume-button.learn-more.site-btn {
+  #projects .content .expansion-col .resume-button.learn-more.site-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.7rem;
@@ -2523,7 +2523,7 @@ video {
     max-width: 100%;
   }
 
-  #projectsTwo .content .resume-button.learn-more .button-text {
+  #projects .content .resume-button.learn-more .button-text {
     position: static;
     margin: 0;
     padding: 0;
@@ -2534,7 +2534,7 @@ video {
   }
 
   /* Preserve the compact icon-and-label treatment when a card button is hovered. */
-  #projectsTwo .content .resume-button:hover .circle {
+  #projects .content .resume-button:hover .circle {
     width: 3rem;
   }
 
@@ -2602,7 +2602,7 @@ video {
 
 /* Tablet and up to 900px: the nav arrows are visible at the rail, so leave more room. */
 @media (min-width: 681px) and (max-width: 900px) {
-  #projectsTwo {
+  #projects {
     --card-gutter: 96px;
   }
 
@@ -2625,12 +2625,12 @@ video {
     justify-content: center;
   }
 
-  #projectsTwo .content .panel-role {
+  #projects .content .panel-role {
     letter-spacing: 0.055em;
     line-height: 1.3;
   }
 
-  #projectsTwo .phone-role-break {
+  #projects .phone-role-break {
     display: inline;
   }
 }
@@ -2683,7 +2683,7 @@ video {
    a neighboring panel is hovered and a panel gets narrow, which made the whole slide taller than the
    screen and pushed every button (the ADI one included) below the fold on hover. */
 @media (min-width: 901px) and (max-width: 1366px) {
-  #projectsTwo .content {
+  #projects .content {
     height: 100vh;
   }
 }
@@ -2789,9 +2789,10 @@ video {
 
 /* ==========================================================================
    Resume slide, desktop (901px and up): the image and the Download button share a wrapper. The
-   button sits on the image's bottom-right corner, straddling the edge. At rest it is only the red
-   circle with the arrow pointing down; on hover or keyboard focus the circle grows leftward into
-   a pill that says "download pdf". At 900px and below the button stays under the image.
+   button sits on the image's top-right corner, straddling the edge. It is the site's standard
+   round-arrow button (.resume-button.learn-more). At rest it is only the red circle; on hover or
+   keyboard focus the circle grows leftward over the image into a pill that says "download pdf",
+   like "view page". At 900px and below the button stays under the image.
    ========================================================================== */
 @media (min-width: 901px) {
   .resume-img-wrap {
@@ -2814,8 +2815,8 @@ video {
 
   .resume-img-wrap .resume-download-link {
     position: absolute;
+    top: -20px;
     right: -20px;
-    bottom: -20px;
     z-index: 3;
     display: block;
     width: 3rem;
@@ -2836,28 +2837,10 @@ video {
     margin: 0;
   }
 
-  /* The circle is on the right-hand end, so the pill grows to the left. */
-  .resume-img-wrap .resume-button.learn-more .circle {
-    margin-left: auto;
-  }
-
-  .resume-img-wrap .resume-button.learn-more .circle .icon.arrow {
-    left: auto;
-    right: 0.9rem;
-    transform: rotate(90deg);
-  }
-
-  .resume-img-wrap .resume-button:hover .circle .icon.arrow {
-    transform: rotate(90deg);
-  }
-
-  /* Hidden at rest; white once the pill is open. */
+  /* The link is anchored at the right and grows to the left, so the circle's right edge stays
+     put. The label is hidden at rest and white once the pill is open. */
   .resume-img-wrap .resume-button.learn-more .button-text {
-    right: 3rem;
-    margin: 0;
-    padding: 0.75rem 0;
     overflow: hidden;
-    color: #fff;
     white-space: nowrap;
     opacity: 0;
   }
@@ -2865,7 +2848,20 @@ video {
   .resume-img-wrap .resume-button:hover .button-text,
   .resume-img-wrap .resume-download-link:focus-visible .button-text,
   .resume-img-wrap .resume-download-link:has(:focus-visible) .button-text {
+    color: #fff;
     opacity: 1;
+  }
+
+  /* Keyboard focus opens the pill like hover does. */
+  .resume-img-wrap .resume-download-link:focus-visible .circle,
+  .resume-img-wrap .resume-download-link:has(:focus-visible) .circle {
+    width: 100%;
+  }
+
+  .resume-img-wrap .resume-download-link:focus-visible .circle .icon.arrow,
+  .resume-img-wrap .resume-download-link:has(:focus-visible) .circle .icon.arrow {
+    background: #fff;
+    transform: translate(1rem, 0);
   }
 
   .resume-img-wrap .resume-download-link:focus-visible .circle,

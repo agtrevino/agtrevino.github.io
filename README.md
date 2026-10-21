@@ -27,10 +27,10 @@ The page reloads each time you save a file.
 
 | Section | `id` |
 |---|---|
-| Home (hero) | `homeTwo` |
-| Projects (four project panels) | `projectsTwo` |
-| Resume | `resumeTwo` |
-| Contact | `contactTwo` |
+| Home (hero) | `home` |
+| Projects (four project panels) | `projects` |
+| Resume | `resume` |
+| Contact | `contact` |
 
 ## Host on GitHub Pages
 

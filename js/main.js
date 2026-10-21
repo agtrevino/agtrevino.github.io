@@ -46,7 +46,7 @@ function videoPlayback() {
   // Buffer every panel video once the portfolio slide first scrolls into view,
   // so the first frames are ready before the first hover. Videos already playing are left alone.
   // The HTML says preload="none" (so phones download nothing); wider screens raise it here.
-  const slide = document.getElementById('projectsTwo');
+  const slide = document.getElementById('projects');
   let slideSeen = false;
   const loadVideos = () => {
     if (cardLayout.matches) return;
@@ -95,7 +95,7 @@ function videoPlayback() {
 // below the top of the screen (1 = just below the screen, 0 = in place), so --py goes from -120px to 0.
 // Skipped (--py stays 0) with reduced motion and on touch screens.
 function contactParallax() {
-  const section = document.getElementById('contactTwo');
+  const section = document.getElementById('contact');
   const layer = section && section.querySelector('.code-layer');
   const wrapper = document.querySelector('.wrapper');
   if (!layer || !wrapper) return;
@@ -119,7 +119,7 @@ function contactParallax() {
 // Contact slide: the first time the slide is mostly on screen, each line of the code layer is
 // revealed left to right, one line after another. It plays once. Without JS the code is plain text.
 function contactTyping() {
-  const section = document.getElementById('contactTwo');
+  const section = document.getElementById('contact');
   const layer = section && section.querySelector('.code-layer');
   if (!layer || !('IntersectionObserver' in window)) return;
 
@@ -146,8 +146,8 @@ function contactTyping() {
 
 // Dots under the card row: the dot for the card nearest the left edge is active, and tapping one scrolls to its card.
 function cardDots() {
-  const row = document.querySelector('#projectsTwo .content');
-  const dots = document.querySelectorAll('#projectsTwo .card-dots button');
+  const row = document.querySelector('#projects .content');
+  const dots = document.querySelectorAll('#projects .card-dots button');
   if (!row || !dots.length) return;
   const update = () => {
     const cards = [...row.querySelectorAll('.expansion-col')];
@@ -176,7 +176,7 @@ function cardDots() {
 }
 
 function signatureAnimation() {
-  const hero = document.querySelector('#homeTwo');
+  const hero = document.querySelector('#home');
   const signature = document.querySelector('.signature');
   const scrollContainer = document.querySelector('.wrapper');
   if (!hero || !signature || !scrollContainer) return;
@@ -230,7 +230,7 @@ function signatureAnimation() {
 // In the HTML they start hidden (no .fadeInUp); the card layout (900px and below) shows them
 // with CSS. With reduced motion they just appear, once, with no delay.
 function projectLogoIntro() {
-  const slide = document.getElementById('projectsTwo');
+  const slide = document.getElementById('projects');
   if (!slide || !('IntersectionObserver' in window)) return;
   const cardLayout = window.matchMedia('(max-width: 900px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -302,7 +302,7 @@ function projectLogoIntro() {
 
 // Replay the hero icons each time the hero comes back into view.
 function heroIconReplay() {
-  const hero = document.getElementById('homeTwo');
+  const hero = document.getElementById('home');
   if (!hero || !('IntersectionObserver' in window)) return;
   const cardLayout = window.matchMedia('(max-width: 900px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -321,7 +321,7 @@ function heroIconReplay() {
 // Stop painting the hero background while the hero is off screen. The 200px margin turns it
 // back on before the hero scrolls into view, so there is no flash.
 function heroVisibility() {
-  const hero = document.getElementById('homeTwo');
+  const hero = document.getElementById('home');
   if (!hero || !('IntersectionObserver' in window)) return;
   new IntersectionObserver((entries) => {
     const entry = entries[entries.length - 1];
@@ -341,8 +341,7 @@ function ngOnInit() {
     signatureAnimation();
     expandingCards();
     navAnim();
-    // this.viewSwitch();
-    navViewCheck();
+    slideSync();
     resumeTitleViewCheck();
   }
 
@@ -367,24 +366,6 @@ function expandingCards() {
     });
   }
 
-
-function viewSwitch(view) {
-
-    switch (view) {
-      case 'homeView':
-        isHomeView();
-        break;
-      case 'resumeView':
-        isResumeView();
-        break;
-      case 'projectsView':
-        isProjectsView();
-        break;
-      case 'contactView':
-        isContactView();
-        break;
-    }
-  }
 
 function isHomeView() {
     $('.home-nav').addClass("active-nav");
@@ -475,47 +456,97 @@ function isContactView() {
 
   }
 
-function navViewCheck() {
+// ---- Which slide is showing, and keeping the side nav and the URL in step with it.
 
-    
-    onWrapperScroll(function () {
-      const scrollContainer = this;
-      const containerBounds = scrollContainer.getBoundingClientRect();
-      const isMarkerVisible = (marker) => {
-        const markerBounds = marker.getBoundingClientRect();
-        return markerBounds.top >= containerBounds.top && markerBounds.bottom <= containerBounds.bottom;
-      };
+const SLIDE_IDS = ['home', 'projects', 'resume', 'contact'];
+const SLIDE_VIEWS = { home: isHomeView, projects: isProjectsView, resume: isResumeView, contact: isContactView };
 
+// The slide with the most visible area inside .wrapper (the first one wins a tie).
+function currentSlide() {
+  const wrapper = document.querySelector('.wrapper');
+  if (!wrapper) return SLIDE_IDS[0];
+  const box = wrapper.getBoundingClientRect();
+  let best = SLIDE_IDS[0];
+  let bestArea = -1;
+  SLIDE_IDS.forEach((id) => {
+    const section = document.getElementById(id);
+    if (!section) return;
+    const r = section.getBoundingClientRect();
+    const visibleHeight = Math.min(r.bottom, box.bottom) - Math.max(r.top, box.top);
+    const visibleWidth = Math.min(r.right, box.right) - Math.max(r.left, box.left);
+    const area = Math.max(0, visibleHeight) * Math.max(0, visibleWidth);
+    if (area > bestArea) { best = id; bestArea = area; }
+  });
+  return best;
+}
 
-      $(".home-two-viewport").each(function () {
-        if (isMarkerVisible(this)) {
-          this.view = 'homeView';
-          viewSwitch(this.view);
-        }
+// Marks exactly one nav item active, and sets the light or dark nav and rail colors for that slide.
+let shownSlide = null;
+function updateActiveSlide(force) {
+  const id = currentSlide();
+  if (!force && id === shownSlide) return id;
+  shownSlide = id;
+  $('.home-nav, .projects-nav, .resume-nav, .contact-nav').removeClass('active-nav');
+  $('.home-circle, .projects-circle, .resume-circle, .contact-circle').removeClass('active-circle active-circle-black');
+  SLIDE_VIEWS[id]();
+  return id;
+}
+
+// Keeps the nav and the URL hash in step with the slide on screen. The nav follows the scroll
+// at once. The hash is only rewritten once the scrolling has been still for 150ms, so a smooth
+// scroll from a nav or arrow click finishes first. replaceState keeps the back button clean.
+function slideSync() {
+  const wrapper = document.querySelector('.wrapper');
+  if (!wrapper) return;
+  let urlReady = false;
+  let settleTimer;
+  let ticking = false;
+
+  const syncHash = () => {
+    if (!urlReady) return;
+    const id = currentSlide();
+    if (id === 'home') {
+      if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+    } else if (location.hash !== '#' + id) {
+      history.replaceState(null, '', '#' + id);
+    }
+  };
+
+  const scrollToHash = () => {
+    const id = decodeURIComponent(location.hash.slice(1));
+    const target = SLIDE_IDS.includes(id) && document.getElementById(id);
+    if (!target) return;
+    const top = target.getBoundingClientRect().top - wrapper.getBoundingClientRect().top + wrapper.scrollTop;
+    wrapper.scrollTo({ top, behavior: 'instant' });
+  };
+
+  const onScroll = () => {
+    if (!ticking) {
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        ticking = false;
+        updateActiveSlide();
       });
+    }
+    window.clearTimeout(settleTimer);
+    settleTimer = window.setTimeout(syncHash, 150);
+  };
+  wrapper.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => { updateActiveSlide(true); onScroll(); });
+  window.addEventListener('hashchange', () => { updateActiveSlide(true); });
 
-      $(".resume-two-viewport").each(function () {
-        if (isMarkerVisible(this)) {
-          this.view = 'resumeView';
-          viewSwitch(this.view);
-        }
-      });
-      $(".projects-two-viewport").each(function () {
-        if (isMarkerVisible(this)) {
-          this.view = 'projectsView';
-          viewSwitch(this.view);
-        }
-      });
-      $(".contact-two-viewport").each(function () {
-        if (isMarkerVisible(this)) {
-          this.view = 'contactView';
-          viewSwitch(this.view);
-
-        }
-      });
-
-    });
-  }
+  // On load, once the layout has settled: open on the slide named in the URL, if any.
+  const start = () => {
+    window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
+      scrollToHash();
+      updateActiveSlide(true);
+      urlReady = true;
+      syncHash();
+    }));
+  };
+  if (document.readyState === 'complete') start();
+  else window.addEventListener('load', start, { once: true });
+}
 
 function resumeTitleViewCheck() {
     onWrapperScroll(function () {
@@ -552,21 +583,9 @@ function resumeTitleViewCheck() {
   }
 
 // The nav fades in first with CSS (heroRise in styles.css, done at 0.5s).
-// This only marks Home as active once the nav has appeared.
+// Once it has appeared, the nav item for the slide on screen is marked active.
 function navAnim() {
-    setTimeout(function () {
-      $('.home-circle').addClass("active-circle");
-      setTimeout(function () {
-        $('.home-nav').addClass("active-nav");
-      }, 300)
-    }, 500)
+    setTimeout(updateActiveSlide, 500, true);
   }
-
-
-
-
-// Nav clicks that were (click) bindings in the Angular template.
-$(document).on('click', '[data-view="projects"]', () => isProjectsView());
-$(document).on('click', '[data-view="contact"]', () => isContactView());
 
 ngOnInit();
