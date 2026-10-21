@@ -2283,6 +2283,15 @@ video {
 .hero-links a:nth-child(4) { animation-delay: 1.44s; }
 #homeTwo .hero-work-link { animation-delay: 1.6s; }
 
+/* While the hero is off screen (set by heroIconReplay() in main.js) the icons are reset, so
+   removing the class replays heroRise with the delays above. Desktop only. */
+@media (min-width: 901px) {
+  #homeTwo.hero-away .hero-links a {
+    animation: none;
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .vertical-text-2,
   .lets-title,
@@ -2755,20 +2764,12 @@ video {
     display: contents;
   }
 
-  .resume-content .resume-img-link {
+  .resume-content .resume-img-wrap {
     grid-column: 1;
     grid-row: 1;
     justify-self: center;
-    width: calc((100% - 30px) * 0.9);
-    margin-bottom: 0 !important;
-  }
-
-  .resume-content .resume-download-link {
-    grid-column: 1;
-    grid-row: 2;
-    justify-self: center;
-    /* 1.5rem (the old .mb-4 under the image) plus the line gap the inline link used to get. */
-    margin-top: 37px;
+    align-self: center;
+    max-width: calc((100% - 30px) * 0.9);
   }
 
   .resume-content > .col-xl-6.text-left {
@@ -2783,6 +2784,134 @@ video {
 
   .strength-row {
     margin: 0;
+  }
+}
+
+/* ==========================================================================
+   Resume slide, desktop (901px and up): the image and the Download button share a wrapper. The
+   button sits on the image's bottom-right corner, straddling the edge. At rest it is only the red
+   circle with the arrow pointing down; on hover or keyboard focus the circle grows leftward into
+   a pill that says "download pdf". At 900px and below the button stays under the image.
+   ========================================================================== */
+@media (min-width: 901px) {
+  .resume-img-wrap {
+    position: relative;
+    display: inline-block;
+    max-width: 90%;
+  }
+
+  .resume-img-wrap .resume-img-link {
+    width: auto;
+    margin: 0 !important;
+  }
+
+  .resume-img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: calc(100vh - 140px);
+  }
+
+  .resume-img-wrap .resume-download-link {
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    z-index: 3;
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    transition: width 450ms cubic-bezier(0.65, 0, 0.076, 1);
+  }
+
+  .resume-img-wrap .resume-download-link:hover,
+  .resume-img-wrap .resume-download-link:focus-visible,
+  .resume-img-wrap .resume-download-link:has(:focus-visible) {
+    width: 12rem;
+  }
+
+  .resume-img-wrap .resume-button.learn-more {
+    display: block;
+    width: 100%;
+    height: 3rem;
+    margin: 0;
+  }
+
+  /* The circle is on the right-hand end, so the pill grows to the left. */
+  .resume-img-wrap .resume-button.learn-more .circle {
+    margin-left: auto;
+  }
+
+  .resume-img-wrap .resume-button.learn-more .circle .icon.arrow {
+    left: auto;
+    right: 0.9rem;
+    transform: rotate(90deg);
+  }
+
+  .resume-img-wrap .resume-button:hover .circle .icon.arrow {
+    transform: rotate(90deg);
+  }
+
+  /* Hidden at rest; white once the pill is open. */
+  .resume-img-wrap .resume-button.learn-more .button-text {
+    right: 3rem;
+    margin: 0;
+    padding: 0.75rem 0;
+    overflow: hidden;
+    color: #fff;
+    white-space: nowrap;
+    opacity: 0;
+  }
+
+  .resume-img-wrap .resume-button:hover .button-text,
+  .resume-img-wrap .resume-download-link:focus-visible .button-text,
+  .resume-img-wrap .resume-download-link:has(:focus-visible) .button-text {
+    opacity: 1;
+  }
+
+  .resume-img-wrap .resume-download-link:focus-visible .circle,
+  .resume-img-wrap .resume-download-link:has(:focus-visible) .circle {
+    outline: 2px solid #505464;
+    outline-offset: 3px;
+  }
+}
+
+@media (min-width: 901px) and (prefers-reduced-motion: reduce) {
+  .resume-img-wrap .resume-download-link {
+    transition: none;
+  }
+}
+
+/* The slide fits in the window: no scrolling inside it on screens at least 600px tall. The
+   image is sized by the window's height and the content is centered. The strengths column scales
+   with the height too, so it is never taller than the image. */
+@media (min-width: 1280px) and (min-height: 600px) {
+  .resume-two-container {
+    height: 100vh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .resume-content {
+    align-self: center;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .strength-row .resume-title {
+    margin-bottom: clamp(1px, 0.4vh, 0.2em);
+  }
+
+  .strength-row .proficiencies-title {
+    font-size: clamp(14px, min(4.2cqw, 2.9vh), 26px);
+  }
+
+  .strength-row .resume-svg {
+    width: clamp(20px, min(6cqw, 4vh), 33px) !important;
+  }
+
+  .strength-row .prof-text {
+    font-size: clamp(10px, min(2.8cqw, 1.9vh), 16px);
+    line-height: 1.3;
   }
 }
 

@@ -225,41 +225,97 @@ function signatureAnimation() {
   observer.observe(hero);
 }
 
-// Project logos: on desktop they rise one after another (150ms apart) the first time the
-// portfolio slide is mostly on screen. In the HTML they start hidden (no .fadeInUp); the card
-// layout (900px and below) shows them with CSS. Runs once.
+// Project logos: on desktop they rise one after another (150ms apart) each time the portfolio
+// slide comes into view, and again when the pointer leaves the panels after one was expanded.
+// In the HTML they start hidden (no .fadeInUp); the card layout (900px and below) shows them
+// with CSS. With reduced motion they just appear, once, with no delay.
 function projectLogoIntro() {
   const slide = document.getElementById('projectsTwo');
   if (!slide || !('IntersectionObserver' in window)) return;
   const cardLayout = window.matchMedia('(max-width: 900px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const canHover = window.matchMedia('(hover: hover)');
   const logos = ['adi', 'appddiction', 'jstorm', 'mp']
     .map((name) => slide.querySelector('.' + name + '-site-logo'))
     .filter(Boolean);
+
+  const playLogos = () => {
+    logos.forEach((logo, i) => {
+      logo.classList.remove('fadeInUp');
+      void logo.offsetWidth;
+      if (!reducedMotion.matches) {
+        // Clear the delay afterwards so the hover fade out and back in has none.
+        const clearDelay = () => { logo.style.animationDelay = ''; };
+        logo.addEventListener('animationend', clearDelay, { once: true });
+        logo.addEventListener('animationcancel', clearDelay, { once: true });
+        logo.style.animationDelay = (i * 150) + 'ms';
+      }
+      logo.classList.add('fadeInUp');
+    });
+  };
 
   let started = false;
   const start = () => {
     if (started || cardLayout.matches) return;
     started = true;
+
+    let played = false;
     const observer = new IntersectionObserver((entries) => {
-      if (!entries.some((entry) => entry.isIntersecting)) return;
-      observer.disconnect();
-      logos.forEach((logo, i) => {
+      const entry = entries[entries.length - 1];
+      if (cardLayout.matches) return;
+      if (entry.intersectionRatio === 0) {
+        // Off screen: hide the logos again so the next visit replays the sequence.
+        played = false;
         if (!reducedMotion.matches) {
-          // Clear the delay afterwards so the hover fade out and back in has none.
-          const clearDelay = () => { logo.style.animationDelay = ''; };
-          logo.addEventListener('animationend', clearDelay, { once: true });
-          logo.addEventListener('animationcancel', clearDelay, { once: true });
-          logo.style.animationDelay = (i * 150) + 'ms';
+          logos.forEach((logo) => {
+            logo.classList.remove('fadeInUp');
+            logo.style.animationDelay = '';
+          });
         }
-        logo.classList.add('fadeInUp');
-      });
-    }, { root: document.querySelector('.wrapper'), threshold: 0.4 });
+      } else if (entry.intersectionRatio >= 0.4 && !played) {
+        played = true;
+        playLogos();
+        if (reducedMotion.matches) observer.disconnect();
+      }
+    }, { root: document.querySelector('.wrapper'), rootMargin: '-1px 0px', threshold: [0, 0.4] });
     observer.observe(slide);
+
+    // The pointer leaves all the panels after one was expanded: bring the logos back in sequence.
+    // Moving from one panel to another stays inside the container, so it does not count.
+    const panels = slide.querySelector('.content');
+    if (panels && canHover.matches && !reducedMotion.matches) {
+      let expanded = false;
+      panels.addEventListener('mouseover', (event) => {
+        if (event.target.closest('.expansion-col')) expanded = true;
+      });
+      panels.addEventListener('mouseleave', () => {
+        if (!expanded) return;
+        expanded = false;
+        if (!cardLayout.matches) playLogos();
+      });
+    }
   };
   start();
   // A tablet turned to a wider orientation: run it then.
   cardLayout.addEventListener('change', start);
+}
+
+// Replay the hero icons each time the hero comes back into view.
+function heroIconReplay() {
+  const hero = document.getElementById('homeTwo');
+  if (!hero || !('IntersectionObserver' in window)) return;
+  const cardLayout = window.matchMedia('(max-width: 900px)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (reducedMotion.matches) return;
+  // The 1px inset margin makes a slide that only touches the edge (where the page snaps to) count
+  // as off screen. Once the hero is completely off screen, the icons are reset (hidden). When it is at
+  // least half back on screen the reset is lifted, so the icons rise again, in order.
+  new IntersectionObserver((entries) => {
+    const entry = entries[entries.length - 1];
+    if (cardLayout.matches) { hero.classList.remove('hero-away'); return; }
+    if (entry.intersectionRatio === 0) hero.classList.add('hero-away');
+    else if (entry.intersectionRatio >= 0.5) hero.classList.remove('hero-away');
+  }, { root: document.querySelector('.wrapper'), rootMargin: '-1px 0px', threshold: [0, 0.5] }).observe(hero);
 }
 
 // Stop painting the hero background while the hero is off screen. The 200px margin turns it
@@ -281,6 +337,7 @@ function ngOnInit() {
     contactTyping();
     heroVisibility();
     projectLogoIntro();
+    heroIconReplay();
     signatureAnimation();
     expandingCards();
     navAnim();

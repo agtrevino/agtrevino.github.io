@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
 
     <!-- Your styles -->
-      <link rel="stylesheet" href="css/styles.css?v=106" />
+      <link rel="stylesheet" href="css/styles.css?v=108" />
     <!-- Without JavaScript nothing adds .fadeInUp to the project logos, so show them. -->
     <noscript><style>.site-logo-container img { opacity: 1; }</style></noscript>
   </head>
@@ -406,17 +406,19 @@
       </div>
       <div class="col-xl-6 text-center mb-4">
 
-        <a class="resume-img-link mb-4" href="assets/AaronGTrevinoResume.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open resume PDF in a new tab">
-          <img class="resume-img" src="assets/img/aarongtrevinoresume.png" alt="">
-        </a>
-        <a class="resume-download-link" href="assets/AaronGTrevinoResume.pdf" download>
-          <button class="resume-button learn-more">
-            <span class="circle">
-              <span class="icon arrow"></span>
-            </span>
-            <span class="button-text">download pdf</span>
-          </button>
-        </a>
+        <div class="resume-img-wrap">
+          <a class="resume-img-link mb-4" href="assets/AaronGTrevinoResume.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open resume PDF in a new tab">
+            <img class="resume-img" src="assets/img/aarongtrevinoresume.png" alt="">
+          </a>
+          <a class="resume-download-link" href="assets/AaronGTrevinoResume.pdf" download aria-label="Download resume PDF">
+            <button class="resume-button learn-more">
+              <span class="circle">
+                <span class="icon arrow"></span>
+              </span>
+              <span class="button-text">download pdf</span>
+            </button>
+          </a>
+        </div>
       </div>
 
       <div class="col-xl-6 text-left">
@@ -645,6 +647,6 @@ function videoPlayback() {
 </main>
     <!-- jQuery, then your script (js/main.js) -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="js/main.js?v=17"></script>
+    <script src="js/main.js?v=18"></script>
   </body>
 </html>
