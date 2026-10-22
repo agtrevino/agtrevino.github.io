@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://agtrevino.github.io/sitemap.xml

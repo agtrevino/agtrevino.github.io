@@ -12,14 +12,36 @@
     <meta property="og:title" content="Aaron G. Trevino | Front-end developer who designs" />
     <meta property="og:description" content="Front-end developer with 8+ years of experience building websites and interfaces. Open to remote roles." />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aaron G. Trevino" />
     <meta property="og:url" content="https://agtrevino.github.io/" />
     <meta property="og:image" content="https://agtrevino.github.io/assets/img/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Aaron G. Trevino, front-end developer who designs" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Aaron G. Trevino | Front-end developer who designs" />
+    <meta name="twitter:description" content="Front-end developer with 8+ years of experience building websites and interfaces. Open to remote roles." />
+    <meta name="twitter:image" content="https://agtrevino.github.io/assets/img/og-image.jpg" />
+    <meta name="theme-color" content="#262935" />
 
-    <!-- Preload the hero image and fonts -->
-    <link rel="preload" as="image" href="assets/img/background/graffiti-4.jpg" />
+    <!-- Search: who this site is about -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Aaron G. Trevino",
+      "jobTitle": "Front-end developer",
+      "url": "https://agtrevino.github.io/",
+      "sameAs": [
+        "https://github.com/agtrevino",
+        "https://www.linkedin.com/in/aarongtrevino/"
+      ]
+    }
+    </script>
+
+    <!-- Preload the hero image (one per screen size) and fonts -->
+    <link rel="preload" as="image" href="assets/img/background/graffiti-4-1200.webp" type="image/webp" media="(max-width: 900px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="assets/img/background/graffiti-4.jpg" media="(min-width: 901px)" fetchpriority="high" />
     <link rel="preload" href="assets/fonts/Raleway-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/Raleway-ExtraBold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/Raleway-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
@@ -27,7 +49,7 @@
     <!-- Bootstrap (CDN); the rest is local -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
 
-      <link rel="stylesheet" href="css/styles.css?v=186" />
+      <link rel="stylesheet" href="css/styles.css?v=187" />
     <!-- Show project logos when JS is off -->
     <noscript><style>.site-logo-container img { opacity: 1; }</style></noscript>
   </head>
@@ -548,7 +570,7 @@
           <a class="resume-img-link mb-4" href="assets/AaronGTrevinoResume.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open resume PDF in a new tab">
             <img class="resume-img" src="assets/img/aarongtrevinoresume.png" alt="" width="1547" height="2002">
           </a>
-          <a class="resume-download-link" href="assets/AaronGTrevinoResume.pdf" download aria-label="Download resume PDF">
+          <a class="resume-download-link" href="assets/AaronGTrevinoResume.pdf" download aria-label="Download PDF of resume">
             <button class="resume-button learn-more">
               <span class="circle">
                 <span class="icon arrow"></span>
@@ -866,6 +888,6 @@
   </section>
 </main>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="js/main.js?v=77"></script>
+    <script src="js/main.js?v=78"></script>
   </body>
 </html>
