@@ -1040,6 +1040,7 @@ body.hero-offscreen .bg1::after {
 }
 
 .tool {
+  position: relative;
   width: 84px;
   padding: 8px 0 6px;
   border: 0;
@@ -1077,11 +1078,26 @@ body.hero-offscreen .bg1::after {
   transform: translateY(-4px);
 }
 
-/* Selected: brand color, a red ring and a soft red wash */
+/* Selected: brand color and a red underline that expands */
+.tool::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  bottom: 0;
+  left: 10px;
+  height: 4px;
+  border-radius: 2px;
+  background: #eb3b5a;
+  transform: scaleX(0);
+  transition: transform 250ms ease-out;
+}
+
 .tool[aria-pressed="true"] {
   color: var(--brand);
-  background: rgba(235, 59, 90, 0.14);
-  box-shadow: 0 0 0 1px #eb3b5a;
+}
+
+.tool[aria-pressed="true"]::after {
+  transform: scaleX(1);
 }
 
 .tool:focus-visible {
@@ -1107,6 +1123,10 @@ body.hero-offscreen .bg1::after {
 @media (min-width: 1101px) {
   .tools-container {
     --skew-extra: calc(0.22 * 100vh);
+    --panel-left: calc(
+      (100% - min(880px, calc(100% - 2 * max(100px, 8vw)))) / 2 +
+      var(--tools-grid-w) + 40px + max(0px, 1200px - 100vw) / 6
+    );
     overflow: hidden;
   }
 
@@ -1151,10 +1171,7 @@ body.hero-offscreen .bg1::after {
     top: -10%;
     right: calc(-100px - var(--skew-extra));
     bottom: -10%;
-    left: calc(
-      (100% - min(880px, calc(100% - 2 * max(100px, 8vw)))) / 2 +
-      var(--tools-grid-w) + 40px + max(0px, 1200px - 100vw) / 6
-    );
+    left: var(--panel-left);
     display: flex;
     align-items: center;
     padding: 0 calc(var(--skew-extra) + 315px) 0 84px;
@@ -1169,6 +1186,22 @@ body.hero-offscreen .bg1::after {
     background: rgba(255, 255, 255, 0.06);
     transform: skewX(-20deg);
     transform-origin: 0 50%;
+  }
+
+  /* Panel-shaped, so the ghost stops at the red edge */
+  .tools-container .tools-ghost-clip {
+    inset: auto;
+    top: -10%;
+    right: calc(-100px - var(--skew-extra));
+    bottom: -10%;
+    left: var(--panel-left);
+    transform: skewX(-20deg);
+    transform-origin: 0 50%;
+  }
+
+  .tools-container .tools-ghost {
+    right: calc(var(--skew-extra) + 100px - 4vw);
+    transform: translate(var(--gx, 0px), calc(-50% + var(--gy, 0px)));
   }
 }
 
@@ -1190,6 +1223,13 @@ body.hero-offscreen .bg1::after {
 
 .tools-glow.is-on {
   opacity: 1;
+}
+
+.tools-ghost-clip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 /* --gx and --gy are the mouse parallax, set by JS */
@@ -1392,6 +1432,10 @@ body.hero-offscreen .bg1::after {
     transition: color 250ms;
   }
 
+  .tool::after {
+    transition: none;
+  }
+
   .tool-icon {
     transition: none;
   }
@@ -1560,6 +1604,15 @@ body.hero-offscreen .bg1::after {
 
   .tools-label {
     display: none;
+  }
+
+  .tools-groups {
+    gap: clamp(4px, 1vh, 10px);
+  }
+
+  .tool-icon {
+    width: clamp(30px, 5.2vh, 44px);
+    height: clamp(30px, 5.2vh, 44px);
   }
 }
 

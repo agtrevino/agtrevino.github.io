@@ -700,7 +700,13 @@ function toolsBackdrop() {
     return el;
   };
   const glows = [make('tools-glow'), make('tools-glow')];
-  const ghosts = [make('tools-ghost'), make('tools-ghost')];
+  const clip = make('tools-ghost-clip');
+  const ghosts = [0, 1].map(() => {
+    const ghost = document.createElement('div');
+    ghost.className = 'tools-ghost';
+    clip.appendChild(ghost);
+    return ghost;
+  });
   const icons = ghosts.map((ghost) => {
     const icon = document.createElement('div');
     icon.className = 'ghost-icon';
