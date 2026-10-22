@@ -44,3 +44,4 @@ The site appears at `https://agtrevino.github.io/` after a minute or two.
 
 - Keep asset paths relative (for example `assets/img/...`, not `/assets/img/...`). This keeps the site working wherever GitHub Pages serves it from, including a subfolder.
 - The project videos play only while you hover a panel. The code for this is in `js/main.js` (`videoPlayback`).
+- Tool icons come from Simple Icons (CC0), Devicon (MIT) and LobeHub Icons (MIT). Logos are trademarks of their owners.

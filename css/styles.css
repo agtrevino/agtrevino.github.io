@@ -1013,49 +1013,111 @@ body.hero-offscreen .bg1::after {
 .tools-label {
   margin: 0 0 clamp(6px, 1.2vh, 10px);
   font-family: "ralewaySemi";
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 600;
   letter-spacing: 2px;
   color: #eb3b5a;
 }
 
-.tools-chips {
+/* Icons take their hover color from each item's --brand */
+.tools-icons {
   display: flex;
   flex-wrap: wrap;
-  gap: clamp(5px, 1vh, 8px);
+  gap: 14px 10px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Hover is decoration only: the chips are not links */
-.tools-chips li {
-  padding: clamp(3px, 0.7vh, 6px) clamp(10px, 1.5vh, 14px);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 999px;
+.tool {
+  width: 84px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.75);
+  transition: color 250ms, transform 250ms;
+}
+
+.tool-icon {
+  display: block;
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 6px;
+  fill: currentColor;
+  transition: transform 250ms;
+}
+
+/* A text monogram for tools without a logo */
+.tool-mono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid currentColor;
+  border-radius: 8px;
+  font-family: "ralewayBold";
+  font-size: 14px;
+  line-height: 1;
+}
+
+.tool-name {
+  display: block;
   font-family: "ralewaySemi";
-  font-size: clamp(12px, 2.1vh, 15px);
-  font-weight: 600;
-  line-height: 1.4;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  line-height: 1.25;
+  color: inherit;
+  transition: color 250ms;
+}
+
+.tool:hover,
+.tool:focus-within {
+  color: var(--brand);
+  transform: translateY(-4px);
+}
+
+.tool:hover .tool-name,
+.tool:focus-within .tool-name {
   color: #fff;
-  transition: background-color 200ms ease, border-color 200ms ease;
 }
 
-.tools-chips li:hover,
-.tools-chips li:focus-visible {
-  border-color: #eb3b5a;
-  background: #eb3b5a;
+.tool:hover .tool-icon,
+.tool:focus-within .tool-icon {
+  transform: scale(1.08);
 }
 
-/* Chips rise in turn: JS adds .tools-ready, .tools-in */
-.tools-ready .tools-chips li {
+.tools-note {
+  max-width: 34em;
+  margin: 0 0 10px;
+  font-family: "ralewaySemi";
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* No hover on touch: show the brand colors at rest */
+@media (hover: none) {
+  .tool {
+    color: var(--brand);
+  }
+
+  .tool:hover,
+  .tool:focus-within {
+    transform: none;
+  }
+
+  .tool:hover .tool-icon,
+  .tool:focus-within .tool-icon {
+    transform: none;
+  }
+}
+
+/* Rise in turn: JS adds .tools-ready, then .tools-in */
+.tools-ready .tool {
   opacity: 0;
   translate: 0 12px;
 }
 
-.tools-ready.tools-in .tools-chips li {
+.tools-ready.tools-in .tool {
   animation: toolsRise 500ms ease-out both;
-  animation-delay: calc(var(--i, 0) * 40ms);
+  animation-delay: calc(var(--i, 0) * 35ms);
 }
 
 @keyframes toolsRise {
@@ -1070,14 +1132,30 @@ body.hero-offscreen .bg1::after {
   }
 }
 
+/* Reduced motion: color change only, no movement */
 @media (prefers-reduced-motion: reduce) {
-  .tools-ready .tools-chips li {
+  .tools-ready .tool {
     opacity: 1;
     translate: none;
   }
 
-  .tools-ready.tools-in .tools-chips li {
+  .tools-ready.tools-in .tool {
     animation: none;
+  }
+
+  .tool {
+    transition: color 250ms;
+  }
+
+  .tool-icon {
+    transition: none;
+  }
+
+  .tool:hover,
+  .tool:focus-within,
+  .tool:hover .tool-icon,
+  .tool:focus-within .tool-icon {
+    transform: none;
   }
 }
 
@@ -1094,6 +1172,44 @@ body.hero-offscreen .bg1::after {
 
   .tools-groups {
     grid-template-columns: 1fr;
+    gap: clamp(10px, 2vh, 18px);
+  }
+
+  .tools-icons {
+    gap: clamp(6px, 1.4vh, 10px) 6px;
+  }
+
+  .tools-line {
+    margin-bottom: clamp(12px, 2.4vh, 22px);
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .tools-label {
+    margin-bottom: 4px;
+  }
+
+  .tools-note {
+    margin-bottom: 6px;
+    font-size: 12px;
+  }
+
+  /* Four to a row, even on the narrowest screens */
+  .tool {
+    width: min(64px, calc((100% - 18px) / 4));
+  }
+
+  .tool-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .tool-mono {
+    font-size: 12px;
+  }
+
+  .tool-name {
+    font-size: 11px;
   }
 }
 

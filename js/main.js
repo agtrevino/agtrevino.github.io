@@ -522,13 +522,13 @@ function showSlide(id) {
   $('.vertical-text-2').toggleClass('color-black', light);
 }
 
-// Chips fade and rise in turn when the slide shows
+// Icons fade and rise in turn when the slide shows
 function toolsIntro() {
   const section = document.getElementById('tools');
-  const chips = section ? section.querySelectorAll('.tools-chips li') : [];
-  if (!section || !chips.length || !('IntersectionObserver' in window)) return;
+  const items = section ? section.querySelectorAll('.tool') : [];
+  if (!section || !items.length || !('IntersectionObserver' in window)) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  chips.forEach((chip, i) => chip.style.setProperty('--i', i));
+  items.forEach((item, i) => item.style.setProperty('--i', i));
   section.classList.add('tools-ready');
   // 1px inset: a slide at the snap edge counts as off
   new IntersectionObserver((entries) => {
