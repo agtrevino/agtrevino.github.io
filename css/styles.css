@@ -166,6 +166,11 @@ button:focus {
   transition: 400ms;
 }
 
+.nav-link-container:hover .nav-circle.circle-black {
+  background: #505464;
+  transition: 400ms;
+}
+
 .nav-link-container:hover .nav-circle-black {
   background: #505464;
   transition: 400ms;
