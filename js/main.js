@@ -458,6 +458,7 @@ function ngOnInit() {
   consoleHello();
   suppressHoverWhileScrolling();
     videoPlayback();
+    hotcocoLogo();
     cardDots();
     contactParallax();
     contactTyping();
@@ -473,30 +474,187 @@ function ngOnInit() {
     signatureAnimation(document.getElementById('home'), document.querySelector('.signature'));
     signatureAnimation(document.getElementById('contact'), document.querySelector('.contact-signature'));
     expandingCards();
+    panelSequence();
     navAnim();
     slideSync();
     resumeTitleViewCheck();
   }
 
-// Hover: logo fades out, then the details fade in
+// Hover: the logo fades out (the text is panelSequence's)
 function expandingCards() {
     $(".expansion-col").each(function () {
       const logo = $(this).find(".site-logo-container img");
-      const details = $(this).find(".panel-reveal");
       $(this).on("mouseover", "div", function () {
         logo.removeClass("fadeInUp");
-        setTimeout(function () {
-          details.addClass("fadeInUp");
-        }, 200);
       });
       $(this).on("mouseleave", "div", function () {
         logo.addClass("fadeInUp");
-        setTimeout(function () {
-          details.removeClass("fadeInUp");
-        }, 200);
       });
     });
   }
+
+// Project panel text: title, role, typed blurb, button
+function panelSequence() {
+  const slide = document.getElementById('projects');
+  const panels = slide ? Array.from(slide.querySelectorAll('.expansion-col')) : [];
+  if (!panels.length) return;
+
+  // Same test as the CSS that hides the text until revealed
+  const canRun = window.matchMedia('(min-width: 901px) and (hover: hover) and (prefers-reduced-motion: no-preference)');
+  const TYPE_MS = 12;
+  const fulls = new Map();
+  let active = null;
+
+  // Typed letters plus an unseen rest: wrapping stays fixed
+  const prepare = (blurb) => {
+    if (fulls.has(blurb)) return fulls.get(blurb);
+    const full = blurb.textContent.replace(/\s+/g, ' ').trim();
+    const readable = document.createElement('span');
+    readable.className = 'sr-only';
+    readable.textContent = full;
+    const typed = document.createElement('span');
+    typed.className = 'panel-typed';
+    typed.setAttribute('aria-hidden', 'true');
+    const rest = document.createElement('span');
+    rest.className = 'panel-rest';
+    rest.setAttribute('aria-hidden', 'true');
+    blurb.textContent = '';
+    blurb.append(readable, typed, rest);
+    const parts = { full, typed, rest };
+    fulls.set(blurb, parts);
+    return parts;
+  };
+
+  const parts = (panel) => ({
+    revealed: Array.from(panel.querySelectorAll('.panel-reveal')),
+    title: panel.querySelector('h1.panel-reveal'),
+    role: panel.querySelector('.panel-role'),
+    blurb: panel.querySelector('.panel-blurb'),
+    image: panel.querySelector('img.panel-reveal'),
+    button: panel.querySelector('.site-btn-container'),
+  });
+
+  // Back to the plain, complete state
+  const reset = (panel) => {
+    const p = parts(panel);
+    p.revealed.forEach((el) => el.classList.remove('is-in'));
+    if (p.button) p.button.classList.remove('is-in');
+    panel.classList.remove('is-revealing');
+    const typedParts = p.blurb && fulls.get(p.blurb);
+    if (typedParts) {
+      typedParts.typed.textContent = typedParts.full;
+      typedParts.rest.textContent = '';
+    }
+  };
+
+  const stop = () => {
+    if (!active) return;
+    active.timers.forEach((id) => window.clearTimeout(id));
+    window.cancelAnimationFrame(active.frame);
+    const { panel } = active;
+    active = null;
+    reset(panel);
+  };
+
+  const start = (panel) => {
+    if (!canRun.matches) return;
+    stop();
+    const p = parts(panel);
+    if (!p.title || !p.role || !p.blurb) return;
+    const text = prepare(p.blurb);
+    text.typed.textContent = '';
+    text.rest.textContent = text.full;
+    panel.classList.add('is-revealing');
+
+    const run = { panel, timers: [], frame: 0 };
+    active = run;
+    const at = (ms, fn) => run.timers.push(window.setTimeout(fn, ms));
+
+    const type = () => {
+      const begin = performance.now();
+      const step = (now) => {
+        const count = Math.min(text.full.length, Math.floor((now - begin) / TYPE_MS));
+        text.typed.textContent = text.full.slice(0, count);
+        text.rest.textContent = text.full.slice(count);
+        if (count < text.full.length) run.frame = window.requestAnimationFrame(step);
+        else if (p.button) p.button.classList.add('is-in');
+      };
+      run.frame = window.requestAnimationFrame(step);
+    };
+
+    at(200, () => {
+      p.title.classList.add('is-in');
+      if (p.image) p.image.classList.add('is-in');
+    });
+    at(450, () => p.role.classList.add('is-in'));
+    at(650, () => {
+      p.blurb.classList.add('is-in');
+      type();
+    });
+  };
+
+  panels.forEach((panel) => {
+    panel.addEventListener('mouseenter', () => start(panel));
+    panel.addEventListener('mouseleave', () => {
+      if (active && active.panel === panel) stop();
+    });
+  });
+
+  // A resize or setting change ends any run
+  canRun.addEventListener('change', () => {
+    stop();
+    panels.forEach(reset);
+  });
+}
+
+// Replays the HotCoco logo animation when its panel opens
+function hotcocoLogo() {
+  const panel = document.querySelector('.hc-col');
+  const logo = panel && panel.querySelector('.hc-bar-img');
+  if (!logo || !logo.dataset.src) return;
+
+  const staticSource = logo.getAttribute('src');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const cardLayout = window.matchMedia('(max-width: 900px)');
+  let replayTimer = null;
+
+  // A new src restarts it; the PNG is the closed state
+  const replay = () => {
+    logo.removeAttribute('src');
+    logo.src = logo.dataset.src;
+  };
+  const close = () => {
+    window.clearTimeout(replayTimer);
+    replayTimer = null;
+    if (logo.getAttribute('src') !== staticSource) logo.src = staticSource;
+  };
+
+  // Draw as the logo fades in (panelSequence runs at 200ms)
+  panel.addEventListener('mouseenter', () => {
+    if (cardLayout.matches || reducedMotion.matches) return;
+    window.clearTimeout(replayTimer);
+    replayTimer = window.setTimeout(replay, 200);
+  });
+  panel.addEventListener('mouseleave', close);
+
+  if (!('IntersectionObserver' in window)) return;
+
+  // Cached ahead, so the first open draws at once
+  const warmUp = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return;
+    warmUp.disconnect();
+    if (cardLayout.matches || reducedMotion.matches) return;
+    new Image().src = logo.dataset.src;
+  });
+  warmUp.observe(panel);
+
+  // Cards: once per entry, if the card shows the logo
+  new IntersectionObserver(([entry]) => {
+    if (!cardLayout.matches || reducedMotion.matches) return;
+    if (!entry.isIntersecting) { close(); return; }
+    if (logo.getClientRects().length > 0) replay();
+  }, { threshold: 0.6 }).observe(panel);
+}
 
 // Slides, nav and URL
 
