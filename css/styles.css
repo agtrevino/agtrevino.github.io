@@ -1984,7 +1984,7 @@ header .overlay-white {
 .hc-bar-img {
   position: relative;
   right: max(0px, calc(480px - 30vw));
-  width: clamp(200px, 24vw, 340px);
+  width: clamp(120px, min(24vw, 28vh), 340px);
 }
 
 .adi-logo-img {
@@ -2042,7 +2042,7 @@ video {
 .hc-title-2 {
   font-size: clamp(40px, 5.4vw, 64px);
   color: #200044;
-  border-right-color: #200044;
+  border-right-color: #eb3b5a;
 }
 
 /* ADI navy shows the video through on hover */
@@ -2110,7 +2110,7 @@ video {
 }
 
 .mp-col:hover > .overlay-mp {
-  background: rgba(140, 122, 230, 0.8);
+  background: rgba(0, 0, 0, 0.6);
   transition: background-color 350ms ease-in-out;
 }
 
