@@ -1714,6 +1714,12 @@ header .overlay-white {
   font-family: "ralewaySemi";
 }
 
+.hc-text {
+  font-size: clamp(16px, 1.7vw, 22px);
+  color: #200044;
+  font-family: "ralewaySemi";
+}
+
 .arrow-down-2,
 .arrow-up-2 {
   position: relative;
@@ -1927,16 +1933,21 @@ header .overlay-white {
 .adi-logo-img,
 .appddiction-logo-img,
 .jstorm-logo-img,
-.mp-logo-img {
+.mp-logo-img,
+.hc-bar-img {
   height: auto;
 }
 
 .mp-logo-img {
   width: auto;
   max-height: 250px;
-  /* Clears the right nav; right avoids the fade-in */
+}
+
+/* The last panel's image clears the right nav */
+.hc-bar-img {
   position: relative;
   right: max(0px, calc(480px - 30vw));
+  width: clamp(200px, 24vw, 340px);
 }
 
 .adi-logo-img {
@@ -1950,7 +1961,8 @@ header .overlay-white {
 .jstorm-site-logo,
 .appddiction-site-logo,
 .adi-site-logo,
-.mp-site-logo {
+.mp-site-logo,
+.hc-site-logo {
   max-width: 175px;
 }
 
@@ -1976,7 +1988,8 @@ video {
 
 .jstorm-title-2,
 .adi-title-2,
-.mp-title-2 {
+.mp-title-2,
+.hc-title-2 {
   font-family: "ralewayExtraBold", sans-serif;
   font-size: 64px;
   font-style: normal;
@@ -1987,6 +2000,12 @@ video {
   color: #ffffff;
   border-right: 6px solid #eb3b5a;
   padding-right: 24px;
+}
+
+.hc-title-2 {
+  font-size: clamp(40px, 5.4vw, 64px);
+  color: #200044;
+  border-right-color: #200044;
 }
 
 /* ADI navy shows the video through on hover */
@@ -2042,7 +2061,8 @@ video {
   transition: background-color 350ms ease-in-out;
 }
 
-.overlay-mp {
+.overlay-mp,
+.overlay-hc {
   position: absolute;
   top: 0;
   left: 0;
@@ -2057,6 +2077,16 @@ video {
   transition: background-color 350ms ease-in-out;
 }
 
+.overlay-hc {
+  background: #03cf88;
+}
+
+/* The logo video shows through as a faint ghost */
+.hc-col:hover > .overlay-hc {
+  background: rgba(3, 207, 136, 0.78);
+  transition: background-color 350ms ease-in-out;
+}
+
 .appddiction-col:hover > .overlay-white {
   background: rgba(255, 255, 255, 0.7);
   transition: background-color 350ms ease-in-out;
@@ -2068,7 +2098,7 @@ video {
   color: #fff;
   overflow: hidden;
   /* Visible in slivers beside the slanted panels */
-  background-image: linear-gradient(to right, #1a4366, 50%, #1a4366, 50%, #000);
+  background-image: linear-gradient(to right, #1a4366, 50%, #1a4366, 50%, #03cf88);
 }
 
 .expansion-col {
@@ -2621,6 +2651,11 @@ video {
   background: #1a4366 !important;
 }
 
+.resume-button.learn-more .circle.project-circle-hc {
+  border: 2px solid #fff;
+  background: #200044 !important;
+}
+
 /* Project panels */
 .expansion-col h1.panel-reveal {
   margin-bottom: 0;
@@ -2652,6 +2687,21 @@ video {
   color: #8c7ae6;
 }
 
+.hc-col .panel-role {
+  max-width: 16em;
+  margin-left: auto;
+  color: #200044;
+}
+
+/* Beats .text-white; the label turns white when filled */
+.hc-col .text-white {
+  color: #200044 !important;
+}
+
+.hc-col .resume-button:hover .button-text {
+  color: #fff !important;
+}
+
 .panel-blurb {
   /* Keeps text clear of the left rail */
   max-width: 28em;
@@ -2672,6 +2722,11 @@ video {
 
 .expansion-col:last-child .site-logo-container {
   padding-right: calc(108px + tan(20deg) * (50vh - var(--logo-top)));
+}
+
+/* The last panel is HotCoco: its text scales with width */
+.expansion-col.hc-col .panel-blurb {
+  max-width: 19em;
 }
 
 .resume-download-link {
@@ -2827,6 +2882,7 @@ video {
   #projects .appddiction-col { background: #fff; }
   #projects .jstorm-col { background: #4d8dca; }
   #projects .mp-col { background: #000; }
+  #projects .hc-col { background: #03cf88; }
 
   #projects .expansion-col video,
   #projects .expansion-col [class^="overlay-"] {
@@ -2913,6 +2969,14 @@ video {
   /* Beats the white .header-1 above */
   #projects .appddiction-col h1 {
     color: #505464 !important;
+  }
+
+  #projects .hc-col h1 {
+    color: #200044 !important;
+  }
+
+  #projects .hc-col .panel-role {
+    max-width: none;
   }
 
   #projects .content .panel-role {

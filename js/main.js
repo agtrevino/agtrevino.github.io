@@ -337,9 +337,8 @@ function projectLogoIntro() {
   const cardLayout = window.matchMedia('(max-width: 900px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const canHover = window.matchMedia('(hover: hover)');
-  const logos = ['adi', 'appddiction', 'jstorm', 'mp']
-    .map((name) => slide.querySelector('.' + name + '-site-logo'))
-    .filter(Boolean);
+  // Panel order, whatever the number of panels
+  const logos = Array.from(slide.querySelectorAll('.site-logo-container img'));
 
   const playLogos = () => {
     logos.forEach((logo, i) => {
