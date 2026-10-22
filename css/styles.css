@@ -289,7 +289,7 @@ body.hero-offscreen .bg1::after {
   z-index: 9;
   margin: 6px 0 0;
   font-family: "ralewaySemi";
-  font-size: clamp(10px, calc((34vw - 48px) / 30), 13px);
+  font-size: clamp(12px, calc((34vw - 48px) / 30), 13px);
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -354,7 +354,11 @@ body.hero-offscreen .bg1::after {
     line-height: 1.4;
   }
 
-  .hero-proof,
+  .hero-proof {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
   .hero-location {
     font-size: 10.5px;
     line-height: 1.4;
@@ -418,6 +422,12 @@ body.hero-offscreen .bg1::after {
   text-decoration: none;
 }
 
+/* The label is text, so it takes the lighter red */
+.hero-links a:hover > span,
+.hero-links a:focus-visible > span {
+  color: #ff6b81;
+}
+
 .hero-links svg {
   flex: 0 0 auto;
   width: 22px;
@@ -476,6 +486,7 @@ body.hero-offscreen .bg1::after {
   letter-spacing: 0.15em;
   text-transform: lowercase;
   white-space: nowrap;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
   transition: max-width 150ms ease-in, margin-left 150ms ease-in;
 }
 
@@ -1160,7 +1171,7 @@ body.hero-offscreen .bg1::after {
   font-size: var(--tools-label-size);
   font-weight: 600;
   letter-spacing: 2px;
-  color: #eb3b5a;
+  color: #ff6b81;
 }
 
 /* Icons take their hover color from each item's --brand */
@@ -1962,11 +1973,19 @@ header .overlay-white {
 
 /* Beats each arrow's fill attribute */
 .hero-work-link:hover path,
-.hero-work-link:focus-visible path,
+.hero-work-link:focus-visible path {
+  fill: #eb3b5a;
+}
+
+/* Text: lighter red, except on the light slide */
 .hero-work-link:hover span,
 .hero-work-link:focus-visible span {
+  color: #ff6b81;
+}
+
+.hero-work-link.on-light:hover span,
+.hero-work-link.on-light:focus-visible span {
   color: #eb3b5a;
-  fill: #eb3b5a;
 }
 
 /* Real SemiBold: readable red over the graffiti */
@@ -2694,12 +2713,14 @@ video {
     z-index: 999999999;
     left: 18px;
     opacity: 0;
+    visibility: hidden;
   }
   .arrow-up-2 {
     position: relative;
     z-index: 999999999;
     left: 18px;
     opacity: 0;
+    visibility: hidden;
   }
 }
 .hero-intro-row {
@@ -2719,6 +2740,7 @@ video {
 @media (max-width: 680px) {
   .arrow-down-2.hero-cta {
     opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -2810,9 +2832,9 @@ video {
   color: #c60a0a;
 }
 
-/* Logo black; white fails on the blue panel */
+/* White: 4.77:1 on the deeper blue */
 .jstorm-col .panel-role {
-  color: #0a0a0a;
+  color: #fff;
 }
 
 .mp-col .panel-role {

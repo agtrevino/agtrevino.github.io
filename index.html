@@ -4,13 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Aaron G. Trevino | Front-end developer who designs</title>
-    <meta name="description" content="Front-end developer with 8+ years of experience building websites and interfaces. Open to remote roles." />
+    <meta name="description" content="Front-end developer with 8+ years of experience building websites, brand pages and interfaces in HTML, CSS and JavaScript. Open to remote roles." />
     <link rel="canonical" href="https://agtrevino.github.io/" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <!-- Social previews -->
     <meta property="og:title" content="Aaron G. Trevino | Front-end developer who designs" />
-    <meta property="og:description" content="Front-end developer with 8+ years of experience building websites and interfaces. Open to remote roles." />
+    <meta property="og:description" content="Front-end developer with 8+ years of experience building websites, brand pages and interfaces in HTML, CSS and JavaScript. Open to remote roles." />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Aaron G. Trevino" />
     <meta property="og:url" content="https://agtrevino.github.io/" />
@@ -20,8 +20,9 @@
     <meta property="og:image:alt" content="Aaron G. Trevino, front-end developer who designs" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Aaron G. Trevino | Front-end developer who designs" />
-    <meta name="twitter:description" content="Front-end developer with 8+ years of experience building websites and interfaces. Open to remote roles." />
+    <meta name="twitter:description" content="Front-end developer with 8+ years of experience building websites, brand pages and interfaces in HTML, CSS and JavaScript. Open to remote roles." />
     <meta name="twitter:image" content="https://agtrevino.github.io/assets/img/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Aaron G. Trevino, front-end developer who designs" />
     <meta name="theme-color" content="#262935" />
 
     <!-- Search: who this site is about -->
@@ -32,6 +33,8 @@
       "name": "Aaron G. Trevino",
       "jobTitle": "Front-end developer",
       "url": "https://agtrevino.github.io/",
+      "image": "https://agtrevino.github.io/assets/img/agt/headshot-1.jpg",
+      "description": "Front-end developer with 8+ years of experience building websites, brand pages and interfaces in HTML, CSS and JavaScript. Open to remote roles.",
       "sameAs": [
         "https://github.com/agtrevino",
         "https://www.linkedin.com/in/aarongtrevino/"
@@ -46,10 +49,14 @@
     <link rel="preload" href="assets/fonts/Raleway-ExtraBold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/Raleway-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
 
+    <!-- Early connections to the two CDNs -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://code.jquery.com" />
+
     <!-- Bootstrap (CDN); the rest is local -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
 
-      <link rel="stylesheet" href="css/styles.css?v=187" />
+      <link rel="stylesheet" href="css/styles.css?v=189" />
     <!-- Show project logos when JS is off -->
     <noscript><style>.site-logo-container img { opacity: 1; }</style></noscript>
   </head>
@@ -57,8 +64,8 @@
   <body>
 <!-- Navbar -->
 
-<nav class="vertical-menu">
-  <a href="#home">
+<nav class="vertical-menu" aria-label="Sections">
+  <a href="#home" aria-label="Home">
     <div id="home-nav" class="nav-link-container row mb-2">
       <div class="nav-link-text col text-right home-nav">
         home
@@ -73,7 +80,7 @@
 
     </div>
   </a>
-  <a href="#projects">
+  <a href="#projects" aria-label="Projects">
     <div data-view="projects" id="projects-nav" class="nav-link-container row mb-2">
       <div class="nav-link-text col text-right projects-nav projects-nav-2">
         projects
@@ -88,7 +95,7 @@
 
     </div>
   </a>
-  <a href="#experience">
+  <a href="#experience" aria-label="Experience">
     <div id="experience-nav" class="nav-link-container row mb-2">
       <div class="nav-link-text col text-right experience-nav">
         experience
@@ -102,7 +109,7 @@
       </div>
     </div>
   </a>
-  <a href="#resume">
+  <a href="#resume" aria-label="Resume">
     <div id="resume-nav" class="nav-link-container row mb-2">
       <div class="nav-link-text col text-right resume-nav">
         resume
@@ -117,7 +124,7 @@
     </div>
   </a>
 
-  <a href="#tools">
+  <a href="#tools" aria-label="Tools">
     <div id="tools-nav" class="nav-link-container row mb-2">
       <div class="nav-link-text col text-right tools-nav">
         tools
@@ -132,7 +139,7 @@
     </div>
   </a>
 
-  <a href="#contact">
+  <a href="#contact" aria-label="Contact">
     <div data-view="contact" id="contact-nav" class="nav-link-container row">
       <div class="nav-link-text col text-right contact-nav">
         contact
@@ -293,8 +300,8 @@
             </div>
           </div>
           <div class="col-12 my-auto text-center site-btn-container">
-            <a href="https://www.adiglobaldistribution.us/catalog/featured-brands/audio-technica" target="_blank" rel="noopener noreferrer">
-              <button class="resume-button learn-more site-btn">
+            <a href="https://www.adiglobaldistribution.us/catalog/featured-brands/audio-technica" target="_blank" rel="noopener noreferrer" aria-label="View page: Audio-Technica brand page at ADI (opens in a new tab)">
+              <button class="resume-button learn-more site-btn" aria-label="View page: Audio-Technica brand page at ADI (opens in a new tab)">
                 <span class="circle project-circle-navy">
                   <span class="icon arrow"></span>
                 </span>
@@ -331,8 +338,8 @@
             </div>
           </div>
           <div class="col-12 my-auto text-center site-btn-container">
-            <a href="https://appddictionstudio.com/" target="_blank" rel="noopener noreferrer">
-              <button class="resume-button learn-more site-btn">
+            <a href="https://appddictionstudio.com/" target="_blank" rel="noopener noreferrer" aria-label="View site: Appddiction Studio website (opens in a new tab)">
+              <button class="resume-button learn-more site-btn" aria-label="View site: Appddiction Studio website (opens in a new tab)">
                 <span class="circle project-circle-red">
                   <span class="icon arrow"></span>
                 </span>
@@ -468,7 +475,7 @@
     </div>
     <div class="row chevron">
       <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
-        <a data-reveal class="arrow-down-2 hero-work-link" href="#experience" alt="" rel="relativeanchor" aria-label="Go to Experience">
+        <a data-reveal class="arrow-down-2 hero-work-link" href="#experience" aria-label="Go to Experience">
           <svg width="54px" height="164px" viewBox="0 0 54 164" version="1.1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true">
             <path fill="#fff" d="M26 -3H28V138L35.5 130.5L36.9 131.9L27 141.8L17.1 131.9L18.5 130.5L26 138Z" />
@@ -539,7 +546,7 @@
     </div>
     <div class="row chevron w-100">
       <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
-        <a data-reveal class="arrow-down-2 hero-work-link" href="#resume" alt="" rel="relativeanchor" aria-label="Go to Resume">
+        <a data-reveal class="arrow-down-2 hero-work-link" href="#resume" aria-label="Go to Resume">
           <svg width="54px" height="164px" viewBox="0 0 54 164" version="1.1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true">
             <path fill="#fff" d="M26 -3H28V138L35.5 130.5L36.9 131.9L27 141.8L17.1 131.9L18.5 130.5L26 138Z" />
@@ -568,7 +575,7 @@
 
         <div class="resume-img-wrap">
           <a class="resume-img-link mb-4" href="assets/AaronGTrevinoResume.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open resume PDF in a new tab">
-            <img class="resume-img" src="assets/img/aarongtrevinoresume.png" alt="" width="1547" height="2002">
+            <img class="resume-img" src="assets/img/aarongtrevinoresume.png" alt="Aaron G. Trevino's resume, page 1" width="1547" height="2002">
           </a>
           <a class="resume-download-link" href="assets/AaronGTrevinoResume.pdf" download aria-label="Download PDF of resume">
             <button class="resume-button learn-more">
@@ -656,7 +663,7 @@
     </div>
     <div class="row chevron w-100 resume-chevron">
       <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
-        <a data-reveal class="arrow-down-2 hero-work-link on-light" href="#tools" alt="" rel="relativeanchor" aria-label="Go to Tools">
+        <a data-reveal class="arrow-down-2 hero-work-link on-light" href="#tools" aria-label="Go to Tools">
           <svg width="54px" height="164px" viewBox="0 0 54 164" version="1.1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true">
             <path fill="#505464" d="M26 -3H28V138L35.5 130.5L36.9 131.9L27 141.8L17.1 131.9L18.5 130.5L26 138Z" />
@@ -741,7 +748,7 @@
     </div>
     <div class="row chevron w-100">
       <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
-        <a data-reveal class="arrow-down-2 hero-work-link" href="#contact" alt="" rel="relativeanchor" aria-label="Go to Contact">
+        <a data-reveal class="arrow-down-2 hero-work-link" href="#contact" aria-label="Go to Contact">
           <svg width="54px" height="164px" viewBox="0 0 54 164" version="1.1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true">
             <path fill="#fff" d="M26 -3H28V138L35.5 130.5L36.9 131.9L27 141.8L17.1 131.9L18.5 130.5L26 138Z" />
@@ -865,7 +872,7 @@
       <img class="contact-headshot" src="assets/img/agt/headshot-1.jpg" alt="Aaron G. Trevino" width="120" height="120">
       <h2 class="contact-heading">Open to <span class="contact-nobreak">front-end</span> roles</h2>
       <p class="contact-line">Front-end developer with 8+ years of experience</p>
-      <p class="contact-status"><span class="status-dot" aria-hidden="true"></span>Available Dec 1 · Remote</p>
+      <p class="contact-status"><span class="status-dot" aria-hidden="true"></span>Open to remote roles</p>
       <a href="mailto:aaron.g.trevino@gmail.com">
         <button class="resume-button learn-more contact-email-btn">
           <span class="circle"><span class="icon arrow"></span></span>
@@ -888,6 +895,6 @@
   </section>
 </main>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="js/main.js?v=78"></script>
+    <script src="js/main.js?v=80"></script>
   </body>
 </html>

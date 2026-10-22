@@ -784,7 +784,7 @@ function hotcocoLogo() {
 // Slides in page order; light = dark nav colors
 const SLIDES = {
   home: {},
-  projects: {},
+  projects: { navDark: true },
   experience: {},
   resume: { light: true },
   tools: {},
@@ -812,18 +812,29 @@ function currentSlide() {
 }
 
 // One active nav item, in white or dark nav colors
+let navSlide = SLIDE_IDS[0];
+const wideScreen = window.matchMedia('(min-width: 901px)');
+wideScreen.addEventListener('change', () => showSlide(navSlide));
+
 function showSlide(id) {
+  navSlide = id;
   const light = !!SLIDES[id].light;
+  // Projects: dark nav on desktop only; the name stays white
+  const darkNav = light || (!!SLIDES[id].navDark && wideScreen.matches);
   const names = SLIDE_IDS.map((name) => '.' + name);
   $(names.map((name) => name + '-nav').join(',')).removeClass('active-nav');
   $(names.map((name) => name + '-circle').join(','))
     .removeClass('active-circle active-circle-black nav-circle-black');
   $('.' + id + '-nav').addClass('active-nav');
-  $('.' + id + '-circle').addClass(light ? 'active-circle-black nav-circle-black' : 'active-circle');
-  $('.nav-link-text').toggleClass('color-black', light);
-  $('.line').toggleClass('line-black', light);
-  $('.nav-circle').toggleClass('circle-black', light);
+  $('.' + id + '-circle').addClass(darkNav ? 'active-circle-black nav-circle-black' : 'active-circle');
+  $('.nav-link-text').toggleClass('color-black', darkNav);
+  $('.line').toggleClass('line-black', darkNav);
+  $('.nav-circle').toggleClass('circle-black', darkNav);
   $('.vertical-text-2').toggleClass('color-black', light);
+  document.querySelectorAll('.vertical-menu a').forEach((link) => {
+    if (link.getAttribute('href') === '#' + id) link.setAttribute('aria-current', 'true');
+    else link.removeAttribute('aria-current');
+  });
 }
 
 // Items fade and rise in turn when the slide shows
@@ -1419,7 +1430,12 @@ function slideSync() {
   };
 
   const scrollToHash = () => {
-    const id = decodeURIComponent(location.hash.slice(1));
+    let id = '';
+    try {
+      id = decodeURIComponent(location.hash.slice(1));
+    } catch (e) {
+      return;
+    }
     const target = SLIDE_IDS.includes(id) && document.getElementById(id);
     if (!target) return;
     const top = target.getBoundingClientRect().top - wrapper.getBoundingClientRect().top + wrapper.scrollTop;
