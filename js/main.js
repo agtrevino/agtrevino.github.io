@@ -449,6 +449,8 @@ function ngOnInit() {
     projectLogoIntro();
     heroIconReplay();
     toolsIntro();
+    toolsBackdrop();
+    toolsPanel();
     signatureAnimation();
     expandingCards();
     navAnim();
@@ -536,6 +538,233 @@ function toolsIntro() {
     if (entry.intersectionRatio >= 0.4) section.classList.add('tools-in');
     else if (entry.intersectionRatio === 0) section.classList.remove('tools-in');
   }, { root: document.querySelector('.wrapper'), rootMargin: '-1px 0px', threshold: [0, 0.4] }).observe(section);
+}
+
+// Tools panel: shows the selected tool, typed in
+function toolsPanel() {
+  const section = document.getElementById('tools');
+  const panel = section && section.querySelector('.tool-panel');
+  const tools = section ? Array.from(section.querySelectorAll('button.tool')) : [];
+  const parts = panel ? {
+    inner: panel.querySelector('.panel-inner'),
+    group: panel.querySelector('.panel-group'),
+    icon: panel.querySelector('.panel-icon'),
+    name: panel.querySelector('.panel-name'),
+    typed: panel.querySelector('.panel-typed'),
+    full: panel.querySelector('.panel-full'),
+  } : null;
+  if (!section || !tools.length || !parts || Object.values(parts).some((el) => !el)) return;
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  // The untyped rest keeps the final text size
+  const rest = document.createElement('span');
+  rest.className = 'panel-rest';
+  rest.setAttribute('aria-hidden', 'true');
+  parts.typed.after(rest);
+
+  let typingFrame = 0;
+  let swapTimer = 0;
+  // Cancels the swap fades, not the CSS opening animation
+  const cancelFades = () => {
+    parts.inner.getAnimations().forEach((animation) => {
+      if (typeof CSSAnimation !== 'undefined' && animation instanceof CSSAnimation) return;
+      animation.cancel();
+    });
+  };
+  const stopTyping = () => {
+    window.cancelAnimationFrame(typingFrame);
+    window.clearTimeout(swapTimer);
+    cancelFades();
+  };
+
+  const fill = (tool) => {
+    const svg = tool.querySelector('svg');
+    parts.group.textContent = tool.dataset.group || '';
+    parts.name.textContent = tool.querySelector('.tool-name').textContent;
+    parts.icon.textContent = '';
+    if (svg) parts.icon.appendChild(svg.cloneNode(true));
+    panel.style.setProperty('--brand', tool.style.getPropertyValue('--brand'));
+    parts.full.textContent = tool.dataset.desc || '';
+  };
+
+  const type = (text) => {
+    if (reduced.matches) {
+      parts.typed.textContent = text;
+      rest.textContent = '';
+      return;
+    }
+    const start = performance.now();
+    const step = (now) => {
+      const count = Math.min(text.length, Math.floor((now - start) / 16));
+      parts.typed.textContent = text.slice(0, count);
+      rest.textContent = text.slice(count);
+      if (count < text.length) typingFrame = window.requestAnimationFrame(step);
+    };
+    typingFrame = window.requestAnimationFrame(step);
+  };
+
+  const select = (tool) => {
+    if (tool.getAttribute('aria-pressed') === 'true') return;
+    tools.forEach((other) => {
+      other.setAttribute('aria-pressed', other === tool ? 'true' : 'false');
+      other.tabIndex = other === tool ? 0 : -1;
+    });
+    stopTyping();
+    const swap = () => {
+      fill(tool);
+      type(tool.dataset.desc || '');
+      if (!reduced.matches) {
+        parts.inner.animate(
+          [{ opacity: 0, translate: '12px 0' }, { opacity: 1, translate: '0 0' }],
+          { duration: 125, easing: 'ease-out' });
+      }
+    };
+    if (reduced.matches) {
+      swap();
+    } else {
+      parts.inner.animate(
+        [{ opacity: 1, translate: '0 0' }, { opacity: 0, translate: '-12px 0' }],
+        { duration: 125, easing: 'ease-in', fill: 'forwards' });
+      swapTimer = window.setTimeout(() => {
+        cancelFades();
+        swap();
+      }, 125);
+    }
+    section.dispatchEvent(new CustomEvent('toolchange', { detail: { tool } }));
+  };
+
+  // Opens on the pressed tool, without typing
+  const first = tools.find((tool) => tool.getAttribute('aria-pressed') === 'true') || tools[0];
+  tools.forEach((tool) => { tool.tabIndex = tool === first ? 0 : -1; });
+  first.setAttribute('aria-pressed', 'true');
+  fill(first);
+  parts.typed.textContent = first.dataset.desc || '';
+  section.dispatchEvent(new CustomEvent('toolchange', { detail: { tool: first, initial: true } }));
+
+  const grid = section.querySelector('.tools-groups');
+  if (!grid) return;
+  grid.addEventListener('click', (event) => {
+    const tool = event.target.closest('button.tool');
+    if (tool) select(tool);
+  });
+  // One tab stop: the focused tool becomes the entry point
+  grid.addEventListener('focusin', (event) => {
+    const tool = event.target.closest('button.tool');
+    if (!tool) return;
+    tools.forEach((other) => { other.tabIndex = other === tool ? 0 : -1; });
+  });
+  // Left/Right: reading order. Up/Down: rows in the group.
+  grid.addEventListener('keydown', (event) => {
+    const tool = event.target.closest('button.tool');
+    const index = tools.indexOf(tool);
+    if (index < 0) return;
+    let target = null;
+    if (event.key === 'ArrowRight') target = tools[index + 1];
+    else if (event.key === 'ArrowLeft') target = tools[index - 1];
+    else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      const down = event.key === 'ArrowDown';
+      const here = tool.getBoundingClientRect();
+      const mates = tools.filter((other) => other !== tool && other.dataset.group === tool.dataset.group);
+      const rows = mates.filter((other) => {
+        const box = other.getBoundingClientRect();
+        return down ? box.top > here.top + 4 : box.top < here.top - 4;
+      });
+      if (rows.length) {
+        const rowTop = rows.reduce((best, other) => {
+          const top = other.getBoundingClientRect().top;
+          return down ? Math.min(best, top) : Math.max(best, top);
+        }, down ? Infinity : -Infinity);
+        const row = rows.filter((other) => Math.abs(other.getBoundingClientRect().top - rowTop) < 4);
+        target = row.reduce((best, other) => (
+          Math.abs(other.getBoundingClientRect().left - here.left) <
+          Math.abs(best.getBoundingClientRect().left - here.left) ? other : best));
+      }
+    } else return;
+    if (target) {
+      event.preventDefault();
+      target.focus({ preventScroll: true });
+    }
+  });
+}
+
+// Tools backdrop: brand glow and ghost icon follow the pick
+function toolsBackdrop() {
+  const section = document.getElementById('tools');
+  const bg = section && section.querySelector('.contact-bg');
+  if (!bg) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const make = (className) => {
+    const el = document.createElement('div');
+    el.className = className;
+    bg.appendChild(el);
+    return el;
+  };
+  const glows = [make('tools-glow'), make('tools-glow')];
+  const ghosts = [make('tools-ghost'), make('tools-ghost')];
+  const icons = ghosts.map((ghost) => {
+    const icon = document.createElement('div');
+    icon.className = 'ghost-icon';
+    ghost.appendChild(icon);
+    return icon;
+  });
+
+  // Each change lights the idle layer, dims the other
+  let live = 1;
+  section.addEventListener('toolchange', (event) => {
+    const tool = event.detail.tool;
+    const svg = tool.querySelector('svg');
+    const brand = tool.style.getPropertyValue('--brand').trim();
+    const white = /^#f{6}$/i.test(brand);
+    live = 1 - live;
+    glows[live].style.setProperty('--glow', white ? '#fff' : brand);
+    glows[live].style.setProperty('--glow-pct', white ? '14%' : '32%');
+    ghosts[live].style.setProperty('--brand', brand);
+    icons[live].textContent = '';
+    if (svg) icons[live].appendChild(svg.cloneNode(true));
+    glows.forEach((el, i) => el.classList.toggle('is-on', i === live));
+    ghosts.forEach((el, i) => el.classList.toggle('is-on', i === live));
+    if (!reduced.matches && !event.detail.initial) {
+      icons[live].animate(
+        [{ translate: '40px 0', opacity: 0 }, { translate: '0 0', opacity: 1 }],
+        { duration: 400, easing: 'ease-out' });
+    }
+  });
+
+  // Mouse parallax, only while 30% of the slide shows
+  if (!('IntersectionObserver' in window)) return;
+  const canMove = () => window.matchMedia('(hover: hover)').matches && !reduced.matches;
+  let frame = 0;
+  let x = 0;
+  let y = 0;
+  const draw = () => {
+    frame = 0;
+    bg.style.setProperty('--gx', x.toFixed(1) + 'px');
+    bg.style.setProperty('--gy', y.toFixed(1) + 'px');
+  };
+  const onMove = (event) => {
+    const box = section.getBoundingClientRect();
+    x = ((event.clientX - box.left) / box.width - 0.5) * 28;
+    y = ((event.clientY - box.top) / box.height - 0.5) * 28;
+    if (!frame) frame = window.requestAnimationFrame(draw);
+  };
+  let attached = false;
+  const attach = () => {
+    if (attached || !canMove()) return;
+    attached = true;
+    section.addEventListener('pointermove', onMove, { passive: true });
+  };
+  const detach = () => {
+    if (!attached) return;
+    attached = false;
+    section.removeEventListener('pointermove', onMove);
+    window.cancelAnimationFrame(frame);
+    frame = 0;
+  };
+  new IntersectionObserver((entries) => {
+    const entry = entries[entries.length - 1];
+    if (entry.intersectionRatio >= 0.3) attach();
+    else detach();
+  }, { threshold: [0, 0.3] }).observe(section);
 }
 
 // A one-time ring on the dot of the slide just arrived at

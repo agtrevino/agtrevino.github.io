@@ -1004,10 +1004,20 @@ body.hero-offscreen .bg1::after {
   color: rgba(255, 255, 255, 0.75);
 }
 
+.tools-container {
+  --tools-grid-w: min(38vw, 540px);
+}
+
+.tools-heading,
+.tools-line,
 .tools-groups {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(16px, 3.5vh, 34px) clamp(24px, 4vw, 56px);
+  max-width: var(--tools-grid-w);
+}
+
+.tools-groups {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 2.2vh, 22px);
 }
 
 .tools-label {
@@ -1031,6 +1041,12 @@ body.hero-offscreen .bg1::after {
 
 .tool {
   width: 84px;
+  padding: 8px 0 6px;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  font: inherit;
+  cursor: pointer;
   text-align: center;
   color: rgba(255, 255, 255, 0.75);
   transition: color 250ms, transform 250ms;
@@ -1061,6 +1077,18 @@ body.hero-offscreen .bg1::after {
   transform: translateY(-4px);
 }
 
+/* Selected: brand color, a red ring and a soft red wash */
+.tool[aria-pressed="true"] {
+  color: var(--brand);
+  background: rgba(235, 59, 90, 0.14);
+  box-shadow: 0 0 0 1px #eb3b5a;
+}
+
+.tool:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
 .tool:hover .tool-name,
 .tool:focus-within .tool-name {
   color: #fff;
@@ -1069,6 +1097,222 @@ body.hero-offscreen .bg1::after {
 .tool:hover .tool-icon,
 .tool:focus-within .tool-icon {
   transform: scale(1.08);
+}
+
+/* Detail panel: wide screens only; narrower get a card */
+.tool-panel {
+  display: none;
+}
+
+@media (min-width: 1101px) {
+  .tools-container {
+    --skew-extra: calc(0.22 * 100vh);
+    overflow: hidden;
+  }
+
+  /* Short windows: the grid shrinks with the height */
+  .tools-heading {
+    font-size: clamp(24px, min(3vw, 4.4vh), 40px);
+  }
+
+  .tools-line {
+    margin-bottom: clamp(10px, 2.4vh, 34px);
+  }
+
+  .tools-groups {
+    gap: clamp(6px, 1.6vh, 22px);
+  }
+
+  .tools-label {
+    margin-bottom: clamp(3px, 0.8vh, 10px);
+  }
+
+  .tools-icons {
+    gap: clamp(2px, 1vh, 14px) 10px;
+  }
+
+  .tool {
+    padding: clamp(3px, 0.9vh, 8px) 0 clamp(3px, 0.7vh, 6px);
+  }
+
+  .tool-icon {
+    width: clamp(26px, 4.4vh, 36px);
+    height: clamp(26px, 4.4vh, 36px);
+  }
+
+  .tool-name {
+    font-size: clamp(10px, 1.6vh, 12px);
+  }
+
+  /* After the grid; runs past the right edge */
+  .tool-panel {
+    position: absolute;
+    z-index: 1;
+    top: -10%;
+    right: calc(-100px - var(--skew-extra));
+    bottom: -10%;
+    left: calc(
+      (100% - min(880px, calc(100% - 2 * max(100px, 8vw)))) / 2 +
+      var(--tools-grid-w) + 40px + max(0px, 1200px - 100vw) / 6
+    );
+    display: flex;
+    align-items: center;
+    padding: 0 calc(var(--skew-extra) + 315px) 0 84px;
+  }
+
+  .tool-panel::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border-left: 6px solid #eb3b5a;
+    background: rgba(255, 255, 255, 0.06);
+    transform: skewX(-20deg);
+    transform-origin: 0 50%;
+  }
+}
+
+/* Backdrop: two glows and two ghost icons, swapped by JS */
+.tools-glow {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 72% 50%, rgba(255, 255, 255, 0.1), transparent 62%);
+  background: radial-gradient(
+    circle at 72% 50%,
+    color-mix(in srgb, var(--glow, #fff) var(--glow-pct, 32%), transparent),
+    transparent 62%
+  );
+  transition: opacity 500ms ease;
+  will-change: opacity;
+}
+
+.tools-glow.is-on {
+  opacity: 1;
+}
+
+/* --gx and --gy are the mouse parallax, set by JS */
+.tools-ghost {
+  position: absolute;
+  top: 50%;
+  right: -4vw;
+  height: 80vh;
+  aspect-ratio: 1;
+  color: var(--brand, #fff);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(var(--gx, 0px), calc(-50% + var(--gy, 0px))) skewX(-20deg);
+  transition: opacity 300ms ease, transform 250ms ease-out;
+}
+
+.tools-ghost.is-on {
+  opacity: 0.07;
+}
+
+.ghost-icon,
+.ghost-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ghost-icon svg {
+  fill: currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tools-glow,
+  .tools-ghost {
+    transition: none;
+  }
+}
+
+.panel-inner {
+  width: 100%;
+}
+
+.panel-group {
+  margin: 0 0 14px;
+  font-family: "ralewaySemi";
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #eb3b5a;
+}
+
+.panel-icon {
+  width: 88px;
+  height: 88px;
+  margin-bottom: 14px;
+  color: var(--brand, #fff);
+}
+
+.panel-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.panel-name {
+  margin: 0 0 12px;
+  font-family: "ralewayExtraBold";
+  font-size: clamp(30px, 2.9vw, 44px);
+  font-weight: 800;
+  line-height: 1.05;
+  color: #fff;
+}
+
+.panel-desc {
+  margin: 0;
+  font-family: "ralewaySemi";
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Reserves the untyped part so the text does not reflow */
+.panel-rest {
+  visibility: hidden;
+}
+
+/* Opening: grows from a stripe, then the text shows */
+.tools-ready .tool-panel::before {
+  transform: skewX(-20deg) scaleX(0.04);
+}
+
+.tools-ready .panel-inner {
+  opacity: 0;
+}
+
+.tools-ready.tools-in .tool-panel::before {
+  animation: panelOpen 600ms ease-out both;
+}
+
+.tools-ready.tools-in .panel-inner {
+  animation: panelShow 300ms ease-out 600ms both;
+}
+
+@keyframes panelOpen {
+  from {
+    transform: skewX(-20deg) scaleX(0.04);
+  }
+
+  to {
+    transform: skewX(-20deg) scaleX(1);
+  }
+}
+
+@keyframes panelShow {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .tools-note {
@@ -1122,6 +1366,19 @@ body.hero-offscreen .bg1::after {
 
 /* Reduced motion: color change only, no movement */
 @media (prefers-reduced-motion: reduce) {
+  .tools-ready .tool-panel::before {
+    transform: skewX(-20deg);
+  }
+
+  .tools-ready .panel-inner {
+    opacity: 1;
+  }
+
+  .tools-ready.tools-in .tool-panel::before,
+  .tools-ready.tools-in .panel-inner {
+    animation: none;
+  }
+
   .tools-ready .tool {
     opacity: 1;
     translate: none;
@@ -1147,34 +1404,31 @@ body.hero-offscreen .bg1::after {
   }
 }
 
-/* Phones: one column, clear of the name on the left edge */
-@media (max-width: 480px) {
-  .tools-content {
-    width: auto;
-    margin: 0 20px 0 60px;
+/* Narrow screens: no skew; the panel becomes a card */
+@media (max-width: 1100px) {
+  .tools-container {
+    --tools-grid-w: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: clamp(44px, 8vh, 84px) 0 24px;
   }
 
   .tools-heading {
-    font-size: clamp(24px, 7vw, 30px);
-  }
-
-  .tools-groups {
-    grid-template-columns: 1fr;
-    gap: clamp(10px, 2vh, 18px);
-  }
-
-  .tools-icons {
-    gap: clamp(6px, 1.4vh, 10px) 6px;
+    font-size: clamp(22px, 5.4vw, 32px);
   }
 
   .tools-line {
-    margin-bottom: clamp(12px, 2.4vh, 22px);
+    margin-bottom: clamp(8px, 1.8vh, 18px);
     font-size: 15px;
     line-height: 1.4;
   }
 
+  .tools-groups {
+    gap: clamp(6px, 1.4vh, 14px);
+  }
+
   .tools-label {
-    margin-bottom: 4px;
+    margin-bottom: 2px;
   }
 
   .tools-note {
@@ -1182,18 +1436,130 @@ body.hero-offscreen .bg1::after {
     font-size: 12px;
   }
 
-  /* Four to a row, even on the narrowest screens */
+  .tools-icons {
+    gap: clamp(2px, 0.8vh, 8px) 8px;
+  }
+
+  /* The list item sets the width: six to a row */
+  .tools-icons li {
+    width: min(84px, calc((100% - 40px) / 6));
+  }
+
   .tool {
-    width: min(64px, calc((100% - 18px) / 4));
+    width: 100%;
+    padding: 4px 0;
   }
 
   .tool-icon {
-    width: 28px;
-    height: 28px;
+    width: clamp(34px, 5.6vh, 44px);
+    height: clamp(34px, 5.6vh, 44px);
+    margin-bottom: 3px;
   }
 
   .tool-name {
-    font-size: 11px;
+    font-size: 10px;
+    letter-spacing: 0.3px;
+  }
+
+  .tool-panel {
+    display: block;
+    position: relative;
+    z-index: 2;
+    width: min(880px, calc(100% - 2 * max(100px, 8vw)));
+    margin-top: clamp(8px, 1.8vh, 18px);
+    padding: clamp(8px, 1.4vh, 14px) 14px;
+    border-left: 6px solid #eb3b5a;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .panel-inner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 12px;
+    align-items: center;
+  }
+
+  .panel-icon {
+    grid-row: 1 / span 2;
+    width: 48px;
+    height: 48px;
+    margin: 0;
+  }
+
+  .panel-group,
+  .panel-name {
+    grid-column: 2;
+  }
+
+  .panel-group {
+    margin: 0 0 2px;
+    font-size: 12px;
+  }
+
+  .panel-name {
+    margin: 0;
+    font-size: clamp(20px, 4.4vw, 28px);
+  }
+
+  .panel-desc {
+    grid-column: 1 / -1;
+    margin-top: 6px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* No stripe to wait for: the card text shows at once */
+  .tools-ready.tools-in .panel-inner {
+    animation-delay: 0s;
+  }
+}
+
+/* Phones: five to a row, clear of the name */
+@media (max-width: 480px) {
+  .tools-container {
+    padding-top: clamp(16px, 3vh, 40px);
+  }
+
+  .tools-content {
+    width: auto;
+    margin: 0 20px 0 60px;
+  }
+
+  .tool-panel {
+    width: auto;
+    margin-right: 20px;
+    margin-left: 60px;
+  }
+
+  .tools-icons {
+    gap: 2px 4px;
+  }
+
+  .tools-icons li {
+    width: calc((100% - 16px) / 5);
+  }
+
+  .tools-ghost {
+    display: none;
+  }
+}
+
+/* Short phones: shorter intro, no labels */
+.tools-line-short {
+  display: none;
+}
+
+@media (max-width: 480px) and (max-height: 780px) {
+  .tools-line-full {
+    display: none;
+  }
+
+  .tools-line-short {
+    display: inline;
+  }
+
+  .tools-label {
+    display: none;
   }
 }
 
