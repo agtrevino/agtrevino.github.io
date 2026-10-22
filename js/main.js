@@ -493,7 +493,7 @@ function expandingCards() {
     });
   }
 
-// Project panel text: title, role, typed blurb, button
+// Panel text: title, role, typed blurb, then the label
 function panelSequence() {
   const slide = document.getElementById('projects');
   const panels = slide ? Array.from(slide.querySelectorAll('.expansion-col')) : [];
@@ -539,7 +539,6 @@ function panelSequence() {
     const p = parts(panel);
     p.revealed.forEach((el) => el.classList.remove('is-in'));
     if (p.button) p.button.classList.remove('is-in');
-    panel.classList.remove('is-revealing');
     const typedParts = p.blurb && fulls.get(p.blurb);
     if (typedParts) {
       typedParts.typed.textContent = typedParts.full;
@@ -564,7 +563,6 @@ function panelSequence() {
     const text = prepare(p.blurb);
     text.typed.textContent = '';
     text.rest.textContent = text.full;
-    panel.classList.add('is-revealing');
 
     const run = { panel, timers: [], frame: 0 };
     active = run;
