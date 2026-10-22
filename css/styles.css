@@ -1198,6 +1198,21 @@ body.hero-offscreen .bg1::after {
     transform-origin: 0 50%;
   }
 
+  /* Dims the glow left of the red line, under the icons */
+  .tools-container::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: -10%;
+    bottom: -10%;
+    left: calc(-100px - var(--skew-extra));
+    width: calc(var(--panel-left) + 100px + var(--skew-extra));
+    background: rgba(12, 10, 24, 0.45);
+    transform: skewX(-20deg);
+    transform-origin: 100% 50%;
+    pointer-events: none;
+  }
+
   /* Darkens the ghost under the text, not the red edge */
   .tool-panel::after {
     content: "";
@@ -2717,7 +2732,12 @@ video {
 }
 
 .appddiction-col .panel-role {
-  color: #eb3b5a;
+  color: #c60a0a;
+}
+
+/* Logo black; white fails on the blue panel */
+.jstorm-col .panel-role {
+  color: #0a0a0a;
 }
 
 .mp-col .panel-role {
