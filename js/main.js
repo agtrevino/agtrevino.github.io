@@ -13,6 +13,7 @@ function onWrapperScroll(fn) {
   });
 }
 
+// Blocks panel hover while scrolling (body.is-scrolling)
 function suppressHoverWhileScrolling() {
   let scrollTimeout;
 
@@ -279,6 +280,7 @@ function cardDots() {
   update();
 }
 
+// Redraws the hero signature GIF each time the hero shows
 function signatureAnimation() {
   const hero = document.querySelector('#home');
   const signature = document.querySelector('.signature');
@@ -433,6 +435,7 @@ function consoleHello() {
   console.log('Source: https://github.com/agtrevino/agtrevino.github.io');
 }
 
+// Runs every setup function once on page load
 function ngOnInit() {
   consoleHello();
   suppressHoverWhileScrolling();
@@ -548,6 +551,7 @@ function playRipple(id) {
 
 let shownSlide = null;
 let navReady = false;
+// Sets the nav for the visible slide; ripple on a change
 function updateActiveSlide(force) {
   const id = currentSlide();
   if (!force && id === shownSlide) return id;
@@ -558,7 +562,7 @@ function updateActiveSlide(force) {
   return id;
 }
 
-// Hash waits for 150ms of stillness (smooth scrolls)
+// Keeps nav and URL hash in step; hash waits for stillness
 function slideSync() {
   const wrapper = document.querySelector('.wrapper');
   if (!wrapper) return;
@@ -613,6 +617,7 @@ function slideSync() {
   else window.addEventListener('load', start, { once: true });
 }
 
+// Fades the resume strengths in one by one
 function resumeTitleViewCheck() {
     onWrapperScroll(function () {
       var scrollTop = $(window).scrollTop();
