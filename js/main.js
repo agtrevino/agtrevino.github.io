@@ -1313,7 +1313,7 @@ function experienceSlide() {
   const pickedOf = (track) => stationsOf(track).find((s) => s.getAttribute('aria-pressed') === 'true') || stationsOf(track)[0];
   let activeTab = Math.max(0, tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true'));
 
-  // Key numbers: screen-reader copy, typed letters, a rest
+  // Key facts: a label, then a typed number and its text
   const statEls = Array.from(section.querySelectorAll('.exp-stat'));
   const statParts = statEls.map((stat) => {
     const num = stat.querySelector('.exp-stat-num');
@@ -1326,10 +1326,11 @@ function experienceSlide() {
     rest.setAttribute('aria-hidden', 'true');
     num.textContent = '';
     num.append(readable, typed, rest);
-    return { stat, readable, typed, rest, label: stat.querySelector('.exp-stat-label') };
+    return { stat, readable, typed, rest, key: stat.querySelector('.exp-stat-key'), label: stat.querySelector('.exp-stat-label') };
   });
   let statCancels = [];
   let statTimers = [];
+  let statMode = 'show';
   const stopStats = () => {
     statCancels.forEach((cancel) => cancel());
     statTimers.forEach((id) => window.clearTimeout(id));
@@ -1339,15 +1340,18 @@ function experienceSlide() {
   // mode: 'show' (full), 'hide' (empty, laid out) or 'type'
   const renderStats = (index, mode) => {
     stopStats();
+    statMode = mode;
     const rows = (tabs[index].dataset.stats || '').split(';').filter(Boolean).map((row) => row.split('|'));
     statParts.forEach((part, i) => {
       const row = rows[i];
       part.stat.hidden = !row;
       if (!row) return;
-      const [value, label] = row;
+      const [key, value, label] = row;
+      part.key.textContent = key;
+      part.stat.classList.toggle('no-num', !value);
       part.readable.textContent = value;
       part.label.textContent = label;
-      if (mode === 'type') {
+      if (mode === 'type' && value) {
         part.typed.textContent = '';
         part.rest.textContent = value;
         statTimers.push(window.setTimeout(() => {
@@ -1474,6 +1478,31 @@ function experienceSlide() {
     }
   };
 
+  // Tabs share the tallest role, summary and facts
+  const statsBox = section.querySelector('.exp-stats');
+  const fitHeights = () => {
+    const keep = { role: role.textContent, summary: summary.textContent, mode: statMode };
+    const boxes = [role, summary, statsBox];
+    boxes.forEach((el) => { el.style.minHeight = ''; });
+    const tall = [0, 0, 0];
+    tabs.forEach((tab, i) => {
+      role.textContent = tab.dataset.role || '';
+      summary.textContent = tab.dataset.summary || '';
+      renderStats(i, 'show');
+      boxes.forEach((el, k) => { tall[k] = Math.max(tall[k], el.offsetHeight); });
+    });
+    role.textContent = keep.role;
+    summary.textContent = keep.summary;
+    boxes.forEach((el, k) => { el.style.minHeight = tall[k] + 'px'; });
+    renderStats(activeTab, keep.mode === 'type' ? 'show' : keep.mode);
+  };
+  let fitFrame = 0;
+  window.addEventListener('resize', () => {
+    window.cancelAnimationFrame(fitFrame);
+    fitFrame = window.requestAnimationFrame(fitHeights);
+  });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitHeights);
+
   tabs.forEach((tab, i) => {
     tab.addEventListener('click', () => { if (i !== activeTab) showTab(i, true); });
     tab.addEventListener('keydown', (event) => {
@@ -1522,6 +1551,7 @@ function experienceSlide() {
   if (bar) window.requestAnimationFrame(() => window.requestAnimationFrame(() => bar.classList.add('is-ready')));
   const ready = section.classList.contains('tools-ready');
   renderStats(activeTab, ready ? 'hide' : 'show');
+  fitHeights();
   section.addEventListener('slidein', () => renderStats(activeTab, 'type'));
   section.addEventListener('slideout', () => renderStats(activeTab, 'hide'));
   const track = tracks[activeTab];
