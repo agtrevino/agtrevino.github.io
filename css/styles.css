@@ -2652,70 +2652,37 @@ video {
   margin-left: 0;
 }
 
-/* Home keeps a centered call to action */
-#home .hero-work-link--center {
-  position: absolute;
-  left: 50%;
-  bottom: 34px;
-  z-index: 999999999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 7px;
-  width: max-content;
-  margin: 0;
-  color: #fff;
-  transform: translateX(-50%);
-  transition: color 200ms ease;
-}
-
-#home .hero-work-link--center span {
-  position: static;
-  display: block !important;
-  writing-mode: horizontal-tb !important;
-  text-orientation: mixed;
-  transform: none !important;
-  font-family: "raleway";
+/* Hero CTA: the rail arrow plus a permanent label */
+.hero-work-link.hero-cta .hero-cta-label {
+  top: 104px;
+  left: 48px;
+  writing-mode: horizontal-tb;
+  transform: translateY(-50%);
   font-size: 16px;
-  font-weight: 600;
-  font-synthesis: none;
   letter-spacing: 0.15em;
-  line-height: 1.4;
-  text-transform: lowercase;
-  color: currentColor;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+  clip-path: none;
   transition: color 200ms ease;
 }
 
-#home .hero-work-link--center path {
-  fill: none;
-  stroke: currentColor;
-  transition: stroke 200ms ease;
+/* Same font on hover (vertical labels go SemiBold) */
+.hero-work-link.hero-cta:hover .hero-cta-label,
+.hero-work-link.hero-cta:focus-visible .hero-cta-label {
+  font-family: "raleway";
+  font-weight: 600;
 }
 
-#home .hero-work-link--center svg {
-  display: block;
-  overflow: visible;
-  animation: heroChevron 1.8s ease-in-out infinite;
+/* The other slides hide their arrows here; the CTA stays */
+@media (max-width: 680px) {
+  .arrow-down-2.hero-cta {
+    opacity: 1;
+  }
 }
 
-#home .hero-work-link--center:hover,
-#home .hero-work-link--center:focus-visible {
-  color: #eb3b5a;
-}
-
-#home .hero-work-link--center:hover span,
-#home .hero-work-link--center:focus-visible span {
-  color: #eb3b5a;
-}
-
-@keyframes heroChevron {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #home .hero-work-link--center svg {
-    animation: none;
+/* Phones: the base rule hides labels */
+@media only screen and (max-width: 480px) {
+  .hero-work-link.hero-cta .hero-cta-label {
+    display: block;
   }
 }
 
@@ -3194,7 +3161,7 @@ video {
   }
 
   /* Hidden arrows still caught taps meant for cards */
-  .hero-work-link:not(.hero-work-link--center) {
+  .hero-work-link:not(.hero-cta) {
     pointer-events: none;
   }
 
