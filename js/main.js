@@ -471,6 +471,7 @@ function ngOnInit() {
     toolsIntro();
     toolsBackdrop();
     toolsPanel();
+    experienceSlide();
     signatureAnimation(document.getElementById('home'), document.querySelector('.signature'));
     signatureAnimation(document.getElementById('contact'), document.querySelector('.contact-signature'));
     expandingCards();
@@ -549,7 +550,7 @@ function panelSequence() {
   const stop = () => {
     if (!active) return;
     active.timers.forEach((id) => window.clearTimeout(id));
-    window.cancelAnimationFrame(active.frame);
+    active.cancelType();
     const { panel } = active;
     active = null;
     reset(panel);
@@ -564,20 +565,14 @@ function panelSequence() {
     text.typed.textContent = '';
     text.rest.textContent = text.full;
 
-    const run = { panel, timers: [], frame: 0 };
+    const run = { panel, timers: [], cancelType: () => {} };
     active = run;
     const at = (ms, fn) => run.timers.push(window.setTimeout(fn, ms));
 
     const type = () => {
-      const begin = performance.now();
-      const step = (now) => {
-        const count = Math.min(text.full.length, Math.floor((now - begin) / TYPE_MS));
-        text.typed.textContent = text.full.slice(0, count);
-        text.rest.textContent = text.full.slice(count);
-        if (count < text.full.length) run.frame = window.requestAnimationFrame(step);
-        else if (p.button) p.button.classList.add('is-in');
-      };
-      run.frame = window.requestAnimationFrame(step);
+      run.cancelType = typeText(text.typed, text.rest, text.full, TYPE_MS, () => {
+        if (p.button) p.button.classList.add('is-in');
+      });
     };
 
     at(200, () => {
@@ -699,6 +694,7 @@ function hotcocoLogo() {
 const SLIDES = {
   home: {},
   projects: {},
+  experience: {},
   resume: { light: true },
   tools: {},
   contact: {},
@@ -755,6 +751,21 @@ function toolsIntro() {
   }, { root: document.querySelector('.wrapper'), rootMargin: '-1px 0px', threshold: [0, 0.4] }).observe(section);
 }
 
+// Types text into a letters span; the rest holds the line
+function typeText(typed, rest, text, msPerChar, onDone) {
+  const start = performance.now();
+  let frame = 0;
+  const step = (now) => {
+    const count = Math.min(text.length, Math.floor((now - start) / msPerChar));
+    typed.textContent = text.slice(0, count);
+    rest.textContent = text.slice(count);
+    if (count < text.length) frame = window.requestAnimationFrame(step);
+    else if (onDone) onDone();
+  };
+  frame = window.requestAnimationFrame(step);
+  return () => window.cancelAnimationFrame(frame);
+}
+
 // Tools panel: shows the selected tool, typed in
 function toolsPanel() {
   const section = document.getElementById('tools');
@@ -777,7 +788,7 @@ function toolsPanel() {
   rest.setAttribute('aria-hidden', 'true');
   parts.typed.after(rest);
 
-  let typingFrame = 0;
+  let cancelTyping = () => {};
   let swapTimer = 0;
   // Cancels the swap fades, not the CSS opening animation
   const cancelFades = () => {
@@ -787,7 +798,7 @@ function toolsPanel() {
     });
   };
   const stopTyping = () => {
-    window.cancelAnimationFrame(typingFrame);
+    cancelTyping();
     window.clearTimeout(swapTimer);
     cancelFades();
   };
@@ -808,14 +819,7 @@ function toolsPanel() {
       rest.textContent = '';
       return;
     }
-    const start = performance.now();
-    const step = (now) => {
-      const count = Math.min(text.length, Math.floor((now - start) / 16));
-      parts.typed.textContent = text.slice(0, count);
-      rest.textContent = text.slice(count);
-      if (count < text.length) typingFrame = window.requestAnimationFrame(step);
-    };
-    typingFrame = window.requestAnimationFrame(step);
+    cancelTyping = typeText(parts.typed, rest, text, 16);
   };
 
   const select = (tool) => {
@@ -986,6 +990,102 @@ function toolsBackdrop() {
     if (entry.intersectionRatio >= 0.3) attach();
     else detach();
   }, { threshold: [0, 0.3] }).observe(section);
+}
+
+// Experience: the strip draws in, then the step types
+function experienceSlide() {
+  const section = document.getElementById('experience');
+  const strip = section && section.querySelector('.exp-strip');
+  const steps = strip ? Array.from(strip.querySelectorAll('.exp-step')) : [];
+  const detail = section && section.querySelector('.exp-detail');
+  const typed = detail && detail.querySelector('.exp-typed');
+  const full = detail && detail.querySelector('.exp-full');
+  if (!steps.length || !typed || !full) return;
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const phone = window.matchMedia('(max-width: 480px)');
+  // The untyped rest keeps the line wrapping fixed
+  const rest = document.createElement('span');
+  rest.className = 'panel-rest';
+  rest.setAttribute('aria-hidden', 'true');
+  typed.after(rest);
+
+  let cancelTyping = () => {};
+  let timers = [];
+
+  // Phones list the steps: detail sits under the picked one
+  const placeDetail = () => {
+    const picked = steps.find((step) => step.getAttribute('aria-pressed') === 'true');
+    if (phone.matches && picked) picked.after(detail);
+    else strip.after(detail);
+  };
+
+  const pick = (step, withTyping) => {
+    steps.forEach((other) => {
+      other.setAttribute('aria-pressed', other === step ? 'true' : 'false');
+      other.tabIndex = other === step ? 0 : -1;
+    });
+    const text = step.dataset.desc || '';
+    cancelTyping();
+    full.textContent = text;
+    if (withTyping && !reduced.matches) {
+      cancelTyping = typeText(typed, rest, text, 16);
+    } else {
+      typed.textContent = withTyping === null ? '' : text;
+      rest.textContent = withTyping === null ? text : '';
+    }
+    placeDetail();
+  };
+
+  strip.addEventListener('click', (event) => {
+    const step = event.target.closest('.exp-step');
+    if (step && step.getAttribute('aria-pressed') !== 'true') pick(step, true);
+  });
+  // Arrow keys move focus; Enter or Space picks (a click)
+  strip.addEventListener('keydown', (event) => {
+    const index = steps.indexOf(event.target.closest('.exp-step'));
+    if (index < 0) return;
+    const next = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key];
+    if (!next || !steps[index + next]) return;
+    event.preventDefault();
+    steps[index + next].focus({ preventScroll: true });
+  });
+  strip.addEventListener('focusin', (event) => {
+    const step = event.target.closest('.exp-step');
+    if (step) steps.forEach((other) => { other.tabIndex = other === step ? 0 : -1; });
+  });
+  phone.addEventListener('change', placeDetail);
+
+  const first = steps.find((step) => step.getAttribute('aria-pressed') === 'true') || steps[0];
+  pick(first, false);
+  if (reduced.matches || !('IntersectionObserver' in window)) return;
+
+  // Hidden until it arrives; each visit replays
+  section.classList.add('exp-ready');
+  pick(first, null);
+  let playing = false;
+  const play = () => {
+    if (playing) return;
+    playing = true;
+    section.classList.add('exp-in');
+    timers.push(window.setTimeout(() => pick(steps[0], true), 2200));
+  };
+  const reset = () => {
+    if (!playing) return;
+    playing = false;
+    timers.forEach((id) => window.clearTimeout(id));
+    timers = [];
+    section.classList.remove('exp-in');
+    pick(steps[0], null);
+  };
+  new IntersectionObserver(([entry]) => {
+    const rootHeight = entry.rootBounds ? entry.rootBounds.height : window.innerHeight;
+    // A slide taller than the window counts at half of it
+    const shown = entry.intersectionRatio >= 0.5 ||
+      (entry.isIntersecting && entry.intersectionRect.height >= 0.5 * rootHeight);
+    if (shown) play();
+    else if (entry.intersectionRatio === 0) reset();
+  }, { root: document.querySelector('.wrapper'), rootMargin: '-1px 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75] }).observe(section);
 }
 
 // A one-time ring on the dot of the slide just arrived at

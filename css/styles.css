@@ -667,7 +667,8 @@ body.hero-offscreen .bg1::after {
 
 /* Gradient with faint drifting code (parallax) */
 #contact,
-#tools {
+#tools,
+#experience {
   --bg-a: #262935;
   --bg-b: #3a3e4d;
   --bg-c: #505464;
@@ -732,8 +733,9 @@ body.hero-offscreen .bg1::after {
   opacity: .06;
 }
 
-/* Tools shares this background, without the stripe */
-#tools .contact-bg::before {
+/* Tools and Experience share this background, no stripe */
+#tools .contact-bg::before,
+#experience .contact-bg::before {
   display: none;
 }
 
@@ -822,7 +824,8 @@ body.hero-offscreen .bg1::after {
 }
 
 .contact-heading,
-.tools-heading {
+.tools-heading,
+.exp-heading {
   margin: 0;
   font-family: "ralewayExtraBold";
   font-size: clamp(32px, 4vw, 56px);
@@ -1068,7 +1071,8 @@ body.hero-offscreen .bg1::after {
 }
 
 /* Tools */
-.tools-heading {
+.tools-heading,
+.exp-heading {
   font-size: var(--tools-title-size);
 }
 
@@ -2836,6 +2840,7 @@ video {
 #home .hero-work-link,
 #home-nav,
 #projects-nav,
+#experience-nav,
 #resume-nav,
 #tools-nav,
 #contact-nav {
@@ -2844,9 +2849,10 @@ video {
 
 #home-nav { animation-delay: 0s; }
 #projects-nav { animation-delay: 0.3s; }
-#resume-nav { animation-delay: 0.6s; }
-#tools-nav { animation-delay: 0.9s; }
-#contact-nav { animation-delay: 1.2s; }
+#experience-nav { animation-delay: 0.6s; }
+#resume-nav { animation-delay: 0.9s; }
+#tools-nav { animation-delay: 1.2s; }
+#contact-nav { animation-delay: 1.5s; }
 .vertical-text-2 { animation-delay: 0.2s; }
 .hero-tagline { animation-delay: 0.5s; }
 .hero-location { animation-delay: 0.7s; }
@@ -2876,6 +2882,7 @@ video {
   #home .hero-work-link,
   #home-nav,
   #projects-nav,
+  #experience-nav,
   #resume-nav,
   #tools-nav,
   #contact-nav {
@@ -2899,6 +2906,369 @@ video {
 
   .rw-words-1 .word-span:first-child {
     opacity: 1;
+  }
+}
+
+/* Experience: two blocks split by a slanted rule */
+.exp-container {
+  --tools-title-size: clamp(26px, 3vw, 40px);
+  --exp-line-h: clamp(240px, 46vh, 460px);
+  padding: clamp(64px, 8vh, 96px) 0 clamp(20px, 4vh, 40px);
+}
+
+/* Clear of the rail (left) and the nav label (right) */
+.exp-content {
+  position: relative;
+  z-index: 2;
+  width: min(1180px, calc(100% - max(100px, 8vw) - 276px));
+  margin: 0 276px 0 max(100px, 8vw);
+  text-align: left;
+}
+
+/* Dots only up to 900px: less to clear */
+@media (max-width: 900px) {
+  .exp-content {
+    width: calc(100% - max(100px, 8vw) - 64px);
+    margin: 0 64px 0 max(100px, 8vw);
+  }
+}
+
+.exp-blocks {
+  position: relative;
+  display: grid;
+  grid-template-columns: 58fr 42fr;
+  margin-top: clamp(16px, 3.2vh, 34px);
+}
+
+/* Room for the slant, so no text crosses the rule */
+.exp-adi {
+  padding-right: calc(var(--exp-line-h) * 0.182 + 36px);
+}
+
+.exp-app {
+  padding-left: calc(var(--exp-line-h) * 0.182 + 36px);
+}
+
+.exp-divider {
+  position: absolute;
+  top: 50%;
+  left: 58%;
+  width: 2px;
+  height: var(--exp-line-h);
+  background: #eb3b5a;
+  transform: translate(-50%, -50%) skewX(-20deg);
+}
+
+.exp-title {
+  margin: 0;
+  font-family: "ralewayExtraBold";
+  font-size: clamp(18px, 1.9vw, 28px);
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.exp-role {
+  margin: 6px 0 0;
+  font-family: "ralewaySemi";
+  font-size: clamp(13px, 1.1vw, 16px);
+  font-weight: 600;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.exp-summary {
+  margin: clamp(8px, 1.6vh, 16px) 0 0;
+  font-family: "ralewaySemi";
+  font-size: clamp(14px, 1.15vw, 17px);
+  font-weight: 600;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.exp-sub {
+  margin: clamp(12px, 2.6vh, 28px) 0 clamp(8px, 1.6vh, 16px);
+  font-family: "ralewaySemi";
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* A thin line through the numbered circles */
+.exp-strip {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.exp-strip::before {
+  content: "";
+  position: absolute;
+  top: 17px;
+  right: calc(100% / 14);
+  left: calc(100% / 14);
+  height: 1px;
+  background: rgba(255, 255, 255, 0.45);
+  transform-origin: 0 50%;
+}
+
+.exp-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.exp-step:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.exp-num {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  background: #2f3340;
+  font-family: "ralewaySemi";
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  transition: background 200ms, border-color 200ms, color 200ms;
+}
+
+.exp-name {
+  font-family: "ralewaySemi";
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  line-height: 1.25;
+  color: inherit;
+  transition: color 200ms;
+}
+
+.exp-step:hover .exp-num {
+  border-color: #fff;
+}
+
+/* Dark number: white on #eb3b5a is only 3.96:1 */
+.exp-step[aria-pressed="true"] .exp-num {
+  border-color: #eb3b5a;
+  background: #eb3b5a;
+  color: #0e0f14;
+}
+
+.exp-step[aria-pressed="true"] .exp-name {
+  color: #fff;
+}
+
+/* Two lines reserved, so the cards below never move */
+.exp-detail {
+  min-height: 2.9em;
+  margin: clamp(10px, 2vh, 20px) 0 0;
+  font-family: "ralewaySemi";
+  font-size: clamp(14px, 1.15vw, 17px);
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.exp-typed,
+.exp-detail .panel-rest {
+  font-family: inherit;
+}
+
+.exp-cards {
+  display: grid;
+  gap: clamp(8px, 1.6vh, 14px);
+  margin: clamp(10px, 2vh, 20px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.exp-card {
+  padding: clamp(8px, 1.4vh, 12px) 14px;
+  border-left: 3px solid #eb3b5a;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.exp-card-title {
+  margin: 0 0 4px;
+  font-family: "ralewaySemi";
+  font-size: clamp(14px, 1.1vw, 16px);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+
+.exp-card p {
+  margin: 0;
+  font-family: "ralewaySemi";
+  font-size: clamp(12.5px, 1vw, 14.5px);
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+/* Arrival: JS adds .exp-ready, then .exp-in per visit */
+.exp-ready:not(.exp-in) .exp-fade,
+.exp-ready:not(.exp-in) .exp-num,
+.exp-ready:not(.exp-in) .exp-name {
+  opacity: 0;
+}
+
+.exp-ready:not(.exp-in) .exp-strip::before {
+  transform: scaleX(0);
+}
+
+.exp-in .exp-fade {
+  animation: expFade 600ms ease-out backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+.exp-in .exp-strip::before {
+  animation: expDraw 900ms ease-out 1000ms backwards;
+}
+
+.exp-in .exp-num {
+  animation: expLight 600ms ease-out backwards;
+  animation-delay: calc(1000ms + var(--i) * 150ms);
+}
+
+.exp-in .exp-name {
+  animation: expFade 600ms ease-out backwards;
+  animation-delay: calc(1000ms + var(--i) * 150ms);
+}
+
+@keyframes expFade {
+  from {
+    opacity: 0;
+    translate: 0 16px;
+  }
+}
+
+@keyframes expDraw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes expDrawDown {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+/* Each circle flashes red as it lights, then settles */
+@keyframes expLight {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  45% {
+    opacity: 1;
+    border-color: #eb3b5a;
+    background: #eb3b5a;
+    color: #0e0f14;
+    transform: scale(1.12);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Stacked: short or narrow windows */
+@media (max-width: 1099px), (max-height: 719px) {
+  .exp-blocks {
+    display: block;
+  }
+
+  .exp-adi,
+  .exp-app {
+    padding: 0;
+  }
+
+  .exp-divider {
+    position: static;
+    width: 100%;
+    margin: clamp(10px, 2.2vh, 22px) 0;
+    transform: none;
+    height: 2px;
+  }
+
+  .exp-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Phones: a vertical list, detail under the picked step */
+@media (max-width: 480px) {
+  .exp-container {
+    padding: 56px 0 56px;
+  }
+
+  .exp-content {
+    width: auto;
+    margin: 0 20px 0 64px;
+  }
+
+  .exp-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .exp-strip {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .exp-strip::before {
+    top: 17px;
+    right: auto;
+    bottom: 17px;
+    left: 17px;
+    width: 1px;
+    height: auto;
+    transform-origin: 50% 0;
+  }
+
+  .exp-step {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .exp-name {
+    font-size: 14px;
+  }
+
+  .exp-detail {
+    min-height: 0;
+    margin: -2px 0 4px 46px;
+    font-size: 14px;
+  }
+
+  .exp-ready:not(.exp-in) .exp-strip::before {
+    transform: scaleY(0);
+  }
+
+  .exp-in .exp-strip::before {
+    animation-name: expDrawDown;
   }
 }
 

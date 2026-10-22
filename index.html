@@ -27,7 +27,7 @@
     <!-- Bootstrap (CDN); the rest is local -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
 
-      <link rel="stylesheet" href="css/styles.css?v=168" />
+      <link rel="stylesheet" href="css/styles.css?v=170" />
     <!-- Show project logos when JS is off -->
     <noscript><style>.site-logo-container img { opacity: 1; }</style></noscript>
   </head>
@@ -64,6 +64,20 @@
         </div>
       </div>
 
+    </div>
+  </a>
+  <a href="#experience">
+    <div id="experience-nav" class="nav-link-container row mb-2">
+      <div class="nav-link-text col text-right experience-nav">
+        experience
+      </div>
+      <div class="col p-0 nav-line">
+        <div class="line experience-nav"></div>
+      </div>
+      <div class="col p-0 nav-circle-container">
+        <div class="nav-circle experience-circle">
+        </div>
+      </div>
     </div>
   </a>
   <a href="#resume">
@@ -431,6 +445,73 @@
     </div>
     <div class="row chevron">
       <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
+        <a data-reveal class="arrow-down-2 hero-work-link" href="#experience" alt="" rel="relativeanchor" aria-label="Go to Experience">
+          <svg width="54px" height="132px" viewBox="0 0 54 132" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true">
+            <path fill="#fff" d="M26 -3H28V106L35.5 98.5L36.9 99.9L27 109.8L17.1 99.9L18.5 98.5L26 106Z" />
+          </svg>
+          <span style="--chars: 10">Experience</span>
+        </a>
+      </div>
+    </div>
+    <div class="projects-two-viewport projects-main-viewport"></div>
+  </section>
+
+  <section id="experience" class="section exp-container">
+    <div class="contact-bg" aria-hidden="true"></div>
+    <div class="row up-chevron w-100">
+      <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
+        <a data-reveal class="arrow-up-2 hero-work-link" href="#projects" aria-label="Go to Projects">
+          <svg width="54px" height="132px" viewBox="0 0 54 132" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true">
+            <path fill="#fff" d="M26 -3H28V106L35.5 98.5L36.9 99.9L27 109.8L17.1 99.9L18.5 98.5L26 106Z" />
+          </svg>
+          <span style="--chars: 8">Projects</span>
+        </a>
+      </div>
+    </div>
+    <div class="exp-content">
+      <h2 class="exp-heading exp-fade">Experience</h2>
+      <div class="exp-blocks">
+        <article class="exp-block exp-adi">
+          <h3 class="exp-title exp-fade" style="--d: 200ms">ADI Global Distribution</h3>
+          <p class="exp-role exp-fade" style="--d: 450ms">Front-end developer · 2021–present</p>
+          <p class="exp-summary exp-fade" style="--d: 700ms">ADI works with more than 1,000 suppliers. I build and maintain brand and article pages for dozens of them, including Logitech and Audio-Technica. I ship 2–3 new pages a week across North America and EMEA.</p>
+          <h4 class="exp-sub exp-fade" style="--d: 900ms">How a page ships</h4>
+          <div class="exp-strip" role="group" aria-label="How a page ships">
+            <button type="button" class="exp-step" aria-pressed="true" data-desc="A Figma design, a linking document and translated copy." style="--i: 0"><span class="exp-num">1</span><span class="exp-name">Receive</span></button>
+            <button type="button" class="exp-step" aria-pressed="false" data-desc="HTML, CSS and JavaScript in the InSite CMS." style="--i: 1"><span class="exp-num">2</span><span class="exp-name">Build</span></button>
+            <button type="button" class="exp-step" aria-pressed="false" data-desc="I test the build before anyone reviews it." style="--i: 2"><span class="exp-num">3</span><span class="exp-name">Test</span></button>
+            <button type="button" class="exp-step" aria-pressed="false" data-desc="I publish a landing page proof in Workfront and add designers and management." style="--i: 3"><span class="exp-num">4</span><span class="exp-name">Proof</span></button>
+            <button type="button" class="exp-step" aria-pressed="false" data-desc="I apply the proof notes until every reviewer approves." style="--i: 4"><span class="exp-num">5</span><span class="exp-name">Revise</span></button>
+            <button type="button" class="exp-step" aria-pressed="false" data-desc="I send the link to the QA team and fix what they find." style="--i: 5"><span class="exp-num">6</span><span class="exp-name">QA</span></button>
+            <button type="button" class="exp-step" aria-pressed="false" data-desc="I log the final URL in the Airtable page base, then start the next page." style="--i: 6"><span class="exp-num">7</span><span class="exp-name">Catalog</span></button>
+          </div>
+          <p class="exp-detail" aria-live="polite"><span class="exp-typed" aria-hidden="true">A Figma design, a linking document and translated copy.</span><span class="sr-only exp-full">A Figma design, a linking document and translated copy.</span></p>
+        </article>
+        <div class="exp-divider" aria-hidden="true"></div>
+        <article class="exp-block exp-app">
+          <h3 class="exp-title exp-fade" style="--d: 200ms">Appddiction Studio</h3>
+          <p class="exp-role exp-fade" style="--d: 450ms">Front-end developer and team lead · 2018–2021</p>
+          <ul class="exp-cards">
+            <li class="exp-card exp-fade" style="--d: 700ms">
+              <h4 class="exp-card-title">EODIMS</h4>
+              <p>Front-end features in Angular for an Air Force application used by explosive ordnance disposal technicians.</p>
+            </li>
+            <li class="exp-card exp-fade" style="--d: 850ms">
+              <h4 class="exp-card-title">Company website</h4>
+              <p>I led a team of four developers on the company site. It showed the company's work to contracting clients and promoted its training classes. Built with Angular, Bootstrap and Materialize.</p>
+            </li>
+            <li class="exp-card exp-fade" style="--d: 1000ms">
+              <h4 class="exp-card-title">Codebound</h4>
+              <p>The website for a full-stack programming bootcamp, built for people learning to code. The site is no longer online.</p>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </div>
+    <div class="row chevron w-100">
+      <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
         <a data-reveal class="arrow-down-2 hero-work-link" href="#resume" alt="" rel="relativeanchor" aria-label="Go to Resume">
           <svg width="54px" height="132px" viewBox="0 0 54 132" version="1.1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true">
@@ -440,17 +521,16 @@
         </a>
       </div>
     </div>
-    <div class="projects-two-viewport projects-main-viewport"></div>
   </section>
 
   <section id="resume" class="resume-two-container">
     <div class="row up-chevron w-100 resume-up-chevron">
       <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
-        <a data-reveal class="arrow-up-2 hero-work-link on-light" href="#projects" aria-label="Go to Projects">
+        <a data-reveal class="arrow-up-2 hero-work-link on-light" href="#experience" aria-label="Go to Experience">
           <svg width="54px" height="132px" viewBox="0 0 54 132" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path fill="#505464" d="M26 -3H28V106L35.5 98.5L36.9 99.9L27 109.8L17.1 99.9L18.5 98.5L26 106Z" />
           </svg>
-          <span style="--chars: 8">Projects</span>
+          <span style="--chars: 10">Experience</span>
         </a>
       </div>
     </div>
@@ -781,6 +861,6 @@
   </section>
 </main>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="js/main.js?v=58"></script>
+    <script src="js/main.js?v=60"></script>
   </body>
 </html>
