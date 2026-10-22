@@ -503,16 +503,28 @@ function heroWords() {
   }
   document.addEventListener('visibilitychange', sync);
 
-  // After the fonts load and the title has risen in
-  const ready = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-  ready.then(() => {
-    window.setTimeout(() => {
-      root.classList.add('rw-js');
-      begun = true;
-      start(0);
-      sync();
-    }, 1000);
-  });
+  // Start when fonts are in and the hero text has risen in
+  let started = false;
+  const go = () => {
+    if (started) return;
+    started = true;
+    root.classList.add('rw-js');
+    begun = true;
+    start(0);
+    sync();
+  };
+  const fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  const entrance = () => {
+    if (reduced.matches) return Promise.resolve();
+    const items = document.querySelectorAll('.hero-tagline, .hero-location, .hero-proof, .hero-divider, .lets-title');
+    return Promise.all([...items].map((el) => {
+      const playing = el.getAnimations().some((a) => a.animationName === 'heroRise' && a.playState !== 'finished');
+      if (!playing) return Promise.resolve();
+      return new Promise((resolve) => el.addEventListener('animationend', resolve, { once: true }));
+    }));
+  };
+  Promise.all([fonts, entrance()]).then(go);
+  window.setTimeout(go, 2500);
 }
 
 // The Contact line wipes in once, as its block scrolls in

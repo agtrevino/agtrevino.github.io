@@ -1900,6 +1900,17 @@ body.hero-offscreen .bg1::after {
   transform: translateX(-50%) translateY(-50%) skew(20deg, 0);
 }
 
+/* HotCoco: a larger frame aimed at the gameplay */
+.hc-col .jstorm-video {
+  width: 140%;
+  height: 140%;
+  /* The skewed panel needs 100% plus its slant */
+  min-width: calc(100% + 40vh);
+  min-height: 100%;
+  object-fit: cover;
+  object-position: 72% 50%;
+}
+
 header .overlay-white {
   position: absolute;
   top: 0;
@@ -2687,6 +2698,11 @@ video {
   opacity: 1;
 }
 
+/* With JS, the spot stays empty until the loop starts */
+.js .rw-words-1:not(.rw-js) .word-span {
+  opacity: 0;
+}
+
 /* Hard-edged left-to-right text wipe, driven by --p, --q */
 @property --p {
   syntax: "<number>";
@@ -3305,6 +3321,7 @@ video {
 
 /* A small label above each track; the pin sits below it */
 .exp-track-title {
+  position: relative;
   grid-column: 1 / -1;
   height: var(--title-h);
   margin: 0 0 calc(28px + var(--title-gap));
@@ -3315,6 +3332,21 @@ video {
   line-height: var(--title-h);
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.78);
+}
+
+/* A short underline in the employer's color */
+.exp-track-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: max(33%, 5.5rem);
+  height: 2px;
+  background: #3d7cc0;
+}
+
+.exp-track[data-track="app"] .exp-track-title::after {
+  background: #e23b45;
 }
 
 /* A hairline through the dot centers, gapped at each dot */
