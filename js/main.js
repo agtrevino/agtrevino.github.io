@@ -26,6 +26,80 @@ function suppressHoverWhileScrolling() {
   });
 }
 
+// Once scrolling stops, glides to the nearest slide
+function slideSnap() {
+  const wrapper = document.querySelector('.wrapper');
+  if (!wrapper) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let idle = 0;
+  let frame = 0;
+  let touching = false;
+
+  const stop = () => {
+    window.cancelAnimationFrame(frame);
+    frame = 0;
+  };
+
+  // A slide taller than the screen rests anywhere inside it
+  const target = () => {
+    const y = wrapper.scrollTop;
+    const view = wrapper.clientHeight;
+    const origin = wrapper.getBoundingClientRect().top - y;
+    const max = wrapper.scrollHeight - view;
+    let best = y;
+    let gap = Infinity;
+    wrapper.querySelectorAll(':scope > section, #projects > .content').forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (!rect.height) return;
+      const lo = Math.min(rect.top - origin, max);
+      const hi = Math.max(lo, Math.min(rect.bottom - origin - view, max));
+      const spot = Math.min(hi, Math.max(lo, y));
+      if (Math.abs(spot - y) < gap) {
+        gap = Math.abs(spot - y);
+        best = spot;
+      }
+    });
+    return best;
+  };
+
+  const glide = (to) => {
+    const from = wrapper.scrollTop;
+    const dist = to - from;
+    if (Math.abs(dist) < 2) return;
+    if (reduced.matches) {
+      wrapper.scrollTo({ top: to, behavior: 'instant' });
+      return;
+    }
+    const time = 600 + 500 * Math.min(1, Math.abs(dist) / wrapper.clientHeight);
+    const began = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - began) / time);
+      const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      wrapper.scrollTo({ top: from + dist * eased, behavior: 'instant' });
+      frame = t < 1 ? window.requestAnimationFrame(step) : 0;
+    };
+    frame = window.requestAnimationFrame(step);
+  };
+
+  const wait = () => {
+    window.clearTimeout(idle);
+    if (touching) return;
+    idle = window.setTimeout(() => { if (!frame) glide(target()); }, 140);
+  };
+
+  // The user takes over: stop the glide
+  ['wheel', 'keydown', 'pointerdown'].forEach((type) => {
+    wrapper.addEventListener(type, stop, { passive: true });
+  });
+  wrapper.addEventListener('touchstart', () => {
+    touching = true;
+    stop();
+    window.clearTimeout(idle);
+  }, { passive: true });
+  wrapper.addEventListener('touchend', () => { touching = false; wait(); }, { passive: true });
+  wrapper.addEventListener('scroll', () => { if (!frame) wait(); }, { passive: true });
+}
+
 // Videos play only while hovered (or visible on touch)
 function videoPlayback() {
   const canHover = window.matchMedia('(hover: hover)').matches;
@@ -457,6 +531,7 @@ function consoleHello() {
 function ngOnInit() {
   consoleHello();
   suppressHoverWhileScrolling();
+  slideSnap();
     videoPlayback();
     hotcocoLogo();
     cardDots();
@@ -748,8 +823,13 @@ function toolsIntro(id, selector) {
   // 1px inset: a slide at the snap edge counts as off
   new IntersectionObserver((entries) => {
     const entry = entries[entries.length - 1];
-    if (entry.intersectionRatio >= 0.4) section.classList.add('tools-in');
-    else if (entry.intersectionRatio === 0) section.classList.remove('tools-in');
+    if (entry.intersectionRatio >= 0.4) {
+      if (!section.classList.contains('tools-in')) section.dispatchEvent(new Event('slidein'));
+      section.classList.add('tools-in');
+    } else if (entry.intersectionRatio === 0) {
+      if (section.classList.contains('tools-in')) section.dispatchEvent(new Event('slideout'));
+      section.classList.remove('tools-in');
+    }
   }, { root: document.querySelector('.wrapper'), rootMargin: '-1px 0px', threshold: [0, 0.4] }).observe(section);
 }
 
@@ -1018,27 +1098,99 @@ function experienceSlide() {
     icon: panel.querySelector('.panel-icon'),
     name: panel.querySelector('.panel-name'),
     full: panel.querySelector('.panel-full'),
-    tags: panel.querySelector('.exp-tags'),
+    tools: panel.querySelector('.exp-tools'),
   } : null;
   if (!section || !tabs.length || tabs.length !== tracks.length || !role || !summary || !tabpanel ||
       !parts || Object.values(parts).some((el) => !el)) return;
 
   const typer = panelTyper(panel);
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const BRAND = '#eb3b5a';
-  // Plain shapes: the panel icon and ghost take the brand
-  const ICONS = {
-    adi: '<svg viewBox="0 0 24 24"><path d="M6 2h8l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/></svg>',
-    app: '<svg viewBox="0 0 24 24"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6z"/></svg>',
+  // The logo colors, lifted so they read on the dark slide
+  const BRANDS = { adi: '#3d7cc0', app: '#e23b45' };
+  // One shape per station: the panel icon and ghost use it
+  const PATHS = {
+    inbox: 'M4 4h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm1 2v8h4l1 2h4l1-2h4V6H5z',
+    code: 'M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6z',
+    check: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM10.2 16.6 6 12.4 7.4 11l2.8 2.8 6.4-6.4L18 8.8l-7.8 7.8z',
+    eye: 'M12 5C6.5 5 2.4 8.4 1 12c1.4 3.6 5.5 7 11 7s9.6-3.4 11-7c-1.4-3.6-5.5-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2.2a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6z',
+    pencil: 'M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z',
+    shield: 'M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1.2 14.4-4.2-4.2L8 9.8l2.8 2.8L16 7.4l1.4 1.4-6.6 6.6z',
+    list: 'M5 3h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 4v2h10V7H7zm0 4v2h10v-2H7zm0 4v2h6v-2H7z',
+    target: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16zm0 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z',
+    window: 'M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 4v10h16V8H4zm1.5-2.6a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8zm3 0a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8z',
   };
   const icon = (key) => {
     const holder = document.createElement('template');
-    holder.innerHTML = ICONS[key];
+    holder.innerHTML = '<svg viewBox="0 0 24 24"><path fill-rule="evenodd" d="' + PATHS[key] + '"/></svg>';
     return holder.content.firstChild;
+  };
+  // Each tool's icon and color, read from the Tools slide
+  const toolIcons = new Map();
+  document.querySelectorAll('#tools button.tool').forEach((button) => {
+    toolIcons.set(button.querySelector('.tool-name').textContent.trim(), {
+      svg: button.querySelector('svg'),
+      brand: button.style.getPropertyValue('--brand').trim(),
+    });
+  });
+  const STAND_INS = { Workfront: 'list', 'InSite CMS': 'window' };
+  const LOGOS = { adi: 'assets/img/adi/adi-logo-white.svg', app: 'assets/img/appddiction/Logo%20Circle%20Badge%20-%20White%2C%20Red%20Background.svg' };
+  // The employer's logo, faint behind the panel
+  const logo = (key) => {
+    const image = new Image();
+    image.src = LOGOS[key];
+    image.alt = '';
+    return image;
   };
   const stationsOf = (track) => Array.from(track.querySelectorAll('.exp-station'));
   const pickedOf = (track) => stationsOf(track).find((s) => s.getAttribute('aria-pressed') === 'true') || stationsOf(track)[0];
   let activeTab = Math.max(0, tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true'));
+
+  // Key numbers: screen-reader copy, typed letters, a rest
+  const statEls = Array.from(section.querySelectorAll('.exp-stat'));
+  const statParts = statEls.map((stat) => {
+    const num = stat.querySelector('.exp-stat-num');
+    const readable = document.createElement('span');
+    readable.className = 'sr-only';
+    const typed = document.createElement('span');
+    typed.setAttribute('aria-hidden', 'true');
+    const rest = document.createElement('span');
+    rest.className = 'panel-rest';
+    rest.setAttribute('aria-hidden', 'true');
+    num.textContent = '';
+    num.append(readable, typed, rest);
+    return { stat, readable, typed, rest, label: stat.querySelector('.exp-stat-label') };
+  });
+  let statCancels = [];
+  let statTimers = [];
+  const stopStats = () => {
+    statCancels.forEach((cancel) => cancel());
+    statTimers.forEach((id) => window.clearTimeout(id));
+    statCancels = [];
+    statTimers = [];
+  };
+  // mode: 'show' (full), 'hide' (empty, laid out) or 'type'
+  const renderStats = (index, mode) => {
+    stopStats();
+    const rows = (tabs[index].dataset.stats || '').split(';').filter(Boolean).map((row) => row.split('|'));
+    statParts.forEach((part, i) => {
+      const row = rows[i];
+      part.stat.hidden = !row;
+      if (!row) return;
+      const [value, label] = row;
+      part.readable.textContent = value;
+      part.label.textContent = label;
+      if (mode === 'type') {
+        part.typed.textContent = '';
+        part.rest.textContent = value;
+        statTimers.push(window.setTimeout(() => {
+          statCancels.push(typeText(part.typed, part.rest, value, 70));
+        }, i * 180));
+      } else {
+        part.typed.textContent = mode === 'hide' ? '' : value;
+        part.rest.textContent = mode === 'hide' ? value : '';
+      }
+    });
+  };
 
   // The page, filled stations and loop follow the pick
   const paint = (track, station) => {
@@ -1046,13 +1198,15 @@ function experienceSlide() {
     const index = list.indexOf(station);
     track.style.setProperty('--at', index);
     if (track.dataset.travel !== undefined) {
-      list.forEach((s, i) => s.classList.toggle('is-done', i <= index));
+      list.forEach((s, i) => {
+        s.classList.toggle('is-done', i <= index);
+        s.querySelector('.exp-state').textContent = i < index ? ', done' : '';
+      });
       const status = track.querySelector('.exp-status');
       if (status && status.textContent !== station.dataset.status) {
         status.textContent = station.dataset.status || '';
         if (!reduced.matches) status.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250 });
       }
-      track.classList.toggle('is-looping', index === 3 || index === 4);
     }
   };
 
@@ -1064,20 +1218,28 @@ function experienceSlide() {
       : tabs[tracks.indexOf(track)].textContent.trim();
     parts.name.textContent = station.querySelector('.exp-name').textContent;
     parts.icon.textContent = '';
-    parts.icon.appendChild(icon(key));
-    panel.style.setProperty('--brand', BRAND);
+    parts.icon.appendChild(icon(station.dataset.icon));
+    panel.style.setProperty('--brand', BRANDS[key]);
     parts.full.textContent = station.dataset.desc || '';
-    parts.tags.textContent = '';
-    (station.dataset.tags || '').split(',').map((t) => t.trim()).filter(Boolean).forEach((tag) => {
-      const chip = document.createElement('li');
-      chip.textContent = tag;
-      parts.tags.appendChild(chip);
+    parts.tools.textContent = '';
+    (station.dataset.tools || '').split(',').map((t) => t.trim()).filter(Boolean).forEach((name) => {
+      const item = document.createElement('li');
+      const found = toolIcons.get(name);
+      // No Tools-slide icon: a plain stand-in
+      const svg = found && found.svg ? found.svg.cloneNode(true) : icon(STAND_INS[name] || 'window');
+      svg.setAttribute('class', 'exp-tool-icon');
+      if (found) item.style.setProperty('--brand', found.brand);
+      item.appendChild(svg);
+      const label = document.createElement('span');
+      label.textContent = name;
+      item.appendChild(label);
+      parts.tools.appendChild(item);
     });
   };
 
   const announce = (track, station, initial) => {
     section.dispatchEvent(new CustomEvent('toolchange', {
-      detail: { tool: station, svg: icon(track.dataset.track), brand: BRAND, initial },
+      detail: { tool: station, svg: logo(track.dataset.track), brand: BRANDS[track.dataset.track], initial },
     }));
   };
 
@@ -1088,9 +1250,32 @@ function experienceSlide() {
       other.tabIndex = other === station ? 0 : -1;
     });
     paint(track, station);
+    // The side nav's ring, once, on the new pick
+    const dot = station.querySelector('.exp-dot');
+    if (dot && !reduced.matches) {
+      dot.classList.remove('nav-ripple');
+      void dot.offsetWidth;
+      dot.classList.add('nav-ripple');
+      dot.addEventListener('animationend', () => dot.classList.remove('nav-ripple'), { once: true });
+    }
     typer.show(() => fill(track, station), station.dataset.desc || '');
     announce(track, station, false);
   };
+
+  // The bar under the tabs follows the picked one
+  const bar = section.querySelector('.exp-tabbar');
+  const moveBar = () => {
+    if (!bar) return;
+    bar.style.setProperty('--bar-x', tabs[activeTab].offsetLeft + 'px');
+    bar.style.setProperty('--bar-w', tabs[activeTab].offsetWidth + 'px');
+  };
+  // A size change (font load, resize) re-fits it, no slide
+  if ('ResizeObserver' in window && bar) {
+    const watcher = new ResizeObserver(moveBar);
+    tabs.forEach((tab) => watcher.observe(tab));
+  } else {
+    window.addEventListener('resize', moveBar);
+  }
 
   // Role and summary follow the tab, with a short fade
   const showTab = (index, byUser) => {
@@ -1106,6 +1291,9 @@ function experienceSlide() {
     tabpanel.setAttribute('aria-labelledby', tabs[index].id);
     role.textContent = tabs[index].dataset.role || '';
     summary.textContent = tabs[index].dataset.summary || '';
+    section.dataset.employer = tracks[index].dataset.track;
+    moveBar();
+    if (byUser) renderStats(index, reduced.matches ? 'show' : 'type');
     if (byUser && !reduced.matches) {
       [role, summary].forEach((el) => el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250 }));
     }
@@ -1162,6 +1350,11 @@ function experienceSlide() {
 
   // Opens on the first tab and station, without typing
   showTab(activeTab, false);
+  if (bar) window.requestAnimationFrame(() => window.requestAnimationFrame(() => bar.classList.add('is-ready')));
+  const ready = section.classList.contains('tools-ready');
+  renderStats(activeTab, ready ? 'hide' : 'show');
+  section.addEventListener('slidein', () => renderStats(activeTab, 'type'));
+  section.addEventListener('slideout', () => renderStats(activeTab, 'hide'));
   const track = tracks[activeTab];
   const station = pickedOf(track);
   fill(track, station);
