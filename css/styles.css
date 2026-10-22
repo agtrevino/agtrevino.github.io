@@ -1045,18 +1045,6 @@ body.hero-offscreen .bg1::after {
   transition: transform 250ms;
 }
 
-/* A text monogram for tools without a logo */
-.tool-mono {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px solid currentColor;
-  border-radius: 8px;
-  font-family: "ralewayBold";
-  font-size: 14px;
-  line-height: 1;
-}
-
 .tool-name {
   display: block;
   font-family: "ralewaySemi";
@@ -1202,10 +1190,6 @@ body.hero-offscreen .bg1::after {
   .tool-icon {
     width: 28px;
     height: 28px;
-  }
-
-  .tool-mono {
-    font-size: 12px;
   }
 
   .tool-name {
