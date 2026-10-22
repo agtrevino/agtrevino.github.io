@@ -2652,24 +2652,10 @@ video {
   margin-left: 0;
 }
 
-/* Hero CTA: the rail arrow plus a permanent label */
+/* Hero CTA: a vertical label like the others, always on */
 .hero-work-link.hero-cta .hero-cta-label {
-  top: 104px;
-  left: 48px;
-  writing-mode: horizontal-tb;
-  transform: translateY(-50%);
-  font-size: 16px;
-  letter-spacing: 0.15em;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
   clip-path: none;
-  transition: color 200ms ease;
-}
-
-/* Same font on hover (vertical labels go SemiBold) */
-.hero-work-link.hero-cta:hover .hero-cta-label,
-.hero-work-link.hero-cta:focus-visible .hero-cta-label {
-  font-family: "raleway";
-  font-weight: 600;
 }
 
 /* The other slides hide their arrows here; the CTA stays */
