@@ -262,72 +262,91 @@ body.hero-offscreen .bg1::after {
   background: rgba(0, 0, 0, 0.25);
 }
 
-.lets-title {
-  margin: 0 auto;
-  font-family: "ralewayExtraBold";
-  /* The longest word (9.3em) fits the center third */
-  font-size: min(max(22px, calc((34vw - 48px) / 9.3)), 96px);
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  color: #fff;
+/* Center third: tagline, location, divider, word */
+.hero-tagline {
   position: relative;
   z-index: 9;
-  text-align: center;
-}
-
-/* Soft dark patch behind the word; it ignores clicks */
-.lets-title::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: -1;
-  width: 22em;
-  height: 6em;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.35), transparent 60%);
-  pointer-events: none;
-}
-
-/* Top right, level with the profile icons */
-.hero-tagline {
-  position: absolute;
-  top: 21px;
-  right: 40px;
-  z-index: 9;
-  display: flex;
-  align-items: center;
-  height: 44px;
   margin: 0;
   font-family: "ralewaySemi";
-  font-size: clamp(14px, 1.1vw, 16px);
+  font-size: clamp(11px, calc((34vw - 48px) / 26), 15px);
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  text-align: right;
+  text-align: center;
   color: rgba(255, 255, 255, 0.85);
 }
 
-/* Phones: ignore the panel width; nudge off the rail */
+.hero-location {
+  position: relative;
+  z-index: 9;
+  margin: 8px 0 0;
+  font-family: "ralewaySemi";
+  font-size: clamp(10px, calc((34vw - 48px) / 30), 13px);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.hero-divider {
+  position: relative;
+  z-index: 9;
+  width: 33%;
+  height: 2px;
+  margin: 18px auto;
+  background: #eb3b5a;
+}
+
+.lets-title {
+  position: relative;
+  z-index: 9;
+  margin: 0 auto;
+  font-family: "ralewayExtraBold";
+  font-size: min(max(14px, calc((34vw - 48px) / 10.4)), 54px);
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  text-align: center;
+  color: #fff;
+}
+
+/* --hero-p (set by JS) fades the hero on scroll */
+.hero-tagline,
+.hero-location,
+.hero-divider,
+.lets-title {
+  opacity: calc(1 - var(--hero-p, 0) * 1.6);
+}
+
+/* Phones: ignore the panel width */
 @media only screen and (max-width: 480px) {
-  .lets-title {
-    font-size: clamp(30px, 8vw, 48px);
+  .hero-intro-row .rw-wrapper {
+    width: 100%;
   }
 
-  .hero-intro-row .rw-wrapper {
-    padding-left: 20px;
+  .hero-tagline {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .hero-location {
+    font-size: 10.5px;
+    line-height: 1.4;
+  }
+
+  .lets-title {
+    font-size: clamp(28px, 8vw, 44px);
   }
 }
 
-/* Narrow: the tagline wraps under the icons */
-@media only screen and (max-width: 700px) {
-  .hero-tagline {
-    top: 72px;
-    right: 16px;
-    max-width: 18em;
-    height: auto;
-    font-size: 12px;
-    line-height: 1.4;
+/* Reduced motion: no movement; a short fade at halfway */
+@media (prefers-reduced-motion: reduce) {
+  .hero-tagline,
+  .hero-location,
+  .hero-divider,
+  .lets-title {
+    opacity: clamp(0, calc((0.5 - var(--hero-p, 0)) * 1000), 1);
+    transition: opacity 200ms;
   }
 }
 
@@ -1931,14 +1950,13 @@ header .overlay-white {
 
 /* Square GIF: the ink is 88% wide, vertically centered */
 .signature {
-  --sig-ink: clamp(220px, 22vw, 420px);
+  --sig-ink: clamp(176px, 17.6vw, 336px);
   position: absolute;
   z-index: 9;
   right: calc(40px - var(--sig-ink) * 0.067);
   bottom: calc(24px - var(--sig-ink) * 0.276);
   width: calc(var(--sig-ink) / 0.88);
-  opacity: 0.8;
-  transform: rotate(-4deg);
+  opacity: 1;
   pointer-events: none;
   transition: 300ms;
 }
@@ -2466,7 +2484,7 @@ video {
 }
 
 .rw-wrapper {
-  width: 100%;
+  width: 34vw;
   position: relative;
   margin: 0 auto;
   font-family: "ralewayExtraBold";
@@ -2476,184 +2494,76 @@ video {
 .rw-words {
   display: block;
   position: relative;
-  height: 3em;
+  height: 1.25em;
   text-indent: 0;
 }
 
-/* Icon above the word; --slot sets each word's turn */
 .rw-words-1 .word-span {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 0.2em;
   white-space: nowrap;
   font-family: "ralewayExtraBold";
   letter-spacing: -1px;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
   position: absolute;
+  opacity: 0;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
   text-align: center;
   color: #1dd1a1;
-  --slot: 0s;
+  animation: rotateWord 13s cubic-bezier(0.65, 0, 0.35, 1) infinite 0s;
 }
 
 .rw-words-1 .word-span:nth-child(2) {
-  --slot: 2.8s;
+  animation-delay: 2.6s;
   color: #f6e58d;
 }
 
 .rw-words-1 .word-span:nth-child(3) {
-  --slot: 5.6s;
+  animation-delay: 5.2s;
   color: #ff9f43;
 }
 
 .rw-words-1 .word-span:nth-child(4) {
-  --slot: 8.4s;
+  animation-delay: 7.8s;
   color: #48dbfb;
 }
 
 .rw-words-1 .word-span:nth-child(5) {
-  --slot: 11.2s;
+  animation-delay: 10.4s;
   color: #ff6b81;
 }
 
 .word-icon {
   display: block;
   flex: 0 0 auto;
-  width: 1.7em;
-  height: 1.7em;
-  opacity: 0;
-  transform-origin: 50% 100%;
-  will-change: transform, opacity;
+  width: 1em;
+  height: 1em;
 }
 
-.word-text {
-  display: block;
-  margin-top: 0.2em;
-  font: inherit;
-  line-height: 1.1;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
-  opacity: 0;
-}
-
-/* Ground shadow: it shrinks and fades as the icon rises */
-.rw-words-1 .word-span::before {
-  content: "";
-  position: absolute;
-  top: 1.62em;
-  right: 0;
-  left: 0;
-  z-index: -1;
-  width: 1.5em;
-  height: 0.24em;
-  margin: 0 auto;
-  border-radius: 50%;
-  background: radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.55), transparent);
-  opacity: 0;
-}
-
-/* Starts 0.4s early so the icon falls in mid-spin */
-.rw-words-1 .word-span > svg,
-.rw-words-1 .word-span > .word-text,
-.rw-words-1 .word-span::before {
-  animation-duration: 14s;
-  animation-iteration-count: infinite;
-  animation-delay: calc(var(--slot) - 0.4s);
-}
-
-.rw-words-1 .word-span > svg {
-  animation-name: wordIcon;
-}
-
-.rw-words-1 .word-span > .word-text {
-  animation-name: wordText;
-}
-
-.rw-words-1 .word-span::before {
-  animation-name: wordShadow;
-}
-
-@keyframes wordIcon {
+/* The next word fades in as this one fades out */
+@keyframes rotateWord {
   0% {
-    opacity: 1;
-    transform: translateY(-1.4em) rotate(180deg) scale(0.9, 1.2);
-    animation-timing-function: ease-in;
+    opacity: 0;
+    transform: translateY(-0.35em);
   }
-  2.857% {
+  4.6% {
     opacity: 1;
-    transform: translateY(0) rotate(360deg) scale(1.25, 0.7);
-    animation-timing-function: ease-out;
-  }
-  3.75% {
-    opacity: 1;
-    transform: translateY(0) rotate(360deg) scale(0.96, 1.08);
-    animation-timing-function: ease-out;
-  }
-  4.643%,
-  16.429% {
-    opacity: 1;
-    transform: translateY(0) rotate(360deg) scale(1);
-  }
-  17.5% {
-    opacity: 1;
-    transform: translateY(0) rotate(360deg) scale(1.2, 0.75);
-    animation-timing-function: ease-out;
+    transform: translateY(0);
   }
   20% {
     opacity: 1;
-    transform: translateY(-1.4em) rotate(540deg) scale(0.9, 1.2);
+    transform: translateY(0);
   }
-  20.01%,
-  100% {
-    opacity: 0;
-    transform: translateY(-1.4em) rotate(540deg) scale(0.9, 1.2);
-  }
-}
-
-@keyframes wordText {
-  0%,
-  2.857% {
+  24.6% {
     opacity: 0;
     transform: translateY(0.35em);
   }
-  4.643% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  16.429% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  20%,
   100% {
     opacity: 0;
-    transform: translateY(0);
-  }
-}
-
-@keyframes wordShadow {
-  0% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  2.857% {
-    opacity: 0.55;
-    transform: scale(1.15);
-  }
-  4.643%,
-  16.429% {
-    opacity: 0.45;
-    transform: scale(1);
-  }
-  17.5% {
-    opacity: 0.5;
-    transform: scale(1.1);
-  }
-  20%,
-  100% {
-    opacity: 0;
-    transform: scale(0.3);
   }
 }
 @media only screen and (max-width: 680px) {
@@ -2916,8 +2826,10 @@ video {
 }
 
 .vertical-text-2,
-.lets-title,
 .hero-tagline,
+.hero-location,
+.hero-divider,
+.lets-title,
 .hero-links a,
 #home .hero-work-link,
 #home-nav,
@@ -2934,8 +2846,10 @@ video {
 #tools-nav { animation-delay: 0.9s; }
 #contact-nav { animation-delay: 1.2s; }
 .vertical-text-2 { animation-delay: 0.2s; }
-.lets-title { animation-delay: 0.5s; }
-.hero-tagline { animation-delay: 0.9s; }
+.hero-tagline { animation-delay: 0.5s; }
+.hero-location { animation-delay: 0.7s; }
+.hero-divider { animation-delay: 0.9s; }
+.lets-title { animation-delay: 1.1s; }
 .hero-links a:nth-child(1) { animation-delay: 1.2s; }
 .hero-links a:nth-child(2) { animation-delay: 1.28s; }
 .hero-links a:nth-child(3) { animation-delay: 1.36s; }
@@ -2952,8 +2866,10 @@ video {
 
 @media (prefers-reduced-motion: reduce) {
   .vertical-text-2,
-  .lets-title,
   .hero-tagline,
+  .hero-location,
+  .hero-divider,
+  .lets-title,
   .hero-links a,
   #home .hero-work-link,
   #home-nav,
@@ -2973,21 +2889,14 @@ video {
   }
 }
 
-/* Reduced motion: first word and icon, no hop */
+/* Reduced motion: first word only */
 @media (prefers-reduced-motion: reduce) {
-  .rw-words-1 .word-span > svg,
-  .rw-words-1 .word-span > .word-text,
-  .rw-words-1 .word-span::before {
+  .rw-words-1 .word-span {
     animation: none;
   }
 
-  .rw-words-1 .word-span:first-child > svg,
-  .rw-words-1 .word-span:first-child > .word-text {
+  .rw-words-1 .word-span:first-child {
     opacity: 1;
-  }
-
-  .rw-words-1 .word-span:first-child::before {
-    opacity: 0.45;
   }
 }
 

@@ -280,6 +280,27 @@ function cardDots() {
   update();
 }
 
+// Scroll progress (--hero-p) fades the hero text out
+function heroScroll() {
+  const wrapper = document.querySelector('.wrapper');
+  const hero = document.getElementById('home');
+  if (!wrapper || !hero) return;
+
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const progress = Math.min(1, Math.max(0, wrapper.scrollTop / (0.6 * window.innerHeight)));
+    hero.style.setProperty('--hero-p', progress);
+  };
+
+  wrapper.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(update);
+  }, { passive: true });
+  update();
+}
+
 // Replays a signature GIF each time its slide shows
 function signatureAnimation(slide, signature) {
   const scrollContainer = document.querySelector('.wrapper');
@@ -443,6 +464,7 @@ function ngOnInit() {
     contactSpotlight();
     copyEmail();
     heroVisibility();
+    heroScroll();
     projectLogoIntro();
     heroIconReplay();
     toolsIntro();
