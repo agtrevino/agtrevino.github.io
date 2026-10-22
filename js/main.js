@@ -191,6 +191,23 @@ function contactParallax() {
   update();
 }
 
+// Keywords and strings get a span; the rest is plain text
+function fillCode(line, text) {
+  if (text === '') { line.textContent = ' '; return; }
+  const token = /("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`[^`]*`)|\b(function|const|let|var|return|if|else|new|for|while|true|false|null)\b|(@media|@keyframes)/g;
+  let from = 0;
+  let found;
+  while ((found = token.exec(text)) !== null) {
+    if (found.index > from) line.appendChild(document.createTextNode(text.slice(from, found.index)));
+    const span = document.createElement('span');
+    span.className = found[1] ? 'tk-str' : 'tk-kw';
+    span.textContent = found[0];
+    line.appendChild(span);
+    from = found.index + found[0].length;
+  }
+  if (from < text.length) line.appendChild(document.createTextNode(text.slice(from)));
+}
+
 // Types the code in once, when the slide is mostly visible
 function contactTyping() {
   const section = document.getElementById('contact');
@@ -205,7 +222,7 @@ function contactTyping() {
       line.className = 'ln';
       line.style.setProperty('--i', i);
       line.style.setProperty('--n', Math.max(1, text.length));
-      line.textContent = text === '' ? ' ' : text;
+      fillCode(line, text);
       pre.appendChild(line);
     });
   });
@@ -389,6 +406,131 @@ function heroScroll() {
   update();
 }
 
+// The wipe needs registered custom properties
+const canWipe = () => !!(window.CSS && CSS.registerProperty);
+
+// Hero words: one at a time, wipe in, hold, wipe out, loop
+function heroWords() {
+  const root = document.querySelector('.rw-words-1');
+  const home = document.getElementById('home');
+  if (!root || !home) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const POP_AT = 900;
+  const DONE_AT = 1500;
+  const OUT_AT = 3000;
+  const END_AT = 3450;
+  const FADE_HOLD = 1500;
+
+  const words = [...root.querySelectorAll('.word-span')].map((el) => {
+    el.setAttribute('aria-hidden', 'true');
+    return { el, text: el.querySelector('.word-text') };
+  });
+
+  // Clock in ms; runs only while the hero and tab show
+  let index = 0;
+  let t = 0;
+  let stage = 0;
+  let last = 0;
+  let frame = 0;
+  let fade = false;
+  let begun = false;
+  let visible = true;
+  let running = false;
+
+  const reset = (word) => {
+    word.el.classList.remove('is-on', 'is-pop');
+    word.text.classList.remove('wipe', 'in', 'out', 'done');
+  };
+
+  const start = (i) => {
+    reset(words[index]);
+    index = i;
+    t = 0;
+    stage = 0;
+    fade = reduced.matches || !canWipe();
+    root.classList.toggle('rw-fade', fade);
+    const word = words[i];
+    reset(word);
+    word.el.classList.add('is-on');
+    if (fade) return;
+    // Reflow so the animation restarts from zero
+    void word.text.offsetWidth;
+    word.text.classList.add('wipe', 'in');
+  };
+
+  const step = (now) => {
+    frame = 0;
+    if (!running) return;
+    t += Math.min(now - last, 60);
+    last = now;
+    const word = words[index];
+    if (fade) {
+      if (t >= FADE_HOLD) start((index + 1) % words.length);
+    } else {
+      if (stage === 0 && t >= POP_AT) { word.el.classList.add('is-pop'); stage = 1; }
+      if (stage === 1 && t >= DONE_AT) { word.text.classList.replace('in', 'done'); stage = 2; }
+      if (stage === 2 && t >= OUT_AT) {
+        word.el.classList.remove('is-pop');
+        word.text.classList.replace('done', 'out');
+        stage = 3;
+      }
+      if (stage === 3 && t >= END_AT) start((index + 1) % words.length);
+    }
+    frame = window.requestAnimationFrame(step);
+  };
+
+  const sync = () => {
+    const should = begun && visible && !document.hidden;
+    if (should === running) return;
+    running = should;
+    if (running) {
+      last = performance.now();
+      // Resume cleanly: the word plays again from the top
+      if (t > 0) start(index);
+      frame = window.requestAnimationFrame(step);
+    } else {
+      window.cancelAnimationFrame(frame);
+      frame = 0;
+    }
+  };
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver((entries) => {
+      // An edge-touching hero is still "intersecting"
+      visible = entries[entries.length - 1].intersectionRatio > 0;
+      sync();
+    }, { threshold: [0, 0.01] }).observe(home);
+  }
+  document.addEventListener('visibilitychange', sync);
+
+  // After the fonts load and the title has risen in
+  const ready = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  ready.then(() => {
+    window.setTimeout(() => {
+      root.classList.add('rw-js');
+      begun = true;
+      start(0);
+      sync();
+    }, 1000);
+  });
+}
+
+// The Contact line wipes in once, as its block scrolls in
+function contactLineWipe() {
+  const line = document.querySelector('#contact .contact-line');
+  const wrapper = document.querySelector('.wrapper');
+  if (!line || !wrapper || !canWipe() || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  line.classList.add('wipe');
+  line.addEventListener('animationend', () => line.classList.replace('in', 'done'));
+  const observer = new IntersectionObserver((entries) => {
+    if (!entries.some((entry) => entry.isIntersecting)) return;
+    line.classList.add('in');
+    observer.disconnect();
+  }, { root: wrapper, threshold: 0.4 });
+  observer.observe(line.parentElement);
+}
+
 // Replays a signature GIF each time its slide shows
 function signatureAnimation(slide, signature) {
   const scrollContainer = document.querySelector('.wrapper');
@@ -555,6 +697,8 @@ function ngOnInit() {
     copyEmail();
     heroVisibility();
     heroScroll();
+    heroWords();
+    contactLineWipe();
     projectLogoIntro();
     heroIconReplay();
     toolsIntro('tools', '.tool');
@@ -819,7 +963,7 @@ wideScreen.addEventListener('change', () => showSlide(navSlide));
 function showSlide(id) {
   navSlide = id;
   const light = !!SLIDES[id].light;
-  // Projects: dark nav on desktop only; the name stays white
+  // Projects: dark nav on desktop; the name stays white
   const darkNav = light || (!!SLIDES[id].navDark && wideScreen.matches);
   const names = SLIDE_IDS.map((name) => '.' + name);
   $(names.map((name) => name + '-nav').join(',')).removeClass('active-nav');
