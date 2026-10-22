@@ -1,4 +1,4 @@
-/* Site styles. Bootstrap 4 loads separately from a CDN. */
+/* Site styles */
 
 /* Page */
 body, html {
@@ -121,29 +121,44 @@ button:focus {
   transition: 400ms;
 }
 
-/* Progress line between the dots; scroll drives the fill, so no transition. */
-.nav-seg {
+/* Arrival ring; JS adds .nav-ripple for one run */
+.nav-circle::after {
+  content: "";
   position: absolute;
-  width: 1px;
-  background: rgba(255, 255, 255, 0.25);
+  top: -1px;
+  left: -1px;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  opacity: 0;
   pointer-events: none;
 }
 
-.nav-seg-fill {
-  position: absolute;
-  inset: 0;
-  background: #fff;
-  transform: scaleY(0);
-  transform-origin: top;
+.circle-black::after {
+  border-color: #505464;
 }
 
-/* Dark on the light Resume slide, when the nav dots turn dark. */
-.vertical-menu:has(.circle-black) .nav-seg {
-  background: rgba(80, 84, 100, 0.25);
+.nav-ripple::after {
+  animation: navRipple 700ms ease-out;
 }
 
-.vertical-menu:has(.circle-black) .nav-seg-fill {
-  background: #505464;
+@keyframes navRipple {
+  from {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(2.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-circle::after {
+    display: none;
+  }
 }
 
 .nav-link-container:hover .nav-circle {
@@ -166,17 +181,16 @@ button:focus {
 /* Parallax */
 .wrapper {
   scroll-behavior: smooth;
-  /* Fixed height: the parallax effect needs a definite container height. */
+  /* 3D effect needs a fixed height */
   height: 100vh;
-  /* Scaled layers would add a horizontal scrollbar. */
+  /* Scaled layers add a horizontal scrollbar */
   overflow-x: hidden;
   overflow-y: auto;
-  /* The 2px perspective makes deeper layers scroll slower. */
+  /* Perspective makes deeper layers scroll slower */
   perspective: 2px;
 }
 
 .section {
-  /* Anchors the absolutely positioned layers. */
   position: relative;
   min-height: 100vh;
   display: flex;
@@ -195,14 +209,14 @@ button:focus {
   right: 0;
   bottom: 0;
   left: 0;
-  /* Pushed back, then scaled up to fill the screen: it scrolls slower. */
+  /* Pushed back and scaled up: it scrolls slower */
   transform: translateZ(-1px) scale(1.5);
   background-size: 100%;
-  /* Keeps the layer from covering sibling elements. */
+  /* Stays behind sibling content */
   z-index: -1;
 }
 
-/* Set by heroVisibility() so an off-screen hero is not painted. */
+/* Set by heroVisibility() when the hero is off screen */
 body.hero-offscreen .bg1::after {
   visibility: hidden;
 }
@@ -254,7 +268,7 @@ body.hero-offscreen .bg1::after {
   margin-left: auto;
   margin-right: auto;
   font-family: "ralewayExtraBold";
-  /* Scales 1.5x from 1440px to 2560px wide; 11em fits the longest phrase. */
+  /* 1.5x from 1440px to 2560px; 11em fits long phrases */
   font-size: clamp(40px, calc(1.7857vw + 14.2857px), 60px);
   text-transform: uppercase;
   letter-spacing: -1px;
@@ -277,7 +291,6 @@ body.hero-offscreen .bg1::after {
   min-height: 1.3em;
   margin: 16px auto 0;
   font-family: "ralewaySemi";
-  /* Same scale as .lets-title. */
   font-size: clamp(15px, calc(0.6696vw + 5.3571px), 22.5px);
   font-weight: 600;
   line-height: 1.3;
@@ -301,12 +314,11 @@ body.hero-offscreen .bg1::after {
   }
 }
 
-/* Hero links: the first icon, the name and the arrows share --left-rail. */
+/* Hero links share the --left-rail axis */
 :root {
   --left-rail: 40px;
 }
 
-/* 44px tap targets, 32px from the top. */
 .hero-links {
   position: absolute;
   top: 21px;
@@ -342,20 +354,20 @@ body.hero-offscreen .bg1::after {
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
 }
 
-/* Shadows help the icons read over the graffiti; hover drops them. */
+/* Shadows help over the graffiti; hover drops them */
 .hero-links a:hover svg,
 .hero-links a:focus-visible svg {
   filter: none;
 }
 
-/* LinkedIn's badge looks bigger: 20px, with margin to keep a 44px target. */
+/* The square badge looks big, so it is 20px */
 .hero-links .hero-icon-linkedin {
   width: 20px;
   height: 20px;
   margin: 0 1px;
 }
 
-/* The dot belongs to its link, so it moves when a label pushes the link. */
+/* The dot moves with its link when a label opens */
 .hero-links a + a::before {
   content: "";
   position: absolute;
@@ -375,7 +387,7 @@ body.hero-offscreen .bg1::after {
   box-shadow: none;
 }
 
-/* The label grows from zero width, pushing the next icons right. */
+/* Grows from zero width, pushing icons right */
 .hero-links a > span {
   display: block;
   max-width: 0;
@@ -383,7 +395,7 @@ body.hero-offscreen .bg1::after {
   overflow: hidden;
   overflow: clip;
   overflow-clip-margin: 8px;
-  /* Only Regular is loaded: font-synthesis stops a faked weight 600. */
+  /* Only Regular is loaded: no faked weight 600 */
   font-family: "raleway";
   font-size: 13px;
   font-weight: 600;
@@ -397,13 +409,12 @@ body.hero-offscreen .bg1::after {
 
 .hero-links a:hover > span,
 .hero-links a:focus-visible > span {
-  /* Fallback for browsers without interpolate-size. */
+  /* For browsers without interpolate-size */
   max-width: calc(var(--chars) * 1.2em);
   margin-left: 8px;
   transition: max-width 300ms ease-out, margin-left 300ms ease-out;
 }
 
-/* Grow to the label's exact width. */
 @supports (interpolate-size: allow-keywords) {
   .hero-links {
     interpolate-size: allow-keywords;
@@ -415,7 +426,7 @@ body.hero-offscreen .bg1::after {
   }
 }
 
-/* Types out one letter per step; the clip is measured on the full width. */
+/* Types out one letter per step */
 .hero-links a > span > span {
   position: relative;
   display: block;
@@ -431,7 +442,6 @@ body.hero-offscreen .bg1::after {
   transition: clip-path 300ms steps(var(--chars), end);
 }
 
-/* Inside the clip, so the underline grows with the typing. */
 .hero-links a > span > span::after {
   content: "";
   position: absolute;
@@ -454,7 +464,7 @@ body.hero-offscreen .bg1::after {
   }
 }
 
-/* Phones: icons only; the rail moves in so the name clears "I make". */
+/* Phones: icons only; rail moves in for the name */
 @media only screen and (max-width: 480px) {
   :root {
     --left-rail: 32px;
@@ -474,14 +484,14 @@ body.hero-offscreen .bg1::after {
   z-index: 20;
   color: #fff;
   position: fixed;
-  /* Full-height column: centers the name without a fractional translateY. */
+  /* Centers the name without a fractional translate */
   top: 0;
   bottom: 0;
   text-align: center;
   pointer-events: none;
   font-size: 18.4px;
   opacity: 0.9;
-  /* Whole-pixel offsets keep the text on the pixel grid (27.6px blurred). */
+  /* Whole pixels keep the text sharp */
   left: calc(var(--left-rail) - 14px);
   width: 28px;
   line-height: 28px;
@@ -520,7 +530,7 @@ body.hero-offscreen .bg1::after {
   font-weight: 700;
 }
 
-/* Real Regular file: Light plus weight 700 would be a faux bold. */
+/* Real Regular file: no faux bold */
 .vertical-text-2 span {
   pointer-events: auto;
 }
@@ -568,7 +578,7 @@ body.hero-offscreen .bg1::after {
   transition: transform 200ms ease;
 }
 
-/* No hover lift; the focus lift shows where keyboard focus is. */
+/* Focus keeps the lift; hover does not */
 .resume-img-link:focus-visible .resume-img {
   transform: translateY(-4px);
 }
@@ -605,8 +615,9 @@ body.hero-offscreen .bg1::after {
   color: #505464;
 }
 
-/* Contact background: a gradient with faint drifting code (parallax). */
-#contact {
+/* Gradient with faint drifting code (parallax) */
+#contact,
+#tools {
   --bg-a: #262935;
   --bg-b: #3a3e4d;
   --bg-c: #505464;
@@ -621,7 +632,7 @@ body.hero-offscreen .bg1::after {
   background: linear-gradient(135deg, var(--bg-a) 0%, var(--bg-b) 55%, var(--bg-c) 100%);
 }
 
-/* Noise dithers the gradient so it does not band. */
+/* Noise dithers the gradient to avoid banding */
 .contact-bg::after {
   content: "";
   position: absolute;
@@ -630,7 +641,7 @@ body.hero-offscreen .bg1::after {
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
-/* Accent stripe at the same 20deg slant as the project panels. */
+/* Same 20deg slant as the project panels */
 .contact-bg::before {
   content: "";
   position: absolute;
@@ -671,7 +682,12 @@ body.hero-offscreen .bg1::after {
   opacity: .06;
 }
 
-/* Spotlight: a brighter copy of the code, masked to a circle at the pointer. */
+/* Tools shares this background, without the stripe */
+#tools .contact-bg::before {
+  display: none;
+}
+
+/* Spotlight: brighter code masked to a circle */
 .spot {
   --mx: -999px;
   --my: -999px;
@@ -688,7 +704,6 @@ body.hero-offscreen .bg1::after {
   opacity: 0;
 }
 
-/* White with a slight red tint. */
 .spot-layer pre,
 .spot-layer pre.b {
   color: #faced6;
@@ -702,7 +717,7 @@ body.hero-offscreen .bg1::after {
   }
 }
 
-/* Typing: JS wraps each line in a span; 50 lines at .14s take about 7s. */
+/* Typing: JS wraps each line in a span */
 .code-layer pre .ln {
   display: block;
   clip-path: inset(0 100% 0 0);
@@ -738,7 +753,8 @@ body.hero-offscreen .bg1::after {
 }
 
 /* Contact */
-.contact-content {
+.contact-content,
+.tools-content {
   position: relative;
   z-index: 2;
   width: min(880px, calc(100% - 2 * max(100px, 8vw)));
@@ -755,7 +771,8 @@ body.hero-offscreen .bg1::after {
   object-fit: cover;
 }
 
-.contact-heading {
+.contact-heading,
+.tools-heading {
   margin: 0;
   font-family: "ralewayExtraBold";
   font-size: clamp(32px, 4vw, 56px);
@@ -766,7 +783,7 @@ body.hero-offscreen .bg1::after {
   color: #fff;
 }
 
-/* No break at the hyphen; the * font rule needs an explicit inherit. */
+/* No break at the hyphen; * needs font inherit */
 .contact-nobreak {
   font-family: inherit;
   white-space: nowrap;
@@ -781,7 +798,7 @@ body.hero-offscreen .bg1::after {
   color: #fff;
 }
 
-/* Availability: the dot is a status light with a slow pulsing ring. */
+/* Status dot with a slow pulsing ring */
 .contact-status {
   display: flex;
   align-items: center;
@@ -831,7 +848,7 @@ body.hero-offscreen .bg1::after {
   }
 }
 
-/* Wider than 12rem so the address fits one line; block keeps the gaps. */
+/* Wider than 12rem so the address fits one line */
 .resume-button.learn-more.contact-email-btn {
   display: block;
   width: 19rem;
@@ -844,7 +861,7 @@ body.hero-offscreen .bg1::after {
   white-space: nowrap;
 }
 
-/* The button has no outline, so the focus ring goes on its circle. */
+/* No button outline, so the ring goes on the circle */
 .contact-content a:focus-visible .circle,
 .contact-content a:has(button:focus-visible) .circle {
   outline: 2px solid #fff;
@@ -857,7 +874,6 @@ body.hero-offscreen .bg1::after {
   outline-offset: 4px;
 }
 
-/* Text links with floating dots, like the hero icon row. */
 .contact-links {
   display: flex;
   flex-wrap: wrap;
@@ -879,7 +895,7 @@ body.hero-offscreen .bg1::after {
   text-decoration: none;
 }
 
-/* The button is reset so it looks like the links. */
+/* Reset so the button looks like the links */
 .contact-links .copy-email {
   padding: 0;
   border: 0;
@@ -911,7 +927,7 @@ body.hero-offscreen .bg1::after {
   text-underline-offset: 6px;
 }
 
-/* Phones: a centered stack, offset from the name on the left edge. */
+/* Phones: centered stack, clear of the name */
 @media (max-width: 480px) {
   .contact-content {
     width: auto;
@@ -927,7 +943,7 @@ body.hero-offscreen .bg1::after {
     font-size: clamp(28px, 8.6vw, 36px);
   }
 
-  /* Balanced lines: no single word alone on the last line. */
+  /* Balanced lines: no lone last word */
   .contact-line {
     max-width: 18em;
     margin-right: auto;
@@ -967,10 +983,117 @@ body.hero-offscreen .bg1::after {
   }
 }
 
-/* At 340px the 14px address would run under the circle. */
+/* At 340px the address would hit the circle */
 @media (max-width: 340px) {
   .contact-email-btn .button-text {
     font-size: 12px;
+  }
+}
+
+/* Tools */
+.tools-heading {
+  font-size: clamp(26px, 3vw, 40px);
+}
+
+.tools-line {
+  margin: 12px 0 clamp(18px, 3.5vh, 34px);
+  font-family: "ralewaySemi";
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.tools-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 3.5vh, 34px) clamp(24px, 4vw, 56px);
+}
+
+.tools-label {
+  margin: 0 0 clamp(6px, 1.2vh, 10px);
+  font-family: "ralewaySemi";
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #eb3b5a;
+}
+
+.tools-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(5px, 1vh, 8px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Hover is decoration only: the chips are not links */
+.tools-chips li {
+  padding: clamp(3px, 0.7vh, 6px) clamp(10px, 1.5vh, 14px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  font-family: "ralewaySemi";
+  font-size: clamp(12px, 2.1vh, 15px);
+  font-weight: 600;
+  line-height: 1.4;
+  color: #fff;
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+.tools-chips li:hover,
+.tools-chips li:focus-visible {
+  border-color: #eb3b5a;
+  background: #eb3b5a;
+}
+
+/* Chips rise in turn: JS adds .tools-ready, .tools-in */
+.tools-ready .tools-chips li {
+  opacity: 0;
+  translate: 0 12px;
+}
+
+.tools-ready.tools-in .tools-chips li {
+  animation: toolsRise 500ms ease-out both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+
+@keyframes toolsRise {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tools-ready .tools-chips li {
+    opacity: 1;
+    translate: none;
+  }
+
+  .tools-ready.tools-in .tools-chips li {
+    animation: none;
+  }
+}
+
+/* Phones: one column, clear of the name on the left edge */
+@media (max-width: 480px) {
+  .tools-content {
+    width: auto;
+    margin: 0 20px 0 60px;
+  }
+
+  .tools-heading {
+    font-size: clamp(24px, 7vw, 30px);
+  }
+
+  .tools-groups {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -992,7 +1115,7 @@ body.hero-offscreen .bg1::after {
   position: relative;
 }
 
-/* Full-width rows let the pointer reach the panels below, except on arrows. */
+/* Rows let the pointer through to the panels below */
 .chevron,
 .up-chevron,
 .chevron-controls {
@@ -1004,7 +1127,7 @@ body.hero-offscreen .bg1::after {
   pointer-events: auto;
 }
 
-/* Counter-skew: undoes the panel's -20deg skew so the video is upright. */
+/* Undoes the panel's -20deg skew */
 .jstorm-video {
   position: absolute;
   top: 50%;
@@ -1072,7 +1195,6 @@ header .overlay-white {
   font-family: "ralewaySemi";
 }
 
-/* The arrow shaft is at x=27 of the 54px SVG. */
 .arrow-down-2,
 .arrow-up-2 {
   position: relative;
@@ -1080,7 +1202,7 @@ header .overlay-white {
   left: calc(var(--left-rail) - 27px);
 }
 
-/* Label on the rail (the name's axis); the arrow shaft sits 18px right. */
+/* Label on the name's axis; shaft 18px to its right */
 .hero-work-link {
   left: calc(var(--left-rail) - 27px + 18px);
   display: inline-block;
@@ -1116,7 +1238,6 @@ header .overlay-white {
   transform: translate(-50%, -100%) rotate(180deg);
 }
 
-/* Light slides use #505464 arrows, so their labels match. */
 .hero-work-link.on-light span {
   color: #505464;
   text-shadow: none;
@@ -1128,7 +1249,7 @@ header .overlay-white {
   text-decoration: none;
 }
 
-/* Beats each arrow's fill attribute (#fff or #505464). */
+/* Beats each arrow's fill attribute */
 .hero-work-link:hover path,
 .hero-work-link:focus-visible path,
 .hero-work-link:hover span,
@@ -1137,14 +1258,14 @@ header .overlay-white {
   fill: #eb3b5a;
 }
 
-/* Real SemiBold keeps the red hover text readable over the graffiti. */
+/* Real SemiBold: readable red over the graffiti */
 .hero-work-link:hover span,
 .hero-work-link:focus-visible span {
   font-family: "ralewaySemi";
   font-weight: 600;
 }
 
-/* Typed bottom-up: the span is rotated 180deg, so clip from its bottom. */
+/* Rotated 180deg, so clipping runs from the bottom */
 .hero-work-link[data-reveal] span {
   clip-path: inset(0 0 100% 0);
   transition: color 200ms ease, clip-path 150ms steps(var(--chars), end);
@@ -1156,7 +1277,7 @@ header .overlay-white {
   transition: color 200ms ease, clip-path 300ms steps(var(--chars), end);
 }
 
-/* Touch devices have no hover, so labels show at rest when there is room. */
+/* No hover on touch: show labels at rest */
 @media (hover: none) and (min-width: 481px) {
   .hero-work-link[data-reveal] span,
   .hero-work-link[data-reveal]:hover span,
@@ -1202,9 +1323,8 @@ header .overlay-white {
   transition: 400ms;
 }
 
-/* The 20deg slant shifts the visible strip right; the logo follows it. */
+/* The slant shifts the strip; the logo follows */
 .site-logo-container {
-  /* About a third down, above the right-hand nav. */
   --logo-top: 35vh;
   position: absolute;
   top: var(--logo-top);
@@ -1220,24 +1340,23 @@ header .overlay-white {
   container: panel-logo / inline-size;
 }
 
-/* Rest state must not depend on panel width (a query hid ADI at 1280). */
+/* Not width-dependent: a query hid ADI at 1280 */
 .site-logo-container img {
   transition: opacity 200ms ease-in-out;
 }
 
-/* Hide other logos only while a panel is expanded, not when one is narrow. */
+/* Hide others only while a panel is expanded */
 @media (min-width: 901px) {
   #projects .content:has(.expansion-col:hover) .expansion-col:not(:hover) .site-logo-container img {
     opacity: 0 !important;
   }
 }
 
-/* Panel one: 100px off-screen plus the 100px rail; center in the rest. */
+/* 100px off-screen plus the 100px rail */
 .expansion-col:first-child .site-logo-container {
   padding-left: calc(200px - tan(20deg) * (50vh - var(--logo-top)));
 }
 
-/* Same footprint for every logo, aspect ratio kept. */
 .site-logo-container img {
   display: block;
   width: 175px !important;
@@ -1248,7 +1367,7 @@ header .overlay-white {
   object-fit: contain;
 }
 
-/* Clears the 132px down arrow on short screens. */
+/* Clears the 132px down arrow */
 .site-btn-container {
   position: absolute;
   bottom: max(calc(20vh + 20px), 200px);
@@ -1257,7 +1376,7 @@ header .overlay-white {
   padding: 0 12px;
 }
 
-/* Cancels the 100px overhang and the slant at the button's height. */
+/* Cancels the overhang and the slant */
 .expansion-col:first-child .site-btn-container {
   padding-left: calc(212px + tan(20deg) * (max(calc(20vh + 20px), 200px) + 24px - 50vh));
 }
@@ -1272,7 +1391,7 @@ header .overlay-white {
   transition: 300ms ease-in-out;
 }
 
-/* White panel: 0.67 opacity moves to the circle to match the others. */
+/* White panel: opacity moves to the circle */
 .appddiction-col .site-btn {
   opacity: 1;
 }
@@ -1285,7 +1404,7 @@ header .overlay-white {
   opacity: 1;
 }
 
-/* The width/height attributes only reserve space; CSS sets the real size. */
+/* Attributes reserve space; CSS sets the size */
 .adi-logo-img,
 .appddiction-logo-img,
 .jstorm-logo-img,
@@ -1296,7 +1415,7 @@ header .overlay-white {
 .mp-logo-img {
   width: auto;
   max-height: 250px;
-  /* Keeps the hover image off the right nav; uses right, not a transform. */
+  /* Clears the right nav; right avoids the fade-in */
   position: relative;
   right: max(0px, calc(480px - 30vw));
 }
@@ -1351,7 +1470,7 @@ video {
   padding-right: 24px;
 }
 
-/* ADI panel: navy over its video, which shows through on hover. */
+/* ADI navy shows the video through on hover */
 .overlay-adi {
   position: absolute;
   top: 0;
@@ -1368,12 +1487,11 @@ video {
   transition: background-color 350ms ease-in-out;
 }
 
-/* The longest label needs a wider button to clear the circle. */
+/* Longest label needs a wider button */
 .jstorm-col .resume-button.learn-more {
   width: 16rem;
 }
 
-/* One width for every portfolio link; the longest label fits. */
 .expansion-col .resume-button.learn-more.site-btn {
   width: min(16rem, 100%);
 }
@@ -1430,7 +1548,7 @@ video {
   width: 100%;
   color: #fff;
   overflow: hidden;
-  /* Shows in the slivers outside the slanted end panels. */
+  /* Visible in slivers beside the slanted panels */
   background-image: linear-gradient(to right, #1a4366, 50%, #1a4366, 50%, #000);
 }
 
@@ -1451,7 +1569,7 @@ video {
   margin-left: -100px;
 }
 
-/* The skew exposes a corner strip; the last panel overhangs to cover it. */
+/* The skew exposes a corner; the last panel covers it */
 .expansion-col:last-child {
   --skew-extra: max(0px, calc(18.2vh - 92px));
   margin-right: calc(-100px - var(--skew-extra));
@@ -1462,13 +1580,13 @@ video {
   padding-right: calc(3rem + var(--skew-extra)) !important;
 }
 
-/* The col-12 wrappers ignore padding, so narrow them by the same amount. */
+/* col-12 wrappers ignore padding */
 .expansion-col:last-child .site-logo-container,
 .expansion-col:last-child .site-btn-container {
   width: calc(100% - var(--skew-extra));
 }
 
-/* Shifts the centered video back by half the extra width. */
+/* Re-centers the video after the overhang */
 .expansion-col:last-child video {
   margin-left: calc(var(--skew-extra) / -2);
 }
@@ -1488,14 +1606,14 @@ video {
   transition: flex-grow 450ms;
 }
 
-/* Contain each panel so the hover expansion does not repaint its neighbors. */
+/* Contain panels so hover does not repaint neighbors */
 @media (min-width: 901px) {
   .expansion-col {
     contain: layout paint;
     will-change: flex-grow;
   }
 
-  /* Hidden videos still preload and keep their first frame. */
+  /* Hidden videos still preload */
   .expansion-col:not(:hover) video {
     visibility: hidden;
   }
@@ -1505,7 +1623,7 @@ video {
   pointer-events: none;
 }
 
-/* Catches the pointer over the left rail so it does not expand panel one. */
+/* Stops the left rail expanding panel one */
 .rail-guard {
   display: none;
 }
@@ -1606,7 +1724,6 @@ video {
   padding: 0.75rem 0;
   margin: 0 0 0 1.85rem;
   color: #d42a48;
-  /* Real SemiBold: weight 700 on Light was a faux bold. */
   font-family: "ralewaySemi";
   font-weight: 600;
   line-height: 1.6;
@@ -1890,7 +2007,7 @@ video {
   top: 10px;
 }
 
-/* Home has a centered call to action; other slides keep the rail arrows. */
+/* Home keeps a centered call to action */
 #home .hero-work-link--center {
   position: absolute;
   left: 50%;
@@ -1913,7 +2030,6 @@ video {
   writing-mode: horizontal-tb !important;
   text-orientation: mixed;
   transform: none !important;
-  /* Same face and tracking as the other wayfinding labels. */
   font-family: "raleway";
   font-size: 16px;
   font-weight: 600;
@@ -1991,7 +2107,7 @@ video {
   margin-bottom: 0;
 }
 
-/* Sized so the longest role line stays on one line when expanded. */
+/* Keeps the longest role line on one line */
 .panel-role {
   margin: 14px 0 0;
   padding-right: 10px;
@@ -2018,7 +2134,7 @@ video {
 }
 
 .panel-blurb {
-  /* Keeps right-aligned text in panel one clear of the left rail. */
+  /* Keeps text clear of the left rail */
   max-width: 28em;
   margin: 16px 0 0 auto;
   padding-right: 10px;
@@ -2026,12 +2142,11 @@ video {
   text-align: right;
 }
 
-/* The last panel overhangs 100px, so its text and logo are pulled in. */
+/* The last panel overhangs: pull text and logo in */
 .expansion-col:last-child .col-12.w-100 {
   padding-right: calc(15px + 100px);
 }
 
-/* The inset leaves less room before its slanted left edge. */
 .expansion-col:last-child .panel-blurb {
   max-width: 20em;
 }
@@ -2049,7 +2164,7 @@ video {
   top: auto;
 }
 
-/* Hero entrance: CSS only, so it shows if JS fails; uses translate. */
+/* Hero entrance: CSS only, so it works without JS */
 @keyframes heroRise {
   from {
     opacity: 0;
@@ -2065,15 +2180,16 @@ video {
 #home-nav,
 #projects-nav,
 #resume-nav,
+#tools-nav,
 #contact-nav {
   animation: heroRise 500ms ease-out both;
 }
 
-/* Nav first, one item at a time. */
 #home-nav { animation-delay: 0s; }
 #projects-nav { animation-delay: 0.3s; }
 #resume-nav { animation-delay: 0.6s; }
-#contact-nav { animation-delay: 0.9s; }
+#tools-nav { animation-delay: 0.9s; }
+#contact-nav { animation-delay: 1.2s; }
 .vertical-text-2 { animation-delay: 0.2s; }
 .lets-title { animation-delay: 0.5s; }
 .hero-role { animation-delay: 0.9s; }
@@ -2083,7 +2199,7 @@ video {
 .hero-links a:nth-child(4) { animation-delay: 1.44s; }
 #home .hero-work-link { animation-delay: 1.6s; }
 
-/* Reset while the hero is off screen so heroRise replays on return. */
+/* Reset off screen so heroRise replays */
 @media (min-width: 901px) {
   #home.hero-away .hero-links a {
     animation: none;
@@ -2100,12 +2216,13 @@ video {
   #home-nav,
   #projects-nav,
   #resume-nav,
+  #tools-nav,
   #contact-nav {
     animation: none;
   }
 }
 
-/* Phone landscape: the name and signature would cover icons, role, dots. */
+/* Phone landscape: name and signature would overlap */
 @media (max-height: 480px) {
   .vertical-text-2,
   .signature {
@@ -2113,7 +2230,7 @@ video {
   }
 }
 
-/* Reduced motion: no rotating words, only the first phrase. */
+/* Reduced motion: first phrase only */
 @media (prefers-reduced-motion: reduce) {
   .rw-words-1 .word-span {
     animation: none;
@@ -2124,14 +2241,14 @@ video {
   }
 }
 
-/* Phones and tablets (900px and below): swipeable cards */
+/* Phones and tablets: swipeable cards */
 .card-dots {
   display: none;
 }
 
 @media (max-width: 900px) {
   #projects {
-    /* Cards start right of the rail and clip there instead of sliding under. */
+    /* Cards start right of the rail and clip there */
     --card-gutter: calc(var(--left-rail) + 26px);
     flex-direction: column;
     justify-content: center;
@@ -2143,7 +2260,6 @@ video {
     display: none !important;
   }
 
-  /* The swipe row */
   #projects .content {
     display: flex;
     flex: 0 0 auto;
@@ -2164,7 +2280,7 @@ video {
     display: none;
   }
 
-  /* About 85vw wide, leaving a peek of the next card. */
+  /* 85vw wide, leaving a peek of the next card */
   #projects .content .expansion-col {
     position: relative;
     display: flex;
@@ -2188,7 +2304,6 @@ video {
     display: none;
   }
 
-  /* Overlays and videos are unused on cards. */
   #projects .adi-col { background: #1a4366; }
   #projects .appddiction-col { background: #fff; }
   #projects .jstorm-col { background: #4d8dca; }
@@ -2199,7 +2314,7 @@ video {
     display: none !important;
   }
 
-  /* Right padding keeps text clear of the nav dots. */
+  /* Keeps text clear of the nav dots */
   #projects .content .expansion-section {
     position: relative;
     top: 0;
@@ -2250,16 +2365,15 @@ video {
 
   #projects .content .site-btn-container {
     margin-top: 22px;
-    /* Bootstrap's .text-center is !important. */
+    /* Bootstrap's .text-center is !important */
     text-align: left !important;
   }
 
-  /* The longer Appddiction text needs a clearer gap before its button. */
   #projects .appddiction-col .site-btn-container {
     margin-top: 42px;
   }
 
-  /* Cards always show headings, roles and blurbs (no hover reveal). */
+  /* Cards always show their text (no hover reveal) */
   #projects .content .panel-reveal {
     opacity: 1 !important;
     animation: none !important;
@@ -2277,7 +2391,7 @@ video {
     text-align: left !important;
   }
 
-  /* .header-1 is white above, which would otherwise win over the grey. */
+  /* Beats the white .header-1 above */
   #projects .appddiction-col h1 {
     color: #505464 !important;
   }
@@ -2298,12 +2412,10 @@ video {
     text-align: left;
   }
 
-  /* Hover-only images are not part of a card. */
   #projects .content .panel-reveal[src] {
     display: none;
   }
 
-  /* Left aligned and sized for the narrow card. */
   #projects .content .resume-button {
     margin: 0;
   }
@@ -2326,7 +2438,6 @@ video {
     white-space: nowrap;
   }
 
-  /* Keeps the compact icon-and-label look on hover. */
   #projects .content .resume-button:hover .circle {
     width: 3rem;
   }
@@ -2339,7 +2450,7 @@ video {
     margin: 6px 0 0 var(--card-gutter);
   }
 
-  /* 28px tap target; the active dot stretches, its neighbors stay put. */
+  /* The active dot stretches; neighbors stay put */
   .card-dots button {
     position: relative;
     width: 28px;
@@ -2368,12 +2479,12 @@ video {
     background: #fff;
   }
 
-  /* Hidden rail arrows still caught taps meant for the cards. */
+  /* Hidden arrows still caught taps meant for cards */
   .hero-work-link:not(.hero-work-link--center) {
     pointer-events: none;
   }
 
-  /* Dots only, as under 680px: labels and lines would cover the cards. */
+  /* Dots only: labels would cover the cards */
   .nav-line,
   .nav-link-text {
     display: none;
@@ -2389,7 +2500,7 @@ video {
   }
 }
 
-/* Up to 900px the arrows show at the rail, so leave more room. */
+/* The arrows show at the rail: leave more room */
 @media (min-width: 681px) and (max-width: 900px) {
   #projects {
     --card-gutter: 96px;
@@ -2400,13 +2511,13 @@ video {
   }
 }
 
-/* The dot nav would cover the next card's preview on phones. */
+/* The dot nav would cover the next card */
 @media (max-width: 480px) {
   .vertical-menu {
     display: none;
   }
 
-  /* The hero icon row is centered; the gap keeps the dots centered. */
+  /* Centered row; the gap keeps the dots centered */
   .hero-links {
     left: 0;
     right: 0;
@@ -2423,7 +2534,7 @@ video {
   }
 }
 
-/* ADI at 1366px and below: the next panel cuts its label, so it goes under. */
+/* ADI at 1366px and below: label goes under */
 @media (min-width: 901px) and (max-width: 1366px) {
   .adi-col .resume-button.learn-more.site-btn {
     display: flex;
@@ -2441,12 +2552,11 @@ video {
     white-space: nowrap;
   }
 
-  /* No sideways expansion: the circle stays round, the label below. */
   .adi-col .resume-button:hover .circle {
     width: 3rem;
   }
 
-  /* Centers the button in the visible part, using the slant at that height. */
+  /* Centers the button using the slant at its height */
   .expansion-col:first-child .site-btn-container {
     --btn-bottom: max(calc(20vh + 20px), 200px);
     --btn-y: calc(100vh - var(--btn-bottom) - 10px);
@@ -2460,14 +2570,14 @@ video {
   }
 }
 
-/* Panels stay one screen tall, or hover wrapping pushes buttons down. */
+/* One screen tall, or hover wrapping pushes buttons */
 @media (min-width: 901px) and (max-width: 1366px) {
   #projects .content {
     height: 100vh;
   }
 }
 
-/* Narrow panels: the ADI button goes mid-panel, where the slant leaves room. */
+/* Mid-panel, where the slant leaves the most room */
 @media (min-width: 901px) and (max-width: 1200px) {
   .expansion-col:first-child .site-btn-container {
     top: calc(50% - 75px);
@@ -2475,13 +2585,13 @@ video {
     --strip-right: calc(0.17 * 100vw + 26px + tan(20deg) * 10px);
   }
 
-  /* The button stays left when hovered, so the hover logo goes to its right. */
+  /* Button stays left on hover; logo goes right */
   .adi-col .expansion-section > .col-12.w-100 > .col-12.text-center {
     padding-left: 200px;
   }
 }
 
-/* Below 1100px the blurb wraps further, so the button moves down. */
+/* Blurb wraps further, so the button moves down */
 @media (min-width: 901px) and (max-width: 1100px) {
   .expansion-col:first-child .site-btn-container {
     top: calc(50% - 35px);
@@ -2527,7 +2637,7 @@ video {
     display: none;
   }
 
-  /* display: contents makes the image and button grid items. */
+  /* display: contents makes grid items of the children */
   .resume-content > .col-xl-6.text-center {
     display: contents;
   }
@@ -2555,7 +2665,7 @@ video {
   }
 }
 
-/* Resume download: a circle on the image corner that opens leftward */
+/* Resume download */
 @media (min-width: 901px) {
   .resume-img-wrap {
     position: relative;
@@ -2599,7 +2709,7 @@ video {
     margin: 0;
   }
 
-  /* Anchored right, it grows left; the label shows only when open. */
+  /* Anchored right, it grows left */
   .resume-img-wrap .resume-button.learn-more .button-text {
     overflow: hidden;
     white-space: nowrap;
@@ -2613,7 +2723,6 @@ video {
     opacity: 1;
   }
 
-  /* Keyboard focus opens the pill like hover. */
   .resume-img-wrap .resume-download-link:focus-visible .circle,
   .resume-img-wrap .resume-download-link:has(:focus-visible) .circle {
     width: 100%;
@@ -2638,7 +2747,7 @@ video {
   }
 }
 
-/* Fit one window with no inner scrolling; text scales with the height. */
+/* Fits one window with no inner scrolling */
 @media (min-width: 1280px) and (min-height: 600px) {
   .resume-two-container {
     height: 100vh;
@@ -2650,7 +2759,7 @@ video {
     align-self: center;
     padding-top: 0;
     padding-bottom: 0;
-    /* The image column is as wide as the image; text gets 440px to 44rem. */
+    /* Image column fits the image; text 440px-44rem */
     grid-template-columns: max-content minmax(440px, 44rem);
     column-gap: 56px;
     justify-content: center;
@@ -2660,7 +2769,7 @@ video {
     max-width: none;
   }
 
-  /* 904px = padding, gap, 440px column, scrollbar; 0.7727 = image ratio. */
+  /* 904px: padding, gap, text column, scrollbar */
   .resume-img {
     height: calc(100vh - 140px);
     max-height: min(calc(100vh - 140px), calc((100vw - 904px) / 0.7727));
@@ -2685,7 +2794,7 @@ video {
   }
 }
 
-/* Phones: 80px left padding clears the name; smaller headings fit one line. */
+/* Phones: left padding clears the name */
 @media (max-width: 480px) {
   .resume-content {
     padding-right: 24px;
@@ -2701,14 +2810,14 @@ video {
   }
 }
 
-/* Narrow phones: one more step so "GOVERNMENT SOFTWARE" fits. */
+/* Narrow phones: one step down to fit one line */
 @media (max-width: 380px) {
   .strength-row .proficiencies-title {
     font-size: 13.5px;
   }
 }
 
-/* Phones: lift and shrink the signature so it clears the home chevron. */
+/* Phones: lift the signature above the chevron */
 @media (max-width: 480px) {
   .signature {
     width: 140px;

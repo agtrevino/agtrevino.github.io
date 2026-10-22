@@ -1,6 +1,6 @@
-/* Page behavior, written with jQuery (loaded from a CDN before this file). */
+/* Page behavior (jQuery loads first) */
 
-// Throttles scroll work to one run per frame.
+// One scroll run per frame
 function onWrapperScroll(fn) {
   let ticking = false;
   $('.wrapper').on('scroll', function () {
@@ -25,14 +25,14 @@ function suppressHoverWhileScrolling() {
   });
 }
 
-// Videos play only while their panel is hovered (or visible on touch).
+// Videos play only while hovered (or visible on touch)
 function videoPlayback() {
   const canHover = window.matchMedia('(hover: hover)').matches;
 
-  // Cards (900px and below) have no videos; preload="none" saves the download.
+  // Cards have no videos; preload="none" saves bytes
   const cardLayout = window.matchMedia('(max-width: 900px)');
 
-  // Buffer videos when the slide first shows, so the first hover has frames.
+  // Buffer when the slide first shows, so hover has frames
   const slide = document.getElementById('projects');
   let slideSeen = false;
   const loadVideos = () => {
@@ -43,7 +43,7 @@ function videoPlayback() {
     });
   };
   if (slide && 'IntersectionObserver' in window) {
-    // Threshold 0 would count a slide that only touches the screen edge.
+    // Threshold 0 counts a slide that only touches the edge
     const loader = new IntersectionObserver((entries) => {
       if (!entries.some((e) => e.intersectionRatio > 0)) return;
       loader.disconnect();
@@ -55,7 +55,7 @@ function videoPlayback() {
     slideSeen = true;
     loadVideos();
   }
-  // A tablet turned wider: buffer the videos then.
+  // A tablet turned wider: buffer then
   cardLayout.addEventListener('change', () => { if (slideSeen) loadVideos(); });
 
   document.querySelectorAll('.expansion-col').forEach((col) => {
@@ -77,7 +77,7 @@ function videoPlayback() {
   });
 }
 
-// Code layer drifts against the scroll (not on touch or reduced motion).
+// Drifts against the scroll; skipped for touch/reduced
 function contactParallax() {
   const section = document.getElementById('contact');
   const layer = section && section.querySelector('.code-layer');
@@ -102,7 +102,7 @@ function contactParallax() {
   update();
 }
 
-// Types the code layer in once, the first time the slide is mostly visible.
+// Types the code in once, when the slide is mostly visible
 function contactTyping() {
   const section = document.getElementById('contact');
   const layer = section && section.querySelector('.code-layer');
@@ -129,7 +129,7 @@ function contactTyping() {
   observer.observe(section);
 }
 
-// A brighter copy of the code shows through a soft circle at the pointer.
+// Brighter code copy shows through a pointer circle
 function contactSpotlight() {
   const section = document.getElementById('contact');
   const bg = section && section.querySelector('.contact-bg');
@@ -141,7 +141,7 @@ function contactSpotlight() {
   const blocked = () => noHover.matches || reduced.matches || small.matches;
   if (blocked()) return;
 
-  // The mask is on this wrapper, so it uses slide coordinates.
+  // The mask is on the wrapper: slide coordinates
   const spot = document.createElement('div');
   spot.className = 'spot';
   const copy = layer.cloneNode(true);
@@ -150,7 +150,7 @@ function contactSpotlight() {
   spot.appendChild(copy);
   bg.appendChild(spot);
 
-  // The copy starts typing in the same frame as the original.
+  // The copy starts typing with the original
   const syncTyping = () => copy.classList.toggle('typing', layer.classList.contains('typing'));
   syncTyping();
   new MutationObserver(syncTyping).observe(layer, { attributes: true, attributeFilter: ['class'] });
@@ -182,7 +182,7 @@ function contactSpotlight() {
     }, 300);
   };
 
-  // Listeners exist only while the slide is at least 30% on screen.
+  // Listeners only while 30% of the slide shows
   let attached = false;
   const attach = () => {
     if (attached || blocked()) return;
@@ -206,7 +206,7 @@ function contactSpotlight() {
   }, { threshold: [0, 0.3] }).observe(section);
 }
 
-// Copies the address on click; the button says "copied" for two seconds.
+// Copies the address; the button says "copied" for 2s
 function copyEmail() {
   const button = document.querySelector('.copy-email');
   if (!button) return;
@@ -215,7 +215,7 @@ function copyEmail() {
   const address = 'aaron.g.trevino@gmail.com';
   let timer;
 
-  // Older browsers and non-secure pages have no clipboard API.
+  // No clipboard API on old browsers or non-secure pages
   const fallbackCopy = () => {
     const area = document.createElement('textarea');
     area.value = address;
@@ -249,7 +249,7 @@ function copyEmail() {
   });
 }
 
-// The dot for the card nearest the left edge is active; tapping one scrolls.
+// Active dot = card nearest the left edge
 function cardDots() {
   const row = document.querySelector('#projects .content');
   const dots = document.querySelectorAll('#projects .card-dots button');
@@ -288,7 +288,7 @@ function signatureAnimation() {
   const source = signature.dataset.src;
   let replayTimer = null;
 
-  // The first play waits for the hero entrance; replays use a shorter delay.
+  // The first play waits for the hero entrance
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let firstPlay = true;
   const nextDelay = () => {
@@ -328,7 +328,7 @@ function signatureAnimation() {
   observer.observe(hero);
 }
 
-// Logos rise in sequence when the slide shows and after a panel hover ends.
+// Logos rise in turn when the slide shows or hover ends
 function projectLogoIntro() {
   const slide = document.getElementById('projects');
   if (!slide || !('IntersectionObserver' in window)) return;
@@ -344,7 +344,7 @@ function projectLogoIntro() {
       logo.classList.remove('fadeInUp');
       void logo.offsetWidth;
       if (!reducedMotion.matches) {
-        // Cleared so the hover fade out and in has no delay.
+        // Cleared so hover fades have no delay
         const clearDelay = () => { logo.style.animationDelay = ''; };
         logo.addEventListener('animationend', clearDelay, { once: true });
         logo.addEventListener('animationcancel', clearDelay, { once: true });
@@ -364,7 +364,7 @@ function projectLogoIntro() {
       const entry = entries[entries.length - 1];
       if (cardLayout.matches) return;
       if (entry.intersectionRatio === 0) {
-        // Reset so the next visit replays the sequence.
+        // Reset so the next visit replays
         played = false;
         if (!reducedMotion.matches) {
           logos.forEach((logo) => {
@@ -380,7 +380,7 @@ function projectLogoIntro() {
     }, { root: document.querySelector('.wrapper'), rootMargin: '-1px 0px', threshold: [0, 0.4] });
     observer.observe(slide);
 
-    // Leaving all panels after one expanded replays; panel to panel does not.
+    // Replays after leaving all panels, not panel to panel
     const panels = slide.querySelector('.content');
     if (panels && canHover.matches && !reducedMotion.matches) {
       let expanded = false;
@@ -395,18 +395,18 @@ function projectLogoIntro() {
     }
   };
   start();
-  // A tablet turned wider: start then.
+  // A tablet turned wider: start then
   cardLayout.addEventListener('change', start);
 }
 
-// Replays the icon entrance whenever the hero comes back.
+// Replays the icon entrance when the hero returns
 function heroIconReplay() {
   const hero = document.getElementById('home');
   if (!hero || !('IntersectionObserver' in window)) return;
   const cardLayout = window.matchMedia('(max-width: 900px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (reducedMotion.matches) return;
-  // The 1px inset makes a slide that only touches the edge count as off screen.
+  // 1px inset: a slide touching the edge counts as off
   new IntersectionObserver((entries) => {
     const entry = entries[entries.length - 1];
     if (cardLayout.matches) { hero.classList.remove('hero-away'); return; }
@@ -415,7 +415,7 @@ function heroIconReplay() {
   }, { root: document.querySelector('.wrapper'), rootMargin: '-1px 0px', threshold: [0, 0.5] }).observe(hero);
 }
 
-// Stops painting the hero when off screen; the 200px margin avoids a flash.
+// No painting off screen; 200px margin avoids a flash
 function heroVisibility() {
   const hero = document.getElementById('home');
   if (!hero || !('IntersectionObserver' in window)) return;
@@ -425,7 +425,7 @@ function heroVisibility() {
   }, { root: document.querySelector('.wrapper'), rootMargin: '200px 0px 200px 0px', threshold: 0 }).observe(hero);
 }
 
-// A greeting for anyone who opens the console; it is the only console output.
+// The only console output on the site
 function consoleHello() {
   console.log('%cHi, you found the console.', 'color: #eb3b5a; font-weight: bold; font-size: 16px;');
   console.log('I build front-end interfaces. This site is hand-written HTML, CSS and JavaScript, built with Claude Code.');
@@ -445,15 +445,15 @@ function ngOnInit() {
     heroVisibility();
     projectLogoIntro();
     heroIconReplay();
+    toolsIntro();
     signatureAnimation();
     expandingCards();
     navAnim();
     slideSync();
-    navProgress();
     resumeTitleViewCheck();
   }
 
-// On hover the logo fades out, then the details (.panel-reveal) fade in.
+// Hover: logo fades out, then the details fade in
 function expandingCards() {
     $(".expansion-col").each(function () {
       const logo = $(this).find(".site-logo-container img");
@@ -473,89 +473,19 @@ function expandingCards() {
     });
   }
 
-function isHomeView() {
-    $('.home-nav').addClass("active-nav");
-    $('.home-circle').addClass("active-circle");
-
-    $('.projects-circle').removeClass("active-circle");
-    $('.projects-nav').removeClass("active-nav");
-    $('.contact-circle').removeClass("active-circle");
-    $('.contact-nav').removeClass("active-nav");
-    $('.nav-link-text').removeClass("color-black");
-    $('.line').removeClass("line-black");
-    $('.nav-circle').removeClass("circle-black");
-    $('.vertical-text-2').removeClass("color-black");
-    $('.resume-circle').removeClass("active-circle-black");
-    $('.resume-nav').removeClass("active-nav");
-    $('.resume-circle').removeClass("nav-circle-black");
-
-  }
-
-function isResumeView() {
-
-    $('.resume-nav').addClass("active-nav");
-    $('.resume-circle').addClass("active-circle-black");
-    $('.resume-circle').addClass("nav-circle-black");
-    $('.vertical-text-2').addClass("color-black");
-    $('.nav-link-text').addClass("color-black");
-    $('.line').addClass("line-black");
-    $('.nav-circle').addClass("circle-black");
-
-    $('.contact-circle').removeClass("active-circle");
-    $('.contact-nav').removeClass("active-nav");
-
-    $('.projects-circle').removeClass("active-circle");
-    $('.projects-nav').removeClass("active-nav");
-    $('.home-circle').removeClass("active-circle");
-    $('.home-nav').removeClass("active-nav");
-
-  }
-
-function isProjectsView() {
-
-    $('.projects-nav').addClass("active-nav");
-    $('.projects-circle').addClass("active-circle");
-
-    $('.nav-link-text').removeClass("color-black");
-    $('.line').removeClass("line-black");
-    $('.nav-circle').removeClass("circle-black");
-    // ADI's navy panel keeps the vertical name white.
-    $('.vertical-text-2').removeClass("color-black");
-    $('.resume-circle').removeClass("active-circle-black");
-    $('.resume-nav').removeClass("active-nav");
-    $('.resume-circle').removeClass("nav-circle-black");
-    $('.home-circle').removeClass("active-circle");
-    $('.home-nav').removeClass("active-nav");
-    $('.contact-circle').removeClass("active-circle");
-    $('.contact-nav').removeClass("active-nav");
-
-  }
-
-function isContactView() {
-
-    $('.contact-nav').addClass("active-nav");
-    $('.contact-circle').addClass("active-circle");
-
-    $('.projects-circle').removeClass("active-circle");
-    $('.projects-nav').removeClass("active-nav");
-    $('.home-circle').removeClass("active-circle");
-    $('.home-nav').removeClass("active-nav");
-    $('.nav-link-text').removeClass("color-black");
-    $('.line').removeClass("line-black");
-    $('.nav-circle').removeClass("circle-black");
-    $('.vertical-text-2').removeClass("color-black");
-    $('.resume-circle').removeClass("active-circle-black");
-    $('.resume-nav').removeClass("active-nav");
-    $('.resume-circle').removeClass("nav-circle-black");
-
-  }
-
 // Slides, nav and URL
 
-const SLIDE_IDS = ['home', 'projects', 'resume', 'contact'];
-const SLIDE_VIEWS = { home: isHomeView, projects: isProjectsView, resume: isResumeView, contact: isContactView };
+// Slides in page order; light = dark nav colors
+const SLIDES = {
+  home: {},
+  projects: {},
+  resume: { light: true },
+  tools: {},
+  contact: {},
+};
+const SLIDE_IDS = Object.keys(SLIDES);
 
-// Most visible area wins; the first slide wins a tie.
+// Most visible area wins; first wins a tie
 function currentSlide() {
   const wrapper = document.querySelector('.wrapper');
   if (!wrapper) return SLIDE_IDS[0];
@@ -574,19 +504,61 @@ function currentSlide() {
   return best;
 }
 
-// One nav item active, with light or dark colors for the slide.
+// One active nav item, in white or dark nav colors
+function showSlide(id) {
+  const light = !!SLIDES[id].light;
+  const names = SLIDE_IDS.map((name) => '.' + name);
+  $(names.map((name) => name + '-nav').join(',')).removeClass('active-nav');
+  $(names.map((name) => name + '-circle').join(','))
+    .removeClass('active-circle active-circle-black nav-circle-black');
+  $('.' + id + '-nav').addClass('active-nav');
+  $('.' + id + '-circle').addClass(light ? 'active-circle-black nav-circle-black' : 'active-circle');
+  $('.nav-link-text').toggleClass('color-black', light);
+  $('.line').toggleClass('line-black', light);
+  $('.nav-circle').toggleClass('circle-black', light);
+  $('.vertical-text-2').toggleClass('color-black', light);
+}
+
+// Chips fade and rise in turn when the slide shows
+function toolsIntro() {
+  const section = document.getElementById('tools');
+  const chips = section ? section.querySelectorAll('.tools-chips li') : [];
+  if (!section || !chips.length || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  chips.forEach((chip, i) => chip.style.setProperty('--i', i));
+  section.classList.add('tools-ready');
+  // 1px inset: a slide at the snap edge counts as off
+  new IntersectionObserver((entries) => {
+    const entry = entries[entries.length - 1];
+    if (entry.intersectionRatio >= 0.4) section.classList.add('tools-in');
+    else if (entry.intersectionRatio === 0) section.classList.remove('tools-in');
+  }, { root: document.querySelector('.wrapper'), rootMargin: '-1px 0px', threshold: [0, 0.4] }).observe(section);
+}
+
+// A one-time ring on the dot of the slide just arrived at
+function playRipple(id) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const dot = document.querySelector('.' + id + '-circle');
+  if (!dot) return;
+  dot.classList.remove('nav-ripple');
+  void dot.offsetWidth;
+  dot.classList.add('nav-ripple');
+  dot.addEventListener('animationend', () => dot.classList.remove('nav-ripple'), { once: true });
+}
+
 let shownSlide = null;
+let navReady = false;
 function updateActiveSlide(force) {
   const id = currentSlide();
   if (!force && id === shownSlide) return id;
+  const arrived = navReady && shownSlide !== null && id !== shownSlide;
   shownSlide = id;
-  $('.home-nav, .projects-nav, .resume-nav, .contact-nav').removeClass('active-nav');
-  $('.home-circle, .projects-circle, .resume-circle, .contact-circle').removeClass('active-circle active-circle-black');
-  SLIDE_VIEWS[id]();
+  showSlide(id);
+  if (arrived) playRipple(id);
   return id;
 }
 
-// The nav follows scroll; the hash waits for 150ms of stillness.
+// Hash waits for 150ms of stillness (smooth scrolls)
 function slideSync() {
   const wrapper = document.querySelector('.wrapper');
   if (!wrapper) return;
@@ -627,11 +599,12 @@ function slideSync() {
   window.addEventListener('resize', () => { updateActiveSlide(true); onScroll(); });
   window.addEventListener('hashchange', () => { updateActiveSlide(true); });
 
-  // Once layout settles, open on the slide named in the URL.
+  // After layout settles, open the slide in the URL
   const start = () => {
     window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
       scrollToHash();
       updateActiveSlide(true);
+      navReady = true;
       urlReady = true;
       syncHash();
     }));
@@ -644,7 +617,7 @@ function resumeTitleViewCheck() {
     onWrapperScroll(function () {
       var scrollTop = $(window).scrollTop();
       var windowHeight = $(window).height();
-      // Fade the strengths in one by one when the first heading is in view.
+      // Fade the strengths in once the heading shows
       $(".strength-title").first().each(function () {
         var offset = $(this).offset();
         if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
@@ -659,59 +632,7 @@ function resumeTitleViewCheck() {
     });
   }
 
-// A thin line between the nav dots fills as you scroll (progress, not place).
-function navProgress() {
-  const menu = document.querySelector('.vertical-menu');
-  const wrapper = document.querySelector('.wrapper');
-  const dots = menu ? Array.from(menu.querySelectorAll('.nav-circle')) : [];
-  const slides = SLIDE_IDS.map((id) => document.getElementById(id));
-  if (!menu || !wrapper || dots.length < 2 || slides.some((slide) => !slide)) return;
-
-  const segments = [];
-  for (let i = 0; i < dots.length - 1; i++) {
-    const track = document.createElement('span');
-    const fill = document.createElement('span');
-    track.className = 'nav-seg';
-    fill.className = 'nav-seg-fill';
-    track.setAttribute('aria-hidden', 'true');
-    track.appendChild(fill);
-    menu.appendChild(track);
-    segments.push({ track, fill });
-  }
-
-  // Each runs 4px below one dot to 4px above the next, on their center line.
-  const place = () => {
-    if (!menu.getClientRects().length) return;
-    const box = menu.getBoundingClientRect();
-    segments.forEach(({ track }, i) => {
-      const a = dots[i].getBoundingClientRect();
-      const b = dots[i + 1].getBoundingClientRect();
-      track.style.top = (a.bottom + 4 - box.top) + 'px';
-      track.style.height = Math.max(0, b.top - a.bottom - 8) + 'px';
-      track.style.left = (a.left + a.width / 2 - box.left - 0.5) + 'px';
-    });
-  };
-
-  const fillTo = () => {
-    const scrolled = wrapper.scrollTop;
-    segments.forEach(({ fill }, i) => {
-      const start = slides[i].offsetTop;
-      const span = slides[i + 1].offsetTop - start;
-      const amount = span > 0 ? Math.min(1, Math.max(0, (scrolled - start) / span)) : 0;
-      fill.style.transform = 'scaleY(' + amount + ')';
-    });
-  };
-
-  place();
-  fillTo();
-  onWrapperScroll(fillTo);
-  window.addEventListener('resize', () => { place(); fillTo(); });
-  window.addEventListener('load', place);
-  // The nav items rise in on load, which moves the dots until they finish.
-  menu.addEventListener('animationend', place);
-}
-
-// Marks the current slide in the nav once its fade-in has finished.
+// Marks the current slide after the nav fade-in
 function navAnim() {
     setTimeout(updateActiveSlide, 500, true);
   }

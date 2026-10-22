@@ -8,7 +8,7 @@
     <link rel="canonical" href="https://agtrevino.github.io/" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
-    <!-- Social previews; Twitter reads the og: tags. -->
+    <!-- Social previews -->
     <meta property="og:title" content="Aaron G. Trevino | Front-end developer who designs" />
     <meta property="og:description" content="Front-end developer with 8+ years of experience building websites and interfaces. Open to new roles." />
     <meta property="og:type" content="website" />
@@ -18,17 +18,17 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Preload the hero image and fonts before the stylesheet asks. -->
+    <!-- Preload the hero image and fonts -->
     <link rel="preload" as="image" href="assets/img/background/graffiti-4.jpg" />
     <link rel="preload" href="assets/fonts/Raleway-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/Raleway-ExtraBold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/Raleway-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
 
-    <!-- Bootstrap comes from a CDN. Everything else is local. -->
+    <!-- Bootstrap (CDN); the rest is local -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
 
-      <link rel="stylesheet" href="css/styles.css?v=130" />
-    <!-- Without JS nothing adds .fadeInUp, so show the project logos. -->
+      <link rel="stylesheet" href="css/styles.css?v=135" />
+    <!-- Show project logos when JS is off -->
     <noscript><style>.site-logo-container img { opacity: 1; }</style></noscript>
   </head>
 
@@ -76,6 +76,21 @@
       </div>
       <div class="col p-0 nav-circle-container">
         <div class="nav-circle resume-circle">
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="#tools">
+    <div id="tools-nav" class="nav-link-container row mb-2">
+      <div class="nav-link-text col text-right tools-nav">
+        tools
+      </div>
+      <div class="col p-0 nav-line">
+        <div class="line tools-nav"></div>
+      </div>
+      <div class="col p-0 nav-circle-container">
+        <div class="nav-circle tools-circle">
         </div>
       </div>
     </div>
@@ -351,7 +366,7 @@
 
     </div>
 
-    <!-- Swipe dots for the card row (phones and tablets only). -->
+    <!-- Swipe dots (phones and tablets) -->
     <div class="card-dots" role="group" aria-label="Choose a project">
       <button type="button" class="is-active" aria-label="ADI Global Distribution" aria-current="true"></button>
       <button type="button" aria-label="Appddiction Studio"></button>
@@ -478,29 +493,94 @@
     </div>
     <div class="row chevron w-100 resume-chevron">
       <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
-        <a data-reveal class="arrow-down-2 hero-work-link on-light" href="#contact" alt="" rel="relativeanchor" aria-label="Go to Contact">
+        <a data-reveal class="arrow-down-2 hero-work-link on-light" href="#tools" alt="" rel="relativeanchor" aria-label="Go to Tools">
           <svg width="54px" height="132px" viewBox="0 0 54 132" version="1.1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true">
             <path fill="#505464" d="M26 -3H28V106L35.5 98.5L36.9 99.9L27 109.8L17.1 99.9L18.5 98.5L26 106Z" />
           </svg>
-          <span style="--chars: 7">Contact</span>
+          <span style="--chars: 5">Tools</span>
         </a>
       </div>
     </div>
     <div class="resume-two-viewport"></div>
   </section>
 
+  <section id="tools" class="section tools-container">
+    <div class="contact-bg" aria-hidden="true"></div>
+    <div class="row up-chevron w-100">
+      <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
+        <a data-reveal class="arrow-up-2 hero-work-link" href="#resume" aria-label="Go to Resume">
+          <svg width="54px" height="132px" viewBox="0 0 54 132" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path fill="#fff" d="M26 -3H28V106L35.5 98.5L36.9 99.9L27 109.8L17.1 99.9L18.5 98.5L26 106Z" />
+          </svg>
+          <span style="--chars: 6">Resume</span>
+        </a>
+      </div>
+    </div>
+    <div class="tools-content">
+      <h2 class="tools-heading">Tools I work with</h2>
+      <p class="tools-line">Day to day at ADI and Appddiction, plus the AI tools I build with.</p>
+      <div class="tools-groups">
+        <div class="tools-group">
+          <h3 class="tools-label">Front end</h3>
+          <ul class="tools-chips"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>jQuery</li><li>Bootstrap</li><li>Angular</li><li>Materialize</li></ul>
+        </div>
+        <div class="tools-group">
+          <h3 class="tools-label">Design</h3>
+          <ul class="tools-chips"><li>Figma</li><li>Adobe Illustrator</li></ul>
+        </div>
+        <div class="tools-group">
+          <h3 class="tools-label">Workflow</h3>
+          <ul class="tools-chips"><li>VS Code</li><li>Git</li><li>GitHub</li><li>InSite CMS</li><li>Airtable</li><li>Workfront</li><li>IntelliJ</li></ul>
+        </div>
+        <div class="tools-group">
+          <h3 class="tools-label">AI-assisted</h3>
+          <ul class="tools-chips"><li>Claude Code</li><li>GitHub Copilot</li><li>Codex</li><li>Antigravity</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="row chevron w-100">
+      <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
+        <a data-reveal class="arrow-down-2 hero-work-link" href="#contact" alt="" rel="relativeanchor" aria-label="Go to Contact">
+          <svg width="54px" height="132px" viewBox="0 0 54 132" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true">
+            <path fill="#fff" d="M26 -3H28V106L35.5 98.5L36.9 99.9L27 109.8L17.1 99.9L18.5 98.5L26 106Z" />
+          </svg>
+          <span style="--chars: 7">Contact</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <section id="contact" class="section contact-two-container">
     <div class="contact-bg" aria-hidden="true">
       <div class="code-layer">
 <pre>
-  /* Profile and contact links in the top-left of the hero.
-   The first icon, the vertical name and the arrows are centered on --le
-:root {
-  --left-rail: 40px;
+.expansion-col {
+  position: relative;
+  overflow: hidden;
+  flex-grow: 1;
+  flex-basis: 0;
+  transition: flex-grow 450ms;
+  transform: skew(-20deg, 0);
 }
 
-/* A horizontal row of 44px icon targets. The top offset puts the icons 
+/* Undoes the panel's -20deg skew */
+.expansion-col::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: calc(100% + 200px);
+  margin-left: -100px;
+  display: block;
+  transform: skew(20deg, 0);
+}
+
+.expansion-col:hover {
+  flex-grow: 4;
+  transition: flex-grow 450ms;
+}
+
 .hero-links {
   position: absolute;
   top: 21px;
@@ -520,89 +600,64 @@
   color: #fff;
   text-decoration: none;
   transition: color 200ms ease;
-}
+}</pre>
+<pre class="b">function contactParallax() {
+  const section = document.getElementById('contact');
+  const layer = section &amp;&amp; section.querySelector('.code-layer');
+  const wrapper = document.querySelector('.wrapper');
+  if (!layer || !wrapper) return;
+  if (window.matchMedia(
+      '(prefers-reduced-motion: reduce)').matches ||
+      window.matchMedia('(hover: none)').matches) return;
 
-.hero-links a:hover,
-.hero-links a:focus-visible {
-  color: #eb3b5a;
-  text-decoration: none;
-}
-
-.hero-links svg {
-  flex: 0 0 auto;
-  width: 22px;
-  height: 22px;
-  fill: currentColor;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
-}
-
-/* LinkedIn's square badge reads larger, so it is drawn at 20px. The mar
-.hero-links .hero-icon-linkedin {
-  width: 20px;
-  height: 20px;
-  margin: 0 1px;
-}
-
-/* Decorative dot centered in the 28px gap before each link after the fi</pre>
-<pre class="b">// Play a video only while its panel is hovered (or visible on touch scr
-function videoPlayback() {
-  const canHover = window.matchMedia('(hover: hover)').matches;
-
-  // Up to 900px wide the portfolio slide is a row of swipeable cards wi
-  // the videos are hidden and carry preload="none" in the HTML, so noth
-  const cardLayout = window.matchMedia('(max-width: 900px)');
-
-  // Buffer every panel video once the portfolio slide first scrolls int
-  // so the first frames are ready before the first hover. Videos alread
-  // The HTML says preload="none" (so phones download nothing); wider sc
-  const slide = document.getElementById('projects');
-  let slideSeen = false;
-  const loadVideos = () =&gt; {
-    if (cardLayout.matches) return;
-    document.querySelectorAll('.expansion-col video').forEach((video) =&gt;
-      video.preload = 'auto';
-      if (video.paused) video.load();
+  let ticking = false;
+  const update = () =&gt; {
+    ticking = false;
+    const p = section.getBoundingClientRect().top /
+        window.innerHeight;
+    section.querySelectorAll('.code-layer').forEach((el) =&gt; {
+      el.style.setProperty('--py', (p * -120) + 'px');
     });
   };
-  if (slide &amp;&amp; 'IntersectionObserver' in window) {
-    // Wait until part of the slide is actually visible: at threshold 0 
-    // only touches the bottom of the screen already counts as intersect
-    const loader = new IntersectionObserver((entries) =&gt; {
-      if (!entries.some((e) =&gt; e.intersectionRatio &gt; 0)) return;
-      loader.disconnect();
-      slideSeen = true;
-      loadVideos();
-    }, { root: document.querySelector('.wrapper'), threshold: 0.05 });
-    loader.observe(slide);
-  } else {
-    slideSeen = true;
-    loadVideos();
-  }
-  // A tablet turned to a wider orientation: buffer the videos then.
-  cardLayout.addEventListener('change', () =&gt; { if (slideSeen) loadVideo
+  wrapper.addEventListener('scroll', () =&gt; {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(update);
+  }, { passive: true });
+  update();
+}
 
-  document.querySelectorAll('.expansion-col').forEach((col) =&gt; {
-    const video = col.querySelector('video');
-    if (!video) return;
-    const play = () =&gt; {
-      if (cardLayout.matches) return;
-      const p = video.play();
-      if (p &amp;&amp; p.catch) p.catch(() =&gt; {});
-    };
-    if (canHover) {
-      col.addEventListener('mouseenter', play);
-      col.addEventListener('mouseleave', () =&gt; video.pause());
-    } else if ('IntersectionObserver' in window) {
-      new IntersectionObserver((entries) =&gt; {</pre>
+  const draw = () =&gt; {
+    frame = 0;
+    const box = section.getBoundingClientRect();
+    spot.style.setProperty('--mx', (x - box.left) + 'px');
+    spot.style.setProperty('--my', (y - box.top) + 'px');
+  };
+  const onMove = (event) =&gt; {
+    if (small.matches) return;
+    window.clearTimeout(hideTimer);
+    spot.classList.remove('is-off');
+    x = event.clientX;
+    y = event.clientY;
+    if (!frame) frame = window.requestAnimationFrame(draw);
+  };
+  const onLeave = () =&gt; {
+    spot.classList.add('is-off');
+    window.clearTimeout(hideTimer);
+    hideTimer = window.setTimeout(() =&gt; {
+      spot.style.setProperty('--mx', '-999px');
+      spot.style.setProperty('--my', '-999px');
+    }, 300);
+  };</pre>
       </div>
     </div>
     <div class="row up-chevron w-100">
       <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
-        <a data-reveal class="arrow-up-2 hero-work-link" href="#resume" aria-label="Go to Resume">
+        <a data-reveal class="arrow-up-2 hero-work-link" href="#tools" aria-label="Go to Tools">
           <svg width="54px" height="132px" viewBox="0 0 54 132" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path fill="#fff" d="M26 -3H28V106L35.5 98.5L36.9 99.9L27 109.8L17.1 99.9L18.5 98.5L26 106Z" />
           </svg>
-          <span style="--chars: 6">Resume</span>
+          <span style="--chars: 5">Tools</span>
         </a>
       </div>
     </div>
@@ -631,6 +686,6 @@ function videoPlayback() {
   </section>
 </main>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="js/main.js?v=27"></script>
+    <script src="js/main.js?v=32"></script>
   </body>
 </html>
