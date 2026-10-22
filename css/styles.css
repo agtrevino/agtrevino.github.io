@@ -992,7 +992,7 @@ body.hero-offscreen .bg1::after {
 
 /* Tools */
 .tools-heading {
-  font-size: clamp(26px, 3vw, 40px);
+  font-size: var(--tools-title-size);
 }
 
 .tools-line {
@@ -1006,6 +1006,8 @@ body.hero-offscreen .bg1::after {
 
 .tools-container {
   --tools-grid-w: min(38vw, 540px);
+  --tools-title-size: clamp(26px, 3vw, 40px);
+  --tools-label-size: 17px;
 }
 
 .tools-heading,
@@ -1017,13 +1019,22 @@ body.hero-offscreen .bg1::after {
 .tools-groups {
   display: flex;
   flex-direction: column;
-  gap: clamp(10px, 2.2vh, 22px);
+}
+
+/* A short rule before each group but the first */
+.tools-group + .tools-group::before {
+  content: "";
+  display: block;
+  width: 33%;
+  height: 1px;
+  margin: clamp(5px, 1.3vh, 10px) 0;
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .tools-label {
   margin: 0 0 clamp(6px, 1.2vh, 10px);
   font-family: "ralewaySemi";
-  font-size: 17px;
+  font-size: var(--tools-label-size);
   font-weight: 600;
   letter-spacing: 2px;
   color: #eb3b5a;
@@ -1127,41 +1138,40 @@ body.hero-offscreen .bg1::after {
       (100% - min(880px, calc(100% - 2 * max(100px, 8vw)))) / 2 +
       var(--tools-grid-w) + 40px + max(0px, 1200px - 100vw) / 6
     );
+    --tools-title-size: clamp(24px, min(3vw, 4.4vh), 40px);
     overflow: hidden;
   }
 
   /* Short windows: the grid shrinks with the height */
-  .tools-heading {
-    font-size: clamp(24px, min(3vw, 4.4vh), 40px);
-  }
-
   .tools-line {
-    margin-bottom: clamp(10px, 2.4vh, 34px);
-  }
-
-  .tools-groups {
-    gap: clamp(6px, 1.6vh, 22px);
+    margin-bottom: clamp(8px, 2vh, 34px);
   }
 
   .tools-label {
+    margin-bottom: clamp(2px, 0.6vh, 10px);
+  }
+
+  .tools-note {
     margin-bottom: clamp(3px, 0.8vh, 10px);
+    font-size: clamp(11px, 1.5vh, 13px);
+    line-height: 1.3;
   }
 
   .tools-icons {
-    gap: clamp(2px, 1vh, 14px) 10px;
+    gap: clamp(2px, 0.8vh, 14px) 6px;
   }
 
   .tool {
-    padding: clamp(3px, 0.9vh, 8px) 0 clamp(3px, 0.7vh, 6px);
+    padding: clamp(2px, 0.6vh, 8px) 0 clamp(3px, 0.6vh, 6px);
   }
 
   .tool-icon {
-    width: clamp(26px, 4.4vh, 36px);
-    height: clamp(26px, 4.4vh, 36px);
+    width: clamp(24px, 3.9vh, 36px);
+    height: clamp(24px, 3.9vh, 36px);
   }
 
   .tool-name {
-    font-size: clamp(10px, 1.6vh, 12px);
+    font-size: clamp(10px, 1.5vh, 12px);
   }
 
   /* After the grid; runs past the right edge */
@@ -1188,6 +1198,17 @@ body.hero-offscreen .bg1::after {
     transform-origin: 0 50%;
   }
 
+  /* Darkens the ghost under the text, not the red edge */
+  .tool-panel::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0 0 0 6px;
+    background: linear-gradient(to right, rgba(12, 10, 24, 0.3), rgba(12, 10, 24, 0.6));
+    transform: skewX(-20deg);
+    transform-origin: 0 50%;
+  }
+
   /* Panel-shaped, so the ghost stops at the red edge */
   .tools-container .tools-ghost-clip {
     inset: auto;
@@ -1202,6 +1223,18 @@ body.hero-offscreen .bg1::after {
   .tools-container .tools-ghost {
     right: calc(var(--skew-extra) + 100px - 4vw);
     transform: translate(var(--gx, 0px), calc(-50% + var(--gy, 0px)));
+  }
+
+  /* Brighter, so it still reads through the overlay */
+  .tools-container .tools-ghost.is-on {
+    opacity: 0.12;
+  }
+}
+
+/* Seven Front end icons share one row from 1280px wide */
+@media (min-width: 1280px) {
+  .tools-container .tool {
+    width: calc((var(--tools-grid-w) - 36px) / 7);
   }
 }
 
@@ -1275,10 +1308,10 @@ body.hero-offscreen .bg1::after {
 .panel-group {
   margin: 0 0 14px;
   font-family: "ralewaySemi";
-  font-size: 13px;
+  font-size: var(--tools-label-size);
   font-weight: 600;
   letter-spacing: 2px;
-  color: #eb3b5a;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .panel-icon {
@@ -1298,7 +1331,7 @@ body.hero-offscreen .bg1::after {
 .panel-name {
   margin: 0 0 12px;
   font-family: "ralewayExtraBold";
-  font-size: clamp(30px, 2.9vw, 44px);
+  font-size: var(--tools-title-size);
   font-weight: 800;
   line-height: 1.05;
   color: #fff;
@@ -1319,7 +1352,8 @@ body.hero-offscreen .bg1::after {
 }
 
 /* Opening: grows from a stripe, then the text shows */
-.tools-ready .tool-panel::before {
+.tools-ready .tool-panel::before,
+.tools-ready .tool-panel::after {
   transform: skewX(-20deg) scaleX(0.04);
 }
 
@@ -1327,7 +1361,8 @@ body.hero-offscreen .bg1::after {
   opacity: 0;
 }
 
-.tools-ready.tools-in .tool-panel::before {
+.tools-ready.tools-in .tool-panel::before,
+.tools-ready.tools-in .tool-panel::after {
   animation: panelOpen 600ms ease-out both;
 }
 
@@ -1406,7 +1441,8 @@ body.hero-offscreen .bg1::after {
 
 /* Reduced motion: color change only, no movement */
 @media (prefers-reduced-motion: reduce) {
-  .tools-ready .tool-panel::before {
+  .tools-ready .tool-panel::before,
+  .tools-ready .tool-panel::after {
     transform: skewX(-20deg);
   }
 
@@ -1415,6 +1451,7 @@ body.hero-offscreen .bg1::after {
   }
 
   .tools-ready.tools-in .tool-panel::before,
+  .tools-ready.tools-in .tool-panel::after,
   .tools-ready.tools-in .panel-inner {
     animation: none;
   }
@@ -1452,23 +1489,16 @@ body.hero-offscreen .bg1::after {
 @media (max-width: 1100px) {
   .tools-container {
     --tools-grid-w: 100%;
+    --tools-title-size: clamp(22px, 5.4vw, 32px);
     flex-direction: column;
     justify-content: flex-start;
-    padding: clamp(44px, 8vh, 84px) 0 24px;
-  }
-
-  .tools-heading {
-    font-size: clamp(22px, 5.4vw, 32px);
+    padding: clamp(24px, 6vh, 84px) 0 clamp(10px, 2vh, 24px);
   }
 
   .tools-line {
-    margin-bottom: clamp(8px, 1.8vh, 18px);
+    margin-bottom: clamp(6px, 1.4vh, 18px);
     font-size: 15px;
-    line-height: 1.4;
-  }
-
-  .tools-groups {
-    gap: clamp(6px, 1.4vh, 14px);
+    line-height: 1.35;
   }
 
   .tools-label {
@@ -1476,12 +1506,18 @@ body.hero-offscreen .bg1::after {
   }
 
   .tools-note {
-    margin-bottom: 6px;
-    font-size: 12px;
+    max-width: none;
+    margin-bottom: clamp(2px, 0.6vh, 6px);
+    font-size: clamp(10.5px, 1.5vh, 12px);
+    line-height: 1.3;
+  }
+
+  .tools-group + .tools-group::before {
+    margin: clamp(3px, 0.9vh, 10px) 0;
   }
 
   .tools-icons {
-    gap: clamp(2px, 0.8vh, 8px) 8px;
+    gap: clamp(0px, 0.5vh, 8px) 8px;
   }
 
   /* The list item sets the width: six to a row */
@@ -1491,13 +1527,13 @@ body.hero-offscreen .bg1::after {
 
   .tool {
     width: 100%;
-    padding: 4px 0;
+    padding: clamp(1px, 0.4vh, 4px) 0 clamp(2px, 0.5vh, 4px);
   }
 
   .tool-icon {
-    width: clamp(34px, 5.6vh, 44px);
-    height: clamp(34px, 5.6vh, 44px);
-    margin-bottom: 3px;
+    width: clamp(30px, 4.8vh, 44px);
+    height: clamp(30px, 4.8vh, 44px);
+    margin-bottom: 2px;
   }
 
   .tool-name {
@@ -1510,8 +1546,8 @@ body.hero-offscreen .bg1::after {
     position: relative;
     z-index: 2;
     width: min(880px, calc(100% - 2 * max(100px, 8vw)));
-    margin-top: clamp(8px, 1.8vh, 18px);
-    padding: clamp(8px, 1.4vh, 14px) 14px;
+    margin-top: clamp(6px, 1.4vh, 18px);
+    padding: clamp(6px, 1.1vh, 14px) 14px;
     border-left: 6px solid #eb3b5a;
     background: rgba(255, 255, 255, 0.06);
   }
@@ -1525,8 +1561,8 @@ body.hero-offscreen .bg1::after {
 
   .panel-icon {
     grid-row: 1 / span 2;
-    width: 48px;
-    height: 48px;
+    width: clamp(36px, 6vh, 48px);
+    height: clamp(36px, 6vh, 48px);
     margin: 0;
   }
 
@@ -1537,19 +1573,17 @@ body.hero-offscreen .bg1::after {
 
   .panel-group {
     margin: 0 0 2px;
-    font-size: 12px;
   }
 
   .panel-name {
     margin: 0;
-    font-size: clamp(20px, 4.4vw, 28px);
   }
 
   .panel-desc {
     grid-column: 1 / -1;
-    margin-top: 6px;
-    font-size: 14px;
-    line-height: 1.4;
+    margin-top: 4px;
+    font-size: clamp(12.5px, 1.7vh, 14px);
+    line-height: 1.35;
   }
 
   /* No stripe to wait for: the card text shows at once */
@@ -1588,6 +1622,13 @@ body.hero-offscreen .bg1::after {
   }
 }
 
+/* Phones: group notes go when the slide would overflow */
+@media (max-width: 480px) and (max-height: 920px) {
+  .tools-group:not(:last-child) .tools-note {
+    display: none;
+  }
+}
+
 /* Short phones: shorter intro, no labels */
 .tools-line-short {
   display: none;
@@ -1604,10 +1645,6 @@ body.hero-offscreen .bg1::after {
 
   .tools-label {
     display: none;
-  }
-
-  .tools-groups {
-    gap: clamp(4px, 1vh, 10px);
   }
 
   .tool-icon {
@@ -2073,7 +2110,7 @@ video {
 }
 
 .mp-col:hover > .overlay-mp {
-  background: rgba(140, 122, 230, 0.5);
+  background: rgba(140, 122, 230, 0.8);
   transition: background-color 350ms ease-in-out;
 }
 
@@ -2083,7 +2120,7 @@ video {
 
 /* The logo video shows through as a faint ghost */
 .hc-col:hover > .overlay-hc {
-  background: rgba(3, 207, 136, 0.78);
+  background: rgba(3, 207, 136, 0.8);
   transition: background-color 350ms ease-in-out;
 }
 
