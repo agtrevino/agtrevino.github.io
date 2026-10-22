@@ -265,21 +265,14 @@ body.hero-offscreen .bg1::after {
 .lets-title {
   margin: 0 auto;
   font-family: "ralewayExtraBold";
-  /* Cap: the longest word clears the rail and nav dots */
-  font-size: min(clamp(44px, 6.2vw, 104px), calc((100vw - 120px) / 10.5));
+  /* The longest word (9.3em) fits the center third */
+  font-size: min(max(22px, calc((34vw - 48px) / 9.3)), 96px);
   text-transform: uppercase;
   letter-spacing: -1px;
   color: #fff;
   position: relative;
   z-index: 9;
   text-align: center;
-}
-
-/* Wide screens: the nav labels need more room */
-@media only screen and (min-width: 901px) {
-  .lets-title {
-    font-size: min(clamp(44px, 6.2vw, 104px), calc((100vw - 434px) / 10.5));
-  }
 }
 
 /* Soft dark patch behind the word; it ignores clicks */
@@ -315,14 +308,14 @@ body.hero-offscreen .bg1::after {
   color: rgba(255, 255, 255, 0.85);
 }
 
-/* Phones: centered in the space right of the rail */
+/* Phones: ignore the panel width; nudge off the rail */
 @media only screen and (max-width: 480px) {
   .lets-title {
-    font-size: min(clamp(34px, 9vw, 56px), calc((100vw - 70px) / 10.5));
+    font-size: clamp(30px, 8vw, 48px);
   }
 
   .hero-intro-row .rw-wrapper {
-    padding-left: 50px;
+    padding-left: 20px;
   }
 }
 
@@ -2188,18 +2181,6 @@ video {
   background: #03cf88;
 }
 
-/* Near native size (720x548), so it stays sharp */
-.hc-col {
-  background: #03cf88;
-}
-
-.hc-col .jstorm-video {
-  min-width: 0;
-  min-height: 0;
-  width: 900px;
-  height: auto;
-}
-
 /* The logo video shows through as a faint ghost */
 .hc-col:hover > .overlay-hc {
   background: rgba(3, 207, 136, 0.8);
@@ -2495,68 +2476,184 @@ video {
 .rw-words {
   display: block;
   position: relative;
-  height: 1.25em;
+  height: 3em;
   text-indent: 0;
 }
 
+/* Icon above the word; --slot sets each word's turn */
 .rw-words-1 .word-span {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.2em;
   white-space: nowrap;
   font-family: "ralewayExtraBold";
   letter-spacing: -1px;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
   position: absolute;
-  opacity: 0;
   top: 0;
   left: 0;
   width: 100%;
+  height: 100%;
   text-align: center;
   color: #1dd1a1;
-  animation: rotateWord 13s cubic-bezier(0.65, 0, 0.35, 1) infinite 0s;
+  --slot: 0s;
 }
 
 .rw-words-1 .word-span:nth-child(2) {
-  animation-delay: 2.6s;
+  --slot: 2.8s;
   color: #f6e58d;
 }
 
 .rw-words-1 .word-span:nth-child(3) {
-  animation-delay: 5.2s;
+  --slot: 5.6s;
   color: #ff9f43;
 }
 
 .rw-words-1 .word-span:nth-child(4) {
-  animation-delay: 7.8s;
+  --slot: 8.4s;
   color: #48dbfb;
 }
 
 .rw-words-1 .word-span:nth-child(5) {
-  animation-delay: 10.4s;
+  --slot: 11.2s;
   color: #ff6b81;
 }
 
-@keyframes rotateWord {
+.word-icon {
+  display: block;
+  flex: 0 0 auto;
+  width: 1.7em;
+  height: 1.7em;
+  opacity: 0;
+  transform-origin: 50% 100%;
+  will-change: transform, opacity;
+}
+
+.word-text {
+  display: block;
+  margin-top: 0.2em;
+  font: inherit;
+  line-height: 1.1;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+}
+
+/* Ground shadow: it shrinks and fades as the icon rises */
+.rw-words-1 .word-span::before {
+  content: "";
+  position: absolute;
+  top: 1.62em;
+  right: 0;
+  left: 0;
+  z-index: -1;
+  width: 1.5em;
+  height: 0.24em;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.55), transparent);
+  opacity: 0;
+}
+
+/* Starts 0.4s early so the icon falls in mid-spin */
+.rw-words-1 .word-span > svg,
+.rw-words-1 .word-span > .word-text,
+.rw-words-1 .word-span::before {
+  animation-duration: 14s;
+  animation-iteration-count: infinite;
+  animation-delay: calc(var(--slot) - 0.4s);
+}
+
+.rw-words-1 .word-span > svg {
+  animation-name: wordIcon;
+}
+
+.rw-words-1 .word-span > .word-text {
+  animation-name: wordText;
+}
+
+.rw-words-1 .word-span::before {
+  animation-name: wordShadow;
+}
+
+@keyframes wordIcon {
   0% {
-    opacity: 0;
-    transform: translateY(-0.35em);
-  }
-  4.6% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(-1.4em) rotate(180deg) scale(0.9, 1.2);
+    animation-timing-function: ease-in;
+  }
+  2.857% {
+    opacity: 1;
+    transform: translateY(0) rotate(360deg) scale(1.25, 0.7);
+    animation-timing-function: ease-out;
+  }
+  3.75% {
+    opacity: 1;
+    transform: translateY(0) rotate(360deg) scale(0.96, 1.08);
+    animation-timing-function: ease-out;
+  }
+  4.643%,
+  16.429% {
+    opacity: 1;
+    transform: translateY(0) rotate(360deg) scale(1);
+  }
+  17.5% {
+    opacity: 1;
+    transform: translateY(0) rotate(360deg) scale(1.2, 0.75);
+    animation-timing-function: ease-out;
   }
   20% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(-1.4em) rotate(540deg) scale(0.9, 1.2);
   }
-  24.6% {
+  20.01%,
+  100% {
+    opacity: 0;
+    transform: translateY(-1.4em) rotate(540deg) scale(0.9, 1.2);
+  }
+}
+
+@keyframes wordText {
+  0%,
+  2.857% {
     opacity: 0;
     transform: translateY(0.35em);
   }
+  4.643% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  16.429% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  20%,
   100% {
     opacity: 0;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wordShadow {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  2.857% {
+    opacity: 0.55;
+    transform: scale(1.15);
+  }
+  4.643%,
+  16.429% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  17.5% {
+    opacity: 0.5;
+    transform: scale(1.1);
+  }
+  20%,
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
   }
 }
 @media only screen and (max-width: 680px) {
@@ -2696,14 +2793,6 @@ video {
   #home .hero-work-link--center svg {
     animation: none;
   }
-}
-
-.word-icon {
-  display: block;
-  position: static;
-  flex: 0 0 auto;
-  width: 1em;
-  height: 1em;
 }
 
 .resume-button.learn-more .circle.project-circle-red {
@@ -2884,14 +2973,21 @@ video {
   }
 }
 
-/* Reduced motion: first phrase only */
+/* Reduced motion: first word and icon, no hop */
 @media (prefers-reduced-motion: reduce) {
-  .rw-words-1 .word-span {
+  .rw-words-1 .word-span > svg,
+  .rw-words-1 .word-span > .word-text,
+  .rw-words-1 .word-span::before {
     animation: none;
   }
 
-  .rw-words-1 .word-span:first-child {
+  .rw-words-1 .word-span:first-child > svg,
+  .rw-words-1 .word-span:first-child > .word-text {
     opacity: 1;
+  }
+
+  .rw-words-1 .word-span:first-child::before {
+    opacity: 0.45;
   }
 }
 
