@@ -2719,20 +2719,6 @@ video {
   }
 }
 
-/* The rail arrow shows from 681px, like the other slides */
-@media (min-width: 681px) {
-  #home .hero-work-link--center {
-    display: none;
-  }
-}
-
-/* Rail arrows hide at 680px and below: keep the chevron */
-@media (max-width: 680px) {
-  #home .chevron {
-    display: none;
-  }
-}
-
 .resume-button.learn-more .circle.project-circle-red {
   border: 2px solid #fff;
   background: #C60A0A !important;

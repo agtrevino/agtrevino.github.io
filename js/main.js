@@ -607,7 +607,7 @@ function panelSequence() {
   });
 }
 
-// Replays the HotCoco logo animation when its panel opens
+// Replays the HotCoco logo animation on every open
 function hotcocoLogo() {
   const panel = document.querySelector('.hc-col');
   const logo = panel && panel.querySelector('.hc-bar-img');
@@ -617,36 +617,75 @@ function hotcocoLogo() {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const cardLayout = window.matchMedia('(max-width: 900px)');
   let replayTimer = null;
+  let lastReplay = -Infinity;
+  let blob = null;
+  let blobStarted = false;
+  let objectUrl = '';
 
-  // A new src restarts it; the PNG is the closed state
-  const replay = () => {
-    logo.removeAttribute('src');
-    logo.src = logo.dataset.src;
+  // Fetched once; each replay then decodes the bytes anew
+  const loadBlob = () => {
+    if (blobStarted) return;
+    blobStarted = true;
+    fetch(logo.dataset.src)
+      .then((response) => (response.ok ? response.blob() : Promise.reject()))
+      .then((data) => { blob = data; })
+      .catch(() => {});
   };
+
+  const revoke = () => {
+    if (!objectUrl) return;
+    URL.revokeObjectURL(objectUrl);
+    objectUrl = '';
+  };
+
+  // A new src restarts it; no blob: a query busts the cache
+  const replay = () => {
+    lastReplay = performance.now();
+    revoke();
+    logo.removeAttribute('src');
+    if (blob) {
+      objectUrl = URL.createObjectURL(blob);
+      logo.src = objectUrl;
+    } else {
+      logo.src = logo.dataset.src + '?r=' + Date.now();
+    }
+  };
+
+  // The PNG is the closed state
   const close = () => {
     window.clearTimeout(replayTimer);
     replayTimer = null;
+    lastReplay = -Infinity;
+    revoke();
     if (logo.getAttribute('src') !== staticSource) logo.src = staticSource;
   };
 
   // Draw as the logo fades in (panelSequence runs at 200ms)
-  panel.addEventListener('mouseenter', () => {
+  const open = () => {
     if (cardLayout.matches || reducedMotion.matches) return;
-    window.clearTimeout(replayTimer);
-    replayTimer = window.setTimeout(replay, 200);
-  });
+    if (replayTimer || performance.now() - lastReplay < 400) return;
+    replayTimer = window.setTimeout(() => {
+      replayTimer = null;
+      replay();
+    }, 200);
+  };
+
+  panel.addEventListener('mouseenter', open);
   panel.addEventListener('mouseleave', close);
+  panel.addEventListener('focusin', open);
+  panel.addEventListener('focusout', (event) => {
+    if (!panel.contains(event.relatedTarget)) close();
+  });
 
   if (!('IntersectionObserver' in window)) return;
 
-  // Cached ahead, so the first open draws at once
-  const warmUp = new IntersectionObserver(([entry]) => {
-    if (!entry.isIntersecting) return;
-    warmUp.disconnect();
+  // Desktop: load ahead; replay if the pointer is over it
+  new IntersectionObserver(([entry]) => {
     if (cardLayout.matches || reducedMotion.matches) return;
-    new Image().src = logo.dataset.src;
-  });
-  warmUp.observe(panel);
+    if (entry.isIntersecting) loadBlob();
+    if (entry.intersectionRatio >= 0.6 && panel.matches(':hover')) open();
+    else if (!entry.isIntersecting) close();
+  }, { threshold: [0, 0.6] }).observe(panel);
 
   // Cards: once per entry, if the card shows the logo
   new IntersectionObserver(([entry]) => {
