@@ -2719,6 +2719,20 @@ video {
   }
 }
 
+/* The rail arrow shows from 681px, like the other slides */
+@media (min-width: 681px) {
+  #home .hero-work-link--center {
+    display: none;
+  }
+}
+
+/* Rail arrows hide at 680px and below: keep the chevron */
+@media (max-width: 680px) {
+  #home .chevron {
+    display: none;
+  }
+}
+
 .resume-button.learn-more .circle.project-circle-red {
   border: 2px solid #fff;
   background: #C60A0A !important;
@@ -2828,6 +2842,12 @@ video {
   padding-right: 10px;
   line-height: 1.4;
   text-align: right;
+}
+
+/* The typing spans would otherwise take the global font */
+.panel-blurb .panel-typed,
+.panel-blurb .panel-rest {
+  font-family: inherit;
 }
 
 /* The last panel overhangs: pull text and logo in */
