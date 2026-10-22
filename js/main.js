@@ -34,20 +34,25 @@ function slideSnap() {
   let idle = 0;
   let frame = 0;
   let touching = false;
+  let rest = wrapper.scrollTop;
 
   const stop = () => {
     window.cancelAnimationFrame(frame);
     frame = 0;
   };
 
-  // A slide taller than the screen rests anywhere inside it
+  // A tall slide rests anywhere inside it; between slides
+  // the scroll direction picks the next stop
   const target = () => {
     const y = wrapper.scrollTop;
+    const way = Math.sign(y - rest);
     const view = wrapper.clientHeight;
     const origin = wrapper.getBoundingClientRect().top - y;
     const max = wrapper.scrollHeight - view;
     let best = y;
     let gap = Infinity;
+    let before = -Infinity;
+    let after = Infinity;
     wrapper.querySelectorAll(':scope > section, #projects > .content').forEach((el) => {
       const rect = el.getBoundingClientRect();
       if (!rect.height) return;
@@ -58,8 +63,12 @@ function slideSnap() {
         gap = Math.abs(spot - y);
         best = spot;
       }
+      if (hi < y - 1) before = Math.max(before, hi);
+      if (lo > y + 1) after = Math.min(after, lo);
     });
-    return best;
+    if (gap < 2 || !way) return best;
+    const pick = way > 0 ? after : before;
+    return Number.isFinite(pick) ? pick : best;
   };
 
   const glide = (to) => {
@@ -84,7 +93,12 @@ function slideSnap() {
   const wait = () => {
     window.clearTimeout(idle);
     if (touching) return;
-    idle = window.setTimeout(() => { if (!frame) glide(target()); }, 140);
+    idle = window.setTimeout(() => {
+      if (frame) return;
+      const to = target();
+      rest = to;
+      glide(to);
+    }, 140);
   };
 
   // The user takes over: stop the glide
@@ -1132,7 +1146,6 @@ function experienceSlide() {
       brand: button.style.getPropertyValue('--brand').trim(),
     });
   });
-  const STAND_INS = { Workfront: 'list', 'InSite CMS': 'window' };
   const LOGOS = { adi: 'assets/img/adi/adi-logo-white.svg', app: 'assets/img/appddiction/Logo%20Circle%20Badge%20-%20White%2C%20Red%20Background.svg' };
   // The employer's logo, faint behind the panel
   const logo = (key) => {
@@ -1225,10 +1238,11 @@ function experienceSlide() {
     (station.dataset.tools || '').split(',').map((t) => t.trim()).filter(Boolean).forEach((name) => {
       const item = document.createElement('li');
       const found = toolIcons.get(name);
-      // No Tools-slide icon: a plain stand-in
-      const svg = found && found.svg ? found.svg.cloneNode(true) : icon(STAND_INS[name] || 'window');
+      // Only tools with an icon on the Tools slide
+      if (!found || !found.svg) return;
+      const svg = found.svg.cloneNode(true);
       svg.setAttribute('class', 'exp-tool-icon');
-      if (found) item.style.setProperty('--brand', found.brand);
+      item.style.setProperty('--brand', found.brand);
       item.appendChild(svg);
       const label = document.createElement('span');
       label.textContent = name;
