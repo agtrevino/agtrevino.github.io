@@ -278,28 +278,23 @@ body.hero-offscreen .bg1::after {
   text-align: left;
 }
 
-.lets-title > span {
-  display: block;
-  white-space: nowrap;
-}
-
-.hero-role {
-  position: relative;
+/* Top right, level with the profile icons */
+.hero-tagline {
+  position: absolute;
+  top: 21px;
+  right: 40px;
   z-index: 9;
-  width: 24em;
-  max-width: calc(100vw - 32px);
-  min-height: 1.3em;
-  margin: 16px auto 0;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  margin: 0;
   font-family: "ralewaySemi";
-  font-size: clamp(15px, calc(0.6696vw + 5.3571px), 22.5px);
+  font-size: clamp(14px, 1.1vw, 16px);
   font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: 0.12em;
-  color: #fff;
-  opacity: 1;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  text-align: left;
-  white-space: nowrap;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 @media only screen and (max-width: 480px) {
@@ -307,10 +302,29 @@ body.hero-offscreen .bg1::after {
     width: 12em;
     font-size: clamp(27px, 8.2vw, 38px);
   }
+}
 
-  .hero-role {
-    width: 30em;
+/* The dot nav is back: a smaller headline clears it */
+@media only screen and (min-width: 481px) and (max-width: 560px) {
+  .lets-title {
+    width: 12em;
+    font-size: clamp(30px, 7vw, 38px);
+  }
+}
+
+/* Narrow: the tagline wraps under the icons */
+@media only screen and (max-width: 700px) {
+  .hero-tagline {
+    top: 72px;
+    right: 16px;
+    max-width: 18em;
+    height: auto;
     font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .hero-intro-row .rw-wrapper {
+    margin-top: 56px;
   }
 }
 
@@ -845,6 +859,33 @@ body.hero-offscreen .bg1::after {
   .status-dot::after {
     animation: none;
     opacity: 0;
+  }
+}
+
+/* Sign-off at the bottom right; the GIF replays on entry */
+.contact-signature {
+  --sig-ink: clamp(140px, 14vw, 240px);
+  position: absolute;
+  z-index: 2;
+  right: calc(48px - var(--sig-ink) * 0.067);
+  bottom: calc(16px - var(--sig-ink) * 0.276);
+  width: calc(var(--sig-ink) / 0.88);
+  opacity: 0.85;
+  pointer-events: none;
+  transition: 300ms;
+}
+
+/* Short windows: smaller, closer to the edge */
+@media (max-height: 679px) {
+  .contact-signature {
+    --sig-ink: 140px;
+    bottom: calc(10px - var(--sig-ink) * 0.276);
+  }
+}
+
+@media (max-width: 480px), (max-height: 599px) {
+  .contact-signature {
+    display: none;
   }
 }
 
@@ -1885,13 +1926,17 @@ header .overlay-white {
   transform: rotate(180deg);
 }
 
+/* Square GIF: the ink is 88% wide, vertically centered */
 .signature {
-  opacity: 1;
-  z-index: 9;
-  width: 200px;
+  --sig-ink: clamp(220px, 22vw, 420px);
   position: absolute;
-  right: 35px;
-  bottom: 10px;
+  z-index: 9;
+  right: calc(40px - var(--sig-ink) * 0.067);
+  bottom: calc(24px - var(--sig-ink) * 0.276);
+  width: calc(var(--sig-ink) / 0.88);
+  opacity: 0.8;
+  transform: rotate(-4deg);
+  pointer-events: none;
   transition: 300ms;
 }
 
@@ -2131,6 +2176,18 @@ video {
 
 .overlay-hc {
   background: #03cf88;
+}
+
+/* Near native size (720x548), so it stays sharp */
+.hc-col {
+  background: #03cf88;
+}
+
+.hc-col .jstorm-video {
+  min-width: 0;
+  min-height: 0;
+  width: 900px;
+  height: auto;
 }
 
 /* The logo video shows through as a faint ghost */
@@ -2447,92 +2504,45 @@ video {
   width: 100%;
   text-align: left;
   color: #1dd1a1;
-  -webkit-animation: rotateWord 9s cubic-bezier(0.65, 0, 0.35, 1) infinite 0s;
-  -ms-animation: rotateWord 9s cubic-bezier(0.65, 0, 0.35, 1) infinite 0s;
-  animation: rotateWord 9s cubic-bezier(0.65, 0, 0.35, 1) infinite 0s;
+  animation: rotateWord 13s cubic-bezier(0.65, 0, 0.35, 1) infinite 0s;
 }
 
 .rw-words-1 .word-span:nth-child(2) {
-  -webkit-animation-delay: 3s;
-  -ms-animation-delay: 3s;
-  animation-delay: 3s;
+  animation-delay: 2.6s;
   color: #f6e58d;
 }
 
 .rw-words-1 .word-span:nth-child(3) {
-  -webkit-animation-delay: 6s;
-  -ms-animation-delay: 6s;
-  animation-delay: 6s;
+  animation-delay: 5.2s;
+  color: #ff9f43;
+}
+
+.rw-words-1 .word-span:nth-child(4) {
+  animation-delay: 7.8s;
   color: #48dbfb;
 }
 
-@-webkit-keyframes rotateWord {
-  0% {
-    opacity: 0;
-    -webkit-transform: translateY(-0.35em);
-  }
-  6% {
-    opacity: 1;
-    -webkit-transform: translateY(0);
-  }
-  26% {
-    opacity: 1;
-    -webkit-transform: translateY(0);
-  }
-  33.333% {
-    opacity: 0;
-    -webkit-transform: translateY(0.35em);
-  }
-  80% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
+.rw-words-1 .word-span:nth-child(5) {
+  animation-delay: 10.4s;
+  color: #ff6b81;
 }
-@-ms-keyframes rotateWord {
-  0% {
-    opacity: 0;
-    -ms-transform: translateY(-0.35em);
-  }
-  6% {
-    opacity: 1;
-    -ms-transform: translateY(0);
-  }
-  26% {
-    opacity: 1;
-    -ms-transform: translateY(0);
-  }
-  33.333% {
-    opacity: 0;
-    -ms-transform: translateY(0.35em);
-  }
-  80% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
-}
+
 @keyframes rotateWord {
   0% {
     opacity: 0;
     transform: translateY(-0.35em);
   }
-  6% {
+  4% {
     opacity: 1;
-    transform: translateY(0px);
+    transform: translateY(0);
   }
-  26% {
+  16% {
     opacity: 1;
-    transform: translateY(0px);
+    transform: translateY(0);
   }
-  33.333% {
+  20% {
     opacity: 0;
     transform: translateY(0.35em);
-  }
-  80% {
-    opacity: 0;
   }
   100% {
     opacity: 0;
@@ -2805,7 +2815,7 @@ video {
 
 .vertical-text-2,
 .lets-title,
-.hero-role,
+.hero-tagline,
 .hero-links a,
 #home .hero-work-link,
 #home-nav,
@@ -2823,7 +2833,7 @@ video {
 #contact-nav { animation-delay: 1.2s; }
 .vertical-text-2 { animation-delay: 0.2s; }
 .lets-title { animation-delay: 0.5s; }
-.hero-role { animation-delay: 0.9s; }
+.hero-tagline { animation-delay: 0.9s; }
 .hero-links a:nth-child(1) { animation-delay: 1.2s; }
 .hero-links a:nth-child(2) { animation-delay: 1.28s; }
 .hero-links a:nth-child(3) { animation-delay: 1.36s; }
@@ -2841,7 +2851,7 @@ video {
 @media (prefers-reduced-motion: reduce) {
   .vertical-text-2,
   .lets-title,
-  .hero-role,
+  .hero-tagline,
   .hero-links a,
   #home .hero-work-link,
   #home-nav,
@@ -3457,10 +3467,9 @@ video {
   }
 }
 
-/* Phones: lift the signature above the chevron */
-@media (max-width: 480px) {
+/* Narrow: lift the signature above the chevron */
+@media (max-width: 700px) {
   .signature {
-    width: 140px;
-    bottom: 108px;
+    bottom: calc(105px - var(--sig-ink) * 0.276);
   }
 }

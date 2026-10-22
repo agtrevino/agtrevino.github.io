@@ -280,12 +280,10 @@ function cardDots() {
   update();
 }
 
-// Redraws the hero signature GIF each time the hero shows
-function signatureAnimation() {
-  const hero = document.querySelector('#home');
-  const signature = document.querySelector('.signature');
+// Replays a signature GIF each time its slide shows
+function signatureAnimation(slide, signature) {
   const scrollContainer = document.querySelector('.wrapper');
-  if (!hero || !signature || !scrollContainer) return;
+  if (!slide || !signature || !scrollContainer) return;
 
   const source = signature.dataset.src;
   let replayTimer = null;
@@ -305,11 +303,11 @@ function signatureAnimation() {
   };
 
   if (!('IntersectionObserver' in window)) {
-    const heroIsVisible = () => {
-      const bounds = hero.getBoundingClientRect();
+    const slideIsVisible = () => {
+      const bounds = slide.getBoundingClientRect();
       return bounds.top < window.innerHeight && bounds.bottom > 0;
     };
-    if (heroIsVisible()) window.setTimeout(replay, nextDelay());
+    if (slideIsVisible()) window.setTimeout(replay, nextDelay());
     return;
   }
 
@@ -327,7 +325,7 @@ function signatureAnimation() {
     replayTimer = window.setTimeout(replay, nextDelay());
   }, { root: scrollContainer, threshold: 0.1 });
 
-  observer.observe(hero);
+  observer.observe(slide);
 }
 
 // Logos rise in turn when the slide shows or hover ends
@@ -450,7 +448,8 @@ function ngOnInit() {
     toolsIntro();
     toolsBackdrop();
     toolsPanel();
-    signatureAnimation();
+    signatureAnimation(document.getElementById('home'), document.querySelector('.signature'));
+    signatureAnimation(document.getElementById('contact'), document.querySelector('.contact-signature'));
     expandingCards();
     navAnim();
     slideSync();
