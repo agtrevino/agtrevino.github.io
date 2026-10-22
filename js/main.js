@@ -468,8 +468,10 @@ function ngOnInit() {
     heroScroll();
     projectLogoIntro();
     heroIconReplay();
-    toolsIntro();
-    toolsBackdrop();
+    toolsIntro('tools', '.tool');
+    toolsIntro('experience', '.exp-station');
+    toolsBackdrop('tools');
+    toolsBackdrop('experience');
     toolsPanel();
     experienceSlide();
     signatureAnimation(document.getElementById('home'), document.querySelector('.signature'));
@@ -735,10 +737,10 @@ function showSlide(id) {
   $('.vertical-text-2').toggleClass('color-black', light);
 }
 
-// Icons fade and rise in turn when the slide shows
-function toolsIntro() {
-  const section = document.getElementById('tools');
-  const items = section ? section.querySelectorAll('.tool') : [];
+// Items fade and rise in turn when the slide shows
+function toolsIntro(id, selector) {
+  const section = document.getElementById(id);
+  const items = section ? section.querySelectorAll(selector) : [];
   if (!section || !items.length || !('IntersectionObserver' in window)) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   items.forEach((item, i) => item.style.setProperty('--i', i));
@@ -766,6 +768,65 @@ function typeText(typed, rest, text, msPerChar, onDone) {
   return () => window.cancelAnimationFrame(frame);
 }
 
+// Panel swap shared by Tools and Experience
+function panelTyper(panel) {
+  const inner = panel.querySelector('.panel-inner');
+  const typed = panel.querySelector('.panel-typed');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  // The untyped rest keeps the final text size
+  const rest = document.createElement('span');
+  rest.className = 'panel-rest';
+  rest.setAttribute('aria-hidden', 'true');
+  typed.after(rest);
+
+  let cancelTyping = () => {};
+  let swapTimer = 0;
+  // Cancels the swap fades, not the CSS opening animation
+  const cancelFades = () => {
+    inner.getAnimations().forEach((animation) => {
+      if (typeof CSSAnimation !== 'undefined' && animation instanceof CSSAnimation) return;
+      animation.cancel();
+    });
+  };
+  const stop = () => {
+    cancelTyping();
+    window.clearTimeout(swapTimer);
+    cancelFades();
+  };
+  const type = (text) => {
+    if (reduced.matches) {
+      typed.textContent = text;
+      rest.textContent = '';
+      return;
+    }
+    cancelTyping = typeText(typed, rest, text, 16);
+  };
+  const show = (fill, text) => {
+    stop();
+    const swap = () => {
+      fill();
+      type(text);
+      if (!reduced.matches) {
+        inner.animate(
+          [{ opacity: 0, translate: '12px 0' }, { opacity: 1, translate: '0 0' }],
+          { duration: 125, easing: 'ease-out' });
+      }
+    };
+    if (reduced.matches) {
+      swap();
+      return;
+    }
+    inner.animate(
+      [{ opacity: 1, translate: '0 0' }, { opacity: 0, translate: '-12px 0' }],
+      { duration: 125, easing: 'ease-in', fill: 'forwards' });
+    swapTimer = window.setTimeout(() => {
+      cancelFades();
+      swap();
+    }, 125);
+  };
+  return { typed, show };
+}
+
 // Tools panel: shows the selected tool, typed in
 function toolsPanel() {
   const section = document.getElementById('tools');
@@ -781,27 +842,7 @@ function toolsPanel() {
   } : null;
   if (!section || !tools.length || !parts || Object.values(parts).some((el) => !el)) return;
 
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  // The untyped rest keeps the final text size
-  const rest = document.createElement('span');
-  rest.className = 'panel-rest';
-  rest.setAttribute('aria-hidden', 'true');
-  parts.typed.after(rest);
-
-  let cancelTyping = () => {};
-  let swapTimer = 0;
-  // Cancels the swap fades, not the CSS opening animation
-  const cancelFades = () => {
-    parts.inner.getAnimations().forEach((animation) => {
-      if (typeof CSSAnimation !== 'undefined' && animation instanceof CSSAnimation) return;
-      animation.cancel();
-    });
-  };
-  const stopTyping = () => {
-    cancelTyping();
-    window.clearTimeout(swapTimer);
-    cancelFades();
-  };
+  const typer = panelTyper(panel);
 
   const fill = (tool) => {
     const svg = tool.querySelector('svg');
@@ -813,42 +854,13 @@ function toolsPanel() {
     parts.full.textContent = tool.dataset.desc || '';
   };
 
-  const type = (text) => {
-    if (reduced.matches) {
-      parts.typed.textContent = text;
-      rest.textContent = '';
-      return;
-    }
-    cancelTyping = typeText(parts.typed, rest, text, 16);
-  };
-
   const select = (tool) => {
     if (tool.getAttribute('aria-pressed') === 'true') return;
     tools.forEach((other) => {
       other.setAttribute('aria-pressed', other === tool ? 'true' : 'false');
       other.tabIndex = other === tool ? 0 : -1;
     });
-    stopTyping();
-    const swap = () => {
-      fill(tool);
-      type(tool.dataset.desc || '');
-      if (!reduced.matches) {
-        parts.inner.animate(
-          [{ opacity: 0, translate: '12px 0' }, { opacity: 1, translate: '0 0' }],
-          { duration: 125, easing: 'ease-out' });
-      }
-    };
-    if (reduced.matches) {
-      swap();
-    } else {
-      parts.inner.animate(
-        [{ opacity: 1, translate: '0 0' }, { opacity: 0, translate: '-12px 0' }],
-        { duration: 125, easing: 'ease-in', fill: 'forwards' });
-      swapTimer = window.setTimeout(() => {
-        cancelFades();
-        swap();
-      }, 125);
-    }
+    typer.show(() => fill(tool), tool.dataset.desc || '');
     section.dispatchEvent(new CustomEvent('toolchange', { detail: { tool } }));
   };
 
@@ -906,9 +918,9 @@ function toolsPanel() {
   });
 }
 
-// Tools backdrop: brand glow and ghost icon follow the pick
-function toolsBackdrop() {
-  const section = document.getElementById('tools');
+// Backdrop: brand glow and ghost icon follow the pick
+function toolsBackdrop(id) {
+  const section = document.getElementById(id);
   const bg = section && section.querySelector('.contact-bg');
   if (!bg) return;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -937,8 +949,8 @@ function toolsBackdrop() {
   let live = 1;
   section.addEventListener('toolchange', (event) => {
     const tool = event.detail.tool;
-    const svg = tool.querySelector('svg');
-    const brand = tool.style.getPropertyValue('--brand').trim();
+    const svg = event.detail.svg || tool.querySelector('svg');
+    const brand = (event.detail.brand || tool.style.getPropertyValue('--brand')).trim();
     const white = /^#f{6}$/i.test(brand);
     live = 1 - live;
     glows[live].style.setProperty('--glow', white ? '#fff' : brand);
@@ -992,100 +1004,169 @@ function toolsBackdrop() {
   }, { threshold: [0, 0.3] }).observe(section);
 }
 
-// Experience: the strip draws in, then the step types
+// Experience: tabs, a track with a traveling page, a panel
 function experienceSlide() {
   const section = document.getElementById('experience');
-  const strip = section && section.querySelector('.exp-strip');
-  const steps = strip ? Array.from(strip.querySelectorAll('.exp-step')) : [];
-  const detail = section && section.querySelector('.exp-detail');
-  const typed = detail && detail.querySelector('.exp-typed');
-  const full = detail && detail.querySelector('.exp-full');
-  if (!steps.length || !typed || !full) return;
+  const panel = section && section.querySelector('.tool-panel');
+  const tabs = section ? Array.from(section.querySelectorAll('.exp-tab')) : [];
+  const tracks = section ? Array.from(section.querySelectorAll('.exp-track')) : [];
+  const role = section && section.querySelector('.exp-role');
+  const summary = section && section.querySelector('.exp-summary');
+  const tabpanel = section && section.querySelector('.exp-tracks');
+  const parts = panel ? {
+    group: panel.querySelector('.panel-group'),
+    icon: panel.querySelector('.panel-icon'),
+    name: panel.querySelector('.panel-name'),
+    full: panel.querySelector('.panel-full'),
+    tags: panel.querySelector('.exp-tags'),
+  } : null;
+  if (!section || !tabs.length || tabs.length !== tracks.length || !role || !summary || !tabpanel ||
+      !parts || Object.values(parts).some((el) => !el)) return;
 
+  const typer = panelTyper(panel);
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const phone = window.matchMedia('(max-width: 480px)');
-  // The untyped rest keeps the line wrapping fixed
-  const rest = document.createElement('span');
-  rest.className = 'panel-rest';
-  rest.setAttribute('aria-hidden', 'true');
-  typed.after(rest);
-
-  let cancelTyping = () => {};
-  let timers = [];
-
-  // Phones list the steps: detail sits under the picked one
-  const placeDetail = () => {
-    const picked = steps.find((step) => step.getAttribute('aria-pressed') === 'true');
-    if (phone.matches && picked) picked.after(detail);
-    else strip.after(detail);
+  const BRAND = '#eb3b5a';
+  // Plain shapes: the panel icon and ghost take the brand
+  const ICONS = {
+    adi: '<svg viewBox="0 0 24 24"><path d="M6 2h8l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/></svg>',
+    app: '<svg viewBox="0 0 24 24"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6z"/></svg>',
   };
+  const icon = (key) => {
+    const holder = document.createElement('template');
+    holder.innerHTML = ICONS[key];
+    return holder.content.firstChild;
+  };
+  const stationsOf = (track) => Array.from(track.querySelectorAll('.exp-station'));
+  const pickedOf = (track) => stationsOf(track).find((s) => s.getAttribute('aria-pressed') === 'true') || stationsOf(track)[0];
+  let activeTab = Math.max(0, tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true'));
 
-  const pick = (step, withTyping) => {
-    steps.forEach((other) => {
-      other.setAttribute('aria-pressed', other === step ? 'true' : 'false');
-      other.tabIndex = other === step ? 0 : -1;
-    });
-    const text = step.dataset.desc || '';
-    cancelTyping();
-    full.textContent = text;
-    if (withTyping && !reduced.matches) {
-      cancelTyping = typeText(typed, rest, text, 16);
-    } else {
-      typed.textContent = withTyping === null ? '' : text;
-      rest.textContent = withTyping === null ? text : '';
+  // The page, filled stations and loop follow the pick
+  const paint = (track, station) => {
+    const list = stationsOf(track);
+    const index = list.indexOf(station);
+    track.style.setProperty('--at', index);
+    if (track.dataset.travel !== undefined) {
+      list.forEach((s, i) => s.classList.toggle('is-done', i <= index));
+      const status = track.querySelector('.exp-status');
+      if (status && status.textContent !== station.dataset.status) {
+        status.textContent = station.dataset.status || '';
+        if (!reduced.matches) status.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250 });
+      }
+      track.classList.toggle('is-looping', index === 3 || index === 4);
     }
-    placeDetail();
   };
 
-  strip.addEventListener('click', (event) => {
-    const step = event.target.closest('.exp-step');
-    if (step && step.getAttribute('aria-pressed') !== 'true') pick(step, true);
-  });
-  // Arrow keys move focus; Enter or Space picks (a click)
-  strip.addEventListener('keydown', (event) => {
-    const index = steps.indexOf(event.target.closest('.exp-step'));
-    if (index < 0) return;
-    const next = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key];
-    if (!next || !steps[index + next]) return;
-    event.preventDefault();
-    steps[index + next].focus({ preventScroll: true });
-  });
-  strip.addEventListener('focusin', (event) => {
-    const step = event.target.closest('.exp-step');
-    if (step) steps.forEach((other) => { other.tabIndex = other === step ? 0 : -1; });
-  });
-  phone.addEventListener('change', placeDetail);
-
-  const first = steps.find((step) => step.getAttribute('aria-pressed') === 'true') || steps[0];
-  pick(first, false);
-  if (reduced.matches || !('IntersectionObserver' in window)) return;
-
-  // Hidden until it arrives; each visit replays
-  section.classList.add('exp-ready');
-  pick(first, null);
-  let playing = false;
-  const play = () => {
-    if (playing) return;
-    playing = true;
-    section.classList.add('exp-in');
-    timers.push(window.setTimeout(() => pick(steps[0], true), 2200));
+  const fill = (track, station) => {
+    const list = stationsOf(track);
+    const key = track.dataset.track;
+    parts.group.textContent = track.dataset.travel !== undefined
+      ? 'Step ' + (list.indexOf(station) + 1) + ' of ' + list.length
+      : tabs[tracks.indexOf(track)].textContent.trim();
+    parts.name.textContent = station.querySelector('.exp-name').textContent;
+    parts.icon.textContent = '';
+    parts.icon.appendChild(icon(key));
+    panel.style.setProperty('--brand', BRAND);
+    parts.full.textContent = station.dataset.desc || '';
+    parts.tags.textContent = '';
+    (station.dataset.tags || '').split(',').map((t) => t.trim()).filter(Boolean).forEach((tag) => {
+      const chip = document.createElement('li');
+      chip.textContent = tag;
+      parts.tags.appendChild(chip);
+    });
   };
-  const reset = () => {
-    if (!playing) return;
-    playing = false;
-    timers.forEach((id) => window.clearTimeout(id));
-    timers = [];
-    section.classList.remove('exp-in');
-    pick(steps[0], null);
+
+  const announce = (track, station, initial) => {
+    section.dispatchEvent(new CustomEvent('toolchange', {
+      detail: { tool: station, svg: icon(track.dataset.track), brand: BRAND, initial },
+    }));
   };
-  new IntersectionObserver(([entry]) => {
-    const rootHeight = entry.rootBounds ? entry.rootBounds.height : window.innerHeight;
-    // A slide taller than the window counts at half of it
-    const shown = entry.intersectionRatio >= 0.5 ||
-      (entry.isIntersecting && entry.intersectionRect.height >= 0.5 * rootHeight);
-    if (shown) play();
-    else if (entry.intersectionRatio === 0) reset();
-  }, { root: document.querySelector('.wrapper'), rootMargin: '-1px 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75] }).observe(section);
+
+  const pickStation = (track, station) => {
+    if (station.getAttribute('aria-pressed') === 'true') return;
+    stationsOf(track).forEach((other) => {
+      other.setAttribute('aria-pressed', other === station ? 'true' : 'false');
+      other.tabIndex = other === station ? 0 : -1;
+    });
+    paint(track, station);
+    typer.show(() => fill(track, station), station.dataset.desc || '');
+    announce(track, station, false);
+  };
+
+  // Role and summary follow the tab, with a short fade
+  const showTab = (index, byUser) => {
+    activeTab = index;
+    tabs.forEach((tab, i) => {
+      tab.setAttribute('aria-selected', i === index ? 'true' : 'false');
+      tab.tabIndex = i === index ? 0 : -1;
+    });
+    tracks.forEach((track, i) => {
+      track.classList.toggle('is-active', i === index);
+      track.inert = i !== index;
+    });
+    tabpanel.setAttribute('aria-labelledby', tabs[index].id);
+    role.textContent = tabs[index].dataset.role || '';
+    summary.textContent = tabs[index].dataset.summary || '';
+    if (byUser && !reduced.matches) {
+      [role, summary].forEach((el) => el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250 }));
+    }
+    const track = tracks[index];
+    const station = pickedOf(track);
+    if (byUser) {
+      typer.show(() => fill(track, station), station.dataset.desc || '');
+      announce(track, station, false);
+    }
+  };
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => { if (i !== activeTab) showTab(i, true); });
+    tab.addEventListener('keydown', (event) => {
+      const next = { ArrowRight: 1, ArrowLeft: -1 }[event.key];
+      if (event.key === 'Home' || event.key === 'End') {
+        event.preventDefault();
+        const to = event.key === 'Home' ? 0 : tabs.length - 1;
+        tabs[to].focus();
+        showTab(to, true);
+      } else if (next) {
+        event.preventDefault();
+        const to = (i + next + tabs.length) % tabs.length;
+        tabs[to].focus();
+        showTab(to, true);
+      }
+    });
+  });
+
+  tracks.forEach((track) => {
+    const list = stationsOf(track);
+    track.addEventListener('click', (event) => {
+      const station = event.target.closest('.exp-station');
+      if (station) pickStation(track, station);
+    });
+    // Arrow keys move focus; Enter or Space picks (a click)
+    track.addEventListener('keydown', (event) => {
+      const here = list.indexOf(event.target.closest('.exp-station'));
+      if (here < 0) return;
+      const to = { ArrowRight: here + 1, ArrowDown: here + 1, ArrowLeft: here - 1, ArrowUp: here - 1, Home: 0, End: list.length - 1 }[event.key];
+      if (to === undefined || !list[to]) return;
+      event.preventDefault();
+      list[to].focus({ preventScroll: true });
+    });
+    track.addEventListener('focusin', (event) => {
+      const station = event.target.closest('.exp-station');
+      if (station) list.forEach((other) => { other.tabIndex = other === station ? 0 : -1; });
+    });
+    const first = pickedOf(track);
+    list.forEach((s) => { s.tabIndex = s === first ? 0 : -1; });
+    first.setAttribute('aria-pressed', 'true');
+    paint(track, first);
+  });
+
+  // Opens on the first tab and station, without typing
+  showTab(activeTab, false);
+  const track = tracks[activeTab];
+  const station = pickedOf(track);
+  fill(track, station);
+  typer.typed.textContent = station.dataset.desc || '';
+  announce(track, station, true);
 }
 
 // A one-time ring on the dot of the slide just arrived at

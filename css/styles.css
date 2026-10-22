@@ -356,6 +356,15 @@ body.hero-offscreen .bg1::after {
 /* Hero links share the --left-rail axis */
 :root {
   --left-rail: 40px;
+  --arrow-h: 164px;
+  --btn-bottom: max(calc(20vh + 20px), 200px);
+}
+
+/* Wide: the first button nears the rail, so it moves up */
+@media (min-width: 1367px) {
+  :root {
+    --btn-bottom: max(calc(20vh + 52px), 232px);
+  }
 }
 
 .hero-links {
@@ -824,8 +833,7 @@ body.hero-offscreen .bg1::after {
 }
 
 .contact-heading,
-.tools-heading,
-.exp-heading {
+.tools-heading {
   margin: 0;
   font-family: "ralewayExtraBold";
   font-size: clamp(32px, 4vw, 56px);
@@ -1071,8 +1079,7 @@ body.hero-offscreen .bg1::after {
 }
 
 /* Tools */
-.tools-heading,
-.exp-heading {
+.tools-heading {
   font-size: var(--tools-title-size);
 }
 
@@ -1217,7 +1224,7 @@ body.hero-offscreen .bg1::after {
     --skew-extra: calc(0.22 * 100vh);
     --panel-left: calc(
       (100% - min(880px, calc(100% - 2 * max(100px, 8vw)))) / 2 +
-      var(--tools-grid-w) + 40px + max(0px, 1200px - 100vw) / 6
+      var(--tools-grid-w) + var(--panel-gap, 40px) + max(0px, 1200px - 100vw) / 6
     );
     --tools-title-size: clamp(24px, min(3vw, 4.4vh), 40px);
     overflow: hidden;
@@ -1513,12 +1520,14 @@ body.hero-offscreen .bg1::after {
 }
 
 /* Rise in turn: JS adds .tools-ready, then .tools-in */
-.tools-ready .tool {
+.tools-ready .tool,
+.tools-ready .exp-station {
   opacity: 0;
   translate: 0 12px;
 }
 
-.tools-ready.tools-in .tool {
+.tools-ready.tools-in .tool,
+.tools-ready.tools-in .exp-station {
   animation: toolsRise 500ms ease-out both;
   animation-delay: calc(var(--i, 0) * 35ms);
 }
@@ -1552,12 +1561,14 @@ body.hero-offscreen .bg1::after {
     animation: none;
   }
 
-  .tools-ready .tool {
+  .tools-ready .tool,
+  .tools-ready .exp-station {
     opacity: 1;
     translate: none;
   }
 
-  .tools-ready.tools-in .tool {
+  .tools-ready.tools-in .tool,
+  .tools-ready.tools-in .exp-station {
     animation: none;
   }
 
@@ -1860,6 +1871,12 @@ header .overlay-white {
   left: calc(var(--left-rail) - 27px);
 }
 
+.arrow-down-2 svg,
+.arrow-up-2 svg {
+  width: 54px;
+  height: var(--arrow-h);
+}
+
 /* Label on the name's axis; shaft 18px to its right */
 .hero-work-link {
   left: calc(var(--left-rail) - 27px + 18px);
@@ -1892,7 +1909,7 @@ header .overlay-white {
 }
 
 .arrow-up-2.hero-work-link span {
-  top: 132px;
+  top: var(--arrow-h);
   transform: translate(-50%, -100%) rotate(180deg);
 }
 
@@ -2028,10 +2045,10 @@ header .overlay-white {
   object-fit: contain;
 }
 
-/* Clears the 132px down arrow */
+/* Clears the 164px down arrow */
 .site-btn-container {
   position: absolute;
-  bottom: max(calc(20vh + 20px), 200px);
+  bottom: var(--btn-bottom);
   left: 0;
   right: 0;
   padding: 0 12px;
@@ -2039,7 +2056,7 @@ header .overlay-white {
 
 /* Cancels the overhang and the slant */
 .expansion-col:first-child .site-btn-container {
-  padding-left: calc(212px + tan(20deg) * (max(calc(20vh + 20px), 200px) + 24px - 50vh));
+  padding-left: calc(212px + tan(20deg) * (var(--btn-bottom) + 24px - 50vh));
 }
 
 .site-btn {
@@ -2909,112 +2926,142 @@ video {
   }
 }
 
-/* Experience: two blocks split by a slanted rule */
-.exp-container {
-  --tools-title-size: clamp(26px, 3vw, 40px);
-  --exp-line-h: clamp(240px, 46vh, 460px);
-  padding: clamp(64px, 8vh, 96px) 0 clamp(20px, 4vh, 40px);
-}
+/* Experience: the Tools layout, with tabs and a track */
+@media (min-width: 1101px) {
+  .exp-container {
+    --tools-grid-w: clamp(400px, 28vw, 500px);
+    /* The slant leans over the track below the middle */
+    --panel-gap: 56px;
+  }
 
-/* Clear of the rail (left) and the nav label (right) */
-.exp-content {
-  position: relative;
-  z-index: 2;
-  width: min(1180px, calc(100% - max(100px, 8vw) - 276px));
-  margin: 0 276px 0 max(100px, 8vw);
-  text-align: left;
-}
-
-/* Dots only up to 900px: less to clear */
-@media (max-width: 900px) {
-  .exp-content {
-    width: calc(100% - max(100px, 8vw) - 64px);
-    margin: 0 64px 0 max(100px, 8vw);
+  /* The text stops before the nav label */
+  .exp-container .tool-panel {
+    padding-right: calc(var(--skew-extra) + 370px);
   }
 }
 
-.exp-blocks {
+.exp-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 22px;
+  max-width: var(--tools-grid-w);
+  margin-top: clamp(8px, 1.8vh, 16px);
+}
+
+.exp-tab {
   position: relative;
-  display: grid;
-  grid-template-columns: 58fr 42fr;
-  margin-top: clamp(16px, 3.2vh, 34px);
+  padding: 6px 0 9px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: "ralewaySemi";
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.78);
+  transition: color 250ms;
 }
 
-/* Room for the slant, so no text crosses the rule */
-.exp-adi {
-  padding-right: calc(var(--exp-line-h) * 0.182 + 36px);
-}
-
-.exp-app {
-  padding-left: calc(var(--exp-line-h) * 0.182 + 36px);
-}
-
-.exp-divider {
+.exp-tab::after {
+  content: "";
   position: absolute;
-  top: 50%;
-  left: 58%;
-  width: 2px;
-  height: var(--exp-line-h);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  border-radius: 2px;
   background: #eb3b5a;
-  transform: translate(-50%, -50%) skewX(-20deg);
+  transform: scaleX(0);
+  transition: transform 250ms ease-out;
 }
 
-.exp-title {
-  margin: 0;
-  font-family: "ralewayExtraBold";
-  font-size: clamp(18px, 1.9vw, 28px);
-  letter-spacing: -0.5px;
-  line-height: 1.1;
-  text-transform: uppercase;
+.exp-tab[aria-selected="true"] {
   color: #fff;
 }
 
+.exp-tab[aria-selected="true"]::after {
+  transform: scaleX(1);
+}
+
+.exp-tab:hover {
+  color: #fff;
+}
+
+.exp-tab:focus-visible,
+.exp-station:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
 .exp-role {
-  margin: 6px 0 0;
+  max-width: var(--tools-grid-w);
+  margin: clamp(6px, 1.4vh, 12px) 0 0;
   font-family: "ralewaySemi";
-  font-size: clamp(13px, 1.1vw, 16px);
+  font-size: 15px;
   font-weight: 600;
   line-height: 1.4;
   color: rgba(255, 255, 255, 0.82);
 }
 
 .exp-summary {
-  margin: clamp(8px, 1.6vh, 16px) 0 0;
+  max-width: var(--tools-grid-w);
+  margin: clamp(4px, 1vh, 8px) 0 0;
   font-family: "ralewaySemi";
-  font-size: clamp(14px, 1.15vw, 17px);
+  font-size: clamp(13.5px, 1.5vh, 15px);
   font-weight: 600;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.88);
 }
 
-.exp-sub {
-  margin: clamp(12px, 2.6vh, 28px) 0 clamp(8px, 1.6vh, 16px);
-  font-family: "ralewaySemi";
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-/* A thin line through the numbered circles */
-.exp-strip {
-  position: relative;
+/* Both tracks share one cell and crossfade */
+.exp-tracks {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  max-width: var(--tools-grid-w);
+  margin-top: clamp(10px, 2.4vh, 24px);
 }
 
-.exp-strip::before {
-  content: "";
+.exp-track {
+  --at: 0;
+  position: relative;
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: repeat(var(--n), 1fr);
+  align-content: start;
+  padding: 46px 0 48px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 250ms ease, visibility 0s 250ms;
+}
+
+.exp-track.is-active {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 250ms ease;
+}
+
+/* The line runs through the circle centers */
+.exp-line {
   position: absolute;
-  top: 17px;
-  right: calc(100% / 14);
-  left: calc(100% / 14);
+  top: 63px;
+  right: calc(50% / var(--n));
+  left: calc(50% / var(--n));
   height: 1px;
   background: rgba(255, 255, 255, 0.45);
   transform-origin: 0 50%;
 }
 
-.exp-step {
+/* Red up to the page, on the track that has one */
+.exp-track[data-travel] .exp-line::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--at) / (var(--n) - 1) * 100%);
+  background: #eb3b5a;
+  transition: width 500ms ease;
+}
+
+.exp-station {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -3025,12 +3072,6 @@ video {
   background: none;
   cursor: pointer;
   color: rgba(255, 255, 255, 0.82);
-}
-
-.exp-step:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 4px;
-  border-radius: 6px;
 }
 
 .exp-num {
@@ -3045,7 +3086,7 @@ video {
   font-size: 14px;
   font-weight: 600;
   color: #fff;
-  transition: background 200ms, border-color 200ms, color 200ms;
+  transition: background 300ms, border-color 300ms, color 300ms;
 }
 
 .exp-name {
@@ -3055,220 +3096,224 @@ video {
   letter-spacing: 0.5px;
   line-height: 1.25;
   color: inherit;
-  transition: color 200ms;
+  text-align: center;
+  transition: color 250ms;
 }
 
-.exp-step:hover .exp-num {
+.exp-station:hover .exp-num {
   border-color: #fff;
 }
 
 /* Dark number: white on #eb3b5a is only 3.96:1 */
-.exp-step[aria-pressed="true"] .exp-num {
+.exp-station.is-done .exp-num,
+.exp-station[aria-pressed="true"] .exp-num {
   border-color: #eb3b5a;
   background: #eb3b5a;
   color: #0e0f14;
 }
 
-.exp-step[aria-pressed="true"] .exp-name {
+.exp-station[aria-pressed="true"] .exp-name {
   color: #fff;
 }
 
-/* Two lines reserved, so the cards below never move */
-.exp-detail {
-  min-height: 2.9em;
-  margin: clamp(10px, 2vh, 20px) 0 0;
+/* The page: slides to the picked station */
+.exp-pin {
+  position: absolute;
+  top: 0;
+  left: calc((var(--at) + 0.5) / var(--n) * 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  transition: left 500ms ease;
+}
+
+.exp-status {
   font-family: "ralewaySemi";
-  font-size: clamp(14px, 1.15vw, 17px);
+  font-size: 12px;
   font-weight: 600;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: 0.5px;
+  line-height: 1;
+  white-space: nowrap;
+  color: #fff;
 }
 
-.exp-typed,
-.exp-detail .panel-rest {
-  font-family: inherit;
+.exp-pin svg {
+  display: block;
+  width: 22px;
+  height: 22px;
 }
 
-.exp-cards {
-  display: grid;
-  gap: clamp(8px, 1.6vh, 14px);
-  margin: clamp(10px, 2vh, 20px) 0 0;
+/* A dashed loop under stations 4 and 5 */
+.exp-loop {
+  position: absolute;
+  top: 118px;
+  left: calc(3.5 / var(--n) * 100%);
+  width: calc(100% / var(--n));
+  pointer-events: none;
+}
+
+.exp-loop svg {
+  display: block;
+  width: 100%;
+  height: 20px;
+  overflow: visible;
+}
+
+.exp-loop path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.6);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.exp-loop span {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  font-family: "ralewaySemi";
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.85);
+  transform: translateX(-50%);
+}
+
+/* The dashes flow while station 4 or 5 is picked */
+.exp-track.is-looping .exp-loop path {
+  animation: expFlow 700ms linear infinite;
+}
+
+@keyframes expFlow {
+  to {
+    stroke-dashoffset: -9;
+  }
+}
+
+.exp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 16px 0 0;
   padding: 0;
   list-style: none;
 }
 
-.exp-card {
-  padding: clamp(8px, 1.4vh, 12px) 14px;
-  border-left: 3px solid #eb3b5a;
-  background: rgba(255, 255, 255, 0.06);
+.exp-tags:empty {
+  display: none;
 }
 
-.exp-card-title {
-  margin: 0 0 4px;
+.exp-tags li {
+  padding: 3px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
   font-family: "ralewaySemi";
-  font-size: clamp(14px, 1.1vw, 16px);
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  color: #fff;
-}
-
-.exp-card p {
-  margin: 0;
-  font-family: "ralewaySemi";
-  font-size: clamp(12.5px, 1vw, 14.5px);
+  font-size: 12px;
   font-weight: 600;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.86);
+  letter-spacing: 0.3px;
+  color: rgba(255, 255, 255, 0.92);
 }
 
-/* Arrival: JS adds .exp-ready, then .exp-in per visit */
-.exp-ready:not(.exp-in) .exp-fade,
-.exp-ready:not(.exp-in) .exp-num,
-.exp-ready:not(.exp-in) .exp-name {
-  opacity: 0;
-}
-
-.exp-ready:not(.exp-in) .exp-strip::before {
+/* Arrival: the line draws and the page appears */
+.tools-ready .exp-line {
   transform: scaleX(0);
 }
 
-.exp-in .exp-fade {
-  animation: expFade 600ms ease-out backwards;
-  animation-delay: var(--d, 0ms);
+.tools-ready .exp-pin {
+  opacity: 0;
 }
 
-.exp-in .exp-strip::before {
-  animation: expDraw 900ms ease-out 1000ms backwards;
+.tools-ready.tools-in .exp-line {
+  animation: expDraw 700ms ease-out 200ms both;
 }
 
-.exp-in .exp-num {
-  animation: expLight 600ms ease-out backwards;
-  animation-delay: calc(1000ms + var(--i) * 150ms);
-}
-
-.exp-in .exp-name {
-  animation: expFade 600ms ease-out backwards;
-  animation-delay: calc(1000ms + var(--i) * 150ms);
-}
-
-@keyframes expFade {
-  from {
-    opacity: 0;
-    translate: 0 16px;
-  }
+.tools-ready.tools-in .exp-pin {
+  animation: panelShow 400ms ease-out 700ms both;
 }
 
 @keyframes expDraw {
   from {
     transform: scaleX(0);
   }
-}
-
-@keyframes expDrawDown {
-  from {
-    transform: scaleY(0);
-  }
-}
-
-/* Each circle flashes red as it lights, then settles */
-@keyframes expLight {
-  from {
-    opacity: 0;
-    transform: scale(0.6);
-  }
-
-  45% {
-    opacity: 1;
-    border-color: #eb3b5a;
-    background: #eb3b5a;
-    color: #0e0f14;
-    transform: scale(1.12);
-  }
 
   to {
-    opacity: 1;
-    transform: scale(1);
+    transform: scaleX(1);
   }
 }
 
-/* Stacked: short or narrow windows */
-@media (max-width: 1099px), (max-height: 719px) {
-  .exp-blocks {
-    display: block;
+/* Reduced motion: no flow, no slide, no draw */
+@media (prefers-reduced-motion: reduce) {
+  .exp-track,
+  .exp-track.is-active,
+  .exp-pin,
+  .exp-track[data-travel] .exp-line::after {
+    transition: none;
   }
 
-  .exp-adi,
-  .exp-app {
-    padding: 0;
+  .exp-track.is-looping .exp-loop path {
+    animation: none;
   }
 
-  .exp-divider {
-    position: static;
-    width: 100%;
-    margin: clamp(10px, 2.2vh, 22px) 0;
+  .tools-ready .exp-line {
     transform: none;
-    height: 2px;
   }
 
-  .exp-cards {
-    grid-template-columns: repeat(3, 1fr);
+  .tools-ready .exp-pin {
+    opacity: 1;
+  }
+
+  .tools-ready.tools-in .exp-line,
+  .tools-ready.tools-in .exp-pin {
+    animation: none;
   }
 }
 
-/* Phones: a vertical list, detail under the picked step */
+/* The nav label shows from 901px: keep text clear of it */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .exp-container .tools-content,
+  .exp-container .tool-panel {
+    align-self: flex-start;
+    width: calc(100% - max(100px, 8vw) - 276px);
+    margin-left: max(100px, 8vw);
+  }
+}
+
+/* Narrow: the shared card layout, with the tags in it */
+@media (max-width: 1100px) {
+  .exp-tags {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+  }
+
+  .exp-tags li {
+    padding: 2px 9px;
+    font-size: 11px;
+  }
+}
+
+/* Phones: small labels so seven stations fit */
 @media (max-width: 480px) {
-  .exp-container {
-    padding: 56px 0 56px;
-  }
-
-  .exp-content {
-    width: auto;
-    margin: 0 20px 0 64px;
-  }
-
-  .exp-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .exp-strip {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .exp-strip::before {
-    top: 17px;
-    right: auto;
-    bottom: 17px;
-    left: 17px;
-    width: 1px;
-    height: auto;
-    transform-origin: 50% 0;
-  }
-
-  .exp-step {
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-    text-align: left;
-  }
-
   .exp-name {
+    font-size: 10px;
+    letter-spacing: 0;
+  }
+
+  .exp-num {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+  }
+
+  .exp-line {
+    top: 61px;
+  }
+
+  .exp-tab {
     font-size: 14px;
-  }
-
-  .exp-detail {
-    min-height: 0;
-    margin: -2px 0 4px 46px;
-    font-size: 14px;
-  }
-
-  .exp-ready:not(.exp-in) .exp-strip::before {
-    transform: scaleY(0);
-  }
-
-  .exp-in .exp-strip::before {
-    animation-name: expDrawDown;
   }
 }
 
@@ -3598,7 +3643,6 @@ video {
 
   /* Centers the button using the slant at its height */
   .expansion-col:first-child .site-btn-container {
-    --btn-bottom: max(calc(20vh + 20px), 200px);
     --btn-y: calc(100vh - var(--btn-bottom) - 10px);
     --strip-right: calc(0.17 * 100vw + 44px - tan(20deg) * (var(--btn-y) - 50vh));
     padding-left: calc(105.5px + var(--strip-right) / 2);
