@@ -1963,8 +1963,8 @@ body.hero-offscreen .bg1::after {
 
 /* HotCoco: a larger frame aimed at the gameplay */
 .hc-col .jstorm-video {
-  width: 120%;
-  height: 120%;
+  width: 105%;
+  height: 105%;
   /* The skewed panel needs 100% plus its slant */
   min-width: calc(100% + 40vh);
   min-height: 100%;
