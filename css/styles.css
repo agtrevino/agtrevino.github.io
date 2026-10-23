@@ -96,11 +96,24 @@ button:focus-visible,
   text-decoration: none !important;
 }
 
+/* Intro state: all nav labels visible for first 10 seconds */
+.vertical-menu.nav-intro .nav-link-text {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .line {
   padding-top: 13px;
   border-bottom: 1px solid #fff;
   opacity: 0;
-  transition: 400ms;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 400ms cubic-bezier(0.25, 1, 0.5, 1), opacity 300ms ease;
+}
+
+.line.active-nav {
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 .nav-line {
@@ -117,7 +130,8 @@ button:focus-visible,
   color: #fff !important;
   font-family: "ralewayLight";
   opacity: 0;
-  transition: 400ms;
+  transform: translateX(70px);
+  transition: opacity 500ms ease-out, color 400ms ease, transform 400ms cubic-bezier(0.25, 1, 0.5, 1);
   text-decoration: none !important;
 }
 
@@ -189,10 +203,19 @@ button:focus-visible,
 }
 
 .nav-link-container:hover .nav-link-text,
-.nav-link-container:hover .line {
+.vertical-menu a:focus-visible .nav-link-text {
+  text-decoration: none !important;
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+  transition-delay: 0s !important;
+}
+
+.nav-link-container:hover .line,
+.vertical-menu a:focus-visible .line {
   text-decoration: none !important;
   opacity: 1;
-  transition: 400ms;
+  transform: scaleX(1);
+  transition-delay: 0s !important;
 }
 
 /* Parallax */
@@ -617,6 +640,10 @@ body.hero-offscreen .bg1::after {
   transition: 300ms;
 }
 
+.nav-link-text.active-nav {
+  transform: translateX(0);
+}
+
 .active-circle {
   background: #fff;
   transition: 300ms;
@@ -655,7 +682,7 @@ body.hero-offscreen .bg1::after {
 
 .line-black {
   border-bottom: 1px solid #505464 !important;
-  transition: 400ms;
+  transition: border-color 400ms, transform 400ms cubic-bezier(0.25, 1, 0.5, 1), opacity 300ms ease;
 }
 
 .circle-black {

@@ -533,6 +533,16 @@ function projectLogoIntro() {
   const canHover = window.matchMedia('(hover: hover)');
   // Panel order, whatever the number of panels
   const logos = Array.from(slide.querySelectorAll('.site-logo-container img'));
+  const captionGroups = Array.from(slide.querySelectorAll('.expansion-col')).map((panel) =>
+    ['.panel-caption-title', '.panel-caption-role']
+      .map((selector) => panel.querySelector(selector))
+      .filter(Boolean)
+  );
+
+  const resetCaptions = () => captionGroups.flat().forEach((caption) => {
+    caption.classList.remove('project-caption-rise');
+    caption.style.animationDelay = '';
+  });
 
   const playLogos = () => {
     logos.forEach((logo, i) => {
@@ -547,6 +557,19 @@ function projectLogoIntro() {
       }
       logo.classList.add('fadeInUp');
     });
+
+    resetCaptions();
+    if (!reducedMotion.matches) {
+      void slide.offsetWidth;
+      captionGroups.forEach((group, panelIndex) => {
+        group.forEach((caption, roleIndex) => {
+          const clearDelay = () => { caption.style.animationDelay = ''; };
+          caption.addEventListener('animationend', clearDelay, { once: true });
+          caption.style.animationDelay = (panelIndex * 150 + 100 + roleIndex * 100) + 'ms';
+          caption.classList.add('project-caption-rise');
+        });
+      });
+    }
   };
 
   let started = false;
@@ -566,6 +589,7 @@ function projectLogoIntro() {
             logo.classList.remove('fadeInUp');
             logo.style.animationDelay = '';
           });
+          resetCaptions();
         }
       } else if (entry.intersectionRatio >= 0.4 && !played) {
         played = true;
@@ -658,6 +682,7 @@ function ngOnInit() {
     expandingCards();
     panelSequence();
     navAnim();
+    navIntro();
     slideSync();
     resumeTitleViewCheck();
   }
@@ -1616,5 +1641,35 @@ function resumeTitleViewCheck() {
 function navAnim() {
     setTimeout(updateActiveSlide, 500, true);
   }
+
+// Right side nav: displays all labels for 10 seconds, then smoothly fades out
+// inactive labels in sequence, leaving the currently viewed slide's nav active.
+function navIntro() {
+  const menu = document.querySelector('.vertical-menu');
+  if (!menu) return;
+  const links = Array.from(menu.querySelectorAll('.nav-link-container'));
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  setTimeout(() => {
+    let delay = 0;
+    links.slice().reverse().forEach((link) => {
+      const text = link.querySelector('.nav-link-text');
+      if (text && !text.classList.contains('active-nav')) {
+        if (!calm) text.style.transitionDelay = delay + 'ms';
+        delay += 100;
+      }
+    });
+
+    menu.classList.remove('nav-intro');
+
+    // Reset transition-delay so future user hovers are instant
+    setTimeout(() => {
+      links.forEach((link) => {
+        const text = link.querySelector('.nav-link-text');
+        if (text) text.style.transitionDelay = '';
+      });
+    }, delay + 600);
+  }, 10000);
+}
 
 ngOnInit();
