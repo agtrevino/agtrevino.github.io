@@ -1,8 +1,13 @@
 /* Site styles */
 
 /* Page */
-body, html {
-    scroll-behavior: smooth !important;
+/* Smooth nav and hash jumps unless motion is reduced */
+@media (prefers-reduced-motion: no-preference) {
+  html,
+  body,
+  .wrapper {
+    scroll-behavior: smooth;
+  }
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: "Helvetica Neue", Arial, sans-serif; background: #505464; }
@@ -55,7 +60,6 @@ body { margin: 0; font-family: "Helvetica Neue", Arial, sans-serif; background: 
 }
 * {
   font-family: "ralewayLight";
-  scroll-behavior: smooth !important;
 }
 
 button:active {
@@ -63,8 +67,16 @@ button:active {
   border: none;
 }
 
-button:focus {
+button:focus:not(:focus-visible) {
   outline: 0;
+}
+
+/* Fallback ring; components can set their own */
+a:focus-visible,
+button:focus-visible,
+[role="tab"]:focus-visible {
+  outline: 2px solid #eb3b5a;
+  outline-offset: 3px;
 }
 
 .desktop {
@@ -185,7 +197,6 @@ button:focus {
 
 /* Parallax */
 .wrapper {
-  scroll-behavior: smooth;
   /* 3D effect needs a fixed height */
   height: 100vh;
   /* Scaled layers add a horizontal scrollbar */
@@ -308,7 +319,7 @@ body.hero-offscreen .bg1::after {
   z-index: 9;
   margin: 8px 0 0;
   font-family: "ralewaySemi";
-  font-size: clamp(10px, calc((34vw - 48px) / 30), 13px);
+  font-size: clamp(12px, calc((34vw - 48px) / 30), 13px);
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -365,7 +376,7 @@ body.hero-offscreen .bg1::after {
   }
 
   .hero-location {
-    font-size: 10.5px;
+    font-size: 12px;
     line-height: 1.4;
   }
 
@@ -658,6 +669,10 @@ body.hero-offscreen .bg1::after {
 }
 
 .resume-title {
+  margin: 0 0 0.5rem;
+  font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 1.2;
   color: #eb3b5a;
   font-family: "ralewayBold";
 }
@@ -1041,6 +1056,8 @@ body.hero-offscreen .bg1::after {
   right: calc(48px - var(--sig-ink) * 0.067);
   bottom: calc(16px - var(--sig-ink) * 0.276);
   width: calc(var(--sig-ink) / 0.88);
+  height: auto;
+  object-fit: contain;
   opacity: 0.85;
   pointer-events: none;
   transition: 300ms;
@@ -1214,7 +1231,7 @@ body.hero-offscreen .bg1::after {
 @media (max-width: 340px) {
   .contact-email-btn .button-text {
     margin-left: 3.4rem;
-    font-size: clamp(10px, 3.6vw, 12px);
+    font-size: 12px;
   }
 }
 
@@ -1381,7 +1398,7 @@ body.hero-offscreen .bg1::after {
 
   .tools-note {
     margin-bottom: clamp(3px, 0.8vh, 10px);
-    font-size: clamp(11px, 1.5vh, 13px);
+    font-size: clamp(12px, 1.5vh, 13px);
     line-height: 1.3;
   }
 
@@ -1399,7 +1416,7 @@ body.hero-offscreen .bg1::after {
   }
 
   .tool-name {
-    font-size: clamp(10px, 1.5vh, 12px);
+    font-size: clamp(12px, 1.5vh, 13px);
   }
 
   /* After the grid; runs past the right edge */
@@ -1799,8 +1816,8 @@ body.hero-offscreen .bg1::after {
   }
 
   .tool-name {
-    font-size: 10px;
-    letter-spacing: 0.3px;
+    font-size: 12px;
+    letter-spacing: 0;
   }
 
   .tool-panel {
@@ -1961,7 +1978,7 @@ body.hero-offscreen .bg1::after {
   transform: translateX(-50%) translateY(-50%) skew(20deg, 0);
 }
 
-/* HotCoco: a larger frame aimed at the gameplay */
+
 .hc-col .jstorm-video {
   width: 105%;
   height: 105%;
@@ -2165,6 +2182,8 @@ header .overlay-white {
   right: calc(40px - var(--sig-ink) * 0.067);
   bottom: calc(24px - var(--sig-ink) * 0.276);
   width: calc(var(--sig-ink) / 0.88);
+  height: auto;
+  object-fit: contain;
   opacity: 1;
   pointer-events: none;
   transition: 300ms;
@@ -2199,7 +2218,7 @@ header .overlay-white {
 
 /* Hide others only while a panel is expanded */
 @media (min-width: 901px) {
-  #projects .content:has(.expansion-col:hover) .expansion-col:not(:hover) .site-logo-container img {
+  #projects .content:has(.expansion-col:hover, .expansion-col:focus-within) .expansion-col:not(:hover):not(:focus-within) .site-logo-container img {
     opacity: 0 !important;
   }
 }
@@ -2347,7 +2366,8 @@ video {
   transition: background-color 350ms ease-in-out;
 }
 
-.adi-col:hover > .overlay-adi {
+.adi-col:hover > .overlay-adi,
+.adi-col:focus-within > .overlay-adi {
   background: rgba(26, 67, 102, 0.7);
   transition: background-color 350ms ease-in-out;
 }
@@ -2372,7 +2392,8 @@ video {
   transition: background-color 350ms ease-in-out;
 }
 
-.jstorm-col:hover > .overlay-blue {
+.jstorm-col:hover > .overlay-blue,
+.jstorm-col:focus-within > .overlay-blue {
   background: rgba(58, 118, 176, 0.7);
   transition: background-color 350ms ease-in-out;
 }
@@ -2399,7 +2420,8 @@ video {
   z-index: 1;
 }
 
-.mp-col:hover > .overlay-mp {
+.mp-col:hover > .overlay-mp,
+.mp-col:focus-within > .overlay-mp {
   background: rgba(0, 0, 0, 0.6);
   transition: background-color 350ms ease-in-out;
 }
@@ -2409,12 +2431,14 @@ video {
 }
 
 /* The logo video shows through as a faint ghost */
-.hc-col:hover > .overlay-hc {
+.hc-col:hover > .overlay-hc,
+.hc-col:focus-within > .overlay-hc {
   background: rgba(3, 207, 136, 0.8);
   transition: background-color 350ms ease-in-out;
 }
 
-.appddiction-col:hover > .overlay-white {
+.appddiction-col:hover > .overlay-white,
+.appddiction-col:focus-within > .overlay-white {
   background: rgba(255, 255, 255, 0.7);
   transition: background-color 350ms ease-in-out;
 }
@@ -2477,7 +2501,8 @@ video {
   transform: skew(20deg, 0);
 }
 
-.expansion-col:hover {
+.expansion-col:hover,
+.expansion-col:focus-within {
   flex-grow: 4;
   transition: flex-grow 450ms;
 }
@@ -2490,7 +2515,7 @@ video {
   }
 
   /* Hidden videos still preload */
-  .expansion-col:not(:hover) video {
+  .expansion-col:not(:hover):not(:focus-within) video {
     visibility: hidden;
   }
 }
@@ -2517,14 +2542,14 @@ video {
   }
 }
 
-.expansion-col h1 {
+.expansion-col h2 {
   margin: 0;
   padding: 10px;
   font-style: normal;
   transform: none;
 }
 
-.expansion-col:first-child h1 {
+.expansion-col:first-child h2 {
   margin-left: 40px;
 }
 
@@ -2536,6 +2561,7 @@ video {
 }
 
 .resume-button {
+  display: inline-block;
   position: relative;
   z-index: 999;
   margin-left: auto;
@@ -3001,8 +3027,133 @@ video {
 }
 
 /* Project panels */
-.expansion-col h1.panel-reveal {
+.expansion-col h2.panel-reveal {
   margin-bottom: 0;
+}
+
+/* At rest the strip is narrow: a compact caption */
+.panel-caption {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .panel-caption {
+    --cap-top: calc(35vh - 137px);
+    --cap-shift: calc(tan(20deg) * (50vh - var(--cap-top) - 90px));
+    position: absolute;
+    top: var(--cap-top);
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: calc(100% - var(--skew-extra));
+    padding-right: calc(90px + var(--cap-shift));
+    text-align: center;
+    transform: translateX(calc(var(--cap-shift) + 70px));
+    pointer-events: none;
+    transition: opacity 200ms ease-in-out;
+  }
+
+  .panel-caption > p {
+    width: min(260px, 17vw);
+    margin: 0;
+    text-align: left;
+  }
+
+  /* Two-line slot, bottom-aligned: subtitles line up across panels */
+  .panel-caption-title {
+    display: flex;
+    align-items: flex-end;
+    min-height: 2.2em;
+    font-family: "ralewayExtraBold";
+    font-size: clamp(15px, 1.35vw, 20px);
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  /* The first strip is narrow and starts past the left rail */
+  .adi-col .panel-caption {
+    transform: translateX(calc(var(--cap-shift) + 166px));
+  }
+
+  .adi-col .panel-caption > p {
+    width: min(170px, 11.5vw);
+  }
+
+  /* Narrow screens: ADI gets a smaller caption */
+  @media (max-width: 1150px) {
+    .adi-col .panel-caption > p {
+      width: 106px;
+    }
+
+    .adi-col .panel-caption-title {
+      font-size: 14px;
+    }
+  }
+
+  /* The last strip is narrow and runs to the right edge */
+  .hc-col .panel-caption {
+    transform: translateX(calc(var(--cap-shift) + 34px));
+  }
+
+  .hc-col .panel-caption > p {
+    width: min(150px, 10vw);
+  }
+
+  .panel-caption-role {
+    margin-top: 5px !important;
+    font-family: "ralewaySemi";
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  .panel-caption-tag {
+    display: none;
+  }
+
+  .panel-caption-blurb {
+    display: none;
+  }
+
+  /* Colors per panel; each passes AA at rest */
+  .adi-col .panel-caption,
+  .jstorm-col .panel-caption,
+  .mp-col .panel-caption {
+    color: #fff;
+  }
+
+  .appddiction-col .panel-caption {
+    color: #505464;
+  }
+
+  .hc-col .panel-caption {
+    color: #200044;
+  }
+
+  .appddiction-col .panel-caption-role {
+    color: #c60a0a;
+  }
+
+  .mp-col .panel-caption-role {
+    color: #8c7ae6;
+  }
+
+  /* Expanded (hover or focus): the full text takes over */
+  .expansion-col:hover .panel-caption,
+  .expansion-col:focus-within .panel-caption,
+  #projects .content:has(.expansion-col:hover, .expansion-col:focus-within) .panel-caption {
+    opacity: 0;
+  }
+
+  /* Touch or reduced motion: big text waits to expand */
+  .expansion-col:not(:hover):not(:focus-within) .panel-reveal {
+    opacity: 0;
+  }
 }
 
 /* Panel text rises in turn; JS adds .is-in */
@@ -3027,10 +3178,26 @@ video {
 
   .expansion-col .site-btn-container.is-in .button-text,
   .expansion-col .site-btn-container:has(:focus-visible) .button-text,
+  .expansion-col:focus-within .site-btn-container .button-text,
   .expansion-col .site-btn:hover .button-text {
     opacity: 1;
     translate: none;
     transition: opacity 250ms ease-out, translate 250ms ease-out, color 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  }
+}
+
+/* Without JS: show the text when expanded */
+@media (min-width: 901px) and (hover: hover) and (prefers-reduced-motion: no-preference) {
+  html:not(.js) .expansion-col:hover .panel-reveal,
+  html:not(.js) .expansion-col:focus-within .panel-reveal {
+    opacity: 1;
+    translate: none;
+  }
+
+  html:not(.js) .expansion-col:hover .site-btn .button-text,
+  html:not(.js) .expansion-col:focus-within .site-btn .button-text {
+    opacity: 1;
+    translate: none;
   }
 }
 
@@ -3118,15 +3285,15 @@ video {
 }
 
 /* 4.5:1: dark red on white, white on a deeper red */
-.resume-download-link .resume-button.learn-more .button-text {
+.resume-download-link.resume-button.learn-more .button-text {
   color: #a81d36;
 }
 
-.resume-download-link .resume-button.learn-more .circle {
+.resume-download-link.resume-button.learn-more .circle {
   background: #c41f3f;
 }
 
-.resume-download-link .resume-button.learn-more:hover .button-text {
+.resume-download-link.resume-button.learn-more:hover .button-text {
   color: #fff;
 }
 
@@ -3503,7 +3670,7 @@ video {
 
 .exp-name {
   font-family: "ralewayLight";
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.08em;
   line-height: 1.2;
   text-transform: lowercase;
@@ -3569,7 +3736,7 @@ video {
 .exp-status {
   display: block;
   font-family: "ralewaySemi";
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
   line-height: 1.2;
@@ -3617,7 +3784,7 @@ video {
 
 .exp-tools li span {
   font-family: "ralewaySemi";
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.4px;
   color: rgba(255, 255, 255, 0.88);
@@ -3706,7 +3873,7 @@ video {
 
 .exp-stat-key {
   font-family: "ralewaySemi";
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -3825,7 +3992,7 @@ video {
   }
 
   .exp-name {
-    font-size: clamp(11px, 1vw, 14px);
+    font-size: clamp(12px, 1vw, 14px);
   }
 }
 
@@ -3849,7 +4016,7 @@ video {
 /* Phones and tablets: 11px labels */
 @media (max-width: 900px) {
   .exp-name {
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 0.02em;
   }
 }
@@ -4027,7 +4194,7 @@ video {
     animation: none !important;
   }
 
-  #projects .content .expansion-col h1 {
+  #projects .content .expansion-col h2 {
     margin: 0 !important;
     padding: 0 0 0 14px !important;
     border-right: 0 !important;
@@ -4040,11 +4207,11 @@ video {
   }
 
   /* Beats the white .header-1 above */
-  #projects .appddiction-col h1 {
+  #projects .appddiction-col h2 {
     color: #505464 !important;
   }
 
-  #projects .hc-col h1 {
+  #projects .hc-col h2 {
     color: #200044 !important;
   }
 
@@ -4274,7 +4441,7 @@ video {
 
   .strength-row .prof-text {
     margin-bottom: 0;
-    font-size: clamp(11px, 2.8cqw, 16px);
+    font-size: clamp(12px, 2.8cqw, 16px);
     font-weight: 600;
     line-height: 1.38;
     letter-spacing: 0.02em;
@@ -4358,9 +4525,6 @@ video {
   }
 
   .resume-img-wrap .resume-button.learn-more {
-    display: block;
-    width: 100%;
-    height: 3rem;
     margin: 0;
   }
 
@@ -4444,7 +4608,7 @@ video {
   }
 
   .strength-row .prof-text {
-    font-size: clamp(10px, min(2.8cqw, 1.9vh), 16px);
+    font-size: clamp(12px, min(2.8cqw, 1.9vh), 16px);
     line-height: 1.3;
   }
 }
@@ -4476,5 +4640,127 @@ video {
 @media (max-width: 700px) {
   .signature {
     bottom: calc(120px - var(--sig-ink) * 0.276);
+  }
+}
+
+/* Anchors as buttons: no underline, ring on the circle */
+.resume-button:hover,
+.resume-button:focus {
+  text-decoration: none;
+}
+
+.resume-button:focus-visible {
+  outline: none;
+}
+
+.resume-button:focus-visible .circle {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.appddiction-col .resume-button:focus-visible .circle,
+.resume-download-link:focus-visible .circle {
+  outline-color: #505464;
+}
+
+.hc-col .resume-button:focus-visible .circle {
+  outline-color: #200044;
+}
+
+/* 24px hit area; the negative margin keeps the layout */
+.contact-links a,
+.contact-links .copy-email {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  margin-block: -3px;
+}
+
+/* Mobile resume: normal letter-spacing, a tighter gap */
+@media (max-width: 900px) {
+  .prof-text {
+    letter-spacing: normal;
+  }
+
+  .resume-content .col-xl-6.text-center.mb-4 {
+    margin-bottom: 8px !important;
+  }
+}
+
+.panel-caption-tag {
+  font-family: "ralewaySemi";
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.panel-caption-tag::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  margin-right: 8px;
+  background: #eb3b5a;
+  vertical-align: middle;
+}
+
+/* Short screens: last blurb drops a line for the tag */
+@media (min-width: 901px) and (max-height: 780px) {
+  .hc-col .panel-caption-blurb {
+    -webkit-line-clamp: 2;
+  }
+}
+
+/* No jQuery (blocked CDN): show what its code reveals */
+.no-jq .animatedFadeInUp {
+  opacity: 1;
+  animation: none;
+}
+
+/* Narrow phones: 4 columns so 12px labels fit */
+@media (max-width: 380px) {
+  .tools-icons li {
+    width: calc((100% - 16px) / 4);
+  }
+}
+
+/* Open view: one type scale and one right edge for all five */
+@media (min-width: 901px) {
+  #projects .expansion-col .panel-role,
+  #projects .expansion-col.hc-col .panel-role {
+    max-width: none;
+    margin-top: 14px;
+    padding-right: 16px;
+    font-size: clamp(15px, 1.35vw, 19px);
+    letter-spacing: 0.12em;
+    line-height: 1.25;
+  }
+
+  #projects .expansion-col .panel-blurb {
+    max-width: 25em;
+    margin-top: 12px;
+    padding-right: 16px;
+    font-size: clamp(16px, 1.4vw, 20px);
+    line-height: 1.4;
+  }
+
+  #projects .expansion-col:last-child .panel-blurb,
+  #projects .expansion-col.hc-col .panel-blurb {
+    max-width: 19em;
+  }
+
+  /* Equal title slots, so subtitles start at the same height */
+  #projects .expansion-col h2 {
+    display: grid;
+    align-content: center;
+    justify-items: end;
+    min-height: 124px;
+    padding-right: 16px;
+  }
+
+  #projects .hc-title-2 {
+    font-size: 64px;
   }
 }

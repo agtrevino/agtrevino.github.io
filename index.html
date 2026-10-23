@@ -54,13 +54,13 @@
     <script>document.documentElement.classList.add('js');</script>
 
     <!-- Early connections to the two CDNs -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-    <link rel="preconnect" href="https://code.jquery.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://code.jquery.com" crossorigin />
 
     <!-- Bootstrap (CDN); the rest is local -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
 
-      <link rel="stylesheet" href="css/styles.css?v=206" />
+      <link rel="stylesheet" href="css/styles.css?v=212" />
     <!-- Show project logos when JS is off -->
     <noscript><style>.site-logo-container img { opacity: 1; }</style></noscript>
   </head>
@@ -280,15 +280,20 @@
       <div class="expansion-col adi-col">
         <section class="expansion-section h-100 project-container row h-100 px-5">
           <div class="col-12 my-auto text-right site-logo-container">
-            <img class="adi-site-logo animated animatedFadeInUp w-50"
+            <img class="adi-site-logo animated animatedFadeInUp w-50" width="175" height="100" loading="lazy" decoding="async"
               src="assets/img/adi/adi-logo-white.svg" alt="ADI Global Distribution">
           </div>
+          <div class="panel-caption" aria-hidden="true">
+            <p class="panel-caption-title">ADI GLOBAL DISTRIBUTION</p>
+            <p class="panel-caption-role">Front-end development</p>
+            <p class="panel-caption-blurb">Build brand and article pages for ADI’s catalog across North America and EMEA using HTML, CSS, JavaScript, and the InSite CMS.</p>
+          </div>
           <div class="col-12 w-100 text-white text-right">
-            <h1 class="header-1 adi-title-2 panel-reveal text-right">
+            <h2 class="header-1 adi-title-2 panel-reveal text-right">
               ADI GLOBAL
               <br>
               DISTRIBUTION
-            </h1>
+            </h2>
             <p class="panel-role panel-reveal">Front-end development<span class="phone-role-break"><br></span> · 2021–present</p>
             <p class="panel-blurb adi-text panel-reveal">
               Build brand and article pages for ADI’s catalog across North America and EMEA using HTML, CSS, JavaScript, and the InSite CMS.
@@ -298,13 +303,11 @@
             </div>
           </div>
           <div class="col-12 my-auto text-center site-btn-container">
-            <a href="https://www.adiglobaldistribution.us/catalog/featured-brands/audio-technica" target="_blank" rel="noopener noreferrer" aria-label="View page: Audio-Technica brand page at ADI (opens in a new tab)">
-              <button class="resume-button learn-more site-btn" aria-label="View page: Audio-Technica brand page at ADI (opens in a new tab)">
+            <a class="resume-button learn-more site-btn" href="https://www.adiglobaldistribution.us/catalog/featured-brands/audio-technica" target="_blank" rel="noopener noreferrer" aria-label="View page: Audio-Technica brand page at ADI (opens in a new tab)">
                 <span class="circle project-circle-navy">
                   <span class="icon arrow"></span>
                 </span>
                 <span class="button-text text-white">view page</span>
-              </button>
             </a>
           </div>
         </section>
@@ -317,15 +320,20 @@
       <div class="expansion-col appddiction-col">
         <section class="expansion-section h-100 project-container row h-100 px-5">
           <div class="col-12 my-auto text-right site-logo-container">
-            <img class="appddiction-site-logo animated animatedFadeInUp w-50"
+            <img class="appddiction-site-logo animated animatedFadeInUp w-50" width="175" height="100" loading="lazy" decoding="async"
               src="assets/img/appddiction/Logo Circle Badge - White, Red Background.svg" alt="Appddiction Studio logo">
           </div>
+          <div class="panel-caption" aria-hidden="true">
+            <p class="panel-caption-title">APPDDICTION STUDIO</p>
+            <p class="panel-caption-role">Front-end development</p>
+            <p class="panel-caption-blurb">Led a team of four developers on the company’s original website, building its front end with Angular, Bootstrap, and Materialize in collaboration with two designers.</p>
+          </div>
           <div class="col-12 w-100 text-white text-right">
-            <h1 class="header-1 appddiction-title-2 panel-reveal text-right">
+            <h2 class="header-1 appddiction-title-2 panel-reveal text-right">
               APPDDICTION
               <br>
               STUDIO
-            </h1>
+            </h2>
             <p class="panel-role panel-reveal">Front-end development<span class="phone-role-break"><br></span> · 2018–2021</p>
             <p class="panel-blurb appddiction-text appddiction-title panel-reveal">
               Led a team of four developers on the company’s original website, building its front end with Angular, Bootstrap, and Materialize in collaboration with two designers.
@@ -336,13 +344,11 @@
             </div>
           </div>
           <div class="col-12 my-auto text-center site-btn-container">
-            <a href="https://appddictionstudio.com/" target="_blank" rel="noopener noreferrer" aria-label="View site: Appddiction Studio website (opens in a new tab)">
-              <button class="resume-button learn-more site-btn" aria-label="View site: Appddiction Studio website (opens in a new tab)">
+            <a class="resume-button learn-more site-btn" href="https://appddictionstudio.com/" target="_blank" rel="noopener noreferrer" aria-label="View site: Appddiction Studio website (opens in a new tab)">
                 <span class="circle project-circle-red">
                   <span class="icon arrow"></span>
                 </span>
                 <span class="button-text">view site</span>
-              </button>
             </a>
           </div>
         </section>
@@ -355,13 +361,19 @@
       <div class="expansion-col jstorm-col">
         <section class="expansion-section h-100 project-container row h-100">
           <div class="col-12 my-auto text-right site-logo-container">
-            <img class="jstorm-site-logo animated animatedFadeInUp w-50"
+            <img class="jstorm-site-logo animated animatedFadeInUp w-50" width="175" height="100" loading="lazy" decoding="async"
               src="assets/img/jstorm-logo/j.storm-logo-blk.png" alt="J.Storm logo">
           </div>
+          <div class="panel-caption" aria-hidden="true">
+            <p class="panel-caption-tag">Design</p>
+            <p class="panel-caption-title">J.STORM</p>
+            <p class="panel-caption-role">Logo design</p>
+            <p class="panel-caption-blurb">Designed the logo in Adobe Illustrator for Jeremy Lin’s professional esports organization.</p>
+          </div>
           <div class="col-12 w-100 text-white text-right">
-            <h1 class="header-1 jstorm-title-2 panel-reveal text-right">
+            <h2 class="header-1 jstorm-title-2 panel-reveal text-right">
               J.STORM
-            </h1>
+            </h2>
             <p class="panel-role panel-reveal">Logo design</p>
             <p class="panel-blurb jstorm-text panel-reveal">
               Designed the logo in Adobe Illustrator for Jeremy Lin’s professional esports organization.
@@ -372,13 +384,11 @@
             </div>
           </div>
           <div class="col-12 my-auto text-center site-btn-container">
-            <a href="https://web.archive.org/web/20190620061809/https://teamjstorm.com/our-impact" target="_blank" rel="noopener noreferrer">
-              <button class="resume-button learn-more site-btn">
+            <a class="resume-button learn-more site-btn" href="https://web.archive.org/web/20190620061809/https://teamjstorm.com/our-impact" target="_blank" rel="noopener noreferrer">
                 <span class="circle project-circle-blue">
                   <span class="icon arrow"></span>
                 </span>
                 <span class="button-text text-white">view archived page</span>
-              </button>
             </a>
           </div>
         </section>
@@ -391,13 +401,19 @@
       <div class="expansion-col mp-col">
         <section class="expansion-section h-100 project-container row h-100 px-5">
           <div class="col-12 my-auto text-right site-logo-container">
-            <img class="mp-site-logo animated animatedFadeInUp w-50"
+            <img class="mp-site-logo animated animatedFadeInUp w-50" width="175" height="100" loading="lazy" decoding="async"
               src="assets/img/mattprojekt/Barelogo.png" alt="MattProjekt logo">
           </div>
+          <div class="panel-caption" aria-hidden="true">
+            <p class="panel-caption-tag">Design</p>
+            <p class="panel-caption-title">MATTPROJEKT</p>
+            <p class="panel-caption-role">Logo design</p>
+            <p class="panel-caption-blurb">Designed a custom logo in Adobe Illustrator for the MattProjekt Twitch channel.</p>
+          </div>
           <div class="col-12 w-100 text-white text-right">
-            <h1 class="header-1 mp-title-2 panel-reveal text-right">
+            <h2 class="header-1 mp-title-2 panel-reveal text-right">
               MATTPROJEKT
-            </h1>
+            </h2>
             <p class="panel-role panel-reveal">Logo design</p>
             <p class="panel-blurb mp-text panel-reveal">
               Designed a custom logo in Adobe Illustrator for the MattProjekt Twitch channel.
@@ -408,13 +424,11 @@
             </div>
           </div>
           <div class="col-12 my-auto text-center site-btn-container">
-            <a href="https://www.twitch.tv/mattprojekt" target="_blank" rel="noopener noreferrer">
-              <button class="resume-button learn-more site-btn">
+            <a class="resume-button learn-more site-btn" href="https://www.twitch.tv/mattprojekt" target="_blank" rel="noopener noreferrer">
                 <span class="circle project-circle-purple">
                   <span class="icon arrow"></span>
                 </span>
                 <span class="button-text text-white">view channel</span>
-              </button>
             </a>
           </div>
         </section>
@@ -426,13 +440,19 @@
       <div class="expansion-col hc-col">
         <section class="expansion-section h-100 project-container row h-100 px-5">
           <div class="col-12 my-auto text-right site-logo-container">
-            <img class="hc-site-logo animated animatedFadeInUp w-50"
+            <img class="hc-site-logo animated animatedFadeInUp w-50" width="175" height="100" loading="lazy" decoding="async"
               src="assets/img/hotcoco/logo-purple.png" alt="HotCoco logo">
           </div>
+          <div class="panel-caption" aria-hidden="true">
+            <p class="panel-caption-tag">Design</p>
+            <p class="panel-caption-title">HOTCOCO</p>
+            <p class="panel-caption-role">Brand identity</p>
+            <p class="panel-caption-blurb">Designed the logo, stream overlays and animated graphics for my own Twitch channel.</p>
+          </div>
           <div class="col-12 w-100 text-white text-right">
-            <h1 class="header-1 hc-title-2 panel-reveal text-right">
+            <h2 class="header-1 hc-title-2 panel-reveal text-right">
               HOTCOCO
-            </h1>
+            </h2>
             <p class="panel-role panel-reveal">Brand identity and motion graphics</p>
             <p class="panel-blurb hc-text panel-reveal">
               Designed the logo, stream overlays and animated graphics for my own Twitch channel.
@@ -444,13 +464,11 @@
             </div>
           </div>
           <div class="col-12 my-auto text-center site-btn-container">
-            <a href="https://www.twitch.tv/hotcocogg" target="_blank" rel="noopener noreferrer">
-              <button class="resume-button learn-more site-btn">
+            <a class="resume-button learn-more site-btn" href="https://www.twitch.tv/hotcocogg" target="_blank" rel="noopener noreferrer">
                 <span class="circle project-circle-hc">
                   <span class="icon arrow"></span>
                 </span>
                 <span class="button-text text-white">view channel</span>
-              </button>
             </a>
           </div>
         </section>
@@ -558,6 +576,7 @@
   </section>
 
   <section id="resume" class="resume-two-container">
+    <h2 class="sr-only">Resume</h2>
     <div class="row up-chevron w-100 resume-up-chevron">
       <div class="col-12 col-lg-7 w-100 text-white chevron-controls">
         <a data-reveal class="arrow-up-2 hero-work-link on-light" href="#experience" aria-label="Go to Experience">
@@ -577,13 +596,11 @@
           <a class="resume-img-link mb-4" href="assets/AaronGTrevinoResume.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open resume PDF in a new tab">
             <img class="resume-img" src="assets/img/aarongtrevinoresume.png" alt="Aaron G. Trevino's resume, page 1" width="1547" height="2002">
           </a>
-          <a class="resume-download-link" href="assets/AaronGTrevinoResume.pdf" download aria-label="Download PDF of resume">
-            <button class="resume-button learn-more">
+          <a class="resume-download-link resume-button learn-more" href="assets/AaronGTrevinoResume.pdf" download aria-label="Download PDF of resume">
               <span class="circle">
                 <span class="icon arrow"></span>
               </span>
               <span class="button-text">download pdf</span>
-            </button>
           </a>
         </div>
       </div>
@@ -591,13 +608,13 @@
       <div class="col-xl-6 text-left">
         <div class="row strength-row animated animatedFadeInUp">
           <div class="col-12">
-            <h1 class="resume-title">
+            <h3 class="resume-title">
               <svg class="resume-svg" viewBox="0 0 24 24">
                 <path fill="#eb3b5a"
                   d="M12 0L3 7L4.63 8.27L12 14L19.36 8.27L21 7L12 0M19.37 10.73L12 16.47L4.62 10.74L3 12L12 19L21 12L19.37 10.73M19.37 15.73L12 21.47L4.62 15.74L3 17L12 24L21 17L19.37 15.73Z" />
               </svg>
               <span class="proficiencies-title strength-title">BUILT AT SCALE</span>
-            </h1>
+            </h3>
           </div>
           <p class="col-12 prof-text">
             ADI works with 1,000+ brands and manufacturers, and I build the pages that drive sales for their products.
@@ -605,13 +622,13 @@
         </div>
         <div class="row strength-row animated animatedFadeInUp">
           <div class="col-12">
-            <h1 class="resume-title">
+            <h3 class="resume-title">
               <svg class="resume-svg" viewBox="0 0 24 24">
                 <path fill="#eb3b5a"
                   d="M17.9,17.39C17.64,16.59 16.89,16 16,16H15V13A1,1 0 0,0 14,12H8V10H10A1,1 0 0,0 11,9V7H13A2,2 0 0,0 15,5V4.59C17.93,5.77 20,8.64 20,12C20,14.08 19.2,15.97 17.9,17.39M11,19.93C7.05,19.44 4,16.08 4,12C4,11.38 4.08,10.78 4.21,10.21L9,15V16A2,2 0 0,0 11,18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
               </svg>
               <span class="proficiencies-title strength-title">NORTH AMERICA AND EMEA</span>
-            </h1>
+            </h3>
           </div>
           <p class="col-12 prof-text">
             My ADI pages cover North America and EMEA, from the U.S. and Canada to France, Spain, Germany and Poland.
@@ -619,13 +636,13 @@
         </div>
         <div class="row strength-row animated animatedFadeInUp">
           <div class="col-12">
-            <h1 class="resume-title">
+            <h3 class="resume-title">
               <svg class="resume-svg" viewBox="0 0 24 24">
                 <path fill="#eb3b5a"
                   d="M8,3A2,2 0 0,0 6,5V9A2,2 0 0,1 4,11H3V13H4A2,2 0 0,1 6,15V19A2,2 0 0,0 8,21H10V19H8V14A2,2 0 0,0 6,12A2,2 0 0,0 8,10V5H10V3M16,3A2,2 0 0,1 18,5V9A2,2 0 0,0 20,11H21V13H20A2,2 0 0,0 18,15V19A2,2 0 0,1 16,21H14V19H16V14A2,2 0 0,1 18,12A2,2 0 0,1 16,10V5H14V3H16Z" />
               </svg>
               <span class="proficiencies-title strength-title">FROM FIGMA TO FRONT END</span>
-            </h1>
+            </h3>
           </div>
           <p class="col-12 prof-text">
             I turn Figma designs into HTML, CSS and JavaScript, and I do logo design in Adobe Illustrator.
@@ -633,13 +650,13 @@
         </div>
         <div class="row strength-row animated animatedFadeInUp">
           <div class="col-12">
-            <h1 class="resume-title">
+            <h3 class="resume-title">
               <svg class="resume-svg" viewBox="0 0 24 24">
                 <path fill="#eb3b5a"
                   d="M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1Z" />
               </svg>
               <span class="proficiencies-title strength-title">ANGULAR AT EODIMS</span>
-            </h1>
+            </h3>
           </div>
           <p class="col-12 prof-text">
             At Appddiction Studio I built front-end features in Angular for EODIMS, an Air Force application for explosive ordnance disposal technicians.
@@ -647,13 +664,13 @@
         </div>
         <div class="row strength-row animated animatedFadeInUp">
           <div class="col-12">
-            <h1 class="resume-title">
+            <h3 class="resume-title">
               <svg class="resume-svg" viewBox="0 0 24 24">
                 <path fill="#eb3b5a"
                   d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z" />
               </svg>
               <span class="proficiencies-title strength-title">TEAM LEAD</span>
-            </h1>
+            </h3>
           </div>
           <p class="col-12 prof-text">
             I led a four-person development team at Appddiction Studio. At ADI I work with designers, developers, QA teams and suppliers.
@@ -874,11 +891,9 @@
       <h2 class="contact-heading">Open to <span class="contact-nobreak">front-end</span> roles</h2>
       <p class="contact-line">Front-end developer with 8+ years of experience</p>
       <p class="contact-status"><span class="status-dot" aria-hidden="true"></span>Open to remote front-end roles</p>
-      <a href="mailto:aaron.g.trevino@gmail.com">
-        <button class="resume-button learn-more contact-email-btn">
+      <a class="resume-button learn-more contact-email-btn" href="mailto:aaron.g.trevino@gmail.com">
           <span class="circle"><span class="icon arrow"></span></span>
           <span class="button-text text-white">aaron.g.trevino@gmail.com</span>
-        </button>
       </a>
       <nav class="contact-links" aria-label="Profiles">
         <button type="button" class="copy-email">copy email</button>
@@ -889,13 +904,13 @@
       <span class="sr-only copy-live" aria-live="polite"></span>
     </div>
 
-    <img class="contact-signature signature-fade" data-src="assets/img/signature/aaron_sig.gif" alt="">
+    <img class="contact-signature signature-fade" data-src="assets/img/signature/aaron_sig.gif" alt="" width="1080" height="1080" decoding="async">
 
     <div class="contact-two-viewport"></div>
 
   </section>
 </main>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="js/main.js?v=92"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" crossorigin="anonymous"></script>
+    <script src="js/main.js?v=95"></script>
   </body>
 </html>

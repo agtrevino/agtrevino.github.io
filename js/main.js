@@ -2,28 +2,32 @@
 
 // One scroll run per frame
 function onWrapperScroll(fn) {
+  const wrapper = document.querySelector('.wrapper');
+  if (!wrapper) return;
   let ticking = false;
-  $('.wrapper').on('scroll', function () {
+  wrapper.addEventListener('scroll', function () {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
       ticking = false;
       fn.call(this);
     });
-  });
+  }, { passive: true });
 }
 
 // Blocks panel hover while scrolling (body.is-scrolling)
 function suppressHoverWhileScrolling() {
   let scrollTimeout;
+  const wrapper = document.querySelector('.wrapper');
+  if (!wrapper) return;
 
-  $('.wrapper').on('scroll', function () {
+  wrapper.addEventListener('scroll', function () {
     document.body.classList.add('is-scrolling');
     window.clearTimeout(scrollTimeout);
     scrollTimeout = window.setTimeout(() => {
       document.body.classList.remove('is-scrolling');
     }, 150);
-  });
+  }, { passive: true });
 }
 
 // Videos play only while hovered (or visible on touch)
@@ -70,6 +74,11 @@ function videoPlayback() {
     if (canHover) {
       col.addEventListener('mouseenter', play);
       col.addEventListener('mouseleave', () => video.pause());
+      // Keyboard focus inside the panel plays it too
+      col.addEventListener('focusin', play);
+      col.addEventListener('focusout', (event) => {
+        if (!col.contains(event.relatedTarget)) video.pause();
+      });
     } else if ('IntersectionObserver' in window) {
       new IntersectionObserver((entries) => {
         entries.forEach((e) => (e.isIntersecting ? play() : video.pause()));
@@ -300,7 +309,8 @@ function cardDots() {
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => {
       const card = row.querySelectorAll('.expansion-col')[i];
-      if (card) row.scrollTo({ left: card.offsetLeft - row.offsetLeft, behavior: 'smooth' });
+      const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (card) row.scrollTo({ left: card.offsetLeft - row.offsetLeft, behavior: calm ? 'auto' : 'smooth' });
     });
   });
   row.addEventListener('scroll', () => window.requestAnimationFrame(update), { passive: true });
@@ -620,6 +630,8 @@ function consoleHello() {
 
 // Runs every setup function once on page load
 function ngOnInit() {
+  // Blocked jQuery CDN: skip its code, show its content
+  if (!window.jQuery) document.documentElement.classList.add('no-jq');
   consoleHello();
   suppressHoverWhileScrolling();
     videoPlayback();
@@ -652,6 +664,7 @@ function ngOnInit() {
 
 // Hover: the logo fades out (the text is panelSequence's)
 function expandingCards() {
+    if (!window.jQuery) return;
     $(".expansion-col").each(function () {
       const logo = $(this).find(".site-logo-container img");
       $(this).on("mouseover", "div", function () {
@@ -697,7 +710,7 @@ function panelSequence() {
 
   const parts = (panel) => ({
     revealed: Array.from(panel.querySelectorAll('.panel-reveal')),
-    title: panel.querySelector('h1.panel-reveal'),
+    title: panel.querySelector('h2.panel-reveal'),
     role: panel.querySelector('.panel-role'),
     blurb: panel.querySelector('.panel-blurb'),
     image: panel.querySelector('img.panel-reveal'),
@@ -759,6 +772,13 @@ function panelSequence() {
     panel.addEventListener('mouseenter', () => start(panel));
     panel.addEventListener('mouseleave', () => {
       if (active && active.panel === panel) stop();
+    });
+    // Keyboard focus gets the same state as hover
+    panel.addEventListener('focusin', () => {
+      if (!active || active.panel !== panel) start(panel);
+    });
+    panel.addEventListener('focusout', (event) => {
+      if (!panel.contains(event.relatedTarget) && active && active.panel === panel) stop();
     });
   });
 
@@ -899,16 +919,22 @@ function showSlide(id) {
   const light = !!SLIDES[id].light;
   // Projects: dark nav on desktop; the name stays white
   const darkNav = light || (!!SLIDES[id].navDark && wideScreen.matches);
-  const names = SLIDE_IDS.map((name) => '.' + name);
-  $(names.map((name) => name + '-nav').join(',')).removeClass('active-nav');
-  $(names.map((name) => name + '-circle').join(','))
-    .removeClass('active-circle active-circle-black nav-circle-black');
-  $('.' + id + '-nav').addClass('active-nav');
-  $('.' + id + '-circle').addClass(darkNav ? 'active-circle-black nav-circle-black' : 'active-circle');
-  $('.nav-link-text').toggleClass('color-black', darkNav);
-  $('.line').toggleClass('line-black', darkNav);
-  $('.nav-circle').toggleClass('circle-black', darkNav);
-  $('.vertical-text-2').toggleClass('color-black', light);
+  const all = (selector) => document.querySelectorAll(selector);
+  SLIDE_IDS.forEach((name) => {
+    all('.' + name + '-nav').forEach((el) => el.classList.remove('active-nav'));
+    all('.' + name + '-circle').forEach((el) => {
+      el.classList.remove('active-circle', 'active-circle-black', 'nav-circle-black');
+    });
+  });
+  all('.' + id + '-nav').forEach((el) => el.classList.add('active-nav'));
+  all('.' + id + '-circle').forEach((el) => {
+    if (darkNav) el.classList.add('active-circle-black', 'nav-circle-black');
+    else el.classList.add('active-circle');
+  });
+  all('.nav-link-text').forEach((el) => el.classList.toggle('color-black', darkNav));
+  all('.line').forEach((el) => el.classList.toggle('line-black', darkNav));
+  all('.nav-circle').forEach((el) => el.classList.toggle('circle-black', darkNav));
+  all('.vertical-text-2').forEach((el) => el.classList.toggle('color-black', light));
   document.querySelectorAll('.vertical-menu a').forEach((link) => {
     if (link.getAttribute('href') === '#' + id) link.setAttribute('aria-current', 'true');
     else link.removeAttribute('aria-current');
@@ -1315,7 +1341,7 @@ function experienceSlide() {
     });
   };
 
-  // The backdrop logo changes with the employer, not the step
+  // The backdrop logo follows the employer, not the step
   let shownLogo = null;
   const announce = (track, station, initial) => {
     if (track.dataset.track === shownLogo) return;
@@ -1567,6 +1593,7 @@ function slideSync() {
 
 // Fades the resume strengths in one by one
 function resumeTitleViewCheck() {
+    if (!window.jQuery) return;
     onWrapperScroll(function () {
       var scrollTop = $(window).scrollTop();
       var windowHeight = $(window).height();
