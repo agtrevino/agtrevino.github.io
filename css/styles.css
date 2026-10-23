@@ -3043,7 +3043,7 @@ video {
     --cap-k: 28px;
     position: absolute;
     top: var(--cap-top);
-    left: %;
+    left: 6%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
