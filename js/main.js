@@ -1325,34 +1325,15 @@ function experienceSlide() {
   const pickedOf = (track) => stationsOf(track).find((s) => s.getAttribute('aria-pressed') === 'true') || stationsOf(track)[0];
   let activeTab = Math.max(0, tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true'));
 
-  // Key facts: a label, then a typed number and its text
+  // Key facts: a label, then the number and its text
   const statEls = Array.from(section.querySelectorAll('.exp-stat'));
-  const statParts = statEls.map((stat) => {
-    const num = stat.querySelector('.exp-stat-num');
-    const readable = document.createElement('span');
-    readable.className = 'sr-only';
-    const typed = document.createElement('span');
-    typed.setAttribute('aria-hidden', 'true');
-    const rest = document.createElement('span');
-    rest.className = 'panel-rest';
-    rest.setAttribute('aria-hidden', 'true');
-    num.textContent = '';
-    num.append(readable, typed, rest);
-    return { stat, readable, typed, rest, key: stat.querySelector('.exp-stat-key'), label: stat.querySelector('.exp-stat-label') };
-  });
-  let statCancels = [];
-  let statTimers = [];
-  let statMode = 'show';
-  const stopStats = () => {
-    statCancels.forEach((cancel) => cancel());
-    statTimers.forEach((id) => window.clearTimeout(id));
-    statCancels = [];
-    statTimers = [];
-  };
-  // mode: 'show' (full), 'hide' (empty, laid out) or 'type'
-  const renderStats = (index, mode) => {
-    stopStats();
-    statMode = mode;
+  const statParts = statEls.map((stat) => ({
+    stat,
+    key: stat.querySelector('.exp-stat-key'),
+    num: stat.querySelector('.exp-stat-num'),
+    label: stat.querySelector('.exp-stat-label'),
+  }));
+  const renderStats = (index) => {
     const rows = (tabs[index].dataset.stats || '').split(';').filter(Boolean).map((row) => row.split('|'));
     statParts.forEach((part, i) => {
       const row = rows[i];
@@ -1361,18 +1342,8 @@ function experienceSlide() {
       const [key, value, label] = row;
       part.key.textContent = key;
       part.stat.classList.toggle('no-num', !value);
-      part.readable.textContent = value;
+      part.num.textContent = value;
       part.label.textContent = label;
-      if (mode === 'type' && value) {
-        part.typed.textContent = '';
-        part.rest.textContent = value;
-        statTimers.push(window.setTimeout(() => {
-          statCancels.push(typeText(part.typed, part.rest, value, 70));
-        }, i * 180));
-      } else {
-        part.typed.textContent = mode === 'hide' ? '' : value;
-        part.rest.textContent = mode === 'hide' ? value : '';
-      }
     });
   };
 
@@ -1478,9 +1449,13 @@ function experienceSlide() {
     summary.textContent = tabs[index].dataset.summary || '';
     section.dataset.employer = tracks[index].dataset.track;
     moveBar();
-    if (byUser) renderStats(index, reduced.matches ? 'show' : 'type');
+    if (byUser) renderStats(index);
     if (byUser && !reduced.matches) {
-      [role, summary].forEach((el) => el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250 }));
+      // The text under the tabs rises in turn
+      [role, ...statEls, summary].forEach((el, i) => el.animate(
+        [{ opacity: 0, translate: '0 12px' }, { opacity: 1, translate: '0 0' }],
+        { duration: 450, delay: i * 60, easing: 'ease-out', fill: 'backwards' },
+      ));
     }
     const track = tracks[index];
     const station = pickedOf(track);
@@ -1493,20 +1468,20 @@ function experienceSlide() {
   // Tabs share the tallest role, summary and facts
   const statsBox = section.querySelector('.exp-stats');
   const fitHeights = () => {
-    const keep = { role: role.textContent, summary: summary.textContent, mode: statMode };
+    const keep = { role: role.textContent, summary: summary.textContent };
     const boxes = [role, summary, statsBox];
     boxes.forEach((el) => { el.style.minHeight = ''; });
     const tall = [0, 0, 0];
     tabs.forEach((tab, i) => {
       role.textContent = tab.dataset.role || '';
       summary.textContent = tab.dataset.summary || '';
-      renderStats(i, 'show');
+      renderStats(i);
       boxes.forEach((el, k) => { tall[k] = Math.max(tall[k], el.offsetHeight); });
     });
     role.textContent = keep.role;
     summary.textContent = keep.summary;
     boxes.forEach((el, k) => { el.style.minHeight = tall[k] + 'px'; });
-    renderStats(activeTab, keep.mode === 'type' ? 'show' : keep.mode);
+    renderStats(activeTab);
   };
   let fitFrame = 0;
   window.addEventListener('resize', () => {
@@ -1561,11 +1536,18 @@ function experienceSlide() {
   // Opens on the first tab and station, without typing
   showTab(activeTab, false);
   if (bar) window.requestAnimationFrame(() => window.requestAnimationFrame(() => bar.classList.add('is-ready')));
-  const ready = section.classList.contains('tools-ready');
-  renderStats(activeTab, ready ? 'hide' : 'show');
+  renderStats(activeTab);
   fitHeights();
-  section.addEventListener('slidein', () => renderStats(activeTab, 'type'));
-  section.addEventListener('slideout', () => renderStats(activeTab, 'hide'));
+  // Right side: items rise in turn, then the stations
+  const STEP = 70;
+  const lead = [section.querySelector('.tools-heading'), section.querySelector('.exp-tabs'), role, ...statEls, summary];
+  lead.forEach((el, i) => { if (el) el.style.setProperty('--d', i * STEP); });
+  tracks.forEach((track) => {
+    const base = lead.length * STEP;
+    const title = track.querySelector('.exp-track-title');
+    if (title) title.style.setProperty('--d', base);
+    stationsOf(track).forEach((s, k) => s.style.setProperty('--d', base + STEP + k * 45));
+  });
   const track = tracks[activeTab];
   const station = pickedOf(track);
   fill(track, station);

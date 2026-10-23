@@ -732,11 +732,59 @@ body.hero-offscreen .bg1::after {
   background: linear-gradient(135deg, var(--bg-a) 0%, var(--bg-b) 55%, var(--bg-c) 100%);
 }
 
-/* Soft red glow at the bottom right, near the red line */
+/* The slate gradient fills left of the accent line only */
 #contact .contact-bg {
-  background:
-    radial-gradient(ellipse 45% 55% at 82% 72%, rgb(235 59 90 / 0.12), transparent 70%),
-    linear-gradient(135deg, var(--bg-a) 0%, var(--bg-b) 55%, var(--bg-c) 100%);
+  background: none;
+}
+
+#contact::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--bg-a) 0%, var(--bg-b) 55%, var(--bg-c) 100%);
+  clip-path: polygon(0 0, calc(88% + 18.2vh) 0, calc(88% - 18.2vh) 100%, 0 100%);
+}
+
+/* The base parallax layer is not needed here */
+#contact::after {
+  display: none;
+}
+
+/* Tinted glass right of the accent line, deeper (parallax) */
+.contact-glass {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform: translateZ(-1px) scale(1.5);
+}
+
+.contact-glass::before,
+.contact-glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+/* Lighter 1px edge: the glass starts 1px to the right */
+.contact-glass::before {
+  background: rgba(255, 255, 255, 0.22);
+  clip-path: polygon(calc(88% + 18.2vh) 0, 100% 0, 100% 100%, calc(88% - 18.2vh) 100%);
+}
+
+.contact-glass::after {
+  background: linear-gradient(rgba(10, 10, 12, 0.7), rgba(10, 10, 12, 0.7)), url("../assets/img/background/graffiti-4.jpg") center / cover no-repeat;
+  clip-path: polygon(calc(88% + 18.2vh + 1px) 0, 100% 0, 100% 100%, calc(88% - 18.2vh + 1px) 100%);
+}
+
+/* Small screens: no glass; the gradient fills the slide */
+@media (max-width: 900px) {
+  .contact-glass {
+    display: none;
+  }
+
+  #contact::before {
+    clip-path: none;
+  }
 }
 
 /* Noise dithers the gradient to avoid banding */
@@ -890,7 +938,6 @@ body.hero-offscreen .bg1::after {
   margin: 0 0 28px;
   border: 3px solid #fff;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px #eb3b5a, 0 0 22px 4px rgb(235 59 90 / 0.28);
   object-fit: cover;
 }
 
@@ -1626,6 +1673,18 @@ body.hero-offscreen .bg1::after {
   animation-delay: calc(var(--i, 0) * 35ms);
 }
 
+/* Experience, right side: items rise in turn (--d, ms) */
+.tools-ready .exp-rise {
+  opacity: 0;
+  translate: 0 12px;
+}
+
+.exp-container.tools-ready.tools-in .exp-rise,
+.exp-container.tools-ready.tools-in .exp-station {
+  animation: toolsRise 500ms ease-out both;
+  animation-delay: calc(var(--d, 0) * 1ms);
+}
+
 @keyframes toolsRise {
   from {
     opacity: 0;
@@ -1656,13 +1715,15 @@ body.hero-offscreen .bg1::after {
   }
 
   .tools-ready .tool,
-  .tools-ready .exp-station {
+  .tools-ready .exp-station,
+  .tools-ready .exp-rise {
     opacity: 1;
     translate: none;
   }
 
   .tools-ready.tools-in .tool,
-  .tools-ready.tools-in .exp-station {
+  .tools-ready.tools-in .exp-station,
+  .exp-container.tools-ready.tools-in .exp-rise {
     animation: none;
   }
 
@@ -2783,6 +2844,13 @@ video {
   filter: drop-shadow(0 2px 18px rgba(0, 0, 0, 0.55));
 }
 
+/* Before the loop starts the icon rests hidden */
+.js .word-icon {
+  opacity: 0;
+  transform: scale(0.4) rotate(-20deg);
+  transition: none;
+}
+
 /* The icon pops in late in the wipe; it fades out first */
 .rw-js .word-icon {
   opacity: 0;
@@ -3321,8 +3389,9 @@ video {
 
 /* A small label above each track; the pin sits below it */
 .exp-track-title {
-  position: relative;
   grid-column: 1 / -1;
+  justify-self: start;
+  align-self: flex-start;
   height: var(--title-h);
   margin: 0 0 calc(28px + var(--title-gap));
   font-family: "ralewaySemi";
@@ -3334,19 +3403,30 @@ video {
   color: rgba(255, 255, 255, 0.78);
 }
 
-/* A short underline in the employer's color */
+/* A red bar a third of the text wide, like Contact's */
+.exp-container .tools-heading,
+.exp-track-title {
+  position: relative;
+  width: fit-content;
+}
+
+.exp-container .tools-heading::after,
 .exp-track-title::after {
   content: "";
   position: absolute;
-  bottom: 0;
   left: 0;
-  width: max(33%, 5.5rem);
-  height: 2px;
-  background: #3d7cc0;
+  width: 33.33%;
+  height: 3px;
+  background: #eb3b5a;
 }
 
-.exp-track[data-track="app"] .exp-track-title::after {
-  background: #e23b45;
+.exp-container .tools-heading::after {
+  bottom: -12px;
+}
+
+/* Scaled to the small label: the same gap would float */
+.exp-track-title::after {
+  bottom: -5px;
 }
 
 /* A hairline through the dot centers, gapped at each dot */
@@ -3604,14 +3684,13 @@ video {
 /* Key facts: a small label, then a line, number bold */
 .exp-stats {
   display: grid;
-  gap: 5px;
   margin: clamp(10px, 2vh, 18px) 0 0;
-  padding-left: 14px;
-  border-left: 2px solid var(--emp-hi);
-  transition: border-color 400ms;
 }
 
 .exp-stat {
+  padding: 2.5px 0 2.5px 14px;
+  border-left: 2px solid var(--emp-hi);
+  transition: border-color 400ms;
   display: grid;
   grid-template-columns: 6.2em 1fr;
   align-items: baseline;
