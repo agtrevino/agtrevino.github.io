@@ -26,94 +26,6 @@ function suppressHoverWhileScrolling() {
   });
 }
 
-// Once scrolling stops, glides to the nearest slide
-function slideSnap() {
-  const wrapper = document.querySelector('.wrapper');
-  if (!wrapper) return;
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let idle = 0;
-  let frame = 0;
-  let touching = false;
-  let rest = wrapper.scrollTop;
-
-  const stop = () => {
-    window.cancelAnimationFrame(frame);
-    frame = 0;
-  };
-
-  // A tall slide rests anywhere inside it; between slides
-  // the scroll direction picks the next stop
-  const target = () => {
-    const y = wrapper.scrollTop;
-    const way = Math.sign(y - rest);
-    const view = wrapper.clientHeight;
-    const origin = wrapper.getBoundingClientRect().top - y;
-    const max = wrapper.scrollHeight - view;
-    let best = y;
-    let gap = Infinity;
-    let before = -Infinity;
-    let after = Infinity;
-    wrapper.querySelectorAll(':scope > section, #projects > .content').forEach((el) => {
-      const rect = el.getBoundingClientRect();
-      if (!rect.height) return;
-      const lo = Math.min(rect.top - origin, max);
-      const hi = Math.max(lo, Math.min(rect.bottom - origin - view, max));
-      const spot = Math.min(hi, Math.max(lo, y));
-      if (Math.abs(spot - y) < gap) {
-        gap = Math.abs(spot - y);
-        best = spot;
-      }
-      if (hi < y - 1) before = Math.max(before, hi);
-      if (lo > y + 1) after = Math.min(after, lo);
-    });
-    if (gap < 2 || !way) return best;
-    const pick = way > 0 ? after : before;
-    return Number.isFinite(pick) ? pick : best;
-  };
-
-  const glide = (to) => {
-    const from = wrapper.scrollTop;
-    const dist = to - from;
-    if (Math.abs(dist) < 2) return;
-    if (reduced.matches) {
-      wrapper.scrollTo({ top: to, behavior: 'instant' });
-      return;
-    }
-    const time = 600 + 500 * Math.min(1, Math.abs(dist) / wrapper.clientHeight);
-    const began = performance.now();
-    const step = (now) => {
-      const t = Math.min(1, (now - began) / time);
-      const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      wrapper.scrollTo({ top: from + dist * eased, behavior: 'instant' });
-      frame = t < 1 ? window.requestAnimationFrame(step) : 0;
-    };
-    frame = window.requestAnimationFrame(step);
-  };
-
-  const wait = () => {
-    window.clearTimeout(idle);
-    if (touching) return;
-    idle = window.setTimeout(() => {
-      if (frame) return;
-      const to = target();
-      rest = to;
-      glide(to);
-    }, 140);
-  };
-
-  // The user takes over: stop the glide
-  ['wheel', 'keydown', 'pointerdown'].forEach((type) => {
-    wrapper.addEventListener(type, stop, { passive: true });
-  });
-  wrapper.addEventListener('touchstart', () => {
-    touching = true;
-    stop();
-    window.clearTimeout(idle);
-  }, { passive: true });
-  wrapper.addEventListener('touchend', () => { touching = false; wait(); }, { passive: true });
-  wrapper.addEventListener('scroll', () => { if (!frame) wait(); }, { passive: true });
-}
-
 // Videos play only while hovered (or visible on touch)
 function videoPlayback() {
   const canHover = window.matchMedia('(hover: hover)').matches;
@@ -710,7 +622,6 @@ function consoleHello() {
 function ngOnInit() {
   consoleHello();
   suppressHoverWhileScrolling();
-  slideSnap();
     videoPlayback();
     hotcocoLogo();
     cardDots();
@@ -1404,7 +1315,11 @@ function experienceSlide() {
     });
   };
 
+  // The backdrop logo changes with the employer, not the step
+  let shownLogo = null;
   const announce = (track, station, initial) => {
+    if (track.dataset.track === shownLogo) return;
+    shownLogo = track.dataset.track;
     section.dispatchEvent(new CustomEvent('toolchange', {
       detail: { tool: station, svg: logo(track.dataset.track), brand: BRANDS[track.dataset.track], initial },
     }));
