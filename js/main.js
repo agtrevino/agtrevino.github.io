@@ -171,6 +171,7 @@ function contactParallax() {
   const section = document.getElementById('contact');
   const layer = section && section.querySelector('.code-layer');
   const wrapper = document.querySelector('.wrapper');
+  const glass = section && section.querySelector('.contact-glass');
   if (!layer || !wrapper) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
       window.matchMedia('(hover: none)').matches) return;
@@ -182,7 +183,17 @@ function contactParallax() {
     section.querySelectorAll('.code-layer').forEach((el) => {
       el.style.setProperty('--py', (p * -120) + 'px');
     });
+    // The picture lags the scroll, within its 25% bleed
+    if (glass) glass.style.setProperty('--sy', (Math.max(-1, Math.min(1, p)) * window.innerHeight * 0.22) + 'px');
   };
+  // It also leans a little against the pointer
+  if (glass) {
+    section.addEventListener('pointermove', (event) => {
+      const box = section.getBoundingClientRect();
+      glass.style.setProperty('--mx', ((0.5 - (event.clientX - box.left) / box.width) * 32) + 'px');
+      glass.style.setProperty('--my', ((0.5 - (event.clientY - box.top) / box.height) * 24) + 'px');
+    }, { passive: true });
+  }
   wrapper.addEventListener('scroll', () => {
     if (ticking) return;
     ticking = true;

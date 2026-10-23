@@ -331,7 +331,7 @@ body.hero-offscreen .bg1::after {
   z-index: 9;
   margin: 0 auto;
   font-family: "ralewayExtraBold";
-  font-size: min(max(14px, calc((34vw - 48px) / 10.4)), 54px);
+  font-size: min(max(14px, calc((34vw - 48px) / 11.4)), 54px);
   text-transform: uppercase;
   letter-spacing: -1px;
   text-align: center;
@@ -370,7 +370,7 @@ body.hero-offscreen .bg1::after {
   }
 
   .lets-title {
-    font-size: clamp(18px, 6vw, 44px);
+    font-size: clamp(16px, 5vw, 44px);
   }
 }
 
@@ -732,6 +732,11 @@ body.hero-offscreen .bg1::after {
   background: linear-gradient(135deg, var(--bg-a) 0%, var(--bg-b) 55%, var(--bg-c) 100%);
 }
 
+/* The glass layer is cut at the slide edge */
+#contact {
+  overflow: clip;
+}
+
 /* The slate gradient fills left of the accent line only */
 #contact .contact-bg {
   background: none;
@@ -745,35 +750,30 @@ body.hero-offscreen .bg1::after {
   clip-path: polygon(0 0, calc(88% + 18.2vh) 0, calc(88% - 18.2vh) 100%, 0 100%);
 }
 
-/* The base parallax layer is not needed here */
-#contact::after {
-  display: none;
-}
-
-/* Tinted glass right of the accent line, deeper (parallax) */
+/* Tinted glass right of the accent line; edge stays put */
 .contact-glass {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  transform: translateZ(-1px) scale(1.5);
-}
-
-.contact-glass::before,
-.contact-glass::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-/* Lighter 1px edge: the glass starts 1px to the right */
-.contact-glass::before {
+  /* This is the lighter 1px edge; the fill starts 1px in */
   background: rgba(255, 255, 255, 0.22);
   clip-path: polygon(calc(88% + 18.2vh) 0, 100% 0, 100% 100%, calc(88% - 18.2vh) 100%);
 }
 
-.contact-glass::after {
-  background: linear-gradient(rgba(10, 10, 12, 0.7), rgba(10, 10, 12, 0.7)), url("../assets/img/background/graffiti-4.jpg") center / cover no-repeat;
+.contact-glass-fill {
+  position: absolute;
+  inset: 0;
   clip-path: polygon(calc(88% + 18.2vh + 1px) 0, 100% 0, 100% 100%, calc(88% - 18.2vh + 1px) 100%);
+}
+
+/* The picture is larger than the glass, so it can drift */
+.contact-glass-fill::before {
+  content: "";
+  position: absolute;
+  inset: -25% -4%;
+  background: linear-gradient(rgba(10, 10, 12, 0.7), rgba(10, 10, 12, 0.7)), url("../assets/img/background/graffiti-4.jpg") center / cover no-repeat;
+  transform: translate(var(--mx, 0px), calc(var(--sy, 0px) + var(--my, 0px)));
+  will-change: transform;
 }
 
 /* Small screens: no glass; the gradient fills the slide */
@@ -2842,6 +2842,11 @@ video {
 .word-text.wipe {
   text-shadow: none;
   filter: drop-shadow(0 2px 18px rgba(0, 0, 0, 0.55));
+}
+
+/* The icon takes its slot's color, like the word */
+.word-icon path {
+  fill: var(--final);
 }
 
 /* Before the loop starts the icon rests hidden */
