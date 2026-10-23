@@ -348,8 +348,8 @@ function heroWords() {
   const home = document.getElementById('home');
   if (!root || !home) return;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const POP_AT = 900;
-  const DONE_AT = 1500;
+  const POP_AT = 350;
+  const DONE_AT = 750;
   const OUT_AT = 3000;
   const END_AT = 3450;
   const FADE_HOLD = 1500;
