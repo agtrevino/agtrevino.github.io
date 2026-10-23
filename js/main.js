@@ -964,6 +964,14 @@ function showSlide(id) {
     if (link.getAttribute('href') === '#' + id) link.setAttribute('aria-current', 'true');
     else link.removeAttribute('aria-current');
   });
+
+  // Show all nav labels only on the first and last slides
+  const menu = document.querySelector('.vertical-menu');
+  if (menu) {
+    const showAll = id === SLIDE_IDS[0] || id === SLIDE_IDS[SLIDE_IDS.length - 1];
+    menu.classList.toggle('nav-all', showAll);
+    if (!showAll) menu.classList.remove('nav-intro');
+  }
 }
 
 // Items fade and rise in turn when the slide shows
