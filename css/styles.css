@@ -4743,7 +4743,7 @@ video {
   .jstorm-col h2,
   .mp-col h2,
   .hc-col h2 {
-    --lines: 1;
+    --lines: 1 !important;
   }
 
   /* The red bar is as tall as the title lines, no taller */
