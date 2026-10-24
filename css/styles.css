@@ -2161,7 +2161,7 @@ header .overlay-white {
   fill: #eb3b5a;
 }
 
-/* Text: lighter red, except on the light slide */
+/* Color change only on hover: avoid font swap/weight shift */
 .hero-work-link:hover span,
 .hero-work-link:focus-visible span {
   color: #ff6b81;
@@ -2170,13 +2170,6 @@ header .overlay-white {
 .hero-work-link.on-light:hover span,
 .hero-work-link.on-light:focus-visible span {
   color: #eb3b5a;
-}
-
-/* Real SemiBold: readable red over the graffiti */
-.hero-work-link:hover span,
-.hero-work-link:focus-visible span {
-  font-family: "ralewaySemi";
-  font-weight: 600;
 }
 
 /* Rotated 180deg, so clipping runs from the bottom */
