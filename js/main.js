@@ -100,7 +100,9 @@ function contactParallax() {
   let ticking = false;
   const update = () => {
     ticking = false;
-    const p = section.getBoundingClientRect().top / window.innerHeight;
+    const rect = section.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight * 2) return;
+    const p = rect.top / window.innerHeight;
     section.querySelectorAll('.code-layer').forEach((el) => {
       el.style.setProperty('--py', (p * -120) + 'px');
     });
@@ -325,10 +327,11 @@ function heroScroll() {
   if (!wrapper || !hero) return;
 
   let ticking = false;
+  const targets = Array.from(hero.querySelectorAll('.hero-tagline, .hero-location, .hero-proof, .hero-divider, .lets-title'));
   const update = () => {
     ticking = false;
     const progress = Math.min(1, Math.max(0, wrapper.scrollTop / (0.6 * window.innerHeight)));
-    hero.style.setProperty('--hero-p', progress);
+    targets.forEach((el) => el.style.setProperty('--hero-p', progress));
   };
 
   wrapper.addEventListener('scroll', () => {
