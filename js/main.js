@@ -43,7 +43,8 @@ function videoPlayback() {
   const loadVideos = () => {
     if (cardLayout.matches) return;
     document.querySelectorAll('.expansion-col video').forEach((video) => {
-      video.preload = 'auto';
+      // Load only metadata up front; full data loads on hover/play
+      video.preload = 'metadata';
       if (video.paused) video.load();
     });
   };
@@ -68,12 +69,28 @@ function videoPlayback() {
     if (!video) return;
     const play = () => {
       if (cardLayout.matches) return;
+      // Promote this panel's video to full load on demand
+      video.preload = 'auto';
       const p = video.play();
       if (p && p.catch) p.catch(() => {});
     };
     if (canHover) {
-      col.addEventListener('mouseenter', play);
-      col.addEventListener('mouseleave', () => video.pause());
+      // Delay playback slightly so it does not fight the panel expansion animation
+      let hoverTimer = null;
+      const startHoverPlay = () => {
+        if (cardLayout.matches) return;
+        if (hoverTimer) return;
+        hoverTimer = window.setTimeout(() => {
+          hoverTimer = null;
+          play();
+        }, 150);
+      };
+      const stopHoverPlay = () => {
+        if (hoverTimer) { window.clearTimeout(hoverTimer); hoverTimer = null; }
+        video.pause();
+      };
+      col.addEventListener('mouseenter', startHoverPlay);
+      col.addEventListener('mouseleave', stopHoverPlay);
       // Keyboard focus inside the panel plays it too
       col.addEventListener('focusin', play);
       col.addEventListener('focusout', (event) => {
@@ -683,6 +700,7 @@ function projectViewButtons() {
 
   // Re-enable hover once the pointer leaves the locked panel
   document.addEventListener('mousemove', (event) => {
+    if (locked.size === 0) return;
     locked.forEach((col) => {
       const rect = col.getBoundingClientRect();
       const inside =
