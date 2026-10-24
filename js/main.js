@@ -514,7 +514,10 @@ function signatureAnimation(slide, signature) {
 
   const replay = () => {
     firstPlay = false;
-    signature.src = source;
+    // A new URL forces the browser to restart the GIF instead of showing
+    // the cached (already-finished) animation as a static image.
+    signature.removeAttribute('src');
+    signature.src = source + (source.includes('?') ? '&' : '?') + 'r=' + Date.now();
     signature.classList.remove('signature-fade');
   };
 
