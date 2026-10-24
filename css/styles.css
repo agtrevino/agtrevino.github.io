@@ -286,13 +286,31 @@ body.hero-offscreen .bg1::after {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  transition: 2500ms;
+  transition: none;
 }
 
 /* Smaller image up to 900px wide */
 @media (max-width: 900px) {
   .bg1::after {
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("../assets/img/background/graffiti-4-1200.webp");
+  }
+}
+
+/* Firefox: 3D perspective on the scroll root forces full-page re-rasterization
+   on every scroll frame. Drop the parallax to keep scrolling smooth there. */
+@-moz-document url-prefix() {
+  .wrapper {
+    perspective: none;
+  }
+  .parallax {
+    transform-style: flat;
+  }
+  .parallax::after,
+  .bg1::after {
+    transform: none;
+  }
+  .bg1::after {
+    transition: none;
   }
 }
 
@@ -2622,7 +2640,7 @@ video {
   height: auto;
 }
 .resume-button.learn-more .circle {
-  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  transition: width 0.45s cubic-bezier(0.65, 0, 0.076, 1), background 0.45s cubic-bezier(0.65, 0, 0.076, 1);
   position: relative;
   display: block;
   margin: 0;
@@ -2632,7 +2650,7 @@ video {
   border-radius: 1.625rem;
 }
 .resume-button.learn-more .circle .icon {
-  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.076, 1);
   position: absolute;
   top: 0;
   bottom: 0;
@@ -2640,7 +2658,7 @@ video {
   background: #fff;
 }
 .resume-button.learn-more .circle .icon.arrow {
-  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.076, 1), background 0.45s cubic-bezier(0.65, 0, 0.076, 1);
   left: 0.625rem;
   width: 1.125rem;
   height: 0.125rem;
@@ -2658,7 +2676,7 @@ video {
   transform: rotate(45deg);
 }
 .resume-button.learn-more .button-text {
-  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  transition: color 0.45s cubic-bezier(0.65, 0, 0.076, 1);
   position: absolute;
   top: 0;
   left: 0;
@@ -4835,8 +4853,8 @@ video {
   left: 0;
   pointer-events: none;
   z-index: 9999999999999;
-  mix-blend-mode: difference;
   will-change: transform;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45);
 }
 
 .cursor-dot {
@@ -4864,11 +4882,11 @@ video {
 }
 
 /* Hover state over clickable elements */
-.cursor-hover .cursor-dot {
+.cursor-dot.is-hover {
   opacity: 0;
 }
 
-.cursor-hover .cursor-ring {
+.cursor-ring.is-hover {
   width: 46px;
   height: 46px;
   margin: -23px 0 0 -23px;

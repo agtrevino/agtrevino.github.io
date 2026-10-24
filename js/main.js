@@ -1685,6 +1685,8 @@ function navHoverProximity() {
   if (!window.matchMedia('(hover: hover)').matches) return;
 
   let current = null;
+  let rafId = 0;
+  let pendingEvent = null;
   const clear = () => {
     if (current) {
       current.classList.remove('is-nearest');
@@ -1693,23 +1695,24 @@ function navHoverProximity() {
   };
   const items = () => Array.from(menu.querySelectorAll('.nav-link-container'));
 
-  const update = (e) => {
+  const run = () => {
+    rafId = 0;
+    const e = pendingEvent;
+    pendingEvent = null;
+    if (!e) return;
     const list = items();
     if (!list.length) return;
 
-    // Nav lives on the right edge; only react in that horizontal band.
     const rightEdge = window.innerWidth;
     const bandLeft = rightEdge - 320;
     if (e.clientX < bandLeft) { clear(); return; }
 
-    // Vertical span of the nav (with generous padding for gaps/margins).
     const first = list[0].getBoundingClientRect();
     const last = list[list.length - 1].getBoundingClientRect();
     const top = first.top - 40;
     const bottom = last.bottom + 40;
     if (e.clientY < top || e.clientY > bottom) { clear(); return; }
 
-    // Pick nearest by vertical center.
     let best = null;
     let bestDist = Infinity;
     list.forEach((item) => {
@@ -1722,7 +1725,6 @@ function navHoverProximity() {
       }
     });
 
-    // Only switch if reasonably close to a label's center.
     if (!best || bestDist > 120) { clear(); return; }
 
     if (best !== current) {
@@ -1730,6 +1732,11 @@ function navHoverProximity() {
       best.classList.add('is-nearest');
       current = best;
     }
+  };
+
+  const update = (e) => {
+    pendingEvent = e;
+    if (!rafId) rafId = requestAnimationFrame(run);
   };
 
   document.addEventListener('mousemove', update);
@@ -1756,22 +1763,32 @@ function customCursor() {
   let my = window.innerHeight / 2;
   let rx = mx;
   let ry = my;
+  let rafId = 0;
+
+  const tick = () => {
+    rx += (mx - rx) * 0.16;
+    ry += (my - ry) * 0.16;
+    ring.style.transform = 'translate3d(' + rx + 'px, ' + ry + 'px, 0)';
+    // Stop the loop once the ring has caught up; restart on next move
+    if (Math.abs(mx - rx) > 0.1 || Math.abs(my - ry) > 0.1) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      rx = mx;
+      ry = my;
+      ring.style.transform = 'translate3d(' + rx + 'px, ' + ry + 'px, 0)';
+      rafId = 0;
+    }
+  };
 
   document.addEventListener('mousemove', (e) => {
     mx = e.clientX;
     my = e.clientY;
     dot.style.transform = 'translate3d(' + mx + 'px, ' + my + 'px, 0)';
     const isHover = !!e.target.closest(hoverSelector);
-    document.body.classList.toggle('cursor-hover', isHover);
+    dot.classList.toggle('is-hover', isHover);
+    ring.classList.toggle('is-hover', isHover);
+    if (!rafId) rafId = requestAnimationFrame(tick);
   });
-
-  const tick = () => {
-    rx += (mx - rx) * 0.16;
-    ry += (my - ry) * 0.16;
-    ring.style.transform = 'translate3d(' + rx + 'px, ' + ry + 'px, 0)';
-    requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
 
   document.addEventListener('mouseleave', () => {
     dot.style.opacity = '0';
