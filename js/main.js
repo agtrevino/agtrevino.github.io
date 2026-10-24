@@ -1873,7 +1873,8 @@ function customCursor() {
     if (!rafId) rafId = requestAnimationFrame(tick);
   });
 
-  document.addEventListener('mouseleave', () => {
+  document.addEventListener('mouseleave', (e) => {
+    if (e.target !== document) return;
     dot.style.opacity = '0';
     ring.style.opacity = '0';
   });
@@ -1881,6 +1882,17 @@ function customCursor() {
     dot.style.opacity = '1';
     ring.style.opacity = '';
   });
+  const restoreCursor = () => {
+    dot.style.opacity = '1';
+    ring.style.opacity = '';
+    dot.style.transform = 'translate3d(' + mx + 'px, ' + my + 'px, 0)';
+    ring.style.transform = 'translate3d(' + rx + 'px, ' + ry + 'px, 0)';
+  };
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') restoreCursor();
+  });
+  window.addEventListener('focus', restoreCursor);
+  window.addEventListener('pageshow', restoreCursor);
 }
 
 customCursor();
