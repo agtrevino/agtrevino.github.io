@@ -202,22 +202,26 @@ button:focus-visible,
   }
 }
 
-.nav-link-container:hover .nav-circle {
+.nav-link-container:hover .nav-circle,
+.nav-link-container.is-nearest .nav-circle {
   background: #fff;
   transition: 400ms;
 }
 
-.nav-link-container:hover .nav-circle.circle-black {
+.nav-link-container:hover .nav-circle.circle-black,
+.nav-link-container.is-nearest .nav-circle.circle-black {
   background: #505464;
   transition: 400ms;
 }
 
-.nav-link-container:hover .nav-circle-black {
+.nav-link-container:hover .nav-circle-black,
+.nav-link-container.is-nearest .nav-circle-black {
   background: #505464;
   transition: 400ms;
 }
 
 .nav-link-container:hover .nav-link-text,
+.nav-link-container.is-nearest .nav-link-text,
 .vertical-menu a:focus-visible .nav-link-text {
   text-decoration: none !important;
   opacity: 1 !important;
@@ -226,6 +230,7 @@ button:focus-visible,
 }
 
 .nav-link-container:hover .line,
+.nav-link-container.is-nearest .line,
 .vertical-menu a:focus-visible .line {
   text-decoration: none !important;
   opacity: 1;
@@ -4823,3 +4828,70 @@ video {
     font-size: 64px;
   }
 }
+
+/* Custom cursor (hover-capable, fine pointer only) */
+.has-custom-cursor,
+.has-custom-cursor * {
+  cursor: none !important;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999999999999;
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  background: #fff;
+  border-radius: 50%;
+  transition: opacity 180ms ease;
+}
+
+.cursor-ring {
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+  opacity: 0.7;
+  transition: width 200ms cubic-bezier(0.25, 1, 0.5, 1),
+              height 200ms cubic-bezier(0.25, 1, 0.5, 1),
+              margin 200ms cubic-bezier(0.25, 1, 0.5, 1),
+              border-color 200ms ease,
+              background 200ms ease,
+              opacity 200ms ease;
+}
+
+/* Hover state over clickable elements */
+.cursor-hover .cursor-dot {
+  opacity: 0;
+}
+
+.cursor-hover .cursor-ring {
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  border-color: #eb3b5a;
+  background: rgba(235, 59, 90, 0.14);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .has-custom-cursor,
+  .has-custom-cursor * {
+    cursor: auto !important;
+  }
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}
+

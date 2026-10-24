@@ -683,6 +683,7 @@ function ngOnInit() {
     panelSequence();
     navAnim();
     navIntro();
+    navHoverProximity();
     slideSync();
     resumeTitleViewCheck();
   }
@@ -1650,6 +1651,66 @@ function navAnim() {
     setTimeout(updateActiveSlide, 500, true);
   }
 
+// Hover the nearest nav label whenever the cursor is anywhere in the nav area
+// (including the small vertical gaps between labels).
+function navHoverProximity() {
+  const menu = document.querySelector('.vertical-menu');
+  if (!menu) return;
+  if (!window.matchMedia('(hover: hover)').matches) return;
+
+  let current = null;
+  const clear = () => {
+    if (current) {
+      current.classList.remove('is-nearest');
+      current = null;
+    }
+  };
+  const items = () => Array.from(menu.querySelectorAll('.nav-link-container'));
+
+  const update = (e) => {
+    const list = items();
+    if (!list.length) return;
+
+    // Nav lives on the right edge; only react in that horizontal band.
+    const rightEdge = window.innerWidth;
+    const bandLeft = rightEdge - 320;
+    if (e.clientX < bandLeft) { clear(); return; }
+
+    // Vertical span of the nav (with generous padding for gaps/margins).
+    const first = list[0].getBoundingClientRect();
+    const last = list[list.length - 1].getBoundingClientRect();
+    const top = first.top - 40;
+    const bottom = last.bottom + 40;
+    if (e.clientY < top || e.clientY > bottom) { clear(); return; }
+
+    // Pick nearest by vertical center.
+    let best = null;
+    let bestDist = Infinity;
+    list.forEach((item) => {
+      const r = item.getBoundingClientRect();
+      const cy = r.top + r.height / 2;
+      const d = Math.abs(cy - e.clientY);
+      if (d < bestDist) {
+        bestDist = d;
+        best = item;
+      }
+    });
+
+    // Only switch if reasonably close to a label's center.
+    if (!best || bestDist > 120) { clear(); return; }
+
+    if (best !== current) {
+      clear();
+      best.classList.add('is-nearest');
+      current = best;
+    }
+  };
+
+  document.addEventListener('mousemove', update);
+  document.addEventListener('mouseleave', clear);
+  window.addEventListener('blur', clear);
+}
+
 // Right side nav: displays all labels for 10 seconds, then smoothly fades out
 // inactive labels in sequence, leaving the currently viewed slide's nav active.
 function navIntro() {
@@ -1680,4 +1741,51 @@ function navIntro() {
   }, 10000);
 }
 
+// Clean, sleek custom cursor (dot + trailing ring) with hover variant
+function customCursor() {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const dot = document.createElement('div');
+  dot.className = 'cursor-dot';
+  const ring = document.createElement('div');
+  ring.className = 'cursor-ring';
+  document.body.appendChild(dot);
+  document.body.appendChild(ring);
+  document.body.classList.add('has-custom-cursor');
+
+  const hoverSelector = 'a, button, [role="button"], input, textarea, select, label, .tool, .nav-link-container, .expansion-col, .exp-dot';
+
+  let mx = window.innerWidth / 2;
+  let my = window.innerHeight / 2;
+  let rx = mx;
+  let ry = my;
+
+  document.addEventListener('mousemove', (e) => {
+    mx = e.clientX;
+    my = e.clientY;
+    dot.style.transform = 'translate3d(' + mx + 'px, ' + my + 'px, 0)';
+    const isHover = !!e.target.closest(hoverSelector);
+    document.body.classList.toggle('cursor-hover', isHover);
+  });
+
+  const tick = () => {
+    rx += (mx - rx) * 0.16;
+    ry += (my - ry) * 0.16;
+    ring.style.transform = 'translate3d(' + rx + 'px, ' + ry + 'px, 0)';
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+
+  document.addEventListener('mouseleave', () => {
+    dot.style.opacity = '0';
+    ring.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', () => {
+    dot.style.opacity = '1';
+    ring.style.opacity = '';
+  });
+}
+
+customCursor();
 ngOnInit();
