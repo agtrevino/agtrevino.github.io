@@ -682,7 +682,6 @@ function ngOnInit() {
     expandingCards();
     panelSequence();
     navAnim();
-    navIntro();
     navHoverProximity();
     slideSync();
     resumeTitleViewCheck();
@@ -970,8 +969,34 @@ function showSlide(id) {
   const menu = document.querySelector('.vertical-menu');
   if (menu) {
     const showAll = id === SLIDE_IDS[0] || id === SLIDE_IDS[SLIDE_IDS.length - 1];
+    window.clearTimeout(navCollapseTimer);
+    navCollapseTimer = null;
     menu.classList.toggle('nav-all', showAll);
-    if (!showAll) menu.classList.remove('nav-intro');
+    if (showAll) {
+      menu.classList.remove('nav-intro');
+    } else {
+      // Middle slides: expand labels, then collapse in sequence after ~7s
+      menu.classList.add('nav-intro');
+      navCollapseTimer = window.setTimeout(() => {
+        const links = Array.from(menu.querySelectorAll('.nav-link-container'));
+        const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let delay = 0;
+        links.slice().reverse().forEach((link) => {
+          const text = link.querySelector('.nav-link-text');
+          if (text && !text.classList.contains('active-nav')) {
+            if (!calm) text.style.transitionDelay = delay + 'ms';
+            delay += 100;
+          }
+        });
+        menu.classList.remove('nav-intro');
+        window.setTimeout(() => {
+          links.forEach((link) => {
+            const text = link.querySelector('.nav-link-text');
+            if (text) text.style.transitionDelay = '';
+          });
+        }, delay + 600);
+      }, 7000);
+    }
   }
 }
 
@@ -1553,6 +1578,7 @@ function playRipple(id) {
 }
 
 let shownSlide = null;
+let navCollapseTimer = null;
 let navReady = false;
 // Sets the nav for the visible slide; ripple on a change
 function updateActiveSlide(force) {
@@ -1709,36 +1735,6 @@ function navHoverProximity() {
   document.addEventListener('mousemove', update);
   document.addEventListener('mouseleave', clear);
   window.addEventListener('blur', clear);
-}
-
-// Right side nav: displays all labels for 10 seconds, then smoothly fades out
-// inactive labels in sequence, leaving the currently viewed slide's nav active.
-function navIntro() {
-  const menu = document.querySelector('.vertical-menu');
-  if (!menu) return;
-  const links = Array.from(menu.querySelectorAll('.nav-link-container'));
-  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  setTimeout(() => {
-    let delay = 0;
-    links.slice().reverse().forEach((link) => {
-      const text = link.querySelector('.nav-link-text');
-      if (text && !text.classList.contains('active-nav')) {
-        if (!calm) text.style.transitionDelay = delay + 'ms';
-        delay += 100;
-      }
-    });
-
-    menu.classList.remove('nav-intro');
-
-    // Reset transition-delay so future user hovers are instant
-    setTimeout(() => {
-      links.forEach((link) => {
-        const text = link.querySelector('.nav-link-text');
-        if (text) text.style.transitionDelay = '';
-      });
-    }, delay + 600);
-  }, 10000);
 }
 
 // Clean, sleek custom cursor (dot + trailing ring) with hover variant
