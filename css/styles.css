@@ -4905,3 +4905,9 @@ video {
   }
 }
 
+/* Prevents a clicked project panel from staying expanded via :hover */
+.expansion-col.hover-locked,
+.expansion-col.hover-locked * {
+  pointer-events: none !important;
+}
+

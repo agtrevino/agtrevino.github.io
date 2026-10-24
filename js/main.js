@@ -655,6 +655,67 @@ function consoleHello() {
   console.log('Source: https://github.com/agtrevino/agtrevino.github.io');
 }
 
+function projectViewButtons() {
+  const links = document.querySelectorAll('.site-btn');
+  const locked = new Set();
+
+  const unlock = (col) => {
+    if (!locked.has(col)) return;
+    locked.delete(col);
+    col.classList.remove('hover-locked');
+    col.style.pointerEvents = '';
+  };
+
+  const canHover = window.matchMedia('(hover: hover)').matches;
+
+  links.forEach((link) => {
+    link.addEventListener('click', () => {
+      const col = link.closest('.expansion-col');
+      if (col && canHover) {
+        locked.add(col);
+        col.classList.add('hover-locked');
+        col.style.pointerEvents = 'none';
+        col.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }));
+      }
+      link.blur();
+    });
+  });
+
+  // Re-enable hover once the pointer leaves the locked panel
+  document.addEventListener('mousemove', (event) => {
+    locked.forEach((col) => {
+      const rect = col.getBoundingClientRect();
+      const inside =
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom;
+      if (!inside) unlock(col);
+    });
+  });
+
+  // Clicking elsewhere (or on another panel) releases any locked panel
+  document.addEventListener('click', (event) => {
+    Array.from(locked).forEach((col) => {
+      const rect = col.getBoundingClientRect();
+      const inside =
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom;
+      if (!inside) unlock(col);
+    });
+  }, true);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState !== 'visible') return;
+    const active = document.activeElement;
+    if (active && active.classList && active.classList.contains('site-btn')) {
+      active.blur();
+    }
+  });
+}
+
 // Runs every setup function once on page load
 function ngOnInit() {
   // Blocked jQuery CDN: skip its code, show its content
@@ -684,6 +745,7 @@ function ngOnInit() {
     signatureAnimation(document.getElementById('contact'), document.querySelector('.contact-signature'));
     expandingCards();
     panelSequence();
+    projectViewButtons();
     navAnim();
     navHoverProximity();
     slideSync();
