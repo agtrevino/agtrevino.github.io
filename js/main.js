@@ -418,7 +418,8 @@ function heroWords() {
     last = now;
     const word = words[index];
     if (fade) {
-      if (t >= FADE_HOLD) start((index + 1) % words.length);
+      // Reduced motion: hold the first word still
+      if (t >= FADE_HOLD && !reduced.matches) start((index + 1) % words.length);
     } else {
       if (stage === 0 && t >= POP_AT) { word.el.classList.add('is-pop'); stage = 1; }
       if (stage === 1 && t >= DONE_AT) { word.text.classList.replace('in', 'done'); stage = 2; }

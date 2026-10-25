@@ -366,10 +366,9 @@ body.hero-offscreen .bg1::after {
   z-index: 9;
   margin: 6px 0 0;
   font-family: "ralewaySemi";
-  font-size: clamp(12px, calc((34vw - 48px) / 30), 13px);
+  font-size: clamp(13px, calc((34vw - 48px) / 28), 15px);
   font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  letter-spacing: 0.03em;
   text-align: center;
   color: rgba(255, 255, 255, 0.95);
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6);
@@ -380,10 +379,9 @@ body.hero-offscreen .bg1::after {
   z-index: 9;
   margin: 8px 0 0;
   font-family: "ralewaySemi";
-  font-size: clamp(12px, calc((34vw - 48px) / 30), 13px);
+  font-size: clamp(13px, calc((34vw - 48px) / 28), 15px);
   font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  letter-spacing: 0.03em;
   text-align: center;
   color: rgba(255, 255, 255, 0.88);
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6);
@@ -432,12 +430,12 @@ body.hero-offscreen .bg1::after {
   }
 
   .hero-proof {
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.4;
   }
 
   .hero-location {
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.4;
   }
 
@@ -884,9 +882,8 @@ body.hero-offscreen .bg1::after {
   top: -10%;
   bottom: -10%;
   right: 12%;
-  width: 3px;
+  width: 6px;
   background: var(--accent);
-  opacity: .55;
   transform: skewX(-20deg);
   z-index: 1;
 }
@@ -3054,6 +3051,11 @@ video {
   width: 100%;
   margin-right: 0;
   margin-left: 0;
+}
+
+/* Longer shaft so "view projects" clears the arrowhead */
+.arrow-down-2.hero-cta svg {
+  height: 212px;
 }
 
 /* Hero CTA: a vertical label like the others, always on */
