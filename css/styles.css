@@ -823,21 +823,7 @@ body.hero-offscreen .bg1::after {
   }
 }
 
-/* 20deg tint edge: tan(20deg) * 50vh = 18.2vh */
 @media (min-width: 1280px) and (min-height: 600px) {
-  #resume::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-  }
-
-  #resume::before {
-    background: #f7e9ec;
-    clip-path: polygon(calc(97% + 18.2vh) 0, 100% 0, 100% 100%, calc(97% - 18.2vh) 100%);
-  }
-
   /* Callouts fit one window; sizes follow height */
   #resume .tools-heading {
     margin-bottom: clamp(20px, 3vh, 28px);
@@ -4586,6 +4572,11 @@ video {
   .strength-row {
     margin: 0;
   }
+
+  /* Align with the callouts (col-12 has 15px padding) */
+  .resume-button.learn-more.resume-download {
+    margin-left: 15px;
+  }
 }
 
 /* Resume preview */
@@ -4629,13 +4620,11 @@ video {
     max-width: none;
   }
 
-  /* Align with the callouts (col-12 has 15px padding) */
   .resume-button.learn-more.resume-download {
     margin-top: clamp(12px, 2.4vh, 28px);
-    margin-left: 15px;
   }
 
-  /* 496px: gap + min text column (+17 slack); 100px: room */
+  /* 496px: gap + min text column (+17); 100px: room */
   .resume-img {
     height: calc(100vh - 100px);
     max-height: min(calc(100vh - 100px), calc((100vw - 2 * clamp(96px, 8vw, 200px) - 513px) / 0.7727));
