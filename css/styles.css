@@ -3038,10 +3038,24 @@ video {
   transition: opacity 140ms linear, transform 0s 140ms;
 }
 
+/* Rotate-settle: quarter turn in, slight overshoot, rests at 1 */
 .rw-js .word-span.is-pop .word-icon {
   opacity: 1;
   transform: none;
-  transition: opacity 260ms cubic-bezier(0.16, 1, 0.3, 1), transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 120ms linear;
+  animation: iconPop 450ms cubic-bezier(0.34, 1.3, 0.64, 1) both;
+}
+
+@keyframes iconPop {
+  from {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.6);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Reduced motion or no @property: a plain 300ms fade */
@@ -3053,6 +3067,7 @@ video {
   opacity: 1;
   transform: none;
   transition: none;
+  animation: none;
 }
 
 @media only screen and (max-width: 680px) {
@@ -3717,6 +3732,31 @@ video {
 .tools-content .tools-heading::after,
 #resume .tools-heading::after {
   bottom: -12px;
+}
+
+/* Sheen: a light band crosses each bar, then rests */
+.exp-container .tools-heading::after,
+.tools-content .tools-heading::after,
+#resume .tools-heading::after,
+.exp-track-title::after {
+  background:
+    linear-gradient(100deg, transparent 40%, rgba(255, 255, 255, 0.75) 50%, transparent 60%) 150% 0 / 250% 100% no-repeat,
+    #eb3b5a;
+  animation: barSheen 5s ease-in-out infinite;
+}
+
+@keyframes barSheen {
+  0% { background-position: 150% 0, 0 0; }
+  30%, 100% { background-position: -50% 0, 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exp-container .tools-heading::after,
+  .tools-content .tools-heading::after,
+  #resume .tools-heading::after,
+  .exp-track-title::after {
+    animation: none;
+  }
 }
 
 /* Scaled to the small label: the same gap would float */

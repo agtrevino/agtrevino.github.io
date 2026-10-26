@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Icon animation previews</title>
+<style>
+/* Site fonts */
+@font-face{font-family:"ralewayLight";src:url("assets/fonts/Raleway-Light.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"raleway";src:url("assets/fonts/Raleway-Regular.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"ralewaySemi";src:url("assets/fonts/Raleway-SemiBold.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"ralewayExtraBold";src:url("assets/fonts/Raleway-ExtraBold.woff2") format("woff2");font-display:swap}
+*{box-sizing:border-box;font-family:"ralewayLight",sans-serif;font-synthesis:none}
+html,body{margin:0}
+body{background:linear-gradient(160deg,#1c2330,#0f131c) fixed;color:#fff;min-height:100vh;padding:16px;overflow-x:hidden}
+main{max-width:1200px;margin:0 auto}
+h1{font-family:"ralewayExtraBold",sans-serif;font-size:clamp(22px,5vw,32px);margin:8px 0}
+h2{font-family:"ralewaySemi",sans-serif;font-size:20px;margin:32px 0 4px}
+p{margin:4px 0;color:#c9d0dc}
+b,button{font-family:"ralewaySemi",sans-serif}
+.legend{border-left:3px solid #eb3b5a;padding:8px 12px;background:rgba(255,255,255,.06);margin:12px 0}
+.bar-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
+button{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:8px 14px;font-size:14px;cursor:pointer}
+button:hover{background:rgba(255,255,255,.2)}
+button:focus-visible{outline:2px solid #eb3b5a;outline-offset:2px}
+button.fav[aria-pressed=true]{color:#eb3b5a;border-color:#eb3b5a}
+#favs{margin-left:auto;color:#eb3b5a;font-family:"ralewaySemi",sans-serif}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px;margin-top:12px}
+.card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:14px;min-width:0}
+.card h3{margin:0;font-size:16px;font-family:"ralewaySemi",sans-serif}
+.card h3 i{color:#eb3b5a;font-style:normal}
+.feel{font-size:13px;min-height:2.6em}
+.badge{display:inline-block;font-size:11px;background:#eb3b5a;border-radius:4px;padding:2px 6px;margin-top:4px}
+.stage{height:96px;display:flex;align-items:center;font-family:"ralewayExtraBold",sans-serif;font-size:clamp(22px,7vw,34px);white-space:nowrap;overflow:hidden;padding-left:2px}
+.stage *{font-family:"ralewayExtraBold",sans-serif}
+.wt{display:inline-block;text-transform:lowercase;clip-path:inset(0 100% 0 0);margin-right:.3em}
+.slot{display:inline-block}
+.fx{display:inline-block;vertical-align:-.125em;line-height:0;position:relative}
+.ic{width:1em;height:1em;display:block;opacity:0}
+.btns{display:flex;gap:8px;margin-top:6px}
+
+/* Word wipe + exit */
+.go .wt{animation:wipe 750ms cubic-bezier(.65,0,.35,1) both}
+.out .wt{animation:wfade 140ms both}
+@keyframes wipe{to{clip-path:inset(0)}}
+@keyframes wfade{from{opacity:1;clip-path:inset(0)}to{opacity:0;clip-path:inset(0)}}
+
+/* Exits */
+.out .x0{animation:x0 140ms both}
+.out .x1{animation:x1 240ms cubic-bezier(.4,0,1,1) both}
+.out .x2{animation:x2 260ms both}
+.out .x3{animation:x3 200ms both}
+.out .x4{animation:x4 220ms both}
+@keyframes x0{to{opacity:0}}
+@keyframes x1{to{opacity:0;transform:translateY(-.12em)}}
+@keyframes x2{from{clip-path:inset(0)}to{clip-path:inset(0 0 0 100%)}}
+@keyframes x3{to{opacity:0;transform:scale(.92)}}
+@keyframes x4{from{filter:blur(0)}to{opacity:0;filter:blur(4px)}}
+
+/* Entrances (run on .pop) */
+.pop .e-0{animation:cur 600ms both}
+@keyframes cur{0%{opacity:0;transform:scale(.3) rotate(-24deg);animation-timing-function:cubic-bezier(.2,.8,.3,1)}35%{opacity:1;transform:scale(1.38) rotate(9deg);animation-timing-function:ease-in-out}58%{transform:scale(.88) rotate(-4deg);animation-timing-function:ease-in-out}78%{transform:scale(1.07) rotate(1.5deg);animation-timing-function:ease-out}100%{opacity:1;transform:scale(1) rotate(0)}}
+.pop .e-a{animation:ka 620ms cubic-bezier(.22,1,.36,1) both;animation:ka 620ms linear(0,0.23,0.618,0.91,1.052,1.083,1.062,1.03,1.006,0.995,0.993,0.995,0.998,1,1,1.001,1) both}
+@keyframes ka{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.pop .e-a2{animation:ka2 620ms cubic-bezier(.22,1,.36,1) both;animation:ka2 620ms linear(0,0.23,0.618,0.91,1.052,1.083,1.062,1.03,1.006,0.995,0.993,0.995,0.998,1,1,1.001,1) both}
+@keyframes ka2{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.pop .e-b{animation:kb 520ms cubic-bezier(.16,1,.3,1) both}
+@keyframes kb{from{opacity:0;transform:scale(.7);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+.chip{overflow:hidden}
+.pop .e-c{opacity:1;animation:kc 480ms cubic-bezier(.16,1,.3,1) both}
+@keyframes kc{from{transform:translateY(105%)}to{transform:none}}
+.pop .e-d{animation:kd 560ms cubic-bezier(.22,1,.36,1) both}
+@keyframes kd{from{opacity:0;transform:translateX(-.35em) skewX(-20deg)}60%{opacity:1}to{opacity:1;transform:none}}
+.pop .e-d2{animation:kd2 560ms cubic-bezier(.22,1,.36,1) both}
+@keyframes kd2{from{opacity:0;transform:translateX(-.35em) skewX(-20deg)}60%{opacity:1}70%{transform:translateX(.04em) skewX(3deg)}to{opacity:1;transform:none}}
+.e-f{transform-origin:50% 100%}
+.pop .e-f{animation:kf 560ms ease-out both}
+@keyframes kf{0%{opacity:0;transform:scale(.6,.6)}45%{opacity:1;transform:scale(.94,1.08)}70%{transform:scale(1.04,.96)}100%{opacity:1;transform:none}}
+.pop .e-g{animation:kg 600ms cubic-bezier(.34,1.3,.64,1) both}
+@keyframes kg{from{opacity:0;transform:rotate(-90deg) scale(.6)}to{opacity:1;transform:none}}
+.e-h{transform-origin:50% 90%}
+.pop .e-h{animation:kh 560ms cubic-bezier(.22,1,.36,1) both;animation:kh 560ms linear(0,0.23,0.618,0.91,1.052,1.083,1.062,1.03,1.006,0.995,0.993,0.995,0.998,1,1,1.001,1) both}
+@keyframes kh{from{opacity:0;transform:translateY(.15em) scale(.2)}to{opacity:1;transform:none}}
+.pop .e-k{animation:kk 720ms cubic-bezier(.22,1,.36,1) both;animation:kk 720ms linear(0,0.36,0.927,1.228,1.219,1.076,0.964,0.936,0.964,0.999,1.016,1.013,1.004,0.997,0.996,0.998,1) both}
+@keyframes kk{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:none}}
+.pop .e-l{animation:kl 300ms ease-out both}
+@keyframes kl{from{opacity:0}to{opacity:1}}
+
+/* j ring flash */
+.chip2::after{content:"";position:absolute;inset:-.1em;border-radius:50%;border:2px solid #eb3b5a;opacity:0}
+.pop .chip2::after{animation:kj 700ms ease-out both}
+@keyframes kj{0%{opacity:.9;transform:scale(.6)}100%{opacity:0;transform:scale(1.5)}}
+
+/* A1 idle float */
+.pop .idle{animation:idle 3.2s ease-in-out 1s infinite}
+@keyframes idle{50%{transform:translateY(-.06em)}}
+
+/* A2 skewed chip */
+.pill{padding:.12em .3em}
+.pill .ic{position:relative}
+.pill::before{content:"";position:absolute;inset:0;background:rgba(255,255,255,.12);border-radius:.2em;transform:skewX(-20deg) scaleX(0);transform-origin:left}
+.pop .pill::before{animation:chip 450ms cubic-bezier(.16,1,.3,1) both}
+@keyframes chip{from{transform:skewX(-20deg) scaleX(0)}to{transform:skewX(-20deg) scaleX(1)}}
+
+/* A3 underline bar */
+.ubar::after{content:"";position:absolute;left:0;bottom:-.25em;width:2em;height:3px;background:#eb3b5a;transform:scaleX(0);transform-origin:left;opacity:0}
+.pop .ubar::after{animation:bar 400ms cubic-bezier(.16,1,.3,1) both}
+@keyframes bar{from{opacity:0;transform:scaleX(0)}to{opacity:1;transform:scaleX(1)}}
+
+/* A4 sheen */
+.sheen{overflow:hidden;border-radius:22%}
+.sheen::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-120%);opacity:0}
+.pop .sheen::after{animation:sheen 700ms ease-in-out 650ms both}
+@keyframes sheen{0%{opacity:1;transform:translateX(-120%)}100%{opacity:1;transform:translateX(120%)}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Icon pop-in animation previews</h1>
+  <p class="legend">Pick: reply with the numbers you like, e.g. 'a2 + d + x2'</p>
+  <p>Each card loops about every 4.5s: word wipes in, icon pops 350ms later, holds, exits. This page always animates; real reduced-motion users would get card l.</p>
+  <div class="bar-top">
+    <button id="all">Replay all</button>
+    <button id="cyc">Cycle icons: <span id="cn"></span></button>
+    <span id="favs"></span>
+  </div>
+  <h2>Entrances</h2><div class="grid" id="g-ent"></div>
+  <h2>Alternate treatments</h2><p>Combined with a calm entrance (d or a2).</p><div class="grid" id="g-alt"></div>
+  <h2>Exit options</h2><p>Applied to entrance d.</p><div class="grid" id="g-exit"></div>
+</main>
+<script>
+// Real hero icons (paths copied from index.html)
+const ICONS = [
+  {w:"web interfaces", s:'<path fill="#1dd1a1" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 2v3H5V5h14zM5 10h4v9H5v-9zm6 0h8v9h-8v-9z" />'},
+  {w:"brand pages", s:'<path fill="#f6e58d" fill-rule="evenodd" d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 4v12h16V7H4z" /><path fill="#f6e58d" d="M4 4h2v1H4zm4 0h2v1H8z" /><circle cx="9" cy="12" r="2.5" fill="#f6e58d" /><path fill="#f6e58d" d="M13 10h4v1h-4zm0 2h4v1h-4zm-7 4h11v1H6z" />'},
+  {w:"responsive layouts", s:'<path fill="#ff9f43" d="M4 6h18V4H4c-1.1 0-2 .9-2 2v11H0v3h14v-3H4V6zm19 2h-6c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1zm-1 9h-4v-7h4v7z" />'},
+  {w:"logo design", s:'<path fill="#48dbfb" fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16z" /><path fill="#48dbfb" d="m12 6 1.8 3.7 4.1.6-3 2.9.7 4.1-3.6-1.9-3.6 1.9.7-4.1-3-2.9 4.1-.6z" />'},
+  {w:"motion graphics", s:'<path fill="#ff6b81" d="M3 6h2v13h13v2H5a2 2 0 0 1-2-2z" /><path fill="#ff6b81" fill-rule="evenodd" d="M7 3h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 2v12h14V5z" /><path fill="#ff6b81" d="m12 8 5 3.5-5 3.5z" />'}
+];
+// [id, name, feel, entrance, fx wrapper, exit, badge]
+const ENT = [
+  ["0","Current (too jumpy)","Big overshoot and rotation swing, 600ms","e-0","","x0"],
+  ["a","Calm spring","Soft single overshoot, settles fast","e-a","","x0"],
+  ["a2","Calm spring, softer","Starts at .4, peak about 1.05","e-a2","","x0"],
+  ["b","Blur-in","Focus-pull from slight blur","e-b","","x0"],
+  ["c","Mask rise","Icon slides up out of a clip box","e-c","chip","x0"],
+  ["d","Skew settle","Slides in from the left, straightens","e-d","","x0"],
+  ["d2","Skew settle + nudge","Same, with a tiny overshoot","e-d2","","x0"],
+  ["f","Squash and stretch (light)","Gentle bounce off the baseline","e-f","","x0"],
+  ["g","Rotate settle","Quarter turn with a small overshoot","e-g","","x0"],
+  ["h","Baseline grow","Grows from the text baseline, spring","e-h","","x0"],
+  ["k","Elastic wobble","Springier, longer settle, 720ms","e-k","","x0"],
+  ["l","Fade only","Reduced-motion fallback, 300ms","e-l","","x0","Reduced motion fallback: fade only"],
+  ["j","Ring flash + spring","Calm spring with a red ring pulse","e-a","chip2","x0"]
+];
+const ALT = [
+  ["A1","Idle float","Entrance d, then a slow breathe while held","e-d","idle","x0"],
+  ["A2","Skewed chip","Entrance d, translucent pill wipes open","e-d","pill","x0"],
+  ["A3","Red underline","Entrance a2, bar draws under the icon","e-a2","ubar","x0"],
+  ["A4","Gradient sheen","Entrance a2, one sweep (subtle, optional)","e-a2","sheen","x0"]
+];
+const EXIT = [
+  ["x0","Fade 140ms (current)","Quick fade","e-d","","x0"],
+  ["x1","Fade + lift","Rises .12em while fading, 240ms","e-d","","x1"],
+  ["x2","Wipe out","Clip-path wipe, same direction as the text","e-d","","x2"],
+  ["x3","Shrink + fade","Scale to .92, 200ms","e-d","","x3"],
+  ["x4","Blur out","Blur to 4px while fading, 220ms","e-d","","x4"]
+];
+
+let icon = 0, cards = [], favs = [];
+try { favs = JSON.parse(localStorage.getItem("iconFavs") || "[]"); } catch (e) {}
+const saveFavs = () => { try { localStorage.setItem("iconFavs", JSON.stringify(favs)); } catch (e) {} };
+const favsEl = document.getElementById("favs");
+const showFavs = () => { favsEl.textContent = "Favourites: " + (favs.length ? favs.map(f => "#" + f).join(", ") : "none yet"); };
+
+function mk(grid, d) {
+  const [id, name, feel, ent, fx, ex, badge] = d;
+  const el = document.createElement("div");
+  el.className = "card";
+  el.innerHTML = '<h3><i>#' + id + '</i> ' + name + '</h3><p class="feel">' + feel + '</p>' +
+    (badge ? '<span class="badge">' + badge + '</span>' : '') +
+    '<div class="stage" aria-hidden="true"><span class="wt"></span><span class="slot ' + ex + '"></span></div>' +
+    '<div class="btns"><button class="rp">Replay</button><button class="fav" aria-pressed="false"></button></div>';
+  grid.appendChild(el);
+  const stage = el.querySelector(".stage"), fav = el.querySelector(".fav");
+  let timers = [];
+  const card = {
+    draw() {
+      stage.querySelector(".wt").textContent = ICONS[icon].w;
+      stage.querySelector(".slot").innerHTML = '<span class="fx ' + fx + '"><svg class="ic ' + ent + '" viewBox="0 0 24 24">' + ICONS[icon].s + '</svg></span>';
+    },
+    play() {
+      timers.forEach(clearTimeout); timers = [];
+      stage.className = "stage";
+      void stage.offsetWidth; // force reflow to restart animations
+      stage.classList.add("go");
+      const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+      at(350, () => stage.classList.add("pop"));
+      at(3600, () => stage.classList.add("out"));
+      at(4500, () => card.play());
+    }
+  };
+  const paintFav = () => { const on = favs.includes(id); fav.setAttribute("aria-pressed", on); fav.textContent = on ? "★ Favourite" : "♡ Favourite"; };
+  fav.onclick = () => { favs = favs.includes(id) ? favs.filter(f => f !== id) : favs.concat(id); saveFavs(); paintFav(); showFavs(); };
+  el.querySelector(".rp").onclick = () => card.play();
+  paintFav(); card.draw(); cards.push(card);
+}
+ENT.forEach(d => mk(document.getElementById("g-ent"), d));
+ALT.forEach(d => mk(document.getElementById("g-alt"), d));
+EXIT.forEach(d => mk(document.getElementById("g-exit"), d));
+
+const cn = document.getElementById("cn");
+const playAll = () => cards.forEach(c => c.play());
+document.getElementById("all").onclick = playAll;
+document.getElementById("cyc").onclick = () => { icon = (icon + 1) % ICONS.length; cn.textContent = (icon + 1) + "/5"; cards.forEach(c => c.draw()); playAll(); };
+cn.textContent = "1/5";
+showFavs();
+playAll();
+</script>
+</body>
+</html>
