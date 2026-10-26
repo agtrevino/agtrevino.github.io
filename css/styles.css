@@ -3734,31 +3734,6 @@ video {
   bottom: -12px;
 }
 
-/* Sheen: a light band crosses each bar, then rests */
-.exp-container .tools-heading::after,
-.tools-content .tools-heading::after,
-#resume .tools-heading::after,
-.exp-track-title::after {
-  background:
-    linear-gradient(100deg, transparent 40%, rgba(255, 255, 255, 0.75) 50%, transparent 60%) 150% 0 / 250% 100% no-repeat,
-    #eb3b5a;
-  animation: barSheen 5s ease-in-out infinite;
-}
-
-@keyframes barSheen {
-  0% { background-position: 150% 0, 0 0; }
-  30%, 100% { background-position: -50% 0, 0 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .exp-container .tools-heading::after,
-  .tools-content .tools-heading::after,
-  #resume .tools-heading::after,
-  .exp-track-title::after {
-    animation: none;
-  }
-}
-
 /* Scaled to the small label: the same gap would float */
 .exp-track-title::after {
   bottom: -5px;
