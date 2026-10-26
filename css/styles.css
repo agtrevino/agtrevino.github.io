@@ -19,16 +19,6 @@ body { margin: 0; font-family: "Helvetica Neue", Arial, sans-serif; background: 
   font-display: swap;
 }
 @font-face {
-  font-family: "ralewayExtraLight";
-  src: url("../assets/fonts/Raleway-ExtraLight.woff2") format("woff2");
-  font-display: swap;
-}
-@font-face {
-  font-family: "ralewayThin";
-  src: url("../assets/fonts/Raleway-Thin.woff2") format("woff2");
-  font-display: swap;
-}
-@font-face {
   font-family: "raleway";
   src: url("../assets/fonts/Raleway-Regular.woff2") format("woff2");
   font-display: swap;
@@ -39,27 +29,30 @@ body { margin: 0; font-family: "Helvetica Neue", Arial, sans-serif; background: 
   font-display: swap;
 }
 @font-face {
-  font-family: "ralewayBold";
-  src: url("../assets/fonts/Raleway-Bold.woff2") format("woff2");
-  font-display: swap;
-}
-@font-face {
   font-family: "ralewayExtraBold";
   src: url("../assets/fonts/Raleway-ExtraBold.woff2") format("woff2");
   font-display: swap;
 }
-@font-face {
-  font-family: "ralewayBlack";
-  src: url("../assets/fonts/Raleway-Black.woff2") format("woff2");
-  font-display: swap;
-}
-@font-face {
-  font-family: "ralewayExtraLightItalics";
-  src: url("../assets/fonts/Raleway-ExtraLightItalic.woff2") format("woff2");
-  font-display: swap;
-}
 * {
-  font-family: "ralewayLight";
+  font-family: "ralewayLight", sans-serif;
+  font-synthesis: none;
+}
+
+/* One heading size for Contact, Tools, Experience, Resume */
+:root {
+  --tools-title-size: clamp(26px, 3vw, 40px);
+}
+
+@media (min-width: 1101px) {
+  :root {
+    --tools-title-size: clamp(24px, min(3vw, 4.4vh), 40px);
+  }
+}
+
+@media (max-width: 1100px) {
+  :root {
+    --tools-title-size: clamp(22px, 5.4vw, 32px);
+  }
 }
 
 button:active {
@@ -143,7 +136,7 @@ button:focus-visible,
   padding-top: 2px;
   letter-spacing: 3px;
   color: #fff !important;
-  font-family: "ralewayLight";
+  font-family: "ralewayLight", sans-serif;
   opacity: 0;
   transform: translateX(70px);
   transition: opacity 500ms ease-out, color 400ms ease, transform 400ms cubic-bezier(0.25, 1, 0.5, 1);
@@ -346,13 +339,14 @@ body.hero-offscreen .bg1::after {
   background: rgba(0, 0, 0, 0.35);
 }
 
-/* Center third: tagline, location, divider, word */
+/* Center third: tagline, location, proof, divider, title */
 .hero-tagline {
   position: relative;
   z-index: 9;
+  text-wrap: balance;
   margin: 0;
-  font-family: "ralewaySemi";
-  font-size: clamp(12px, calc((34vw - 48px) / 22), 18px);
+  font-family: "ralewaySemi", sans-serif;
+  font-size: clamp(14px, calc((34vw - 48px) / 20), 20px);
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -364,9 +358,10 @@ body.hero-offscreen .bg1::after {
 .hero-proof {
   position: relative;
   z-index: 9;
+  text-wrap: balance;
   margin: 6px 0 0;
-  font-family: "ralewaySemi";
-  font-size: clamp(13px, calc((34vw - 48px) / 28), 15px);
+  font-family: "ralewaySemi", sans-serif;
+  font-size: clamp(14px, calc((34vw - 48px) / 26), 16px);
   font-weight: 600;
   letter-spacing: 0.03em;
   text-align: center;
@@ -377,9 +372,10 @@ body.hero-offscreen .bg1::after {
 .hero-location {
   position: relative;
   z-index: 9;
+  text-wrap: balance;
   margin: 8px 0 0;
-  font-family: "ralewaySemi";
-  font-size: clamp(13px, calc((34vw - 48px) / 28), 15px);
+  font-family: "ralewaySemi", sans-serif;
+  font-size: clamp(14px, calc((34vw - 48px) / 26), 16px);
   font-weight: 600;
   letter-spacing: 0.03em;
   text-align: center;
@@ -390,8 +386,8 @@ body.hero-offscreen .bg1::after {
 .hero-divider {
   position: relative;
   z-index: 9;
-  width: 33%;
-  height: 2px;
+  width: 3rem;
+  height: 3px;
   margin: 18px auto;
   background: #eb3b5a;
 }
@@ -400,7 +396,7 @@ body.hero-offscreen .bg1::after {
   position: relative;
   z-index: 9;
   margin: 0 auto;
-  font-family: "ralewayExtraBold";
+  font-family: "ralewayExtraBold", sans-serif;
   font-size: min(max(14px, calc((34vw - 48px) / 11.4)), 54px);
   text-transform: uppercase;
   letter-spacing: -1px;
@@ -426,16 +422,17 @@ body.hero-offscreen .bg1::after {
   }
 
   .hero-tagline {
+    font-size: 14px;
     line-height: 1.4;
   }
 
   .hero-proof {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.4;
   }
 
   .hero-location {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.4;
   }
 
@@ -552,8 +549,8 @@ body.hero-offscreen .bg1::after {
   overflow: hidden;
   overflow: clip;
   overflow-clip-margin: 8px;
-  /* Only Regular is loaded: no faked weight 600 */
-  font-family: "raleway";
+  /* Regular face; weight 600 is not synthesized */
+  font-family: "raleway", sans-serif;
   font-size: 13px;
   font-weight: 600;
   font-synthesis: none;
@@ -688,20 +685,21 @@ body.hero-offscreen .bg1::after {
 .color-black {
   color: #505464 !important;
   transition: 400ms;
-  font-family: "ralewayLight" !important;
-  font-weight: 700;
+  font-family: "raleway", sans-serif !important;
+  font-weight: 400;
 }
 
-/* Real Regular file: no faux bold */
+/* The name's letters take clicks */
 .vertical-text-2 span {
   pointer-events: auto;
 }
 
+/* Real Regular face: no faux bold */
 .vertical-text-2,
 .vertical-text-2 span,
 .vertical-text-2.color-black,
 .vertical-text-2.color-black span {
-  font-family: "raleway" !important;
+  font-family: "raleway", sans-serif !important;
   font-weight: 400;
   letter-spacing: 8px;
 }
@@ -733,12 +731,11 @@ body.hero-offscreen .bg1::after {
 }
 
 .resume-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   margin: 0 0 0.5rem;
-  font-size: 2.5rem;
-  font-weight: 500;
   line-height: 1.2;
-  color: #eb3b5a;
-  font-family: "ralewayBold";
 }
 
 .resume-img-link {
@@ -768,29 +765,105 @@ body.hero-offscreen .bg1::after {
 }
 
 .proficiencies-title {
-  letter-spacing: 0px;
-  font-weight: 700;
-  font-family: "ralewayExtraBold";
-  border-bottom: 3px solid #eb3b5a;
-  color: #505464;
-  font-size: 28px;
+  font-family: "ralewayExtraBold", sans-serif;
+  font-size: clamp(18px, 1.8vw, 24px);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #1b2030;
 }
 
 .resume-svg {
-  fill: #eb3b5a !important;
-  width: 33px !important;
-  margin-right: 5px;
-  padding-bottom: 0px;
-  position: relative;
-  bottom: -5px;
+  flex: none;
+  width: 28px;
+  height: 28px;
 }
 
 .prof-text {
-  font-family: "ralewaySemi";
-  font-weight: 900;
-  letter-spacing: 2px;
-  margin-bottom: 42px;
+  margin: 0;
+  font-family: "ralewaySemi", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
   color: #505464;
+}
+
+/* Resume slide: light grey, dark text */
+#resume {
+  isolation: isolate;
+  background: #eceef2;
+}
+
+#resume .tools-heading {
+  margin: 0 0 28px;
+  color: #1b2030;
+}
+
+#resume .col-xl-6.text-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Spacing comes from the hairline margins */
+  gap: 0;
+  --seam: 14px;
+}
+
+/* Hairline between callouts, 33% like the Tools rules */
+.strength-row + .strength-row::before {
+  content: "";
+  flex: 0 0 33%;
+  height: 1px;
+  margin: var(--seam) 15px;
+  background: rgba(80, 84, 100, 0.3);
+}
+
+/* Left padding clears the name rail */
+@media (min-width: 481px) and (max-width: 1279px) {
+  #resume .resume-content {
+    padding: 6vh clamp(40px, 8vw, 100px) 6vh clamp(80px, 8vw, 100px);
+  }
+}
+
+/* 20deg tint edge: tan(20deg) * 50vh = 18.2vh */
+@media (min-width: 1280px) and (min-height: 600px) {
+  #resume::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  #resume::before {
+    background: #f7e9ec;
+    clip-path: polygon(calc(97% + 18.2vh) 0, 100% 0, 100% 100%, calc(97% - 18.2vh) 100%);
+  }
+
+  /* Callouts fit one window; sizes follow height */
+  #resume .tools-heading {
+    margin-bottom: clamp(20px, 3vh, 28px);
+  }
+
+  #resume .col-xl-6.text-left {
+    --seam: clamp(5px, calc(2.2vh - 7px), 16px);
+  }
+
+  .strength-row .proficiencies-title {
+    font-size: clamp(16px, min(2.4vh, 1.8vw), 24px);
+  }
+
+  .strength-row .resume-svg {
+    width: clamp(22px, 3vh, 28px);
+    height: clamp(22px, 3vh, 28px);
+  }
+
+  .strength-row .resume-title {
+    margin-bottom: 0.25rem;
+  }
+
+  .prof-text {
+    font-size: clamp(14px, 1.9vh, 16px);
+    line-height: 1.4;
+  }
 }
 
 /* Gradient with faint drifting code (parallax) */
@@ -1022,8 +1095,8 @@ body.hero-offscreen .bg1::after {
 .contact-heading,
 .tools-heading {
   margin: 0;
-  font-family: "ralewayExtraBold";
-  font-size: clamp(32px, 4vw, 56px);
+  font-family: "ralewayExtraBold", sans-serif;
+  font-size: var(--tools-title-size);
   font-weight: 800;
   letter-spacing: -1px;
   line-height: 1.05;
@@ -1054,7 +1127,7 @@ body.hero-offscreen .bg1::after {
 
 .contact-line {
   margin: 18px 0 30px;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
   font-size: 18px;
   font-weight: 600;
   line-height: 1.5;
@@ -1067,7 +1140,7 @@ body.hero-offscreen .bg1::after {
   align-items: center;
   gap: 10px;
   margin: -14px 0 24px;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 2px;
@@ -1159,6 +1232,46 @@ body.hero-offscreen .bg1::after {
   white-space: nowrap;
 }
 
+/* Resume download: dark label, red circle fills on hover */
+.resume-button.learn-more.resume-download {
+  display: block;
+  width: 17rem;
+  max-width: 100%;
+  min-height: 44px;
+  margin: clamp(16px, 3vh, 28px) 0 0;
+}
+
+.resume-button.learn-more.resume-download .button-text {
+  white-space: nowrap;
+  color: #1b2030;
+}
+
+.resume-download .dl-icon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0.75rem;
+  margin: auto;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.resume-button.learn-more.resume-download:hover .circle,
+.resume-button.learn-more.resume-download:focus-visible .circle {
+  width: 100%;
+  background: #c8203f;
+}
+
+.resume-button.learn-more.resume-download:hover .button-text,
+.resume-button.learn-more.resume-download:focus-visible .button-text {
+  color: #fff;
+}
+
+.resume-button.learn-more.resume-download:focus-visible .circle {
+  outline: 2px solid #1b2030;
+  outline-offset: 3px;
+}
+
 /* No button outline, so the ring goes on the circle */
 .contact-content a:focus-visible .circle,
 .contact-content a:has(button:focus-visible) .circle {
@@ -1182,11 +1295,11 @@ body.hero-offscreen .bg1::after {
 .contact-links a,
 .contact-links .copy-email {
   position: relative;
-  font-family: "raleway";
+  font-family: "raleway", sans-serif;
   font-size: 15px;
   font-weight: 600;
   font-synthesis: none;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   line-height: 1.2;
   text-transform: lowercase;
   color: #fff;
@@ -1235,10 +1348,6 @@ body.hero-offscreen .bg1::after {
 
   .contact-headshot {
     margin: 0 auto 24px;
-  }
-
-  .contact-heading {
-    font-size: clamp(28px, 8.6vw, 36px);
   }
 
   .contact-heading::after {
@@ -1299,22 +1408,22 @@ body.hero-offscreen .bg1::after {
 }
 
 /* Tools */
-.tools-heading {
-  font-size: var(--tools-title-size);
-}
-
 .tools-line {
-  margin: 12px 0 clamp(18px, 3.5vh, 34px);
-  font-family: "ralewaySemi";
+  margin: 12px 0 clamp(4px, 3.5vh, 20px);
+  font-family: "ralewaySemi", sans-serif;
   font-size: 17px;
   font-weight: 600;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.75);
 }
 
+/* Clears the red bar under the heading */
+.tools-content .tools-line {
+  margin-top: 26px;
+}
+
 .tools-container {
   --tools-grid-w: min(38vw, 540px);
-  --tools-title-size: clamp(26px, 3vw, 40px);
   --tools-label-size: 17px;
 }
 
@@ -1341,7 +1450,7 @@ body.hero-offscreen .bg1::after {
 
 .tools-label {
   margin: 0 0 clamp(6px, 1.2vh, 10px);
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
   font-size: var(--tools-label-size);
   font-weight: 600;
   letter-spacing: 2px;
@@ -1383,7 +1492,7 @@ body.hero-offscreen .bg1::after {
 
 .tool-name {
   display: block;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
   font-size: 12px;
   letter-spacing: 0.5px;
   line-height: 1.25;
@@ -1446,13 +1555,12 @@ body.hero-offscreen .bg1::after {
       (100% - min(880px, calc(100% - 2 * max(100px, 8vw)))) / 2 +
       var(--tools-grid-w) + 40px + max(0px, 1200px - 100vw) / 6
     );
-    --tools-title-size: clamp(24px, min(3vw, 4.4vh), 40px);
     overflow: hidden;
   }
 
   /* Short windows: the grid shrinks with the height */
   .tools-line {
-    margin-bottom: clamp(8px, 2vh, 34px);
+    margin-bottom: clamp(0px, calc(2vh - 14px), 20px);
   }
 
   .tools-label {
@@ -1461,7 +1569,7 @@ body.hero-offscreen .bg1::after {
 
   .tools-note {
     margin-bottom: clamp(3px, 0.8vh, 10px);
-    font-size: clamp(12px, 1.5vh, 13px);
+    font-size: clamp(12px, 1.6vh, 14px);
     line-height: 1.3;
   }
 
@@ -1631,7 +1739,7 @@ body.hero-offscreen .bg1::after {
 
 .panel-group {
   margin: 0 0 14px;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
   font-size: var(--tools-label-size);
   font-weight: 600;
   letter-spacing: 2px;
@@ -1654,7 +1762,7 @@ body.hero-offscreen .bg1::after {
 
 .panel-name {
   margin: 0 0 12px;
-  font-family: "ralewayExtraBold";
+  font-family: "ralewayExtraBold", sans-serif;
   font-size: var(--tools-title-size);
   font-weight: 800;
   line-height: 1.05;
@@ -1663,7 +1771,7 @@ body.hero-offscreen .bg1::after {
 
 .panel-desc {
   margin: 0;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
   font-size: 18px;
   font-weight: 600;
   line-height: 1.55;
@@ -1717,8 +1825,8 @@ body.hero-offscreen .bg1::after {
 .tools-note {
   max-width: 34em;
   margin: 0 0 10px;
-  font-family: "ralewaySemi";
-  font-size: 13px;
+  font-family: "ralewaySemi", sans-serif;
+  font-size: 14px;
   line-height: 1.4;
   color: rgba(255, 255, 255, 0.75);
 }
@@ -1831,14 +1939,13 @@ body.hero-offscreen .bg1::after {
 @media (max-width: 1100px) {
   .tools-container {
     --tools-grid-w: 100%;
-    --tools-title-size: clamp(22px, 5.4vw, 32px);
     flex-direction: column;
     justify-content: flex-start;
     padding: clamp(24px, 6vh, 84px) 0 clamp(10px, 2vh, 24px);
   }
 
   .tools-line {
-    margin-bottom: clamp(6px, 1.4vh, 18px);
+    margin-bottom: clamp(0px, calc(1.4vh - 10px), 8px);
     font-size: 15px;
     line-height: 1.35;
   }
@@ -2035,9 +2142,6 @@ body.hero-offscreen .bg1::after {
   width: auto;
   height: auto;
   z-index: 0;
-  -ms-transform: translateX(-50%) translateY(-50%) skew(20deg, 0);
-  -moz-transform: translateX(-50%) translateY(-50%) skew(20deg, 0);
-  -webkit-transform: translateX(-50%) translateY(-50%) skew(20deg, 0);
   transform: translateX(-50%) translateY(-50%) skew(20deg, 0) translateZ(0);
 }
 
@@ -2050,17 +2154,6 @@ body.hero-offscreen .bg1::after {
   min-height: 100%;
   object-fit: cover;
   object-position: 72% 50%;
-}
-
-header .overlay-white {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  color: #4d8dca;
-  background-image: linear-gradient(to bottom, rgba(225, 225, 225, 0.63), 75%, rgba(225, 225, 225, 0.63));
-  z-index: 1;
 }
 
 .header-1 {
@@ -2088,12 +2181,12 @@ header .overlay-white {
 .jstorm-text {
   font-size: 22px;
   color: #fff;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
 }
 
 .appddiction-title {
   font-size: 22px;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
   color: #505464 !important;
 }
 
@@ -2101,13 +2194,13 @@ header .overlay-white {
 .mp-text {
   font-size: 22px;
   color: #fff;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
 }
 
 .hc-text {
   font-size: clamp(16px, 1.7vw, 22px);
   color: #200044;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
 }
 
 .arrow-down-2,
@@ -2142,7 +2235,7 @@ header .overlay-white {
   left: 9px;
   writing-mode: vertical-rl;
   transform: translateX(-50%) rotate(180deg);
-  font-family: "raleway";
+  font-family: "raleway", sans-serif;
   font-size: 17px;
   font-weight: 600;
   font-synthesis: none;
@@ -2182,9 +2275,15 @@ header .overlay-white {
   color: #ff6b81;
 }
 
+/* #c8203f: 4.5:1+ on the light slide */
 .hero-work-link.on-light:hover span,
 .hero-work-link.on-light:focus-visible span {
-  color: #eb3b5a;
+  color: #c8203f;
+}
+
+.hero-work-link.on-light:hover path,
+.hero-work-link.on-light:focus-visible path {
+  fill: #c8203f;
 }
 
 /* Rotated 180deg, so clipping runs from the bottom */
@@ -2629,7 +2728,7 @@ video {
   background: transparent;
   padding: 0;
   font-size: inherit;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
 }
 .resume-button.learn-more {
   width: 12rem;
@@ -2681,7 +2780,7 @@ video {
   padding: 0.75rem 0;
   margin: 0 0 0 1.85rem;
   color: #d42a48;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
   font-weight: 600;
   line-height: 1.6;
   text-align: center;
@@ -2698,13 +2797,6 @@ video {
   color: #fff;
 }
 
-@supports (display: grid) {
-  #container {
-    grid-area: main;
-    align-self: center;
-    justify-self: center;
-  }
-}
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -2735,15 +2827,6 @@ video {
     opacity: 1;
   }
 }
-@-webkit-keyframes fadeInUp {
-  from {
-    transform: translate3d(0, 40px, 0);
-  }
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
 @keyframes panelFadeInUp {
   from {
     translate: 0 40px;
@@ -2756,7 +2839,6 @@ video {
 .animated {
   animation-duration: 1s;
   animation-fill-mode: both;
-  -webkit-animation-fill-mode: both;
 }
 
 .animatedFadeInUp {
@@ -2765,7 +2847,6 @@ video {
 .fadeInUp {
   opacity: 0;
   animation-name: fadeInUp;
-  -webkit-animation-name: fadeInUp;
 }
 
 @keyframes projectCaptionRise {
@@ -2784,18 +2865,16 @@ video {
   animation-duration: 500ms;
   animation-timing-function: ease-out;
   animation-fill-mode: both;
-  -webkit-animation-fill-mode: both;
 }
 .expansion-col .fadeInUp {
   animation-name: panelFadeInUp;
-  -webkit-animation-name: panelFadeInUp;
 }
 
 .rw-wrapper {
   width: 34vw;
   position: relative;
   margin: 0 auto;
-  font-family: "ralewayExtraBold";
+  font-family: "ralewayExtraBold", sans-serif;
   padding: 10px;
 }
 
@@ -2812,7 +2891,7 @@ video {
   justify-content: center;
   gap: 0.2em;
   white-space: nowrap;
-  font-family: "ralewayExtraBold";
+  font-family: "ralewayExtraBold", sans-serif;
   letter-spacing: -1px;
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
   position: absolute;
@@ -3006,7 +3085,7 @@ video {
     font-size: 42px;
     font-style: normal;
     font-weight: 800;
-    letter-spacing: 0px;
+    letter-spacing: -1px;
     line-height: 34px;
     text-transform: uppercase;
     color: #ffffff;
@@ -3019,7 +3098,7 @@ video {
     font-size: 42px;
     font-style: normal;
     font-weight: 800;
-    letter-spacing: 0px;
+    letter-spacing: -1px;
     line-height: 34px;
     text-transform: uppercase;
     color: #ffffff;
@@ -3029,7 +3108,7 @@ video {
   .jstorm-text {
     font-size: 16px;
     color: #fff;
-    font-family: "ralewaySemi";
+    font-family: "ralewaySemi", sans-serif;
   }
   .arrow-down-2 {
     position: relative;
@@ -3150,7 +3229,7 @@ video {
   .panel-caption-role {
     margin-top: 4px !important;
     font-family: "ralewaySemi", sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.04em;
     line-height: 1.3;
@@ -3165,10 +3244,6 @@ video {
   /* The last strip runs to the right edge */
   .hc-col .panel-caption {
     --cap-k: 40px;
-  }
-
-  .panel-caption-tag {
-    display: none;
   }
 
   .panel-caption-blurb {
@@ -3260,7 +3335,7 @@ video {
 .panel-role {
   margin: 14px 0 0;
   padding-right: 10px;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
   font-size: 22px;
   font-weight: 600;
   line-height: 1.1;
@@ -3335,23 +3410,6 @@ video {
   max-width: 19em;
 }
 
-.resume-download-link {
-  color: #000 !important;
-}
-
-/* 4.5:1: dark red on white, white on a deeper red */
-.resume-download-link.resume-button.learn-more .button-text {
-  color: #a81d36;
-}
-
-.resume-download-link.resume-button.learn-more .circle {
-  background: #c41f3f;
-}
-
-.resume-download-link.resume-button.learn-more:hover .button-text {
-  color: #fff;
-}
-
 .resume-chevron {
   bottom: 30px;
   top: auto;
@@ -3392,7 +3450,7 @@ video {
 .hero-tagline { animation-delay: 0.5s; }
 .hero-location { animation-delay: 0.7s; }
 .hero-proof { animation-delay: 0.8s; }
-.hero-divider { animation-delay: 0.9s; }
+.hero-divider { animation-delay: 1s; }
 .lets-title { animation-delay: 1.1s; }
 .hero-links a:nth-child(1) { animation-delay: 0s; }
 .hero-links a:nth-child(2) { animation-delay: 0.08s; }
@@ -3532,7 +3590,7 @@ video {
   border: 0;
   background: none;
   cursor: pointer;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -3542,6 +3600,13 @@ video {
 
 .exp-tab[aria-selected="true"] {
   color: #fff;
+}
+
+/* Wide enough for both tabs on one line at 14px */
+@media (min-width: 1300px) {
+  .exp-tab {
+    font-size: 14px;
+  }
 }
 
 .exp-tabbar {
@@ -3569,7 +3634,7 @@ video {
 .exp-role {
   max-width: var(--tools-grid-w);
   margin: clamp(8px, 1.6vh, 14px) 0 0;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
   font-size: 15px;
   font-weight: 600;
   line-height: 1.4;
@@ -3579,7 +3644,7 @@ video {
 .exp-summary {
   max-width: var(--tools-grid-w);
   margin: clamp(4px, 1vh, 8px) 0 0;
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
   font-size: clamp(13.5px, 1.5vh, 15px);
   font-weight: 600;
   line-height: 1.5;
@@ -3621,8 +3686,8 @@ video {
   align-self: flex-start;
   height: var(--title-h);
   margin: 0 0 calc(28px + var(--title-gap));
-  font-family: "ralewaySemi";
-  font-size: 12px;
+  font-family: "ralewaySemi", sans-serif;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.16em;
   line-height: var(--title-h);
@@ -3630,24 +3695,30 @@ video {
   color: rgba(255, 255, 255, 0.78);
 }
 
-/* A red bar a third of the text wide, like Contact's */
+/* 3rem x 3px red bar, same as Contact */
 .exp-container .tools-heading,
+.tools-content .tools-heading,
+#resume .tools-heading,
 .exp-track-title {
   position: relative;
   width: fit-content;
 }
 
 .exp-container .tools-heading::after,
+.tools-content .tools-heading::after,
+#resume .tools-heading::after,
 .exp-track-title::after {
   content: "";
   position: absolute;
   left: 0;
-  width: 33.33%;
+  width: 3rem;
   height: 3px;
   background: #eb3b5a;
 }
 
-.exp-container .tools-heading::after {
+.exp-container .tools-heading::after,
+.tools-content .tools-heading::after,
+#resume .tools-heading::after {
   bottom: -12px;
 }
 
@@ -3724,7 +3795,7 @@ video {
 }
 
 .exp-name {
-  font-family: "ralewayLight";
+  font-family: "ralewaySemi", sans-serif;
   font-size: 12px;
   letter-spacing: 0.08em;
   line-height: 1.2;
@@ -3751,7 +3822,7 @@ video {
 }
 
 .exp-station[aria-pressed="true"] .exp-name {
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
 }
 
 .exp-station:focus-visible {
@@ -3790,8 +3861,8 @@ video {
 
 .exp-status {
   display: block;
-  font-family: "ralewaySemi";
-  font-size: 12px;
+  font-family: "ralewaySemi", sans-serif;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.08em;
   line-height: 1.2;
@@ -3838,8 +3909,8 @@ video {
 }
 
 .exp-tools li span {
-  font-family: "ralewaySemi";
-  font-size: 12px;
+  font-family: "ralewaySemi", sans-serif;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.4px;
   color: rgba(255, 255, 255, 0.88);
@@ -3887,7 +3958,7 @@ video {
 /* The arrow says it is a link; it nudges on hover */
 .exp-track[data-track="app"] .exp-station::after {
   content: "→";
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.8);
   transition: transform 300ms, color 250ms;
@@ -3927,8 +3998,8 @@ video {
 }
 
 .exp-stat-key {
-  font-family: "ralewaySemi";
-  font-size: 12px;
+  font-family: "ralewaySemi", sans-serif;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -3936,7 +4007,7 @@ video {
 }
 
 .exp-stat-text {
-  font-family: "ralewaySemi";
+  font-family: "ralewaySemi", sans-serif;
   font-size: clamp(13.5px, 1.5vh, 15px);
   font-weight: 600;
   line-height: 1.4;
@@ -3945,7 +4016,7 @@ video {
 
 .exp-stat-num {
   margin-right: 0.35em;
-  font-family: "ralewayExtraBold";
+  font-family: "ralewayExtraBold", sans-serif;
   color: #fff;
 }
 
@@ -4047,7 +4118,7 @@ video {
   }
 
   .exp-name {
-    font-size: clamp(12px, 1vw, 14px);
+    font-size: clamp(12px, 1.05vw, 14px);
   }
 }
 
@@ -4068,9 +4139,10 @@ video {
   }
 }
 
-/* Phones and tablets: 11px labels */
+/* Phones and tablets: 12px labels */
 @media (max-width: 900px) {
   .exp-name {
+    font-family: "ralewayLight", sans-serif;
     font-size: 12px;
     letter-spacing: 0.02em;
   }
@@ -4140,7 +4212,6 @@ video {
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
     overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     background: none;
   }
@@ -4256,7 +4327,7 @@ video {
     border-left: 6px solid #eb3b5a !important;
     font-size: clamp(26px, 7vw, 40px);
     line-height: 1.08;
-    letter-spacing: -0.5px;
+    letter-spacing: -1px;
     overflow-wrap: anywhere;
     text-align: left !important;
   }
@@ -4476,42 +4547,20 @@ video {
   }
 }
 
-/* Resume slide (desktop) */
-@media (min-width: 1200px) {
-  .resume-content > .col-xl-6.text-left {
-    container-type: inline-size;
-  }
-
-  .strength-row .resume-title {
-    margin-bottom: 0.2em;
-  }
-
-  .strength-row .proficiencies-title {
-    font-size: clamp(16px, 4.2cqw, 26px);
-  }
-
-  .strength-row .resume-svg {
-    width: clamp(24px, 6cqw, 33px) !important;
-  }
-
-  .strength-row .prof-text {
-    margin-bottom: 0;
-    font-size: clamp(12px, 2.8cqw, 16px);
-    font-weight: 600;
-    line-height: 1.38;
-    letter-spacing: 0.02em;
-  }
-}
-
 @media (min-width: 1280px) {
+  /* Text stacks in column 2; preview spans both rows */
   .resume-content {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
     align-content: center;
+    padding-right: clamp(96px, 8vw, 200px);
+    padding-left: clamp(96px, 8vw, 200px);
   }
 
   .resume-content > .col-12 {
-    display: none;
+    grid-column: 2;
+    grid-row: 1;
   }
 
   /* display: contents makes grid items of the children */
@@ -4521,7 +4570,7 @@ video {
 
   .resume-content .resume-img-wrap {
     grid-column: 1;
-    grid-row: 1;
+    grid-row: 1 / span 2;
     justify-self: center;
     align-self: center;
     max-width: calc((100% - 30px) * 0.9);
@@ -4529,12 +4578,9 @@ video {
 
   .resume-content > .col-xl-6.text-left {
     grid-column: 2;
-    grid-row: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    grid-row: 2;
     max-width: none;
-    padding: 0 15px;
+    padding: 0;
   }
 
   .strength-row {
@@ -4542,12 +4588,11 @@ video {
   }
 }
 
-/* Resume download */
+/* Resume preview */
 @media (min-width: 901px) {
   .resume-img-wrap {
-    position: relative;
     display: inline-block;
-    max-width: 90%;
+    max-width: min(90%, 680px);
   }
 
   .resume-img-wrap .resume-img-link {
@@ -4559,65 +4604,6 @@ video {
     width: auto;
     max-width: 100%;
     height: auto;
-    max-height: calc(100vh - 140px);
-  }
-
-  .resume-img-wrap .resume-download-link {
-    position: absolute;
-    right: -20px;
-    bottom: 12px;
-    z-index: 3;
-    display: block;
-    width: 3rem;
-    height: 3rem;
-    transition: width 450ms cubic-bezier(0.65, 0, 0.076, 1);
-  }
-
-  .resume-img-wrap .resume-download-link:hover,
-  .resume-img-wrap .resume-download-link:focus-visible,
-  .resume-img-wrap .resume-download-link:has(:focus-visible) {
-    width: 12rem;
-  }
-
-  .resume-img-wrap .resume-button.learn-more {
-    margin: 0;
-  }
-
-  /* Anchored right, it grows left */
-  .resume-img-wrap .resume-button.learn-more .button-text {
-    overflow: hidden;
-    white-space: nowrap;
-    opacity: 0;
-  }
-
-  .resume-img-wrap .resume-button:hover .button-text,
-  .resume-img-wrap .resume-download-link:focus-visible .button-text,
-  .resume-img-wrap .resume-download-link:has(:focus-visible) .button-text {
-    color: #fff;
-    opacity: 1;
-  }
-
-  .resume-img-wrap .resume-download-link:focus-visible .circle,
-  .resume-img-wrap .resume-download-link:has(:focus-visible) .circle {
-    width: 100%;
-  }
-
-  .resume-img-wrap .resume-download-link:focus-visible .circle .icon.arrow,
-  .resume-img-wrap .resume-download-link:has(:focus-visible) .circle .icon.arrow {
-    background: #fff;
-    transform: translate(1rem, 0);
-  }
-
-  .resume-img-wrap .resume-download-link:focus-visible .circle,
-  .resume-img-wrap .resume-download-link:has(:focus-visible) .circle {
-    outline: 2px solid #505464;
-    outline-offset: 3px;
-  }
-}
-
-@media (min-width: 901px) and (prefers-reduced-motion: reduce) {
-  .resume-img-wrap .resume-download-link {
-    transition: none;
   }
 }
 
@@ -4643,28 +4629,26 @@ video {
     max-width: none;
   }
 
-  /* 904px: padding, gap, text column, scrollbar */
+  /* Align with the callouts (col-12 has 15px padding) */
+  .resume-button.learn-more.resume-download {
+    margin-top: clamp(12px, 2.4vh, 28px);
+    margin-left: 15px;
+  }
+
+  /* 496px: gap + min text column (+17 slack); 100px: room */
   .resume-img {
-    height: calc(100vh - 140px);
-    max-height: min(calc(100vh - 140px), calc((100vw - 904px) / 0.7727));
+    height: calc(100vh - 100px);
+    max-height: min(calc(100vh - 100px), calc((100vw - 2 * clamp(96px, 8vw, 200px) - 513px) / 0.7727));
     object-fit: contain;
   }
+}
 
-  .strength-row .resume-title {
-    margin-bottom: clamp(1px, 0.4vh, 0.2em);
-  }
-
-  .strength-row .proficiencies-title {
-    font-size: clamp(14px, min(4.2cqw, 2.9vh), 26px);
-  }
-
-  .strength-row .resume-svg {
-    width: clamp(20px, min(6cqw, 4vh), 33px) !important;
-  }
-
-  .strength-row .prof-text {
-    font-size: clamp(12px, min(2.8cqw, 1.9vh), 16px);
-    line-height: 1.3;
+/* Short 1200-1279 windows: cap the preview height */
+@media (min-width: 1200px) and (max-width: 1279px) {
+  .resume-img {
+    width: auto;
+    max-width: 100%;
+    max-height: calc(100vh - 220px);
   }
 }
 
@@ -4680,7 +4664,8 @@ video {
   }
 
   .strength-row .resume-svg {
-    width: 24px !important;
+    width: 24px;
+    height: 24px;
   }
 }
 
@@ -4688,6 +4673,17 @@ video {
 @media (max-width: 380px) {
   .strength-row .proficiencies-title {
     font-size: 13.5px;
+  }
+}
+
+@media (max-width: 340px) {
+  .strength-row .proficiencies-title {
+    font-size: 12px;
+  }
+
+  .strength-row .resume-svg {
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -4713,8 +4709,7 @@ video {
   outline-offset: 3px;
 }
 
-.appddiction-col .resume-button:focus-visible .circle,
-.resume-download-link:focus-visible .circle {
+.appddiction-col .resume-button:focus-visible .circle {
   outline-color: #505464;
 }
 
@@ -4731,40 +4726,10 @@ video {
   margin-block: -3px;
 }
 
-/* Mobile resume: normal letter-spacing, a tighter gap */
+/* Mobile resume: a tighter gap */
 @media (max-width: 900px) {
-  .prof-text {
-    letter-spacing: normal;
-  }
-
   .resume-content .col-xl-6.text-center.mb-4 {
     margin-bottom: 8px !important;
-  }
-}
-
-.panel-caption-tag {
-  font-family: "ralewaySemi";
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.panel-caption-tag::before {
-  content: "";
-  display: inline-block;
-  width: 14px;
-  height: 2px;
-  margin-right: 8px;
-  background: #eb3b5a;
-  vertical-align: middle;
-}
-
-/* Short screens: last blurb drops a line for the tag */
-@media (min-width: 901px) and (max-height: 780px) {
-  .hc-col .panel-caption-blurb {
-    -webkit-line-clamp: 2;
   }
 }
 
