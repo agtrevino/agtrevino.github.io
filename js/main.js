@@ -481,22 +481,6 @@ function heroWords() {
   window.setTimeout(go, 2500);
 }
 
-// The Contact line wipes in once, as its block scrolls in
-function contactLineWipe() {
-  const line = document.querySelector('#contact .contact-line');
-  const wrapper = document.querySelector('.wrapper');
-  if (!line || !wrapper || !canWipe() || !('IntersectionObserver' in window)) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  line.classList.add('wipe');
-  line.addEventListener('animationend', () => line.classList.replace('in', 'done'));
-  const observer = new IntersectionObserver((entries) => {
-    if (!entries.some((entry) => entry.isIntersecting)) return;
-    line.classList.add('in');
-    observer.disconnect();
-  }, { root: wrapper, threshold: 0.4 });
-  observer.observe(line.parentElement);
-}
-
 // Replays a signature GIF each time its slide shows
 function signatureAnimation(slide, signature) {
   const scrollContainer = document.querySelector('.wrapper');
@@ -754,11 +738,11 @@ function ngOnInit() {
     heroVisibility();
     heroScroll();
     heroWords();
-    contactLineWipe();
     projectLogoIntro();
     heroIconReplay();
     toolsIntro('tools', '.tool');
     toolsIntro('experience', '.exp-station');
+    toolsIntro('contact', '.contact-headshot, .contact-heading, .contact-line, .contact-status, .contact-email-btn, .contact-links');
     toolsBackdrop('tools');
     toolsBackdrop('experience');
     toolsPanel();
@@ -1748,7 +1732,7 @@ function resumeTitleViewCheck() {
       $(".strength-title").first().each(function () {
         var offset = $(this).offset();
         if (scrollTop <= offset.top && ($(this).height() + offset.top) < (scrollTop + windowHeight)) {
-          $('.strength-row').each(function (i) {
+          $('.strength-row, .resume-download').each(function (i) {
             var row = $(this);
             setTimeout(function () {
               row.addClass("fadeInUp");

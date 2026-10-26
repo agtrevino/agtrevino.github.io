@@ -1871,6 +1871,17 @@ body.hero-offscreen .bg1::after {
   }
 }
 
+/* Contact: lines and buttons rise in turn (--i from JS) */
+#contact.tools-ready :is(.contact-headshot, .contact-heading, .contact-line, .contact-status, .contact-email-btn, .contact-links) {
+  opacity: 0;
+  translate: 0 12px;
+}
+
+#contact.tools-ready.tools-in :is(.contact-headshot, .contact-heading, .contact-line, .contact-status, .contact-email-btn, .contact-links) {
+  animation: toolsRise 500ms ease-out both;
+  animation-delay: calc(var(--i, 0) * 120ms);
+}
+
 /* Reduced motion: color change only, no movement */
 @media (prefers-reduced-motion: reduce) {
   .tools-ready .tool-panel::before,
