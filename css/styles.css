@@ -4893,14 +4893,23 @@ video {
   pointer-events: none !important;
 }
 
-/* Short phones: the cue and the centered name would overlap, so the cue shrinks and loses its label */
-@media (max-width: 480px) and (max-height: 819px) {
+/* Phones: the cue would overlap the centered name, so it loses its label and shrinks (svh: the small viewport, with browser bars) */
+@media (max-width: 480px) {
   .hero-work-link.hero-cta .hero-cta-label {
     display: none;
   }
 
   .arrow-down-2.hero-cta svg {
     height: clamp(60px, calc(50vh - 197px), 212px);
+    height: clamp(60px, calc(50svh - 197px), 212px);
+  }
+
+  /* Bootstrap's row margin left a gap at the left edge */
+  .lines {
+    left: 0;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
   }
 }
 
