@@ -2069,8 +2069,8 @@ body.hero-offscreen .bg1::after {
 }
 
 /* Phones: group notes go when the slide would overflow */
-@media (max-width: 480px) and (max-height: 920px) {
-  .tools-group:not(:last-child) .tools-note {
+@media (max-width: 480px) {
+  .tools-note {
     display: none;
   }
 }
@@ -2087,10 +2087,6 @@ body.hero-offscreen .bg1::after {
 
   .tools-line-short {
     display: inline;
-  }
-
-  .tools-label {
-    display: none;
   }
 
   .tool-icon {
@@ -4993,5 +4989,23 @@ video {
 
   .exp-name {
     font-size: 9.5px;
+  }
+}
+
+/* Phones: 100vh counts the area behind the browser bars, so slides ran taller than the screen */
+@supports (height: 100dvh) {
+  @media (max-width: 900px) {
+    .wrapper {
+      height: 100dvh;
+    }
+
+    .section,
+    .resume-two-container {
+      min-height: 100dvh;
+    }
+
+    .lines {
+      height: 100dvh;
+    }
   }
 }
