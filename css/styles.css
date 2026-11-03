@@ -5009,3 +5009,39 @@ video {
     }
   }
 }
+
+/* Phones: no intro line on Tools; the resume button rests expanded and centered; the signature centers on the hero text */
+@media (max-width: 480px) {
+  .tools-line-short,
+  .tools-line-full {
+    display: none;
+  }
+
+  /* Room for the red bar under the heading */
+  .tools-content .tools-heading {
+    margin-bottom: 30px;
+  }
+
+  .tools-content .tools-line {
+    margin: 0;
+  }
+
+  .resume-button.learn-more.resume-download {
+    margin: 16px auto 32px;
+  }
+
+  .resume-button.learn-more.resume-download .circle {
+    width: 100%;
+    background: #c8203f;
+  }
+
+  .resume-button.learn-more.resume-download .button-text {
+    color: #fff;
+    text-align: center;
+  }
+
+  .signature {
+    right: auto;
+    left: calc(50% - var(--sig-ink) / 0.88 / 2);
+  }
+}
